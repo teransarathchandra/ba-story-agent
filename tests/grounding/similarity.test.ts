@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { tokenize, levenshteinRatio, bestWindow } from "../../src/grounding/similarity.js";
+import { tokenize, levenshteinRatio, bestWindow, stripDisfluencies } from "../../src/grounding/similarity.js";
 
 describe("tokenize", () => {
   it("splits on whitespace and records offsets", () => {
@@ -10,6 +10,28 @@ describe("tokenize", () => {
 
   it("returns an empty array for empty input", () => {
     expect(tokenize("   ")).toEqual([]);
+  });
+});
+
+describe("stripDisfluencies", () => {
+  it("removes single-token disfluencies", () => {
+    const tokens = ["um", "we", "would", "uh", "want", "approval"];
+    expect(stripDisfluencies(tokens)).toEqual(["we", "would", "want", "approval"]);
+  });
+
+  it("removes multi-word disfluency phrases", () => {
+    const tokens = ["we", "you", "know", "want", "i", "mean", "approval"];
+    expect(stripDisfluencies(tokens)).toEqual(["we", "want", "approval"]);
+  });
+
+  it("leaves ordinary words untouched", () => {
+    const tokens = ["we", "would", "want", "manager", "approval"];
+    expect(stripDisfluencies(tokens)).toEqual(["we", "would", "want", "manager", "approval"]);
+  });
+
+  it("returns empty array when all tokens are disfluencies", () => {
+    const tokens = ["um", "uh", "er"];
+    expect(stripDisfluencies(tokens)).toEqual([]);
   });
 });
 
@@ -48,17 +70,38 @@ describe("bestWindow", () => {
     expect(hay.slice(found!.start, found!.end)).toBe("over ten thousand euro");
   });
 
-  it("finds a disfluency-stripped span above threshold", () => {
-    const hay = "um we would uh want manager approval on that is really important here";
-    const found = bestWindow(hay, "we would want manager approval on that is really important");
+  it("strips disfluencies from both sides and scores 1.0 for a real quote", () => {
+    const hay = "um we would uh want manager approval on that";
+    const found = bestWindow(hay, "we would want manager approval");
     expect(found).not.toBeNull();
-    expect(found!.ratio).toBeGreaterThan(0.9);
+    expect(found!.ratio).toBe(1);
+  });
+
+  it("offsets include unstripped filler words in the matched span", () => {
+    const hay = "um we would uh want manager approval on that";
+    const found = bestWindow(hay, "we would want manager approval");
+    expect(found).not.toBeNull();
+    // Span should include the "uh" even though it was stripped for scoring
+    expect(hay.slice(found!.start, found!.end)).toBe("we would uh want manager approval");
+  });
+
+  it("returns null when needle consists only of disfluencies", () => {
+    const hay = "um we would uh want manager approval";
+    const found = bestWindow(hay, "um uh er");
+    expect(found).toBeNull();
   });
 
   it("returns a low ratio for text that is not present", () => {
     const hay = "we discussed the login screen and nothing else";
     const found = bestWindow(hay, "passwords must be at least twelve characters long");
     expect(found!.ratio).toBeLessThan(0.5);
+  });
+
+  it("scores long quotes above threshold with one disfluency", () => {
+    const hay = "um we would uh want manager approval on that is really important here";
+    const found = bestWindow(hay, "we would want manager approval on that is really important");
+    expect(found).not.toBeNull();
+    expect(found!.ratio).toBeGreaterThan(0.9);
   });
 
   it("returns null when either side has no tokens", () => {
