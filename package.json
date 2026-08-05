@@ -5,7 +5,7 @@
   "type": "module",
   "engines": { "node": ">=22" },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node -e \"require('fs').copyFileSync('src/store/schema.sql','dist/src/store/schema.sql')\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "cli": "tsx src/cli/index.ts"
