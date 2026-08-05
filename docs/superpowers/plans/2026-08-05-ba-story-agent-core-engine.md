@@ -612,6 +612,26 @@ describe("openDb", () => {
 Run: `npx vitest run tests/store/db.test.ts`
 Expected: FAIL — cannot find module `../../src/store/db.js`.
 
+> **Post-implementation amendment (2026-08-05).** The DDL below was the bootstrap;
+> **`src/store/schema.sql` is now the source of truth** — don't re-derive the schema
+> from this block. Three defects found in task review were corrected in the shipped
+> file and are *not* reflected below:
+>
+> 1. **`NOT NULL` added to every `id` column.** SQLite implies `NOT NULL` only for
+>    `INTEGER PRIMARY KEY`; a `TEXT PRIMARY KEY` silently accepts NULL, so all 14
+>    tables had nullable identifiers.
+> 2. **Seven missing foreign keys added** — `claims.segment_id`,
+>    `open_questions.raised_by_session_id`, `open_questions.answered_by_session_id`,
+>    `recommendations.raised_by_session_id`, and the three `claim_links` reference
+>    columns — each matching its table's existing `ON DELETE` behavior.
+> 3. **`approval_events` and `egress_log` deliberately keep no foreign keys**, now
+>    with a SQL comment saying so. They are the append-only compliance record: a
+>    session delete must not be able to cascade away the evidence of what was sent
+>    to the API or what a BA approved. Do not "fix" this inconsistency.
+>
+> The Step 1 idempotency test was also rewritten — `openDb(":memory:")` twice creates
+> two *separate* databases and never re-applies the schema. It now uses a temp file.
+
 - [ ] **Step 3: Write src/store/schema.sql**
 
 ```sql
