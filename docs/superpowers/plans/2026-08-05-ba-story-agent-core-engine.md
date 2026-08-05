@@ -2969,11 +2969,18 @@ describe("logEgress", () => {
 });
 
 describe("createClient", () => {
-  it("never sets temperature, top_p, or top_k defaults", () => {
+  it("applies the configured retry count and timeout", () => {
+    const client = createClient({ apiKey: "sk-test", maxRetries: 5, timeoutMs: 1234 });
+    expect(client.maxRetries).toBe(5);
+    expect(client.timeout).toBe(1234);
+  });
+
+  it("defaults the timeout in MILLISECONDS, not seconds", () => {
+    // The TypeScript SDK takes ms; the Python SDK takes seconds. Passing
+    // 600 here instead of 600_000 would give a 0.6s timeout and fail every
+    // real call, so pin the unit.
     const client = createClient({ apiKey: "sk-test" });
-    expect(client).toBeDefined();
-    // Guard: the SDK client itself carries no sampling defaults; the
-    // prohibition is enforced at call sites by tests/llm/parse.test.ts.
+    expect(client.timeout).toBe(600_000);
   });
 });
 ```
@@ -5419,13 +5426,16 @@ describe("CritiqueFindingsSchema — the structural control", () => {
     }
   });
 
-  it("rejects a payload carrying a requirements array", () => {
+  it("strips a smuggled requirements array so it cannot reach the store", () => {
     const parsed = CritiqueFindingsSchema.safeParse({
       questions: [], recommendations: [], requirements: [{ statement: "sneaky" }],
     });
-    // Zod strips unknown keys by default; assert the requirement cannot survive.
+    // Zod strips unknown keys rather than erroring, so the parse succeeds —
+    // what matters is that the requirement is gone from the parsed output.
     expect(parsed.success).toBe(true);
-    if (parsed.success) expect(parsed.data).not.toHaveProperty("requirements");
+    if (!parsed.success) return;
+    expect(parsed.data).not.toHaveProperty("requirements");
+    expect(JSON.stringify(parsed.data)).not.toContain("sneaky");
   });
 });
 
