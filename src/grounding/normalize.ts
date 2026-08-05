@@ -35,19 +35,23 @@ export function normalize(input: string): Normalized {
   const out: string[] = [];
   const map: number[] = [];
   let pendingSpace = false;
+  let lastWhitespaceIndex = -1;
 
   for (let i = 0; i < input.length; i++) {
     const ch = input[i]!;
     const folded = FOLD[ch] ?? ch;
 
     if (/\s/.test(folded)) {
-      if (out.length > 0) pendingSpace = true;
+      if (out.length > 0) {
+        pendingSpace = true;
+        lastWhitespaceIndex = i;
+      }
       continue;
     }
 
     if (pendingSpace) {
       out.push(" ");
-      map.push(i);
+      map.push(lastWhitespaceIndex);
       pendingSpace = false;
     }
 
