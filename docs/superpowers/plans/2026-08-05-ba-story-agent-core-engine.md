@@ -251,7 +251,7 @@ Expected: FAIL — cannot find module `../../src/types/ids.js`.
 
 ```typescript
 // src/types/ids.ts
-import { ulid } from "ulid";
+import { monotonicFactory } from "ulid";
 
 export const ID_PREFIXES = [
   "prj", "ses", "aud", "trs", "seg", "clm",
@@ -260,8 +260,14 @@ export const ID_PREFIXES = [
 
 export type IdPrefix = (typeof ID_PREFIXES)[number];
 
+// Monotonic, not plain `ulid()`: two plain ULIDs minted in the same
+// millisecond get independent random suffixes and sort arbitrarily, which
+// breaks the sortability guarantee roughly 40% of the time on back-to-back
+// calls. The monotonic factory increments the suffix instead.
+const nextUlid = monotonicFactory();
+
 export function newId(prefix: IdPrefix): string {
-  return `${prefix}_${ulid()}`;
+  return `${prefix}_${nextUlid()}`;
 }
 ```
 
