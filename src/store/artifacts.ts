@@ -70,6 +70,10 @@ export function listRequirements(
   return (db.prepare(sql).all(projectId, ...extra) as RequirementRow[]).map(toRequirement);
 }
 
+export function setRequirementStatus(db: Db, id: string, status: Requirement["status"]): void {
+  db.prepare("UPDATE requirements SET status = ? WHERE id = ?").run(status, id);
+}
+
 interface StoryRow {
   id: string; project_id: string; key: string;
   as_a: string; i_want: string; so_that: string;
