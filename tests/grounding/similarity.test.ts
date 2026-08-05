@@ -108,4 +108,35 @@ describe("bestWindow", () => {
     expect(bestWindow("", "abc")).toBeNull();
     expect(bestWindow("abc", "")).toBeNull();
   });
+
+  it("scores 1.0 when the quote differs only by a trailing comma or period", () => {
+    const hay = "anything over ten thousand euro has to go to a manager, no exceptions";
+    const found = bestWindow(hay, "anything over ten thousand euro has to go to a manager");
+    expect(found).not.toBeNull();
+    expect(found!.ratio).toBe(1);
+  });
+
+  it("scores 1.0 when the quote has an inserted dash the transcript does not", () => {
+    const hay = "anything over ten thousand euro has to go to a manager";
+    const found = bestWindow(hay, "anything over ten thousand euro - has to go to a manager");
+    expect(found).not.toBeNull();
+    expect(found!.ratio).toBe(1);
+  });
+
+  it("keeps offsets spanning the original punctuation even though scoring ignores it", () => {
+    const hay = "anything over ten thousand euro has to go to a manager, no exceptions";
+    const found = bestWindow(hay, "anything over ten thousand euro has to go to a manager");
+    expect(found).not.toBeNull();
+    // The reported span is the unstripped window text, comma included, because
+    // punctuation trimming happens only in the strings handed to
+    // levenshteinRatio, never in tokenize()'s offsets.
+    expect(hay.slice(found!.start, found!.end)).toBe("anything over ten thousand euro has to go to a manager,");
+  });
+
+  it("still scores an invented sentence far below 0.90 after punctuation trimming", () => {
+    const hay = "we discussed the login screen and nothing else.";
+    const found = bestWindow(hay, "passwords must be at least twelve characters long.");
+    expect(found).not.toBeNull();
+    expect(found!.ratio).toBeLessThan(0.5);
+  });
 });

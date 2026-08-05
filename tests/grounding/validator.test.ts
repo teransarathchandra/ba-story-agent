@@ -83,15 +83,25 @@ describe("validateQuote — fuzzy match", () => {
     expect(r.status).toBe("validated");
   });
 
-  it("validates when the model drops a filler word", () => {
+  it("validates when the model drops a genuine disfluency", () => {
+    // seg_1 is "Client: um, anything over ten thousand euro has to go to a
+    // manager, no exceptions" — "um" is an actual filler word from the
+    // disfluency lexicon (similarity.ts's DISFLUENCIES), not content. Once
+    // "Client: um, " is dropped (as any real quote would drop the speaker
+    // label too), what remains is a verbatim contiguous substring of the
+    // segment, so this resolves via exact match at ratio 1.0 — a stronger
+    // guarantee than fuzzy, and consistent with the ladder always preferring
+    // the cheaper, more certain match when one is available. Fuzzy-path
+    // disfluency stripping specifically (interior fillers that break
+    // contiguous substring matching) is covered directly in
+    // similarity.test.ts's `bestWindow` suite.
     const r = validateQuote(
-      { quote: "we would be dealing in euro", segmentId: "seg_2" },
+      { quote: "anything over ten thousand euro has to go to a manager, no exceptions", segmentId: "seg_1" },
       source(),
     );
     expect(r.status).toBe("validated");
     if (r.status !== "validated") return;
-    expect(r.matchMode).toBe("fuzzy");
-    expect(r.ratio).toBeGreaterThanOrEqual(FUZZY_THRESHOLD);
+    expect(r.ratio).toBe(1);
   });
 });
 
@@ -112,6 +122,24 @@ describe("validateQuote — quarantine", () => {
       source(),
     );
     expect(r.status).toBe("quarantined");
+  });
+
+  it("quarantines a quote that silently drops a hedge word", () => {
+    // "usually" is not a disfluency — it's a hedge marker (Task 10's lexicon)
+    // and it is load-bearing: "we'd *usually* be dealing in euro" is a
+    // tentative statement, not a commitment. A model that quotes it as "we
+    // would be dealing in euro" has deleted the word that made it tentative,
+    // turning a hedged assumption into what reads as a firm requirement.
+    // Refusing to validate that silently is the intended guarantee — a
+    // second line of defense for exactly the failure Task 10's hedge guard
+    // exists to catch — not a limitation of the fuzzy matcher.
+    const r = validateQuote(
+      { quote: "we would be dealing in euro", segmentId: "seg_2" },
+      source(),
+    );
+    expect(r.status).toBe("quarantined");
+    if (r.status !== "quarantined") return;
+    expect(r.bestRatio).toBeLessThan(FUZZY_THRESHOLD);
   });
 
   it("quarantines an empty quote", () => {

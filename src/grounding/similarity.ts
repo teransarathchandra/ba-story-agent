@@ -27,21 +27,42 @@ export function tokenize(text: string): Token[] {
   return tokens;
 }
 
+/** Leading/trailing punctuation stripped from tokens before scoring — never before offsets. */
+const PUNCT_TRIM = /^[.,;:!?"'()[\]-]+|[.,;:!?"'()[\]-]+$/g;
+
+/**
+ * Strip leading/trailing punctuation from a single token for *scoring* purposes.
+ *
+ * A model quoting speech constantly differs from the transcript in trailing
+ * commas, periods, or an inserted dash at a natural pause — none of that is
+ * invention. `tokenize()`'s offsets (what `bestWindow` reports spans in) are
+ * never touched; this only cleans the strings handed to `levenshteinRatio`.
+ */
+function trimPunct(token: string): string {
+  return token.replace(PUNCT_TRIM, "");
+}
+
 /**
  * Remove filler words (single-token disfluencies and multi-word phrases) from a token array.
  * Used for scoring similarity without penalizing natural speech patterns.
+ *
+ * Tokens are punctuation-trimmed first (see `trimPunct`) so that "manager,"
+ * and "manager" score as equal, and a token that is punctuation alone (an
+ * inserted "-", a stray ",") disappears entirely rather than costing an edit.
  */
 export function stripDisfluencies(tokens: string[]): string[] {
+  const cleaned = tokens.map(trimPunct).filter((t) => t.length > 0);
+
   const out: string[] = [];
   let i = 0;
-  outer: while (i < tokens.length) {
+  outer: while (i < cleaned.length) {
     for (const phrase of DISFLUENCY_PHRASES) {
-      if (phrase.every((w, k) => tokens[i + k] === w)) {
+      if (phrase.every((w, k) => cleaned[i + k] === w)) {
         i += phrase.length;
         continue outer;
       }
     }
-    const tok = tokens[i]!;
+    const tok = cleaned[i]!;
     if (!DISFLUENCIES.has(tok)) out.push(tok);
     i++;
   }
@@ -81,10 +102,12 @@ export function levenshteinRatio(a: string[], b: string[]): number {
  * Find the span of `haystackNorm` most similar to `needleNorm`.
  *
  * Windows are sized within ±2 tokens of the raw needle's token count, widening
- * to ±3 to accommodate extra filler words. Scoring strips disfluencies from both
- * sides so a dropped "um" costs no edit distance, allowing real quotes to score ~1.0.
- * Offsets remain based on the unstripped window so the returned span shows the
- * actual transcript text including fillers.
+ * to ±3 to accommodate extra filler words. Scoring strips disfluencies and
+ * leading/trailing punctuation from both sides so a dropped "um" or a comma
+ * mismatch at a match boundary costs no edit distance, allowing real quotes
+ * to score ~1.0. Offsets remain based on the unstripped window so the
+ * returned span shows the actual transcript text, fillers and punctuation
+ * included.
  */
 export function bestWindow(
   haystackNorm: string,
