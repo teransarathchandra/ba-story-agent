@@ -2411,30 +2411,84 @@ export function levenshteinRatio(a: string[], b: string[]): number {
 }
 
 /**
+ * Filler words models silently drop when quoting speech.
+ *
+ * These are removed from BOTH sides before scoring, so a dropped "um" costs
+ * zero edits instead of one. Without this, the arithmetic defeats the 0.90
+ * threshold on short quotes: for an N-token needle missing one filler word
+ * the ratio is exactly N/(N+1), which only reaches 0.90 at N >= 9. A quote
+ * like "we'd want approvals" would cap at 0.80 and be quarantined despite
+ * being a verbatim match modulo disfluency.
+ *
+ * Stripping is a MATCHING concern only — the stored quote and the reported
+ * offsets always cover the original transcript text, fillers included.
+ */
+export const DISFLUENCIES: ReadonlySet<string> = new Set([
+  "um", "uh", "erm", "er", "ah", "eh", "hm", "hmm", "mm", "mhm",
+  "like", "sorta", "kinda", "basically", "literally",
+]);
+
+/** Multi-word disfluencies, matched greedily before single-token removal. */
+const DISFLUENCY_PHRASES: readonly string[][] = [
+  ["you", "know"],
+  ["i", "mean"],
+  ["sort", "of"],
+  ["kind", "of"],
+];
+
+export function stripDisfluencies(tokens: string[]): string[] {
+  const out: string[] = [];
+  let i = 0;
+  outer: while (i < tokens.length) {
+    for (const phrase of DISFLUENCY_PHRASES) {
+      if (phrase.every((w, k) => tokens[i + k] === w)) {
+        i += phrase.length;
+        continue outer;
+      }
+    }
+    const tok = tokens[i]!;
+    if (!DISFLUENCIES.has(tok)) out.push(tok);
+    i++;
+  }
+  return out;
+}
+
+/**
  * Find the span of `haystackNorm` most similar to `needleNorm`.
  *
- * Windows are sized within ±2 tokens of the needle's token count, which
- * accommodates a couple of dropped or added filler words without letting the
- * search wander into unrelated text.
+ * Both sides are stripped of disfluencies before scoring (see DISFLUENCIES),
+ * but the returned offsets span the UNSTRIPPED window — the reported range
+ * must cover the transcript text as it actually reads.
+ *
+ * Windows are sized from -2 to +3 tokens around the needle's token count:
+ * enough to absorb several filler words the model dropped without letting
+ * the search wander into unrelated text and find a spurious match.
  */
 export function bestWindow(
   haystackNorm: string,
   needleNorm: string,
 ): { ratio: number; start: number; end: number } | null {
   const hayTokens = tokenize(haystackNorm);
-  const needleTokens = tokenize(needleNorm).map((t) => t.token);
-  if (hayTokens.length === 0 || needleTokens.length === 0) return null;
+  const rawNeedle = tokenize(needleNorm).map((t) => t.token);
+  if (hayTokens.length === 0 || rawNeedle.length === 0) return null;
 
-  const n = needleTokens.length;
+  const needleTokens = stripDisfluencies(rawNeedle);
+  // A needle that is nothing but filler cannot anchor anything.
+  if (needleTokens.length === 0) return null;
+
+  const n = rawNeedle.length;
   const minLen = Math.max(1, n - 2);
-  const maxLen = Math.min(hayTokens.length, n + 2);
+  const maxLen = Math.min(hayTokens.length, n + 3);
 
   let best = { ratio: -1, start: 0, end: 0 };
 
   for (let len = minLen; len <= maxLen; len++) {
     for (let i = 0; i + len <= hayTokens.length; i++) {
       const window = hayTokens.slice(i, i + len);
-      const ratio = levenshteinRatio(window.map((t) => t.token), needleTokens);
+      const ratio = levenshteinRatio(
+        stripDisfluencies(window.map((t) => t.token)),
+        needleTokens,
+      );
       if (ratio > best.ratio) {
         best = {
           ratio,
@@ -2662,11 +2716,18 @@ import { bestWindow } from "./similarity.js";
 /**
  * The similarity floor for accepting a non-exact match.
  *
- * 0.90 on word-token Levenshtein absorbs disfluency-stripping ("um, we'd, uh,
- * want" -> "we'd want") while rejecting invention, which does not score
+ * 0.90 on word-token Levenshtein rejects invention, which does not score
  * anywhere near 0.90 against real transcript text. Changing this number
  * changes the product's core safety guarantee — do not tune it without
  * re-running the adversarial fixture suite (Task 27).
+ *
+ * Note that the threshold alone does NOT absorb disfluency-stripping: for an
+ * N-token quote missing one filler word the ratio is exactly N/(N+1), which
+ * only reaches 0.90 at N >= 9, so short quotes would be wrongly quarantined.
+ * That is handled upstream in `similarity.ts`, which strips a disfluency
+ * lexicon from both sides before scoring — see DISFLUENCIES there. The two
+ * mechanisms are complementary: stripping makes real quotes score ~1.0, and
+ * the threshold rejects everything that isn't a real quote.
  */
 export const FUZZY_THRESHOLD = 0.9;
 
