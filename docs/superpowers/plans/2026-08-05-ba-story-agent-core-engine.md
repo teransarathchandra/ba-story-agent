@@ -2192,19 +2192,30 @@ export function normalize(input: string): Normalized {
   const out: string[] = [];
   const map: number[] = [];
   let pendingSpace = false;
+  let lastWhitespaceIndex = 0;
 
   for (let i = 0; i < input.length; i++) {
     const ch = input[i]!;
     const folded = FOLD[ch] ?? ch;
 
     if (/\s/.test(folded)) {
-      if (out.length > 0) pendingSpace = true;
+      // Only track once real output exists, so leading whitespace is dropped
+      // rather than emitted as a space.
+      if (out.length > 0) {
+        pendingSpace = true;
+        lastWhitespaceIndex = i;
+      }
       continue;
     }
 
     if (pendingSpace) {
       out.push(" ");
-      map.push(i);
+      // Map the collapsed space to the LAST whitespace character of the run,
+      // not to `i` (the following non-space char). Mapping it forward makes
+      // denormalizeRange return a range that swallows the next word: on
+      // "  a  b  ", map would be [2,5,5] and denormalizing "a " would slice
+      // back "a  b". The offsets must land on the characters they represent.
+      map.push(lastWhitespaceIndex);
       pendingSpace = false;
     }
 
