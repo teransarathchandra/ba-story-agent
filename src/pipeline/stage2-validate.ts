@@ -1,5 +1,5 @@
 import { validateQuote, type GroundingSource } from "../grounding/validator.js";
-import { listClaims, updateClaimValidation } from "../store/claims.js";
+import { listClaims, updateClaimValidation, countByStatus } from "../store/claims.js";
 import { getFrozenTranscript } from "../store/transcripts.js";
 import { hydrateWindow, type PipelineState } from "./state.js";
 import type { Stage } from "./runner.js";
@@ -38,15 +38,11 @@ export const stage2Validate: Stage<PipelineState, PipelineState> = {
       windowCharStart: 0,
     };
 
-    let validated = 0;
-    let quarantined = 0;
-
     for (const claim of listClaims(ctx.db, ctx.sessionId, { status: "candidate" })) {
       const source = windowBySegment.get(claim.segmentId) ?? wholeTranscript;
       const result = validateQuote({ quote: claim.quote, segmentId: claim.segmentId }, source);
 
       if (result.status === "validated") {
-        validated++;
         updateClaimValidation(ctx.db, claim.id, {
           status: "validated",
           charStart: result.charStart,
@@ -55,7 +51,6 @@ export const stage2Validate: Stage<PipelineState, PipelineState> = {
           segmentId: result.segmentId,
         });
       } else {
-        quarantined++;
         updateClaimValidation(ctx.db, claim.id, {
           status: "quarantined",
           charStart: null,
@@ -66,7 +61,14 @@ export const stage2Validate: Stage<PipelineState, PipelineState> = {
       }
     }
 
-    return { ...state, validated, quarantined };
+    // Derive counts from the store to guarantee idempotence. A second run that
+    // finds no candidates will return the same totals, preserving the canary metric.
+    const counts = countByStatus(ctx.db, ctx.sessionId);
+    return {
+      ...state,
+      validated: counts["validated"] ?? 0,
+      quarantined: counts["quarantined"] ?? 0,
+    };
   },
 };
 
