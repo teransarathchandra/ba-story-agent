@@ -7,8 +7,8 @@ import { ExtractedClaimsSchema, stage0Chunk, stage1Extract } from "../../src/pip
 import { EXTRACT_SYSTEM } from "../../src/prompts/extract.js";
 import type { StageContext } from "../../src/pipeline/runner.js";
 
-const LONG = Array.from({ length: 30 }, (_, i) =>
-  `Client: point number ${i} about invoice approval thresholds and routing rules in some detail here`,
+const LONG = Array.from({ length: 40 }, (_, i) =>
+  `Client: point number ${i} about invoice approval thresholds and routing rules for the logistics operator. We need to implement detailed requirements for threshold management including escalation procedures, approval chains, and exception handling in various scenarios. The system should support different approval workflows based on invoice amount, vendor classification, and business relationship history. We also need audit trails and compliance reporting.`,
 ).join("\n\n");
 
 function setup(parsedOutputs: unknown[]) {
@@ -61,6 +61,7 @@ describe("stage0Chunk + stage1Extract", () => {
   it("persists extracted claims as candidates", async () => {
     const { ctx, transcriptId } = setup([
       { claims: [{ quote: "point number 0 about invoice approval thresholds", statement: "There is an approval threshold.", segmentId: "IGNORED", speakerRole: "client" }] },
+      { claims: [] },
     ]);
     const state = await stage0Chunk.run(ctx, { transcriptId });
     const after = await stage1Extract.run(ctx, state);
@@ -73,6 +74,7 @@ describe("stage0Chunk + stage1Extract", () => {
   it("calls the model once per window", async () => {
     const { ctx, transcriptId, parse } = setup([{ claims: [] }, { claims: [] }, { claims: [] }, { claims: [] }]);
     const state = await stage0Chunk.run(ctx, { transcriptId });
+    expect(state.windows.length).toBeGreaterThan(1); // Guard: fixture spans multiple windows
     await stage1Extract.run(ctx, state);
     expect(parse).toHaveBeenCalledTimes(state.windows.length);
   });
