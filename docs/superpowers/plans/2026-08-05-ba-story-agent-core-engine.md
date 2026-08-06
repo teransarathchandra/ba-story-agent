@@ -3608,11 +3608,18 @@ export function chunkTranscript(
   while (start < segments.length) {
     let end = start;
     let words = 0;
-    while (end < segments.length && (words === 0 || words + counts[end]! <= target)) {
+    let tookAny = false;
+    // The `!tookAny` disjunct is what forces at least one segment into every
+    // window, so a single oversized segment still forms one and the outer loop
+    // always advances. Do NOT replace it with a `words === 0` test: `words` is
+    // a running total, so a run of zero-word segments leaves it at 0, re-fires
+    // the disjunct, and admits the next segment regardless of size — silently
+    // blowing past the context budget the target exists to enforce.
+    while (end < segments.length && (!tookAny || words + counts[end]! <= target)) {
       words += counts[end]!;
+      tookAny = true;
       end++;
     }
-    if (end === start) end = start + 1; // a single oversized segment still forms a window
 
     const slice = segments.slice(start, end);
     const first = slice[0]!;
