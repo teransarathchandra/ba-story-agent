@@ -43,4 +43,31 @@ describe("detectHedges", () => {
       expect(isHedged(s)).toBe(true);
     }
   });
+
+  it("repeat calls return identical results", () => {
+    const input = "we might probably do this eventually";
+    const first = detectHedges(input);
+    const second = detectHedges(input);
+    expect(first).toEqual(second);
+
+    // Also test calling on a long string with late matches, then on a short string
+    const longInput = "we have a process that typically and usually and often happens this way";
+    const longResult = detectHedges(longInput);
+    const shortInput = "might";
+    const shortResult = detectHedges(shortInput);
+    expect(shortResult).toEqual(["might"]);
+    expect(detectHedges(longInput)).toEqual(longResult);
+  });
+
+  it("returns markers in exact order of first appearance", () => {
+    const result = detectHedges("probably at first, then might happen, and usually after");
+    expect(result).toEqual(["probably", "might", "usually"]);
+  });
+
+  it("new expanded markers do not produce false positives on firm statements", () => {
+    expect(isHedged("anything over ten thousand euro must go to a manager")).toBe(false);
+    // Also test some other firm statements that shouldn't match new markers
+    expect(isHedged("we process invoices weekly in standard format")).toBe(false);
+    expect(isHedged("all transactions require manager approval")).toBe(false);
+  });
 });

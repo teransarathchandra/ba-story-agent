@@ -10,12 +10,15 @@ import { normalize } from "../grounding/normalize.js";
  */
 export const HEDGE_MARKERS: readonly string[] = [
   "probably", "possibly", "perhaps", "maybe",
-  "might", "may be", "could be", "would be",
+  "might", "may be", "could be", "would be", "could", "may",
   "i think", "i believe", "i assume", "i guess", "i suppose", "i'd say",
   "usually", "typically", "normally", "generally", "often", "tend to",
   "something like", "sort of", "kind of", "more or less",
-  "roughly", "approximately", "or so",
+  "roughly", "approximately", "or so", "roughly speaking",
   "i imagine", "presumably", "in principle", "off the top of my head",
+  "not sure", "unsure", "don't quote me", "as far as i know",
+  "in theory", "or something", "ideally", "i'd have to check",
+  "if i remember",
 ];
 
 /** Escape a literal string for safe use inside a RegExp. */
@@ -25,6 +28,8 @@ function escapeRe(s: string): string {
 
 const PATTERNS: { marker: string; re: RegExp }[] = HEDGE_MARKERS.map((marker) => ({
   marker,
+  // Boundary regex: [a-z0-9] treats apostrophes as word boundaries, so "might've" matches "might".
+  // This is desirable — it catches real hedged speech in contractions.
   re: new RegExp(`(?<![a-z0-9])${escapeRe(marker)}(?![a-z0-9])`, "g"),
 }));
 
