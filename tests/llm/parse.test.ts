@@ -5,6 +5,7 @@ import { openDb } from "../../src/store/db.js";
 import { createProject, createSession } from "../../src/store/projects.js";
 import { egressSummary } from "../../src/store/audit.js";
 import { callTyped, StageFailure } from "../../src/llm/parse.js";
+import { RecommendationSchema } from "../../src/types/domain.js";
 
 // Use same Zod version and import path as production (zod/v4)
 const Shape = z.object({ items: z.array(z.object({ name: z.string() })) });
@@ -85,22 +86,20 @@ describe("callTyped", () => {
   });
 
   it("zodOutputFormat works with real production schemas from domain.ts", () => {
-    // This test ensures zodOutputFormat works with schemas built the same way
-    // production builds them (zod/v4), without mocks or type casts.
-    // It would fail immediately if domain.ts schemas were still v3.
-    const RecommendationSchema = z.object({
-      id: z.string(),
-      content: z.string().min(1),
-      status: z.enum(["open", "accepted", "declined"]),
-    });
+    // Guards against regression: if domain.ts reverts to bare "zod" import (v3),
+    // zodOutputFormat will crash with "Cannot read properties of undefined (reading 'def')".
+    // This test must import the actual schema, not a local lookalike.
+    // Asserting on fields only the real schema has (rationale, raisedBySessionId, dispositionNote)
+    // ensures it catches if the schema is shadowed by a local declaration.
 
     const output = zodOutputFormat(RecommendationSchema);
 
     expect(output).toHaveProperty("type", "json_schema");
     expect(output).toHaveProperty("schema");
     expect(output.schema).toHaveProperty("properties");
-    expect(output.schema.properties).toHaveProperty("id");
-    expect(output.schema.properties).toHaveProperty("content");
-    expect(output.schema.properties).toHaveProperty("status");
+    // Assert on fields unique to RecommendationSchema
+    expect(output.schema.properties).toHaveProperty("rationale");
+    expect(output.schema.properties).toHaveProperty("raisedBySessionId");
+    expect(output.schema.properties).toHaveProperty("dispositionNote");
   });
 });
