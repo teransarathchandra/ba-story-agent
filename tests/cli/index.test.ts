@@ -2,7 +2,8 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { buildProgram } from "../../src/cli/index.js";
+import { buildProgram, classifyCliError } from "../../src/cli/index.js";
+import { CommanderError } from "commander";
 
 let dir: string;
 let dbPath: string;
@@ -112,5 +113,36 @@ describe("cli", () => {
     await expect(
       run(["approve", "--project", projectId, "--requirement", "REQ-999"]),
     ).rejects.toThrow(/not found/);
+  });
+});
+
+describe("classifyCliError", () => {
+  it("returns null message and exit code 0 for help display", () => {
+    const err = new CommanderError(0, "commander.helpDisplayed", "(outputHelp)");
+    const result = classifyCliError(err);
+    expect(result).toEqual({ message: null, exitCode: 0 });
+  });
+
+  it("returns null message and exit code 0 for version display", () => {
+    const err = new CommanderError(0, "commander.version", "1.0.0");
+    const result = classifyCliError(err);
+    expect(result).toEqual({ message: null, exitCode: 0 });
+  });
+
+  it("returns message and exit code for other CommanderError codes", () => {
+    const err = new CommanderError(1, "commander.someError", "bad option");
+    const result = classifyCliError(err);
+    expect(result).toEqual({ message: "bad option", exitCode: 1 });
+  });
+
+  it("returns message and exit code 1 for plain Error", () => {
+    const err = new Error("boom");
+    const result = classifyCliError(err);
+    expect(result).toEqual({ message: "boom", exitCode: 1 });
+  });
+
+  it("returns string message and exit code 1 for non-Error values", () => {
+    const result = classifyCliError("some string error");
+    expect(result).toEqual({ message: "some string error", exitCode: 1 });
   });
 });

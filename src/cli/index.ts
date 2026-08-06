@@ -1,4 +1,4 @@
-import { Command } from "commander";
+import { Command, CommanderError } from "commander";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { openDb } from "../store/db.js";
@@ -192,12 +192,32 @@ export function buildProgram(opts?: { log?: Log }): Command {
   return program;
 }
 
+/**
+ * Classify a thrown value from parseAsync() into a message (or null for a
+ * benign display) and an exit code. commander's exitOverride() throws a
+ * CommanderError even for --help/--version, which should exit 0 silently
+ * rather than being reported as a failure.
+ */
+export function classifyCliError(err: unknown): { message: string | null; exitCode: number } {
+  if (err instanceof CommanderError) {
+    if (err.code === "commander.helpDisplayed" || err.code === "commander.version") {
+      return { message: null, exitCode: err.exitCode };
+    }
+    return { message: err.message, exitCode: err.exitCode };
+  }
+  if (err instanceof Error) {
+    return { message: err.message, exitCode: 1 };
+  }
+  return { message: String(err), exitCode: 1 };
+}
+
 // Only run when invoked directly, not when imported by tests.
 if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split("/").pop() ?? "")) {
   buildProgram()
     .parseAsync(process.argv)
     .catch((err: unknown) => {
-      process.stderr.write(`${err instanceof Error ? err.message : String(err)}\n`);
-      process.exitCode = 1;
+      const { message, exitCode } = classifyCliError(err);
+      if (message !== null) process.stderr.write(`${message}\n`);
+      process.exitCode = exitCode;
     });
 }
