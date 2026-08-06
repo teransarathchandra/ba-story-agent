@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { z } from "zod/v4";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { openDb } from "../../src/store/db.js";
 import { createProject, createSession } from "../../src/store/projects.js";
@@ -124,14 +125,13 @@ describe("every pipeline stage's structured-output schema is real and zodOutputF
   // let two consecutive Critical bugs (stale SDK version, stale zod version)
   // through a fully green suite. These are the ACTUAL schemas each stage
   // sends to the live API -- importing them for real, not a local lookalike.
-  const schemas: Record<string, unknown> = {
+  const schemas: Record<string, z.ZodType> = {
     ExtractedClaimsSchema, ClassificationSchema, ReconcileSchema,
     RequirementDraftsSchema, StoryDraftsSchema, CritiqueFindingsSchema,
   };
   for (const [name, schema] of Object.entries(schemas)) {
     it(`zodOutputFormat accepts ${name}`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const output = zodOutputFormat(schema as any);
+      const output = zodOutputFormat(schema);
       expect(output).toHaveProperty("type", "json_schema");
       expect(output).toHaveProperty("schema");
     });
