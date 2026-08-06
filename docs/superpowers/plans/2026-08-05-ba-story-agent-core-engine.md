@@ -360,7 +360,12 @@ Expected: FAIL — cannot find module `../../src/types/domain.js`.
 
 ```typescript
 // src/types/domain.ts
-import { z } from "zod";
+// zod/v4, not bare "zod". The SDK's `zodOutputFormat` calls `z.toJSONSchema`
+// from zod/v4 internally; a bare "zod" import resolves to v3 on this
+// dependency version, and passing a v3 schema throws
+// `TypeError: Cannot read properties of undefined (reading 'def')` inside the
+// helper — before any request is sent. Do not "tidy" this back.
+import { z } from "zod/v4";
 
 const Iso = z.string().datetime();
 
@@ -3322,7 +3327,8 @@ Expected: FAIL — cannot find module `../../src/llm/parse.js`.
 // src/llm/parse.ts
 import type Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
-import type { z } from "zod";
+// Must match domain.ts — see the note there on why zod/v4 rather than "zod".
+import type { z } from "zod/v4";
 import type { Db } from "../store/db.js";
 import { MODEL, MAX_TOKENS, logEgress } from "./client.js";
 
