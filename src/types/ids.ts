@@ -2,7 +2,7 @@ import { monotonicFactory } from "ulid";
 
 export const ID_PREFIXES = [
   "prj", "ses", "aud", "trs", "seg", "clm",
-  "req", "sty", "acr", "oqn", "rec", "apv", "egr", "ckp",
+  "req", "sty", "acr", "oqn", "rec", "apv", "egr", "ckp", "lnk",
 ] as const;
 
 export type IdPrefix = (typeof ID_PREFIXES)[number];

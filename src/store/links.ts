@@ -23,7 +23,7 @@ export function insertLinks(db: Db, links: Omit<ClaimLink, "id" | "createdAt">[]
   db.transaction(() => {
     for (const l of links) {
       stmt.run(
-        newId("clm"), l.projectId, l.fromClaimId, l.toRequirementId, l.toClaimId,
+        newId("lnk"), l.projectId, l.fromClaimId, l.toRequirementId, l.toClaimId,
         l.linkKind, l.rationale, l.accepted ? 1 : 0, now,
       );
     }
