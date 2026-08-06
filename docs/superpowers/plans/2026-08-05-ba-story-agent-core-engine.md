@@ -3919,8 +3919,15 @@ import { ExtractedClaimsSchema, stage0Chunk, stage1Extract } from "../../src/pip
 import { EXTRACT_SYSTEM } from "../../src/prompts/extract.js";
 import type { StageContext } from "../../src/pipeline/runner.js";
 
-const LONG = Array.from({ length: 30 }, (_, i) =>
-  `Client: point number ${i} about invoice approval thresholds and routing rules in some detail here`,
+// ~2400 words across 40 segments. Must comfortably exceed chunkTranscript's
+// 2000-word target so the fixture spans MULTIPLE windows — an earlier version
+// used 30 short segments (~450 words), which produced exactly one window and
+// silently reduced the per-window call-count assertion below to
+// `toHaveBeenCalledTimes(1)`. That test would have passed even if
+// stage1Extract stopped looping entirely.
+const LONG = Array.from({ length: 40 }, (_, i) =>
+  `Client: point number ${i}. ` +
+  Array.from({ length: 55 }, (_, w) => `detail${i}x${w}`).join(" "),
 ).join("\n\n");
 
 function setup(parsedOutputs: unknown[]) {
