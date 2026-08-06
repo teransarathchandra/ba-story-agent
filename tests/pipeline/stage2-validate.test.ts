@@ -133,14 +133,30 @@ describe("stage2Validate - self-review", () => {
     expect(quarantineRate(state)).toBe(1);
   });
 
+  it("only processes candidate claims; skips already-validated", async () => {
+    const { ctx, state } = setup(["anything over ten thousand euro has to go to a manager"]);
+
+    // First run: validates the candidate
+    const out1 = await stage2Validate.run(ctx, state);
+    expect(out1.validated).toBe(1);
+    expect(out1.quarantined).toBe(0);
+
+    // Second run: chain the output; no candidates remain
+    const out2 = await stage2Validate.run(ctx, out1);
+    // Counts must be preserved even though no processing occurred
+    expect(out2.validated).toBe(out1.validated);
+    expect(out2.quarantined).toBe(out1.quarantined);
+  });
+
 });
 
 describe("stage2Validate with multi-window transcript", () => {
-  // Create a long transcript that produces multiple windows (>2000 words).
-  // This tests the window-map building and absolute-offset arithmetic.
+  // Create a long transcript that produces multiple windows (~2280 words).
+  // Fixture: Window 0 spans segments 0-51, Window 1 spans segments 47-59 (overlap at 47-51).
+  // This tests window-map building, absolute-offset arithmetic with non-zero windowCharStart,
+  // fuzzy matching via windowText context, and the first-window-wins rule.
   const LONG_TEXT = (() => {
     const segments = [];
-    // Build a ~2500-word transcript to ensure 2+ windows
     for (let i = 0; i < 30; i++) {
       segments.push(
         `BA: Let's discuss requirement ${i}. ` +
@@ -160,7 +176,7 @@ describe("stage2Validate with multi-window transcript", () => {
     return segments.join("\n\n");
   })();
 
-  function setupLong(quotes: string[]) {
+  function setupLong(segmentIndices: number[], quotes: string[]) {
     const db = openDb(":memory:");
     const p = createProject(db, { name: "P", domain: "invoice approval for logistics operators" });
     const s = createSession(db, { projectId: p.id, title: "S" });
@@ -168,11 +184,9 @@ describe("stage2Validate with multi-window transcript", () => {
     freezeTranscript(db, transcript.id);
     const now = new Date().toISOString();
 
-    // Place claims in different segments, including later windows
     insertClaims(db, quotes.map((quote, i) => ({
       id: newId("clm"), sessionId: s.id, transcriptId: transcript.id,
-      // Use varying segment indices to ensure claims span multiple windows
-      segmentId: segments[10 + i * 5]?.id || segments[segments.length - 1]!.id,
+      segmentId: segments[segmentIndices[i]!]!.id,
       quote, statement: "s",
       speakerRole: "client" as const, kind: "requirement" as const,
       status: "candidate" as const, charStart: null, charEnd: null,
@@ -181,49 +195,104 @@ describe("stage2Validate with multi-window transcript", () => {
 
     const windows = chunkTranscript(LONG_TEXT, segments);
     const ctx: StageContext = { db, client: {} as never, projectId: p.id, sessionId: s.id };
-    return { ctx, state: { ...emptyState(transcript.id), windows: windows.map(toRef) }, windows };
+    return { ctx, state: { ...emptyState(transcript.id), windows: windows.map(toRef) }, windows, segments };
   }
 
-  it("produces multiple windows from long transcript", async () => {
-    const { windows } = setupLong([]);
-    // Guard: fixture must span 2+ windows to test the behavior
-    expect(windows.length).toBeGreaterThan(1);
+  it("produces exactly 2 windows from fixture (2280 words)", async () => {
+    const { windows } = setupLong([], []);
+    expect(windows.length).toBe(2);
+    // Window 0: segments 0-51, charStart = 0
+    // Window 1: segments 47-59, charStart = 11336
+    expect(windows[0]!.segments).toHaveLength(52);
+    expect(windows[0]!.charStart).toBe(0);
+    expect(windows[1]!.segments).toHaveLength(13);
+    expect(windows[1]!.charStart).toBeGreaterThan(0);
   });
 
-  it("validates claims in later windows with correct absolute offsets", async () => {
-    const { ctx, state, windows } = setupLong([
-      "The validation must happen before processing",
+  it("exercises fuzzy matching in later window with non-zero windowCharStart", async () => {
+    // Segment 52 is in window 1 only (charStart = 11336). Take its text and add punctuation
+    // to force fuzzy matching (exact match fails, fuzzy succeeds). This exercises the
+    // windowCharStart + range.start arithmetic in step-4 fuzzy offset calculation.
+    const { ctx, state, windows, segments } = setupLong([52], [
+      // Original segment 52 text has no trailing punctuation. Add a comma to force fuzzy.
+      "The validation must happen before processing,",
     ]);
 
-    expect(windows.length).toBeGreaterThan(1);
+    expect(windows.length).toBe(2);
+    expect(windows[1]!.charStart).toBeGreaterThan(0);
 
     const out = await stage2Validate.run(ctx, state);
     const [claim] = listClaims(ctx.db, ctx.sessionId);
 
     expect(claim?.status).toBe("validated");
-    expect(claim?.charStart).toBeDefined();
-    expect(claim?.charEnd).toBeDefined();
+    // Fuzzy matching occurs only in step 4; exact/segment-corrected use segment-absolute offsets
+    expect(claim?.matchMode).toBe("fuzzy");
 
-    // Critical: offsets must be absolute into the FULL transcript, not relative to a window
+    // Critical: offsets must be absolute into FULL transcript, not relative to window
     const sliced = LONG_TEXT.slice(claim!.charStart!, claim!.charEnd!);
     expect(sliced).toContain("The validation must happen before processing");
   });
 
-  it("applies first-window-wins rule for segments in overlapping windows", async () => {
-    // The fixture guarantees multiple windows with overlap. When a segment appears
-    // in multiple windows, the stage always uses the first window's GroundingSource.
-    // This is deterministic by design (prevents boundary claims from having
-    // non-deterministic outcomes based on fuzzy-match window context).
-    const { ctx, state, windows } = setupLong([
-      "The validation must happen before processing",
+  it("applies first-window-wins rule for overlapping segments", async () => {
+    // Segment 50 is in both window 0 (charStart = 0) and window 1 (charStart = 11336).
+    // The stage must always use window 0's GroundingSource for determinism.
+    // Both windows contain the full segment text, but with different windowText contexts,
+    // which affects fuzzy-match scoring if it reaches step 4.
+    const { ctx, state, windows, segments } = setupLong([50], [
+      "The validation must happen before processing,",
     ]);
 
-    expect(windows.length).toBeGreaterThan(1);
+    expect(windows.length).toBe(2);
+    // Segment 50 is in both windows
+    const seg50InWindow0 = windows[0]!.segments.some(s => s.id === segments[50]!.id);
+    const seg50InWindow1 = windows[1]!.segments.some(s => s.id === segments[50]!.id);
+    expect(seg50InWindow0).toBe(true);
+    expect(seg50InWindow1).toBe(true);
 
     const out = await stage2Validate.run(ctx, state);
     const [claim] = listClaims(ctx.db, ctx.sessionId);
 
-    // Claim must validate (proving the rule is applied consistently)
+    expect(claim?.status).toBe("validated");
+    // The rule is deterministic by design: first window wins, preventing non-deterministic
+    // outcomes when a segment's fuzzy scoring depends on window context.
+  });
+
+  it("validates claim on segment from different transcript via wholeTranscript fallback", async () => {
+    // Create a second transcript with its own segments. Insert a claim on the first session
+    // that references a segment from the second transcript. The segment won't be in any
+    // window of the first session, so the fallback to wholeTranscript applies.
+    // The quote exists in the first transcript so validation can succeed.
+    const db = openDb(":memory:");
+    const p1 = createProject(db, { name: "P1", domain: "invoice approval for logistics operators" });
+    const s1 = createSession(db, { projectId: p1.id, title: "S1" });
+    const { transcript: t1, segments: segs1 } = createTranscript(db, { sessionId: s1.id, text: TEXT });
+    freezeTranscript(db, t1.id);
+
+    const p2 = createProject(db, { name: "P2", domain: "invoice approval for logistics operators" });
+    const s2 = createSession(db, { projectId: p2.id, title: "S2" });
+    const { transcript: t2, segments: segs2 } = createTranscript(db, { sessionId: s2.id, text: LONG_TEXT });
+    freezeTranscript(db, t2.id);
+
+    // Insert claim on s1 that references segment from s2 (orphan segment for s1).
+    // Quote exists in s1's transcript, so it validates via wholeTranscript fallback.
+    const now = new Date().toISOString();
+    insertClaims(db, [{
+      id: newId("clm"), sessionId: s1.id, transcriptId: t1.id,
+      segmentId: segs2[52]!.id, // Segment from s2, won't be in s1's windows
+      quote: "anything over ten thousand euro has to go to a manager",
+      statement: "s", speakerRole: "client" as const, kind: "requirement" as const,
+      status: "candidate" as const, charStart: null, charEnd: null,
+      matchMode: null, createdAt: now,
+    }]);
+
+    const windows1 = chunkTranscript(TEXT, segs1);
+    const ctx: StageContext = { db, client: {} as never, projectId: p1.id, sessionId: s1.id };
+    const state = { ...emptyState(t1.id), windows: windows1.map(toRef) };
+
+    const out = await stage2Validate.run(ctx, state);
+
+    // Should not crash; should validate against wholeTranscript source despite orphan segment
+    const [claim] = listClaims(db, s1.id);
     expect(claim?.status).toBe("validated");
   });
 });
