@@ -114,4 +114,28 @@ describe("chunkTranscript", () => {
     const covered = new Set(windows.flatMap((w) => w.segments.map((s) => s.id)));
     expect(covered.size).toBe(segments.length);
   });
+
+  it("does not exceed targetWords when forcing a segment after zero-word segments", () => {
+    // Regression test for the `words === 0` flag bug: if the accumulator happens to be 0
+    // (because preceding segments had no words), the check would re-fire and admit the next
+    // segment regardless of size. With the explicit tookAny flag, this cannot happen.
+    // With the old code, window 0 would contain ALL segments (words stays 0, condition re-fires).
+    // With the fix, window 0 contains only the zero-word segments (tookAny=true after first,
+    // then 0 + 50 > 30 rejects seg_2), and seg_2,3 form subsequent windows.
+    const { text, segments } = makeSegments([
+      "   ",           // zero words
+      "  \n  ",        // zero words
+      filler(50, "a"), // 50 words (exceeds targetWords of 30)
+      filler(50, "b"), // 50 more words
+    ]);
+    const windows = chunkTranscript(text, segments, { targetWords: 30, overlapWords: 10 });
+    // Window 0: segs 0,1 (0 words total). Seg 2 is not added because 0 + 50 > 30.
+    expect(windows[0]!.segments.map((s) => s.id)).toEqual(["seg_0", "seg_1"]);
+    // Window 1 (overlap): seg_1
+    // Window 2: seg_2 (forced as first segment for its window, 50 words)
+    // Window 3: seg_3 (50 words)
+    // Verify coverage: all 4 segments appear in at least one window
+    const covered = new Set(windows.flatMap((w) => w.segments.map((s) => s.id)));
+    expect(covered.size).toBe(4);
+  });
 });
