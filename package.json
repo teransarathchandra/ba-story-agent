@@ -12,12 +12,14 @@
     "test:watch": "vitest",
     "eval": "vitest run tests/eval",
     "eval:live": "tsx scripts/run-live-eval.ts",
-    "cli": "tsx src/cli/index.ts"
+    "cli": "tsx src/cli/index.ts",
+    "spike:schema": "tsx scripts/spike/schema-grammar-check.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.115.0",
     "better-sqlite3": "^11.10.0",
     "commander": "^12.1.0",
+    "node-llama-cpp": "^3.19.1",
     "ulid": "^2.3.0",
     "zod": "^3.25.76"
   },
