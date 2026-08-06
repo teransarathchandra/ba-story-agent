@@ -3120,9 +3120,31 @@ export function createClient(opts?: {
   });
 }
 
-/** Canonical JSON stringify with sorted keys, so hashes are order-independent. */
+/**
+ * Canonical JSON stringify with sorted keys, so hashes are order-independent.
+ *
+ * The explicit guards below exist because `JSON.stringify` collapses several
+ * materially different values into the same output, which would give this
+ * compliance hash real collisions:
+ *   - it returns the VALUE `undefined` (not a string) for `undefined`,
+ *     functions, and symbols, so a naive `?? "null"` makes all three
+ *     indistinguishable from an explicit `null`;
+ *   - `NaN` and both infinities stringify to `null`;
+ *   - a `Date` has no own enumerable properties, so `Object.entries` renders
+ *     EVERY date as `{}` regardless of its timestamp.
+ * Order matters: `null` must be tested before `typeof value === "object"`,
+ * and `Date` before the generic object branch.
+ */
 function canonical(value: unknown): string {
-  if (value === null || typeof value !== "object") return JSON.stringify(value) ?? "null";
+  if (value === undefined) return '"__undefined__"';
+  if (typeof value === "function") return '"__function__"';
+  if (typeof value === "symbol") return '"__symbol__"';
+  if (value === null) return "null";
+  if (typeof value === "number" && !Number.isFinite(value)) {
+    return `"__nonfinite:${String(value)}__"`;
+  }
+  if (value instanceof Date) return JSON.stringify(value.toISOString());
+  if (typeof value !== "object") return JSON.stringify(value) ?? "null";
   if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
   const entries = Object.entries(value as Record<string, unknown>).sort(([a], [b]) =>
     a < b ? -1 : a > b ? 1 : 0,
