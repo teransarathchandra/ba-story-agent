@@ -11,10 +11,10 @@ import { stage7Critique } from "./stage7-critique.js";
 import { stage8Assemble } from "./stage8-assemble.js";
 import type { PipelineState } from "./state.js";
 
-export const ALL_STAGES = [
+export const ALL_STAGES: Stage<unknown, unknown>[] = [
   stage0Chunk, stage1Extract, stage2Validate, stage3Classify, stage4Reconcile,
   stage5Requirements, stage6Stories, stage7Critique, stage8Assemble,
-] as unknown as Stage<unknown, unknown>[];
+];
 
 export async function analyzeSession(
   ctx: StageContext,
