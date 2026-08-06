@@ -25,7 +25,20 @@ export function createClient(opts?: {
 
 /** Canonical JSON stringify with sorted keys, so hashes are order-independent. */
 function canonical(value: unknown): string {
-  if (value === null || typeof value !== "object") return JSON.stringify(value) ?? "null";
+  // Distinct sentinels: these are all materially different states that
+  // JSON.stringify collapses to `undefined` or `null`. A compliance hash
+  // must not treat them as equal.
+  if (value === undefined) return '"__undefined__"';
+  if (typeof value === "function") return '"__function__"';
+  if (typeof value === "symbol") return '"__symbol__"';
+  if (value === null) return "null";
+  if (typeof value === "number" && !Number.isFinite(value)) {
+    return `"__nonfinite:${String(value)}__"`;
+  }
+  // Dates have no own enumerable properties, so the object branch below
+  // would render every Date as "{}".
+  if (value instanceof Date) return JSON.stringify(value.toISOString());
+  if (typeof value !== "object") return JSON.stringify(value) ?? "null";
   if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
   const entries = Object.entries(value as Record<string, unknown>).sort(([a], [b]) =>
     a < b ? -1 : a > b ? 1 : 0,

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { openDb } from "../../src/store/db.js";
 import { createProject, createSession } from "../../src/store/projects.js";
 import { egressSummary } from "../../src/store/audit.js";
@@ -21,6 +21,37 @@ describe("hashRequest", () => {
 
   it("returns 64 hex chars", () => {
     expect(hashRequest({ a: 1 })).toMatch(/^[0-9a-f]{64}$/);
+  });
+
+  it("distinguishes different Date values", () => {
+    const old = new Date("2020-01-01");
+    const new_ = new Date("2025-06-01");
+    expect(hashRequest({ date: old })).not.toBe(hashRequest({ date: new_ }));
+  });
+
+  it("distinguishes undefined, null, and functions from each other", () => {
+    const undefinedHash = hashRequest({ a: undefined });
+    const nullHash = hashRequest({ a: null });
+    const functionHash = hashRequest({ a: () => {} });
+    expect(undefinedHash).not.toBe(nullHash);
+    expect(undefinedHash).not.toBe(functionHash);
+    expect(nullHash).not.toBe(functionHash);
+  });
+
+  it("distinguishes NaN from null", () => {
+    expect(hashRequest({ a: NaN })).not.toBe(hashRequest({ a: null }));
+  });
+
+  it("is order-independent at nested levels", () => {
+    const nested1 = hashRequest({ a: { y: 1, x: 2 }, b: 3 });
+    const nested2 = hashRequest({ b: 3, a: { x: 2, y: 1 } });
+    expect(nested1).toBe(nested2);
+  });
+
+  it("is consistent for arrays of objects with reordered keys", () => {
+    const arr1 = hashRequest([{ a: 1, b: 2 }, { x: 10, y: 20 }]);
+    const arr2 = hashRequest([{ b: 2, a: 1 }, { y: 20, x: 10 }]);
+    expect(arr1).toBe(arr2);
   });
 });
 
