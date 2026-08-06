@@ -1,4 +1,5 @@
-import { z } from "zod";
+// Use zod/v4 because zodOutputFormat requires it (zod@^3.25.76 resolves bare import to v3)
+import { z } from "zod/v4";
 
 const Iso = z.string().datetime();
 

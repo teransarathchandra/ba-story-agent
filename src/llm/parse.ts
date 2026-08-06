@@ -1,6 +1,6 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
-import type { z } from "zod";
+import type { z } from "zod/v4";
 import type { Db } from "../store/db.js";
 import { MODEL, MAX_TOKENS, logEgress } from "./client.js";
 
@@ -55,20 +55,20 @@ export async function callTyped<T>(args: {
       system,
       output_config: {
         effort: args.effort ?? "high",
-        format: zodOutputFormat(schema as never),
+        format: zodOutputFormat(schema),
       },
       messages: [{ role: "user" as const, content: user }],
     };
 
     const response = await client.messages.parse(request);
 
-    const usage = (response as { usage?: { input_tokens: number; output_tokens: number } }).usage;
+    const usage = response.usage;
     if (usage) logEgress(db, sessionId, stage, request, usage);
 
-    const content = (response as { content?: { type: string; text?: string }[] }).content ?? [];
+    const content = response.content ?? [];
     lastRaw = content.map((b) => (b.type === "text" ? b.text ?? "" : "")).join("");
 
-    const parsedOutput = (response as { parsed_output?: unknown }).parsed_output;
+    const parsedOutput = response.parsed_output;
     if (parsedOutput === null || parsedOutput === undefined) {
       lastError = new Error("parsed_output was null — the model returned no schema-conforming JSON");
     } else {

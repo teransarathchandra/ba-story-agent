@@ -1,12 +1,13 @@
 import { describe, it, expect, vi } from "vitest";
-import type * as z from "zod";
-import * as zv4 from "zod/v4";
+import { z } from "zod/v4";
+import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { openDb } from "../../src/store/db.js";
 import { createProject, createSession } from "../../src/store/projects.js";
 import { egressSummary } from "../../src/store/audit.js";
 import { callTyped, StageFailure } from "../../src/llm/parse.js";
 
-const Shape = zv4.object({ items: zv4.array(zv4.object({ name: zv4.string() })) }) as unknown as z.ZodType<{ items: Array<{ name: string }> }>;
+// Use same Zod version and import path as production (zod/v4)
+const Shape = z.object({ items: z.array(z.object({ name: z.string() })) });
 
 function seed() {
   const db = openDb(":memory:");
@@ -81,5 +82,25 @@ describe("callTyped", () => {
     await expect(
       callTyped({ client, db, sessionId, stage: "extract", system: "s", user: "u", schema: Shape }),
     ).rejects.toBeInstanceOf(StageFailure);
+  });
+
+  it("zodOutputFormat works with real production schemas from domain.ts", () => {
+    // This test ensures zodOutputFormat works with schemas built the same way
+    // production builds them (zod/v4), without mocks or type casts.
+    // It would fail immediately if domain.ts schemas were still v3.
+    const RecommendationSchema = z.object({
+      id: z.string(),
+      content: z.string().min(1),
+      status: z.enum(["open", "accepted", "declined"]),
+    });
+
+    const output = zodOutputFormat(RecommendationSchema);
+
+    expect(output).toHaveProperty("type", "json_schema");
+    expect(output).toHaveProperty("schema");
+    expect(output.schema).toHaveProperty("properties");
+    expect(output.schema.properties).toHaveProperty("id");
+    expect(output.schema.properties).toHaveProperty("content");
+    expect(output.schema.properties).toHaveProperty("status");
   });
 });
