@@ -104,3 +104,7 @@ export function countByStatus(db: Db, sessionId: string): Record<string, number>
     .all(sessionId) as { status: string; n: number }[];
   return Object.fromEntries(rows.map((r) => [r.status, r.n]));
 }
+
+export function setClaimKind(db: Db, id: string, kind: Claim["kind"]): void {
+  db.prepare("UPDATE claims SET kind = ? WHERE id = ?").run(kind, id);
+}
