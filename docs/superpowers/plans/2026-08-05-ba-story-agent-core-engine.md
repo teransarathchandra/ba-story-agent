@@ -116,7 +116,7 @@ describe("ENGINE_VERSION", () => {
     "cli": "tsx src/cli/index.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.68.0",
+    "@anthropic-ai/sdk": "^0.115.0",
     "better-sqlite3": "^11.10.0",
     "commander": "^12.1.0",
     "ulid": "^2.3.0",

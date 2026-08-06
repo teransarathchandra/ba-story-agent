@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "build": "tsc && node -e \"require('fs').copyFileSync('src/store/schema.sql','dist/src/store/schema.sql')\"",
     "test": "vitest run",
@@ -11,7 +13,7 @@
     "cli": "tsx src/cli/index.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.68.0",
+    "@anthropic-ai/sdk": "^0.115.0",
     "better-sqlite3": "^11.10.0",
     "commander": "^12.1.0",
     "ulid": "^2.3.0",
