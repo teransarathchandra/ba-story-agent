@@ -2959,12 +2959,15 @@ import { normalize } from "../grounding/normalize.js";
  */
 export const HEDGE_MARKERS: readonly string[] = [
   "probably", "possibly", "perhaps", "maybe",
-  "might", "may be", "could be", "would be",
+  "might", "could", "may", "may be", "could be", "would be",
   "i think", "i believe", "i assume", "i guess", "i suppose", "i'd say",
   "usually", "typically", "normally", "generally", "often", "tend to",
   "something like", "sort of", "kind of", "more or less",
-  "roughly", "approximately", "or so",
-  "i imagine", "presumably", "in principle", "off the top of my head",
+  "roughly", "roughly speaking", "approximately", "or so",
+  "i imagine", "presumably", "in principle", "in theory",
+  "off the top of my head", "don't quote me", "as far as i know",
+  "not sure", "unsure", "or something", "ideally",
+  "i'd have to check", "if i remember",
 ];
 
 /** Escape a literal string for safe use inside a RegExp. */
