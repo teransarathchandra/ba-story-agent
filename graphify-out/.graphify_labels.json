@@ -1,1 +1,15 @@
-{"0": "Domain Models and Reconciliation", "1": "Transcript Storage and IDs", "2": "Pipeline and Claim Processing", "3": "Transcript Grounding and Segmentation", "4": "CLI Snapshot and Publishing", "5": "LLM Audit and Checkpoints", "6": "Package and Build Tooling", "7": "TypeScript Compiler Configuration", "8": "SQLite Schema", "9": "Project and Session Store", "10": "Vitest Configuration"}
+{
+  "0": "domain.ts",
+  "1": "createProject",
+  "2": "projects.ts",
+  "3": "validator.ts",
+  "4": "Db",
+  "5": "db.ts",
+  "6": "Package and Build Tooling",
+  "7": "TypeScript Compiler Configuration",
+  "8": "SQLite Schema",
+  "9": "adversarial.test.ts",
+  "10": "Vitest Configuration",
+  "11": "AGENTS.md",
+  "12": "CLAUDE.md"
+}

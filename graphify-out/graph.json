@@ -4,6 +4,50 @@
   "graph": {},
   "nodes": [
     {
+      "label": "AGENTS.md",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents",
+      "community": 11,
+      "community_name": "AGENTS.md",
+      "norm_label": "agents.md"
+    },
+    {
+      "label": "graphify",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_graphify",
+      "community": 11,
+      "community_name": "AGENTS.md",
+      "norm_label": "graphify"
+    },
+    {
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude",
+      "community": 12,
+      "community_name": "CLAUDE.md",
+      "norm_label": "claude.md"
+    },
+    {
+      "label": "graphify",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude_graphify",
+      "community": 12,
+      "community_name": "CLAUDE.md",
+      "norm_label": "graphify"
+    },
+    {
       "label": "package.json",
       "file_type": "code",
       "source_file": "package.json",
@@ -11,8 +55,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "package.json",
-      "id": "package",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package"
     },
     {
       "label": "name",
@@ -22,8 +66,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "name",
-      "id": "package_name",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_name"
     },
     {
       "label": "version",
@@ -33,8 +77,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "version",
-      "id": "package_version",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_version"
     },
     {
       "label": "private",
@@ -44,8 +88,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "private",
-      "id": "package_private",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_private"
     },
     {
       "label": "type",
@@ -55,8 +99,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "type",
-      "id": "package_type",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_type"
     },
     {
       "label": "engines",
@@ -66,8 +110,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "engines",
-      "id": "package_engines",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_engines"
     },
     {
       "label": "node",
@@ -77,8 +121,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "node",
-      "id": "package_engines_node",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_engines_node"
     },
     {
       "label": "scripts",
@@ -88,8 +132,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "scripts",
-      "id": "package_scripts",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_scripts"
     },
     {
       "label": "build",
@@ -99,8 +143,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "build",
-      "id": "package_scripts_build",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_scripts_build"
     },
     {
       "label": "test",
@@ -110,8 +154,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "test",
-      "id": "package_scripts_test",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_scripts_test"
     },
     {
       "label": "test:watch",
@@ -121,8 +165,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "test:watch",
-      "id": "package_scripts_test_watch",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_scripts_test_watch"
     },
     {
       "label": "eval",
@@ -132,8 +176,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "eval",
-      "id": "package_scripts_eval",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_scripts_eval"
     },
     {
       "label": "eval:live",
@@ -143,8 +187,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "eval:live",
-      "id": "package_scripts_eval_live",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_scripts_eval_live"
     },
     {
       "label": "cli",
@@ -154,8 +198,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "cli",
-      "id": "package_scripts_cli",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_scripts_cli"
     },
     {
       "label": "dependencies",
@@ -165,8 +209,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "dependencies",
-      "id": "package_dependencies",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_dependencies"
     },
     {
       "label": "@anthropic-ai/sdk",
@@ -176,8 +220,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "@anthropic-ai/sdk",
-      "id": "package_dependencies_anthropic_ai_sdk",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_dependencies_anthropic_ai_sdk"
     },
     {
       "label": "@anthropic-ai/sdk",
@@ -187,8 +231,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "@anthropic-ai/sdk",
-      "id": "anthropic_ai_sdk",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "anthropic_ai_sdk"
     },
     {
       "label": "better-sqlite3",
@@ -198,8 +242,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "better-sqlite3",
-      "id": "package_dependencies_better_sqlite3",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_dependencies_better_sqlite3"
     },
     {
       "label": "better-sqlite3",
@@ -209,8 +253,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "better-sqlite3",
-      "id": "better_sqlite3",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "better_sqlite3"
     },
     {
       "label": "commander",
@@ -220,8 +264,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "commander",
-      "id": "package_dependencies_commander",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_dependencies_commander"
     },
     {
       "label": "commander",
@@ -231,8 +275,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "commander",
-      "id": "commander",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "commander"
     },
     {
       "label": "ulid",
@@ -242,8 +286,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "ulid",
-      "id": "package_dependencies_ulid",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_dependencies_ulid"
     },
     {
       "label": "ulid",
@@ -253,8 +297,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "ulid",
-      "id": "ulid",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "ulid"
     },
     {
       "label": "zod",
@@ -264,8 +308,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "zod",
-      "id": "package_dependencies_zod",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_dependencies_zod"
     },
     {
       "label": "zod",
@@ -275,8 +319,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "zod",
-      "id": "zod",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "zod"
     },
     {
       "label": "devDependencies",
@@ -286,8 +330,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "devdependencies",
-      "id": "package_devdependencies",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_devdependencies"
     },
     {
       "label": "@types/better-sqlite3",
@@ -297,8 +341,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "@types/better-sqlite3",
-      "id": "package_devdependencies_types_better_sqlite3",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_devdependencies_types_better_sqlite3"
     },
     {
       "label": "@types/better-sqlite3",
@@ -308,8 +352,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "@types/better-sqlite3",
-      "id": "types_better_sqlite3",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "types_better_sqlite3"
     },
     {
       "label": "@types/node",
@@ -319,8 +363,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "@types/node",
-      "id": "package_devdependencies_types_node",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_devdependencies_types_node"
     },
     {
       "label": "@types/node",
@@ -330,8 +374,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "@types/node",
-      "id": "types_node",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "types_node"
     },
     {
       "label": "tsx",
@@ -341,8 +385,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "tsx",
-      "id": "package_devdependencies_tsx",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_devdependencies_tsx"
     },
     {
       "label": "tsx",
@@ -352,8 +396,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "tsx",
-      "id": "tsx",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "tsx"
     },
     {
       "label": "typescript",
@@ -363,8 +407,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "typescript",
-      "id": "package_devdependencies_typescript",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_devdependencies_typescript"
     },
     {
       "label": "typescript",
@@ -374,8 +418,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "typescript",
-      "id": "typescript",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "typescript"
     },
     {
       "label": "vitest",
@@ -385,8 +429,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "vitest",
-      "id": "package_devdependencies_vitest",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "package_devdependencies_vitest"
     },
     {
       "label": "vitest",
@@ -396,8 +440,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "vitest",
-      "id": "vitest",
-      "community_name": "Package and Build Tooling"
+      "community_name": "Package and Build Tooling",
+      "id": "vitest"
     },
     {
       "label": "run-live-eval.ts",
@@ -405,10 +449,10 @@
       "source_file": "scripts/run-live-eval.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 5,
       "norm_label": "run-live-eval.ts",
-      "id": "scripts_run_live_eval",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "db.ts",
+      "id": "scripts_run_live_eval"
     },
     {
       "label": "Expectation",
@@ -418,10 +462,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 0,
+      "community": 5,
       "norm_label": "expectation",
-      "id": "scripts_run_live_eval_expectation",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "db.ts",
+      "id": "scripts_run_live_eval_expectation"
     },
     {
       "label": "here",
@@ -429,10 +473,10 @@
       "source_file": "scripts/run-live-eval.ts",
       "source_location": "L34",
       "_origin": "ast",
-      "community": 0,
+      "community": 5,
       "norm_label": "here",
-      "id": "scripts_run_live_eval_here",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "db.ts",
+      "id": "scripts_run_live_eval_here"
     },
     {
       "label": "fixturesDir",
@@ -440,10 +484,10 @@
       "source_file": "scripts/run-live-eval.ts",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 0,
+      "community": 5,
       "norm_label": "fixturesdir",
-      "id": "scripts_run_live_eval_fixturesdir",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "db.ts",
+      "id": "scripts_run_live_eval_fixturesdir"
     },
     {
       "label": "expectations",
@@ -451,10 +495,10 @@
       "source_file": "scripts/run-live-eval.ts",
       "source_location": "L36",
       "_origin": "ast",
-      "community": 0,
+      "community": 5,
       "norm_label": "expectations",
-      "id": "scripts_run_live_eval_expectations",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "db.ts",
+      "id": "scripts_run_live_eval_expectations"
     },
     {
       "label": "check()",
@@ -463,10 +507,10 @@
       "source_location": "L42",
       "_callable": true,
       "_origin": "ast",
-      "community": 0,
+      "community": 5,
       "norm_label": "check()",
-      "id": "scripts_run_live_eval_check",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "db.ts",
+      "id": "scripts_run_live_eval_check"
     },
     {
       "label": "cli/index.ts",
@@ -476,8 +520,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "cli/index.ts",
-      "id": "src_cli_index",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_cli_index"
     },
     {
       "label": "Log",
@@ -489,8 +533,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "log",
-      "id": "src_cli_index_log",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_cli_index_log"
     },
     {
       "label": "buildProgram()",
@@ -501,8 +545,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "buildprogram()",
-      "id": "src_cli_index_buildprogram",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_cli_index_buildprogram"
     },
     {
       "label": "classifyCliError()",
@@ -513,8 +557,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "classifyclierror()",
-      "id": "src_cli_index_classifyclierror",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_cli_index_classifyclierror"
     },
     {
       "label": "json.ts",
@@ -524,8 +568,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "json.ts",
-      "id": "src_export_json",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_json"
     },
     {
       "label": "Publisher",
@@ -537,8 +581,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "publisher",
-      "id": "src_export_json_publisher",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_json_publisher"
     },
     {
       "label": ".publish()",
@@ -549,8 +593,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": ".publish()",
-      "id": "src_export_json_publisher_publish",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_json_publisher_publish"
     },
     {
       "label": "jsonPublisher",
@@ -560,8 +604,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "jsonpublisher",
-      "id": "src_export_json_jsonpublisher",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_json_jsonpublisher"
     },
     {
       "label": "markdown.ts",
@@ -571,8 +615,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "markdown.ts",
-      "id": "src_export_markdown",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_markdown"
     },
     {
       "label": "formatTimestamp()",
@@ -583,8 +627,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "formattimestamp()",
-      "id": "src_export_markdown_formattimestamp",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_markdown_formattimestamp"
     },
     {
       "label": "shortDate()",
@@ -595,8 +639,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "shortdate()",
-      "id": "src_export_markdown_shortdate",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_markdown_shortdate"
     },
     {
       "label": "markdownPublisher",
@@ -606,8 +650,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "markdownpublisher",
-      "id": "src_export_markdown_markdownpublisher",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_markdown_markdownpublisher"
     },
     {
       "label": "snapshot.ts",
@@ -617,8 +661,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "snapshot.ts",
-      "id": "src_export_snapshot",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_snapshot"
     },
     {
       "label": "SNAPSHOT_SCHEMA_VERSION",
@@ -628,8 +672,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "snapshot_schema_version",
-      "id": "src_export_snapshot_snapshot_schema_version",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_snapshot_snapshot_schema_version"
     },
     {
       "label": "Evidence",
@@ -641,8 +685,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "evidence",
-      "id": "src_export_snapshot_evidence",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_snapshot_evidence"
     },
     {
       "label": "ExportSnapshot",
@@ -654,8 +698,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "exportsnapshot",
-      "id": "src_export_snapshot_exportsnapshot",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_snapshot_exportsnapshot"
     },
     {
       "label": "buildSnapshot()",
@@ -666,8 +710,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "buildsnapshot()",
-      "id": "src_export_snapshot_buildsnapshot",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_export_snapshot_buildsnapshot"
     },
     {
       "label": "normalize.ts",
@@ -677,8 +721,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "normalize.ts",
-      "id": "src_grounding_normalize",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_normalize"
     },
     {
       "label": "FOLD",
@@ -688,8 +732,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "fold",
-      "id": "src_grounding_normalize_fold",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_normalize_fold"
     },
     {
       "label": "Normalized",
@@ -701,8 +745,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "normalized",
-      "id": "src_grounding_normalize_normalized",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_normalize_normalized"
     },
     {
       "label": "normalize()",
@@ -713,8 +757,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "normalize()",
-      "id": "src_grounding_normalize_normalize",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_normalize_normalize"
     },
     {
       "label": "denormalizeRange()",
@@ -725,8 +769,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "denormalizerange()",
-      "id": "src_grounding_normalize_denormalizerange",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_normalize_denormalizerange"
     },
     {
       "label": "similarity.ts",
@@ -736,8 +780,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "similarity.ts",
-      "id": "src_grounding_similarity",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_similarity"
     },
     {
       "label": "Token",
@@ -749,8 +793,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "token",
-      "id": "src_grounding_similarity_token",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_similarity_token"
     },
     {
       "label": "DISFLUENCIES",
@@ -760,8 +804,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "disfluencies",
-      "id": "src_grounding_similarity_disfluencies",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_similarity_disfluencies"
     },
     {
       "label": "DISFLUENCY_PHRASES",
@@ -771,8 +815,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "disfluency_phrases",
-      "id": "src_grounding_similarity_disfluency_phrases",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_similarity_disfluency_phrases"
     },
     {
       "label": "tokenize()",
@@ -783,8 +827,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "tokenize()",
-      "id": "src_grounding_similarity_tokenize",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_similarity_tokenize"
     },
     {
       "label": "trimPunct()",
@@ -795,8 +839,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "trimpunct()",
-      "id": "src_grounding_similarity_trimpunct",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_similarity_trimpunct"
     },
     {
       "label": "stripDisfluencies()",
@@ -807,8 +851,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "stripdisfluencies()",
-      "id": "src_grounding_similarity_stripdisfluencies",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_similarity_stripdisfluencies"
     },
     {
       "label": "levenshteinRatio()",
@@ -819,8 +863,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "levenshteinratio()",
-      "id": "src_grounding_similarity_levenshteinratio",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_similarity_levenshteinratio"
     },
     {
       "label": "bestWindow()",
@@ -831,8 +875,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "bestwindow()",
-      "id": "src_grounding_similarity_bestwindow",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_similarity_bestwindow"
     },
     {
       "label": "validator.ts",
@@ -842,8 +886,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "validator.ts",
-      "id": "src_grounding_validator",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_validator"
     },
     {
       "label": "FUZZY_THRESHOLD",
@@ -853,8 +897,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "fuzzy_threshold",
-      "id": "src_grounding_validator_fuzzy_threshold",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_validator_fuzzy_threshold"
     },
     {
       "label": "GroundingInput",
@@ -866,8 +910,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "groundinginput",
-      "id": "src_grounding_validator_groundinginput",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_validator_groundinginput"
     },
     {
       "label": "GroundingSource",
@@ -879,8 +923,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "groundingsource",
-      "id": "src_grounding_validator_groundingsource",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_validator_groundingsource"
     },
     {
       "label": "GroundingResult",
@@ -892,8 +936,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "groundingresult",
-      "id": "src_grounding_validator_groundingresult",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_validator_groundingresult"
     },
     {
       "label": "exactMatch()",
@@ -904,8 +948,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "exactmatch()",
-      "id": "src_grounding_validator_exactmatch",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_validator_exactmatch"
     },
     {
       "label": "validateQuote()",
@@ -916,8 +960,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "validatequote()",
-      "id": "src_grounding_validator_validatequote",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "src_grounding_validator_validatequote"
     },
     {
       "label": "lexicon.ts",
@@ -925,10 +969,10 @@
       "source_file": "src/hedge/lexicon.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 3,
+      "community": 9,
       "norm_label": "lexicon.ts",
-      "id": "src_hedge_lexicon",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "adversarial.test.ts",
+      "id": "src_hedge_lexicon"
     },
     {
       "label": "HEDGE_MARKERS",
@@ -936,10 +980,10 @@
       "source_file": "src/hedge/lexicon.ts",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 3,
+      "community": 9,
       "norm_label": "hedge_markers",
-      "id": "src_hedge_lexicon_hedge_markers",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "adversarial.test.ts",
+      "id": "src_hedge_lexicon_hedge_markers"
     },
     {
       "label": "escapeRe()",
@@ -948,10 +992,10 @@
       "source_location": "L25",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 9,
       "norm_label": "escapere()",
-      "id": "src_hedge_lexicon_escapere",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "adversarial.test.ts",
+      "id": "src_hedge_lexicon_escapere"
     },
     {
       "label": "PATTERNS",
@@ -959,10 +1003,10 @@
       "source_file": "src/hedge/lexicon.ts",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 3,
+      "community": 9,
       "norm_label": "patterns",
-      "id": "src_hedge_lexicon_patterns",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "adversarial.test.ts",
+      "id": "src_hedge_lexicon_patterns"
     },
     {
       "label": "detectHedges()",
@@ -971,10 +1015,10 @@
       "source_location": "L37",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 9,
       "norm_label": "detecthedges()",
-      "id": "src_hedge_lexicon_detecthedges",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "adversarial.test.ts",
+      "id": "src_hedge_lexicon_detecthedges"
     },
     {
       "label": "isHedged()",
@@ -983,10 +1027,10 @@
       "source_location": "L49",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 9,
       "norm_label": "ishedged()",
-      "id": "src_hedge_lexicon_ishedged",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "adversarial.test.ts",
+      "id": "src_hedge_lexicon_ishedged"
     },
     {
       "label": "client.ts",
@@ -996,8 +1040,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "client.ts",
-      "id": "src_llm_client",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_client"
     },
     {
       "label": "MODEL",
@@ -1007,8 +1051,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "model",
-      "id": "src_llm_client_model",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_client_model"
     },
     {
       "label": "MAX_TOKENS",
@@ -1018,8 +1062,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "max_tokens",
-      "id": "src_llm_client_max_tokens",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_client_max_tokens"
     },
     {
       "label": "createClient()",
@@ -1028,10 +1072,10 @@
       "source_location": "L12",
       "_callable": true,
       "_origin": "ast",
-      "community": 4,
+      "community": 5,
       "norm_label": "createclient()",
-      "id": "src_llm_client_createclient",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "db.ts",
+      "id": "src_llm_client_createclient"
     },
     {
       "label": "canonical()",
@@ -1042,8 +1086,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "canonical()",
-      "id": "src_llm_client_canonical",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_client_canonical"
     },
     {
       "label": "hashRequest()",
@@ -1054,8 +1098,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "hashrequest()",
-      "id": "src_llm_client_hashrequest",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_client_hashrequest"
     },
     {
       "label": "logEgress()",
@@ -1066,8 +1110,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "logegress()",
-      "id": "src_llm_client_logegress",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_client_logegress"
     },
     {
       "label": "estimateInputTokens()",
@@ -1078,8 +1122,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "estimateinputtokens()",
-      "id": "src_llm_client_estimateinputtokens",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_client_estimateinputtokens"
     },
     {
       "label": "NOTE: the TypeScript SDK takes milliseconds, unlike the Python SDK.",
@@ -1089,8 +1133,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "note: the typescript sdk takes milliseconds, unlike the python sdk.",
-      "id": "src_llm_client_rationale_21",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_client_rationale_21"
     },
     {
       "label": "parse.ts",
@@ -1100,8 +1144,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "parse.ts",
-      "id": "src_llm_parse",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_parse"
     },
     {
       "label": "Effort",
@@ -1113,8 +1157,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "effort",
-      "id": "src_llm_parse_effort",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_parse_effort"
     },
     {
       "label": "StageFailure",
@@ -1126,8 +1170,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "stagefailure",
-      "id": "src_llm_parse_stagefailure",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_parse_stagefailure"
     },
     {
       "label": ".constructor()",
@@ -1138,8 +1182,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": ".constructor()",
-      "id": "src_llm_parse_stagefailure_constructor",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_parse_stagefailure_constructor"
     },
     {
       "label": "callTyped()",
@@ -1150,8 +1194,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "calltyped()",
-      "id": "src_llm_parse_calltyped",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_llm_parse_calltyped"
     },
     {
       "label": "pipeline/index.ts",
@@ -1161,8 +1205,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "pipeline/index.ts",
-      "id": "src_pipeline_index",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_index"
     },
     {
       "label": "ALL_STAGES",
@@ -1172,8 +1216,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "all_stages",
-      "id": "src_pipeline_index_all_stages",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_index_all_stages"
     },
     {
       "label": "analyzeSession()",
@@ -1184,8 +1228,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "analyzesession()",
-      "id": "src_pipeline_index_analyzesession",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_index_analyzesession"
     },
     {
       "label": "runner.ts",
@@ -1195,8 +1239,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "runner.ts",
-      "id": "src_pipeline_runner",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_runner"
     },
     {
       "label": "StageContext",
@@ -1206,10 +1250,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 1,
+      "community": 2,
       "norm_label": "stagecontext",
-      "id": "src_pipeline_runner_stagecontext",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_runner_stagecontext"
     },
     {
       "label": "Stage",
@@ -1221,8 +1265,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "stage",
-      "id": "src_pipeline_runner_stage",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_runner_stage"
     },
     {
       "label": ".run()",
@@ -1233,8 +1277,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": ".run()",
-      "id": "src_pipeline_runner_stage_run",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_runner_stage_run"
     },
     {
       "label": "runPipeline()",
@@ -1245,8 +1289,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "runpipeline()",
-      "id": "src_pipeline_runner_runpipeline",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_runner_runpipeline"
     },
     {
       "label": "stage0-chunk.ts",
@@ -1254,10 +1298,10 @@
       "source_file": "src/pipeline/stage0-chunk.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 3,
+      "community": 2,
       "norm_label": "stage0-chunk.ts",
-      "id": "src_pipeline_stage0_chunk",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_stage0_chunk"
     },
     {
       "label": "MIN_WORDS",
@@ -1265,10 +1309,10 @@
       "source_file": "src/pipeline/stage0-chunk.ts",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 3,
+      "community": 2,
       "norm_label": "min_words",
-      "id": "src_pipeline_stage0_chunk_min_words",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_stage0_chunk_min_words"
     },
     {
       "label": "Window",
@@ -1278,10 +1322,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 2,
       "norm_label": "window",
-      "id": "src_pipeline_stage0_chunk_window",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_stage0_chunk_window"
     },
     {
       "label": "countWords()",
@@ -1292,8 +1336,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "countwords()",
-      "id": "src_pipeline_stage0_chunk_countwords",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_pipeline_stage0_chunk_countwords"
     },
     {
       "label": "chunkTranscript()",
@@ -1304,8 +1348,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "chunktranscript()",
-      "id": "src_pipeline_stage0_chunk_chunktranscript",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_pipeline_stage0_chunk_chunktranscript"
     },
     {
       "label": "stage1-extract.ts",
@@ -1315,8 +1359,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "stage1-extract.ts",
-      "id": "src_pipeline_stage1_extract",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_stage1_extract"
     },
     {
       "label": "ExtractedClaimsSchema",
@@ -1326,8 +1370,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "extractedclaimsschema",
-      "id": "src_pipeline_stage1_extract_extractedclaimsschema",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_stage1_extract_extractedclaimsschema"
     },
     {
       "label": "stage0Chunk",
@@ -1337,8 +1381,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "stage0chunk",
-      "id": "src_pipeline_stage1_extract_stage0chunk",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_stage1_extract_stage0chunk"
     },
     {
       "label": "stage1Extract",
@@ -1348,8 +1392,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "stage1extract",
-      "id": "src_pipeline_stage1_extract_stage1extract",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_stage1_extract_stage1extract"
     },
     {
       "label": "stage2-validate.ts",
@@ -1359,8 +1403,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "stage2-validate.ts",
-      "id": "src_pipeline_stage2_validate",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_stage2_validate"
     },
     {
       "label": "stage2Validate",
@@ -1370,8 +1414,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "stage2validate",
-      "id": "src_pipeline_stage2_validate_stage2validate",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_stage2_validate_stage2validate"
     },
     {
       "label": "quarantineRate()",
@@ -1382,8 +1426,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "quarantinerate()",
-      "id": "src_pipeline_stage2_validate_quarantinerate",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_pipeline_stage2_validate_quarantinerate"
     },
     {
       "label": "stage3-classify.ts",
@@ -1391,10 +1435,10 @@
       "source_file": "src/pipeline/stage3-classify.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "stage3-classify.ts",
-      "id": "src_pipeline_stage3_classify",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_pipeline_stage3_classify"
     },
     {
       "label": "ClassificationSchema",
@@ -1402,10 +1446,10 @@
       "source_file": "src/pipeline/stage3-classify.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "classificationschema",
-      "id": "src_pipeline_stage3_classify_classificationschema",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_pipeline_stage3_classify_classificationschema"
     },
     {
       "label": "stage3Classify",
@@ -1413,10 +1457,10 @@
       "source_file": "src/pipeline/stage3-classify.ts",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "stage3classify",
-      "id": "src_pipeline_stage3_classify_stage3classify",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_pipeline_stage3_classify_stage3classify"
     },
     {
       "label": "stage4-reconcile.ts",
@@ -1426,8 +1470,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "stage4-reconcile.ts",
-      "id": "src_pipeline_stage4_reconcile",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_pipeline_stage4_reconcile"
     },
     {
       "label": "ReconcileSchema",
@@ -1435,10 +1479,10 @@
       "source_file": "src/pipeline/stage4-reconcile.ts",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 0,
+      "community": 9,
       "norm_label": "reconcileschema",
-      "id": "src_pipeline_stage4_reconcile_reconcileschema",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "adversarial.test.ts",
+      "id": "src_pipeline_stage4_reconcile_reconcileschema"
     },
     {
       "label": "stage4Reconcile",
@@ -1448,8 +1492,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "stage4reconcile",
-      "id": "src_pipeline_stage4_reconcile_stage4reconcile",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_pipeline_stage4_reconcile_stage4reconcile"
     },
     {
       "label": "stage5-requirements.ts",
@@ -1457,10 +1501,10 @@
       "source_file": "src/pipeline/stage5-requirements.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "stage5-requirements.ts",
-      "id": "src_pipeline_stage5_requirements",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_pipeline_stage5_requirements"
     },
     {
       "label": "RequirementDraftsSchema",
@@ -1468,10 +1512,10 @@
       "source_file": "src/pipeline/stage5-requirements.ts",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "requirementdraftsschema",
-      "id": "src_pipeline_stage5_requirements_requirementdraftsschema",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_pipeline_stage5_requirements_requirementdraftsschema"
     },
     {
       "label": "stage5Requirements",
@@ -1479,10 +1523,10 @@
       "source_file": "src/pipeline/stage5-requirements.ts",
       "source_location": "L30",
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "stage5requirements",
-      "id": "src_pipeline_stage5_requirements_stage5requirements",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_pipeline_stage5_requirements_stage5requirements"
     },
     {
       "label": "stage6-stories.ts",
@@ -1492,8 +1536,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "stage6-stories.ts",
-      "id": "src_pipeline_stage6_stories",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_pipeline_stage6_stories"
     },
     {
       "label": "StoryDraftsSchema",
@@ -1501,10 +1545,10 @@
       "source_file": "src/pipeline/stage6-stories.ts",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 0,
+      "community": 9,
       "norm_label": "storydraftsschema",
-      "id": "src_pipeline_stage6_stories_storydraftsschema",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "adversarial.test.ts",
+      "id": "src_pipeline_stage6_stories_storydraftsschema"
     },
     {
       "label": "stage6Stories",
@@ -1514,8 +1558,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "stage6stories",
-      "id": "src_pipeline_stage6_stories_stage6stories",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_pipeline_stage6_stories_stage6stories"
     },
     {
       "label": "stage7-critique.ts",
@@ -1525,8 +1569,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "stage7-critique.ts",
-      "id": "src_pipeline_stage7_critique",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_pipeline_stage7_critique"
     },
     {
       "label": "Category",
@@ -1536,8 +1580,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "category",
-      "id": "src_pipeline_stage7_critique_category",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_pipeline_stage7_critique_category"
     },
     {
       "label": "CritiqueFindingsSchema",
@@ -1547,8 +1591,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "critiquefindingsschema",
-      "id": "src_pipeline_stage7_critique_critiquefindingsschema",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_pipeline_stage7_critique_critiquefindingsschema"
     },
     {
       "label": "stage7Critique",
@@ -1558,8 +1602,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "stage7critique",
-      "id": "src_pipeline_stage7_critique_stage7critique",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_pipeline_stage7_critique_stage7critique"
     },
     {
       "label": "stage8-assemble.ts",
@@ -1569,8 +1613,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "stage8-assemble.ts",
-      "id": "src_pipeline_stage8_assemble",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_stage8_assemble"
     },
     {
       "label": "stage8Assemble",
@@ -1580,8 +1624,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "stage8assemble",
-      "id": "src_pipeline_stage8_assemble_stage8assemble",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_stage8_assemble_stage8assemble"
     },
     {
       "label": "state.ts",
@@ -1591,8 +1635,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "state.ts",
-      "id": "src_pipeline_state",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_state"
     },
     {
       "label": "WindowRef",
@@ -1604,8 +1648,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "windowref",
-      "id": "src_pipeline_state_windowref",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_state_windowref"
     },
     {
       "label": "PipelineState",
@@ -1617,8 +1661,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "pipelinestate",
-      "id": "src_pipeline_state_pipelinestate",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_state_pipelinestate"
     },
     {
       "label": "emptyState()",
@@ -1629,8 +1673,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "emptystate()",
-      "id": "src_pipeline_state_emptystate",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_pipeline_state_emptystate"
     },
     {
       "label": "toRef()",
@@ -1641,8 +1685,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "toref()",
-      "id": "src_pipeline_state_toref",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_pipeline_state_toref"
     },
     {
       "label": "hydrateWindow()",
@@ -1653,8 +1697,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "hydratewindow()",
-      "id": "src_pipeline_state_hydratewindow",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_pipeline_state_hydratewindow"
     },
     {
       "label": "classify.ts",
@@ -1662,10 +1706,10 @@
       "source_file": "src/prompts/classify.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "classify.ts",
-      "id": "src_prompts_classify",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_prompts_classify"
     },
     {
       "label": "CLASSIFY_SYSTEM",
@@ -1673,10 +1717,10 @@
       "source_file": "src/prompts/classify.ts",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "classify_system",
-      "id": "src_prompts_classify_classify_system",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_prompts_classify_classify_system"
     },
     {
       "label": "buildClassifyUser()",
@@ -1685,10 +1729,10 @@
       "source_location": "L15",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "buildclassifyuser()",
-      "id": "src_prompts_classify_buildclassifyuser",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_prompts_classify_buildclassifyuser"
     },
     {
       "label": "critique.ts",
@@ -1698,8 +1742,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "critique.ts",
-      "id": "src_prompts_critique",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_critique"
     },
     {
       "label": "ReviewerContext",
@@ -1711,8 +1755,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "reviewercontext",
-      "id": "src_prompts_critique_reviewercontext",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_critique_reviewercontext"
     },
     {
       "label": "Reviewer",
@@ -1724,8 +1768,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "reviewer",
-      "id": "src_prompts_critique_reviewer",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_critique_reviewer"
     },
     {
       "label": ".system()",
@@ -1736,8 +1780,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": ".system()",
-      "id": "src_prompts_critique_reviewer_system",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_critique_reviewer_system"
     },
     {
       "label": "REVIEWERS",
@@ -1747,8 +1791,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "reviewers",
-      "id": "src_prompts_critique_reviewers",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_critique_reviewers"
     },
     {
       "label": "buildCritiqueUser()",
@@ -1759,8 +1803,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "buildcritiqueuser()",
-      "id": "src_prompts_critique_buildcritiqueuser",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_critique_buildcritiqueuser"
     },
     {
       "label": "extract.ts",
@@ -1770,8 +1814,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "extract.ts",
-      "id": "src_prompts_extract",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_prompts_extract"
     },
     {
       "label": "EXTRACT_SYSTEM",
@@ -1781,8 +1825,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "extract_system",
-      "id": "src_prompts_extract_extract_system",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_prompts_extract_extract_system"
     },
     {
       "label": "buildExtractUser()",
@@ -1793,8 +1837,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "buildextractuser()",
-      "id": "src_prompts_extract_buildextractuser",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_prompts_extract_buildextractuser"
     },
     {
       "label": "reconcile.ts",
@@ -1804,8 +1848,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "reconcile.ts",
-      "id": "src_prompts_reconcile",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_reconcile"
     },
     {
       "label": "RECONCILE_SYSTEM",
@@ -1815,8 +1859,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "reconcile_system",
-      "id": "src_prompts_reconcile_reconcile_system",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_reconcile_reconcile_system"
     },
     {
       "label": "buildReconcileUser()",
@@ -1827,8 +1871,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "buildreconcileuser()",
-      "id": "src_prompts_reconcile_buildreconcileuser",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_reconcile_buildreconcileuser"
     },
     {
       "label": "requirements.ts",
@@ -1836,10 +1880,10 @@
       "source_file": "src/prompts/requirements.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "requirements.ts",
-      "id": "src_prompts_requirements",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_prompts_requirements"
     },
     {
       "label": "REQUIREMENTS_SYSTEM",
@@ -1847,10 +1891,10 @@
       "source_file": "src/prompts/requirements.ts",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "requirements_system",
-      "id": "src_prompts_requirements_requirements_system",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_prompts_requirements_requirements_system"
     },
     {
       "label": "buildRequirementsUser()",
@@ -1859,10 +1903,10 @@
       "source_location": "L17",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "buildrequirementsuser()",
-      "id": "src_prompts_requirements_buildrequirementsuser",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_prompts_requirements_buildrequirementsuser"
     },
     {
       "label": "stories.ts",
@@ -1872,8 +1916,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "stories.ts",
-      "id": "src_prompts_stories",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_stories"
     },
     {
       "label": "STORIES_SYSTEM",
@@ -1883,8 +1927,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "stories_system",
-      "id": "src_prompts_stories_stories_system",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_stories_stories_system"
     },
     {
       "label": "buildStoriesUser()",
@@ -1895,8 +1939,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "buildstoriesuser()",
-      "id": "src_prompts_stories_buildstoriesuser",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_prompts_stories_buildstoriesuser"
     },
     {
       "label": "artifacts.ts",
@@ -1906,8 +1950,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "artifacts.ts",
-      "id": "src_store_artifacts",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_artifacts"
     },
     {
       "label": "KEYED_TABLES",
@@ -1917,8 +1961,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "keyed_tables",
-      "id": "src_store_artifacts_keyed_tables",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_artifacts_keyed_tables"
     },
     {
       "label": "KeyedTable",
@@ -1930,8 +1974,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "keyedtable",
-      "id": "src_store_artifacts_keyedtable",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_artifacts_keyedtable"
     },
     {
       "label": "nextKey()",
@@ -1942,8 +1986,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "nextkey()",
-      "id": "src_store_artifacts_nextkey",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_artifacts_nextkey"
     },
     {
       "label": "RequirementRow",
@@ -1955,8 +1999,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "requirementrow",
-      "id": "src_store_artifacts_requirementrow",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_artifacts_requirementrow"
     },
     {
       "label": "toRequirement()",
@@ -1967,8 +2011,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "torequirement()",
-      "id": "src_store_artifacts_torequirement",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_artifacts_torequirement"
     },
     {
       "label": "insertRequirements()",
@@ -1979,8 +2023,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "insertrequirements()",
-      "id": "src_store_artifacts_insertrequirements",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_artifacts_insertrequirements"
     },
     {
       "label": "listRequirements()",
@@ -1989,10 +2033,10 @@
       "source_location": "L61",
       "_callable": true,
       "_origin": "ast",
-      "community": 0,
+      "community": 4,
       "norm_label": "listrequirements()",
-      "id": "src_store_artifacts_listrequirements",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "Db",
+      "id": "src_store_artifacts_listrequirements"
     },
     {
       "label": "setRequirementStatus()",
@@ -2003,8 +2047,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "setrequirementstatus()",
-      "id": "src_store_artifacts_setrequirementstatus",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_store_artifacts_setrequirementstatus"
     },
     {
       "label": "StoryRow",
@@ -2016,8 +2060,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "storyrow",
-      "id": "src_store_artifacts_storyrow",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_artifacts_storyrow"
     },
     {
       "label": "AcRow",
@@ -2029,8 +2073,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "acrow",
-      "id": "src_store_artifacts_acrow",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_artifacts_acrow"
     },
     {
       "label": "insertStory()",
@@ -2041,8 +2085,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "insertstory()",
-      "id": "src_store_artifacts_insertstory",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_artifacts_insertstory"
     },
     {
       "label": "listStories()",
@@ -2053,8 +2097,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "liststories()",
-      "id": "src_store_artifacts_liststories",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_store_artifacts_liststories"
     },
     {
       "label": "audit.ts",
@@ -2064,8 +2108,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "audit.ts",
-      "id": "src_store_audit",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_store_audit"
     },
     {
       "label": "CheckpointStatus",
@@ -2077,8 +2121,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "checkpointstatus",
-      "id": "src_store_audit_checkpointstatus",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_store_audit_checkpointstatus"
     },
     {
       "label": "recordApproval()",
@@ -2089,8 +2133,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "recordapproval()",
-      "id": "src_store_audit_recordapproval",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_store_audit_recordapproval"
     },
     {
       "label": "listApprovals()",
@@ -2101,8 +2145,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "listapprovals()",
-      "id": "src_store_audit_listapprovals",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_store_audit_listapprovals"
     },
     {
       "label": "recordEgress()",
@@ -2113,8 +2157,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "recordegress()",
-      "id": "src_store_audit_recordegress",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_store_audit_recordegress"
     },
     {
       "label": "egressSummary()",
@@ -2123,10 +2167,10 @@
       "source_location": "L71",
       "_callable": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 4,
       "norm_label": "egresssummary()",
-      "id": "src_store_audit_egresssummary",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "Db",
+      "id": "src_store_audit_egresssummary"
     },
     {
       "label": "saveCheckpoint()",
@@ -2137,8 +2181,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "savecheckpoint()",
-      "id": "src_store_audit_savecheckpoint",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_store_audit_savecheckpoint"
     },
     {
       "label": "loadCheckpoint()",
@@ -2147,10 +2191,10 @@
       "source_location": "L111",
       "_callable": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 2,
       "norm_label": "loadcheckpoint()",
-      "id": "src_store_audit_loadcheckpoint",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "projects.ts",
+      "id": "src_store_audit_loadcheckpoint"
     },
     {
       "label": "claims.ts",
@@ -2158,10 +2202,10 @@
       "source_file": "src/store/claims.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "claims.ts",
-      "id": "src_store_claims",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_store_claims"
     },
     {
       "label": "ClaimRow",
@@ -2171,10 +2215,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "claimrow",
-      "id": "src_store_claims_claimrow",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_store_claims_claimrow"
     },
     {
       "label": "toClaim()",
@@ -2183,10 +2227,10 @@
       "source_location": "L12",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "toclaim()",
-      "id": "src_store_claims_toclaim",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_store_claims_toclaim"
     },
     {
       "label": "insertClaims()",
@@ -2197,8 +2241,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "insertclaims()",
-      "id": "src_store_claims_insertclaims",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_claims_insertclaims"
     },
     {
       "label": "applyFilters()",
@@ -2207,10 +2251,10 @@
       "source_location": "L48",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "applyfilters()",
-      "id": "src_store_claims_applyfilters",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_store_claims_applyfilters"
     },
     {
       "label": "listClaims()",
@@ -2219,10 +2263,10 @@
       "source_location": "L60",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "listclaims()",
-      "id": "src_store_claims_listclaims",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_store_claims_listclaims"
     },
     {
       "label": "listProjectClaims()",
@@ -2231,10 +2275,10 @@
       "source_location": "L69",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "listprojectclaims()",
-      "id": "src_store_claims_listprojectclaims",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_store_claims_listprojectclaims"
     },
     {
       "label": "updateClaimValidation()",
@@ -2243,10 +2287,10 @@
       "source_location": "L83",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "updateclaimvalidation()",
-      "id": "src_store_claims_updateclaimvalidation",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_store_claims_updateclaimvalidation"
     },
     {
       "label": "countByStatus()",
@@ -2257,8 +2301,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "countbystatus()",
-      "id": "src_store_claims_countbystatus",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_store_claims_countbystatus"
     },
     {
       "label": "setClaimKind()",
@@ -2267,10 +2311,10 @@
       "source_location": "L108",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "setclaimkind()",
-      "id": "src_store_claims_setclaimkind",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_store_claims_setclaimkind"
     },
     {
       "label": "db.ts",
@@ -2280,8 +2324,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "db.ts",
-      "id": "src_store_db",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_store_db"
     },
     {
       "label": "Db",
@@ -2291,10 +2335,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 4,
       "norm_label": "db",
-      "id": "src_store_db_db",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "Db",
+      "id": "src_store_db_db"
     },
     {
       "label": "here",
@@ -2304,8 +2348,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "here",
-      "id": "src_store_db_here",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_store_db_here"
     },
     {
       "label": "openDb()",
@@ -2316,8 +2360,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "opendb()",
-      "id": "src_store_db_opendb",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_db_opendb"
     },
     {
       "label": "closeDb()",
@@ -2328,8 +2372,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "closedb()",
-      "id": "src_store_db_closedb",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_store_db_closedb"
     },
     {
       "label": "findings.ts",
@@ -2339,8 +2383,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "findings.ts",
-      "id": "src_store_findings",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_findings"
     },
     {
       "label": "QuestionRow",
@@ -2352,8 +2396,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "questionrow",
-      "id": "src_store_findings_questionrow",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_findings_questionrow"
     },
     {
       "label": "RecommendationRow",
@@ -2365,8 +2409,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "recommendationrow",
-      "id": "src_store_findings_recommendationrow",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_findings_recommendationrow"
     },
     {
       "label": "insertQuestions()",
@@ -2377,8 +2421,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "insertquestions()",
-      "id": "src_store_findings_insertquestions",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_store_findings_insertquestions"
     },
     {
       "label": "listQuestions()",
@@ -2387,10 +2431,10 @@
       "source_location": "L37",
       "_callable": true,
       "_origin": "ast",
-      "community": 0,
+      "community": 4,
       "norm_label": "listquestions()",
-      "id": "src_store_findings_listquestions",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "Db",
+      "id": "src_store_findings_listquestions"
     },
     {
       "label": "insertRecommendations()",
@@ -2399,10 +2443,10 @@
       "source_location": "L62",
       "_callable": true,
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "insertrecommendations()",
-      "id": "src_store_findings_insertrecommendations",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "createProject",
+      "id": "src_store_findings_insertrecommendations"
     },
     {
       "label": "listRecommendations()",
@@ -2411,10 +2455,10 @@
       "source_location": "L80",
       "_callable": true,
       "_origin": "ast",
-      "community": 0,
+      "community": 4,
       "norm_label": "listrecommendations()",
-      "id": "src_store_findings_listrecommendations",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "Db",
+      "id": "src_store_findings_listrecommendations"
     },
     {
       "label": "links.ts",
@@ -2422,10 +2466,10 @@
       "source_file": "src/store/links.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 5,
+      "community": 4,
       "norm_label": "links.ts",
-      "id": "src_store_links",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "Db",
+      "id": "src_store_links"
     },
     {
       "label": "ClaimLink",
@@ -2435,10 +2479,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 4,
       "norm_label": "claimlink",
-      "id": "src_store_links_claimlink",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "Db",
+      "id": "src_store_links_claimlink"
     },
     {
       "label": "insertLinks()",
@@ -2447,10 +2491,10 @@
       "source_location": "L16",
       "_callable": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 4,
       "norm_label": "insertlinks()",
-      "id": "src_store_links_insertlinks",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "Db",
+      "id": "src_store_links_insertlinks"
     },
     {
       "label": "listLinks()",
@@ -2459,10 +2503,10 @@
       "source_location": "L33",
       "_callable": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 4,
       "norm_label": "listlinks()",
-      "id": "src_store_links_listlinks",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "Db",
+      "id": "src_store_links_listlinks"
     },
     {
       "label": "projects.ts",
@@ -2470,10 +2514,10 @@
       "source_file": "src/store/projects.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "projects.ts",
-      "id": "src_store_projects",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "src_store_projects"
     },
     {
       "label": "ProjectRow",
@@ -2483,10 +2527,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "projectrow",
-      "id": "src_store_projects_projectrow",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "src_store_projects_projectrow"
     },
     {
       "label": "SessionRow",
@@ -2496,10 +2540,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "sessionrow",
-      "id": "src_store_projects_sessionrow",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "src_store_projects_sessionrow"
     },
     {
       "label": "toProject()",
@@ -2508,10 +2552,10 @@
       "source_location": "L18",
       "_callable": true,
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "toproject()",
-      "id": "src_store_projects_toproject",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "src_store_projects_toproject"
     },
     {
       "label": "toSession()",
@@ -2520,10 +2564,10 @@
       "source_location": "L30",
       "_callable": true,
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "tosession()",
-      "id": "src_store_projects_tosession",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "src_store_projects_tosession"
     },
     {
       "label": "createProject()",
@@ -2534,8 +2578,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "createproject()",
-      "id": "src_store_projects_createproject",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_projects_createproject"
     },
     {
       "label": "getProject()",
@@ -2546,8 +2590,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "getproject()",
-      "id": "src_store_projects_getproject",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_store_projects_getproject"
     },
     {
       "label": "createSession()",
@@ -2558,8 +2602,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "createsession()",
-      "id": "src_store_projects_createsession",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_projects_createsession"
     },
     {
       "label": "setSessionStatus()",
@@ -2570,8 +2614,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "setsessionstatus()",
-      "id": "src_store_projects_setsessionstatus",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "src_store_projects_setsessionstatus"
     },
     {
       "label": "getSession()",
@@ -2580,10 +2624,10 @@
       "source_location": "L102",
       "_callable": true,
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "getsession()",
-      "id": "src_store_projects_getsession",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "src_store_projects_getsession"
     },
     {
       "label": "listSessions()",
@@ -2594,8 +2638,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "listsessions()",
-      "id": "src_store_projects_listsessions",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_store_projects_listsessions"
     },
     {
       "label": "schema.sql",
@@ -2605,8 +2649,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "schema.sql",
-      "id": "src_store_schema",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema"
     },
     {
       "label": "projects",
@@ -2616,8 +2660,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "projects",
-      "id": "src_store_schema_projects",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_projects"
     },
     {
       "label": "sessions",
@@ -2627,8 +2671,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "sessions",
-      "id": "src_store_schema_sessions",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_sessions"
     },
     {
       "label": "transcripts",
@@ -2638,8 +2682,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "transcripts",
-      "id": "src_store_schema_transcripts",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_transcripts"
     },
     {
       "label": "segments",
@@ -2649,8 +2693,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "segments",
-      "id": "src_store_schema_segments",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_segments"
     },
     {
       "label": "claims",
@@ -2660,8 +2704,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "claims",
-      "id": "src_store_schema_claims",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_claims"
     },
     {
       "label": "requirements",
@@ -2671,8 +2715,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "requirements",
-      "id": "src_store_schema_requirements",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_requirements"
     },
     {
       "label": "stories",
@@ -2682,8 +2726,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "stories",
-      "id": "src_store_schema_stories",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_stories"
     },
     {
       "label": "acceptance_criteria",
@@ -2693,8 +2737,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "acceptance_criteria",
-      "id": "src_store_schema_acceptance_criteria",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_acceptance_criteria"
     },
     {
       "label": "open_questions",
@@ -2704,8 +2748,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "open_questions",
-      "id": "src_store_schema_open_questions",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_open_questions"
     },
     {
       "label": "recommendations",
@@ -2715,8 +2759,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "recommendations",
-      "id": "src_store_schema_recommendations",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_recommendations"
     },
     {
       "label": "claim_links",
@@ -2726,8 +2770,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "claim_links",
-      "id": "src_store_schema_claim_links",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_claim_links"
     },
     {
       "label": "approval_events",
@@ -2737,8 +2781,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "approval_events",
-      "id": "src_store_schema_approval_events",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_approval_events"
     },
     {
       "label": "egress_log",
@@ -2748,8 +2792,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "egress_log",
-      "id": "src_store_schema_egress_log",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_egress_log"
     },
     {
       "label": "stage_checkpoints",
@@ -2759,8 +2803,8 @@
       "_origin": "ast",
       "community": 8,
       "norm_label": "stage_checkpoints",
-      "id": "src_store_schema_stage_checkpoints",
-      "community_name": "SQLite Schema"
+      "community_name": "SQLite Schema",
+      "id": "src_store_schema_stage_checkpoints"
     },
     {
       "label": "transcripts.ts",
@@ -2770,8 +2814,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "transcripts.ts",
-      "id": "src_store_transcripts",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_transcripts"
     },
     {
       "label": "hashText()",
@@ -2780,10 +2824,10 @@
       "source_location": "L9",
       "_callable": true,
       "_origin": "ast",
-      "community": 1,
+      "community": 4,
       "norm_label": "hashtext()",
-      "id": "src_store_transcripts_hashtext",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "Db",
+      "id": "src_store_transcripts_hashtext"
     },
     {
       "label": "TranscriptRow",
@@ -2795,8 +2839,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "transcriptrow",
-      "id": "src_store_transcripts_transcriptrow",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_transcripts_transcriptrow"
     },
     {
       "label": "SegmentRow",
@@ -2808,8 +2852,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "segmentrow",
-      "id": "src_store_transcripts_segmentrow",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_transcripts_segmentrow"
     },
     {
       "label": "toTranscript()",
@@ -2820,8 +2864,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "totranscript()",
-      "id": "src_store_transcripts_totranscript",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_transcripts_totranscript"
     },
     {
       "label": "toSegment()",
@@ -2832,8 +2876,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "tosegment()",
-      "id": "src_store_transcripts_tosegment",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_transcripts_tosegment"
     },
     {
       "label": "splitSegments()",
@@ -2844,8 +2888,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "splitsegments()",
-      "id": "src_store_transcripts_splitsegments",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_transcripts_splitsegments"
     },
     {
       "label": "createTranscript()",
@@ -2856,8 +2900,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "createtranscript()",
-      "id": "src_store_transcripts_createtranscript",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_transcripts_createtranscript"
     },
     {
       "label": "freezeTranscript()",
@@ -2868,8 +2912,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "freezetranscript()",
-      "id": "src_store_transcripts_freezetranscript",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_store_transcripts_freezetranscript"
     },
     {
       "label": "getFrozenTranscript()",
@@ -2880,8 +2924,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "getfrozentranscript()",
-      "id": "src_store_transcripts_getfrozentranscript",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_store_transcripts_getfrozentranscript"
     },
     {
       "label": "domain.ts",
@@ -2891,8 +2935,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "domain.ts",
-      "id": "src_types_domain",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain"
     },
     {
       "label": "Iso",
@@ -2902,8 +2946,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "iso",
-      "id": "src_types_domain_iso",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_iso"
     },
     {
       "label": "ClaimKind",
@@ -2913,8 +2957,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "claimkind",
-      "id": "src_types_domain_claimkind",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_claimkind"
     },
     {
       "label": "ClaimStatus",
@@ -2924,8 +2968,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "claimstatus",
-      "id": "src_types_domain_claimstatus",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_claimstatus"
     },
     {
       "label": "MatchMode",
@@ -2935,8 +2979,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "matchmode",
-      "id": "src_types_domain_matchmode",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_matchmode"
     },
     {
       "label": "SpeakerRole",
@@ -2946,8 +2990,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "speakerrole",
-      "id": "src_types_domain_speakerrole",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_speakerrole"
     },
     {
       "label": "RequirementStatus",
@@ -2957,8 +3001,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "requirementstatus",
-      "id": "src_types_domain_requirementstatus",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_requirementstatus"
     },
     {
       "label": "RequirementOrigin",
@@ -2968,8 +3012,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "requirementorigin",
-      "id": "src_types_domain_requirementorigin",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_requirementorigin"
     },
     {
       "label": "AcSource",
@@ -2979,8 +3023,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "acsource",
-      "id": "src_types_domain_acsource",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_acsource"
     },
     {
       "label": "QuestionStatus",
@@ -2990,8 +3034,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "questionstatus",
-      "id": "src_types_domain_questionstatus",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_questionstatus"
     },
     {
       "label": "RecommendationStatus",
@@ -3001,8 +3045,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "recommendationstatus",
-      "id": "src_types_domain_recommendationstatus",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_recommendationstatus"
     },
     {
       "label": "CritiqueCategory",
@@ -3012,8 +3056,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "critiquecategory",
-      "id": "src_types_domain_critiquecategory",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_critiquecategory"
     },
     {
       "label": "RegulatoryContext",
@@ -3023,8 +3067,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "regulatorycontext",
-      "id": "src_types_domain_regulatorycontext",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_types_domain_regulatorycontext"
     },
     {
       "label": "SessionStatus",
@@ -3034,8 +3078,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "sessionstatus",
-      "id": "src_types_domain_sessionstatus",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_sessionstatus"
     },
     {
       "label": "LinkKind",
@@ -3045,8 +3089,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "linkkind",
-      "id": "src_types_domain_linkkind",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_linkkind"
     },
     {
       "label": "ProjectSchema",
@@ -3054,10 +3098,10 @@
       "source_file": "src/types/domain.ts",
       "source_location": "L28",
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "projectschema",
-      "id": "src_types_domain_projectschema",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "src_types_domain_projectschema"
     },
     {
       "label": "SessionSchema",
@@ -3065,10 +3109,10 @@
       "source_file": "src/types/domain.ts",
       "source_location": "L38",
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "sessionschema",
-      "id": "src_types_domain_sessionschema",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "src_types_domain_sessionschema"
     },
     {
       "label": "TranscriptSchema",
@@ -3078,8 +3122,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "transcriptschema",
-      "id": "src_types_domain_transcriptschema",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_types_domain_transcriptschema"
     },
     {
       "label": "SegmentSchema",
@@ -3089,8 +3133,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "segmentschema",
-      "id": "src_types_domain_segmentschema",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_types_domain_segmentschema"
     },
     {
       "label": "ClaimSchema",
@@ -3098,10 +3142,10 @@
       "source_file": "src/types/domain.ts",
       "source_location": "L69",
       "_origin": "ast",
-      "community": 0,
+      "community": 9,
       "norm_label": "claimschema",
-      "id": "src_types_domain_claimschema",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "adversarial.test.ts",
+      "id": "src_types_domain_claimschema"
     },
     {
       "label": "RequirementSchema",
@@ -3111,8 +3155,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "requirementschema",
-      "id": "src_types_domain_requirementschema",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_requirementschema"
     },
     {
       "label": "AcceptanceCriterionSchema",
@@ -3122,8 +3166,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "acceptancecriterionschema",
-      "id": "src_types_domain_acceptancecriterionschema",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_acceptancecriterionschema"
     },
     {
       "label": "StorySchema",
@@ -3133,8 +3177,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "storyschema",
-      "id": "src_types_domain_storyschema",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_storyschema"
     },
     {
       "label": "OpenQuestionSchema",
@@ -3144,8 +3188,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "openquestionschema",
-      "id": "src_types_domain_openquestionschema",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_openquestionschema"
     },
     {
       "label": "RecommendationSchema",
@@ -3155,8 +3199,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "recommendationschema",
-      "id": "src_types_domain_recommendationschema",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_recommendationschema"
     },
     {
       "label": "ApprovalEventSchema",
@@ -3166,8 +3210,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "approvaleventschema",
-      "id": "src_types_domain_approvaleventschema",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_types_domain_approvaleventschema"
     },
     {
       "label": "EgressLogSchema",
@@ -3177,8 +3221,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "egresslogschema",
-      "id": "src_types_domain_egresslogschema",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "src_types_domain_egresslogschema"
     },
     {
       "label": "Project",
@@ -3190,8 +3234,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "project",
-      "id": "src_types_domain_project",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_project"
     },
     {
       "label": "Session",
@@ -3201,10 +3245,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "session",
-      "id": "src_types_domain_session",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "src_types_domain_session"
     },
     {
       "label": "Transcript",
@@ -3214,10 +3258,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "transcript",
-      "id": "src_types_domain_transcript",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "createProject",
+      "id": "src_types_domain_transcript"
     },
     {
       "label": "Segment",
@@ -3227,10 +3271,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 2,
       "norm_label": "segment",
-      "id": "src_types_domain_segment",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "projects.ts",
+      "id": "src_types_domain_segment"
     },
     {
       "label": "Claim",
@@ -3240,10 +3284,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 9,
       "norm_label": "claim",
-      "id": "src_types_domain_claim",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "adversarial.test.ts",
+      "id": "src_types_domain_claim"
     },
     {
       "label": "Requirement",
@@ -3255,8 +3299,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "requirement",
-      "id": "src_types_domain_requirement",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_requirement"
     },
     {
       "label": "Story",
@@ -3268,8 +3312,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "story",
-      "id": "src_types_domain_story",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_story"
     },
     {
       "label": "AcceptanceCriterion",
@@ -3281,8 +3325,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "acceptancecriterion",
-      "id": "src_types_domain_acceptancecriterion",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_types_domain_acceptancecriterion"
     },
     {
       "label": "OpenQuestion",
@@ -3294,8 +3338,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "openquestion",
-      "id": "src_types_domain_openquestion",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_openquestion"
     },
     {
       "label": "Recommendation",
@@ -3307,8 +3351,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "recommendation",
-      "id": "src_types_domain_recommendation",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "src_types_domain_recommendation"
     },
     {
       "label": "ApprovalEvent",
@@ -3318,10 +3362,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 0,
+      "community": 5,
       "norm_label": "approvalevent",
-      "id": "src_types_domain_approvalevent",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "db.ts",
+      "id": "src_types_domain_approvalevent"
     },
     {
       "label": "EgressLog",
@@ -3331,10 +3375,10 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 0,
+      "community": 5,
       "norm_label": "egresslog",
-      "id": "src_types_domain_egresslog",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "db.ts",
+      "id": "src_types_domain_egresslog"
     },
     {
       "label": "ids.ts",
@@ -3344,8 +3388,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "ids.ts",
-      "id": "src_types_ids",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_types_ids"
     },
     {
       "label": "ID_PREFIXES",
@@ -3355,8 +3399,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "id_prefixes",
-      "id": "src_types_ids_id_prefixes",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_types_ids_id_prefixes"
     },
     {
       "label": "IdPrefix",
@@ -3368,8 +3412,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "idprefix",
-      "id": "src_types_ids_idprefix",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_types_ids_idprefix"
     },
     {
       "label": "monotonic",
@@ -3379,8 +3423,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "monotonic",
-      "id": "src_types_ids_monotonic",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_types_ids_monotonic"
     },
     {
       "label": "newId()",
@@ -3391,8 +3435,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "newid()",
-      "id": "src_types_ids_newid",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "src_types_ids_newid"
     },
     {
       "label": "version.ts",
@@ -3402,8 +3446,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "version.ts",
-      "id": "src_version",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_version"
     },
     {
       "label": "ENGINE_VERSION",
@@ -3413,8 +3457,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "engine_version",
-      "id": "src_version_engine_version",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "src_version_engine_version"
     },
     {
       "label": "index.test.ts",
@@ -3424,8 +3468,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "index.test.ts",
-      "id": "tests_cli_index_test",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "tests_cli_index_test"
     },
     {
       "label": "LONG",
@@ -3435,8 +3479,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "long",
-      "id": "tests_cli_index_test_long",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "tests_cli_index_test_long"
     },
     {
       "label": "run()",
@@ -3447,8 +3491,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "run()",
-      "id": "tests_cli_index_test_run",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "tests_cli_index_test_run"
     },
     {
       "label": "adversarial.test.ts",
@@ -3456,10 +3500,10 @@
       "source_file": "tests/eval/adversarial.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 3,
+      "community": 9,
       "norm_label": "adversarial.test.ts",
-      "id": "tests_eval_adversarial_test",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "adversarial.test.ts",
+      "id": "tests_eval_adversarial_test"
     },
     {
       "label": "here",
@@ -3467,10 +3511,10 @@
       "source_file": "tests/eval/adversarial.test.ts",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 3,
+      "community": 9,
       "norm_label": "here",
-      "id": "tests_eval_adversarial_test_here",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "adversarial.test.ts",
+      "id": "tests_eval_adversarial_test_here"
     },
     {
       "label": "fixturesDir",
@@ -3478,10 +3522,10 @@
       "source_file": "tests/eval/adversarial.test.ts",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 3,
+      "community": 9,
       "norm_label": "fixturesdir",
-      "id": "tests_eval_adversarial_test_fixturesdir",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "adversarial.test.ts",
+      "id": "tests_eval_adversarial_test_fixturesdir"
     },
     {
       "label": "loadFixture()",
@@ -3490,10 +3534,10 @@
       "source_location": "L23",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 9,
       "norm_label": "loadfixture()",
-      "id": "tests_eval_adversarial_test_loadfixture",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "adversarial.test.ts",
+      "id": "tests_eval_adversarial_test_loadfixture"
     },
     {
       "label": "json.test.ts",
@@ -3503,8 +3547,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "json.test.ts",
-      "id": "tests_export_json_test",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "tests_export_json_test"
     },
     {
       "label": "snapshot",
@@ -3514,8 +3558,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "snapshot",
-      "id": "tests_export_json_test_snapshot",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "tests_export_json_test_snapshot"
     },
     {
       "label": "markdown.test.ts",
@@ -3525,8 +3569,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "markdown.test.ts",
-      "id": "tests_export_markdown_test",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "tests_export_markdown_test"
     },
     {
       "label": "snapshot",
@@ -3536,8 +3580,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "snapshot",
-      "id": "tests_export_markdown_test_snapshot",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "tests_export_markdown_test_snapshot"
     },
     {
       "label": "snapshot.test.ts",
@@ -3547,8 +3591,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "snapshot.test.ts",
-      "id": "tests_export_snapshot_test",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_export_snapshot_test"
     },
     {
       "label": "seed()",
@@ -3559,8 +3603,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "seed()",
-      "id": "tests_export_snapshot_test_seed",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_export_snapshot_test_seed"
     },
     {
       "label": "normalize.test.ts",
@@ -3570,8 +3614,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "normalize.test.ts",
-      "id": "tests_grounding_normalize_test",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "tests_grounding_normalize_test"
     },
     {
       "label": "similarity.test.ts",
@@ -3581,8 +3625,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "similarity.test.ts",
-      "id": "tests_grounding_similarity_test",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "tests_grounding_similarity_test"
     },
     {
       "label": "validator.test.ts",
@@ -3592,8 +3636,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "validator.test.ts",
-      "id": "tests_grounding_validator_test",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "validator.ts",
+      "id": "tests_grounding_validator_test"
     },
     {
       "label": "source()",
@@ -3602,10 +3646,10 @@
       "source_location": "L10",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 2,
       "norm_label": "source()",
-      "id": "tests_grounding_validator_test_source",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "projects.ts",
+      "id": "tests_grounding_validator_test_source"
     },
     {
       "label": "lexicon.test.ts",
@@ -3613,10 +3657,10 @@
       "source_file": "tests/hedge/lexicon.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 3,
+      "community": 9,
       "norm_label": "lexicon.test.ts",
-      "id": "tests_hedge_lexicon_test",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "adversarial.test.ts",
+      "id": "tests_hedge_lexicon_test"
     },
     {
       "label": "client.test.ts",
@@ -3626,8 +3670,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "client.test.ts",
-      "id": "tests_llm_client_test",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "tests_llm_client_test"
     },
     {
       "label": "parse.test.ts",
@@ -3637,8 +3681,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "parse.test.ts",
-      "id": "tests_llm_parse_test",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "tests_llm_parse_test"
     },
     {
       "label": "Shape",
@@ -3648,8 +3692,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "shape",
-      "id": "tests_llm_parse_test_shape",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "tests_llm_parse_test_shape"
     },
     {
       "label": "seed()",
@@ -3660,8 +3704,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "seed()",
-      "id": "tests_llm_parse_test_seed",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_llm_parse_test_seed"
     },
     {
       "label": "fakeClient()",
@@ -3672,8 +3716,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "fakeclient()",
-      "id": "tests_llm_parse_test_fakeclient",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "tests_llm_parse_test_fakeclient"
     },
     {
       "label": "runner.test.ts",
@@ -3681,10 +3725,10 @@
       "source_file": "tests/pipeline/runner.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "runner.test.ts",
-      "id": "tests_pipeline_runner_test",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "tests_pipeline_runner_test"
     },
     {
       "label": "ctx()",
@@ -3695,8 +3739,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "ctx()",
-      "id": "tests_pipeline_runner_test_ctx",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_runner_test_ctx"
     },
     {
       "label": "double",
@@ -3704,10 +3748,10 @@
       "source_file": "tests/pipeline/runner.test.ts",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "double",
-      "id": "tests_pipeline_runner_test_double",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "tests_pipeline_runner_test_double"
     },
     {
       "label": "addTen",
@@ -3715,10 +3759,10 @@
       "source_file": "tests/pipeline/runner.test.ts",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 9,
+      "community": 2,
       "norm_label": "addten",
-      "id": "tests_pipeline_runner_test_addten",
-      "community_name": "Project and Session Store"
+      "community_name": "projects.ts",
+      "id": "tests_pipeline_runner_test_addten"
     },
     {
       "label": "stage0-chunk.test.ts",
@@ -3726,10 +3770,10 @@
       "source_file": "tests/pipeline/stage0-chunk.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 3,
+      "community": 2,
       "norm_label": "stage0-chunk.test.ts",
-      "id": "tests_pipeline_stage0_chunk_test",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "projects.ts",
+      "id": "tests_pipeline_stage0_chunk_test"
     },
     {
       "label": "makeSegments()",
@@ -3738,10 +3782,10 @@
       "source_location": "L5",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 2,
       "norm_label": "makesegments()",
-      "id": "tests_pipeline_stage0_chunk_test_makesegments",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "projects.ts",
+      "id": "tests_pipeline_stage0_chunk_test_makesegments"
     },
     {
       "label": "filler()",
@@ -3750,10 +3794,10 @@
       "source_location": "L22",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 2,
       "norm_label": "filler()",
-      "id": "tests_pipeline_stage0_chunk_test_filler",
-      "community_name": "Transcript Grounding and Segmentation"
+      "community_name": "projects.ts",
+      "id": "tests_pipeline_stage0_chunk_test_filler"
     },
     {
       "label": "stage1-extract.test.ts",
@@ -3763,8 +3807,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "stage1-extract.test.ts",
-      "id": "tests_pipeline_stage1_extract_test",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "tests_pipeline_stage1_extract_test"
     },
     {
       "label": "LONG",
@@ -3774,8 +3818,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "long",
-      "id": "tests_pipeline_stage1_extract_test_long",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "tests_pipeline_stage1_extract_test_long"
     },
     {
       "label": "setup()",
@@ -3786,8 +3830,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setup()",
-      "id": "tests_pipeline_stage1_extract_test_setup",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage1_extract_test_setup"
     },
     {
       "label": "stage2-validate.test.ts",
@@ -3797,8 +3841,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "stage2-validate.test.ts",
-      "id": "tests_pipeline_stage2_validate_test",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage2_validate_test"
     },
     {
       "label": "setup()",
@@ -3809,8 +3853,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setup()",
-      "id": "tests_pipeline_stage2_validate_test_setup",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage2_validate_test_setup"
     },
     {
       "label": "setupLong()",
@@ -3821,8 +3865,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setuplong()",
-      "id": "tests_pipeline_stage2_validate_test_setuplong",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage2_validate_test_setuplong"
     },
     {
       "label": "stage3-classify.test.ts",
@@ -3832,8 +3876,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "stage3-classify.test.ts",
-      "id": "tests_pipeline_stage3_classify_test",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage3_classify_test"
     },
     {
       "label": "setup()",
@@ -3844,8 +3888,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setup()",
-      "id": "tests_pipeline_stage3_classify_test_setup",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage3_classify_test_setup"
     },
     {
       "label": "stage4-reconcile.test.ts",
@@ -3855,8 +3899,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "stage4-reconcile.test.ts",
-      "id": "tests_pipeline_stage4_reconcile_test",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage4_reconcile_test"
     },
     {
       "label": "setup()",
@@ -3867,8 +3911,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setup()",
-      "id": "tests_pipeline_stage4_reconcile_test_setup",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage4_reconcile_test_setup"
     },
     {
       "label": "stage5-requirements.test.ts",
@@ -3878,8 +3922,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "stage5-requirements.test.ts",
-      "id": "tests_pipeline_stage5_requirements_test",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage5_requirements_test"
     },
     {
       "label": "setup()",
@@ -3890,8 +3934,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setup()",
-      "id": "tests_pipeline_stage5_requirements_test_setup",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage5_requirements_test_setup"
     },
     {
       "label": "stage6-stories.test.ts",
@@ -3901,8 +3945,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "stage6-stories.test.ts",
-      "id": "tests_pipeline_stage6_stories_test",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage6_stories_test"
     },
     {
       "label": "setup()",
@@ -3913,8 +3957,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setup()",
-      "id": "tests_pipeline_stage6_stories_test_setup",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage6_stories_test_setup"
     },
     {
       "label": "stage7-critique.test.ts",
@@ -3924,8 +3968,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "stage7-critique.test.ts",
-      "id": "tests_pipeline_stage7_critique_test",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage7_critique_test"
     },
     {
       "label": "setup()",
@@ -3936,8 +3980,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setup()",
-      "id": "tests_pipeline_stage7_critique_test_setup",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_pipeline_stage7_critique_test_setup"
     },
     {
       "label": "stage8-assemble.test.ts",
@@ -3947,8 +3991,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "stage8-assemble.test.ts",
-      "id": "tests_pipeline_stage8_assemble_test",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "tests_pipeline_stage8_assemble_test"
     },
     {
       "label": "LONG",
@@ -3958,8 +4002,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "long",
-      "id": "tests_pipeline_stage8_assemble_test_long",
-      "community_name": "Pipeline and Claim Processing"
+      "community_name": "projects.ts",
+      "id": "tests_pipeline_stage8_assemble_test_long"
     },
     {
       "label": "artifacts.test.ts",
@@ -3967,10 +4011,10 @@
       "source_file": "tests/store/artifacts.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "artifacts.test.ts",
-      "id": "tests_store_artifacts_test",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "createProject",
+      "id": "tests_store_artifacts_test"
     },
     {
       "label": "seed()",
@@ -3981,8 +4025,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "seed()",
-      "id": "tests_store_artifacts_test_seed",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_store_artifacts_test_seed"
     },
     {
       "label": "audit.test.ts",
@@ -3992,8 +4036,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "audit.test.ts",
-      "id": "tests_store_audit_test",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "tests_store_audit_test"
     },
     {
       "label": "seed()",
@@ -4004,8 +4048,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "seed()",
-      "id": "tests_store_audit_test_seed",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_store_audit_test_seed"
     },
     {
       "label": "claims.test.ts",
@@ -4015,8 +4059,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "claims.test.ts",
-      "id": "tests_store_claims_test",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_store_claims_test"
     },
     {
       "label": "seed()",
@@ -4027,8 +4071,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "seed()",
-      "id": "tests_store_claims_test_seed",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_store_claims_test_seed"
     },
     {
       "label": "claim()",
@@ -4039,8 +4083,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "claim()",
-      "id": "tests_store_claims_test_claim",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_store_claims_test_claim"
     },
     {
       "label": "db.test.ts",
@@ -4050,8 +4094,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "db.test.ts",
-      "id": "tests_store_db_test",
-      "community_name": "LLM Audit and Checkpoints"
+      "community_name": "db.ts",
+      "id": "tests_store_db_test"
     },
     {
       "label": "findings.test.ts",
@@ -4059,10 +4103,10 @@
       "source_file": "tests/store/findings.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "findings.test.ts",
-      "id": "tests_store_findings_test",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "createProject",
+      "id": "tests_store_findings_test"
     },
     {
       "label": "seed()",
@@ -4073,8 +4117,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "seed()",
-      "id": "tests_store_findings_test_seed",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_store_findings_test_seed"
     },
     {
       "label": "projects.test.ts",
@@ -4084,8 +4128,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "projects.test.ts",
-      "id": "tests_store_projects_test",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "tests_store_projects_test"
     },
     {
       "label": "transcripts.test.ts",
@@ -4095,8 +4139,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "transcripts.test.ts",
-      "id": "tests_store_transcripts_test",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_store_transcripts_test"
     },
     {
       "label": "seed()",
@@ -4107,8 +4151,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "seed()",
-      "id": "tests_store_transcripts_test_seed",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_store_transcripts_test_seed"
     },
     {
       "label": "domain.test.ts",
@@ -4118,8 +4162,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "domain.test.ts",
-      "id": "tests_types_domain_test",
-      "community_name": "Domain Models and Reconciliation"
+      "community_name": "domain.ts",
+      "id": "tests_types_domain_test"
     },
     {
       "label": "ids.test.ts",
@@ -4129,8 +4173,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "ids.test.ts",
-      "id": "tests_types_ids_test",
-      "community_name": "Transcript Storage and IDs"
+      "community_name": "createProject",
+      "id": "tests_types_ids_test"
     },
     {
       "label": "version.test.ts",
@@ -4140,8 +4184,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "version.test.ts",
-      "id": "tests_version_test",
-      "community_name": "CLI Snapshot and Publishing"
+      "community_name": "Db",
+      "id": "tests_version_test"
     },
     {
       "label": "tsconfig.json",
@@ -4151,8 +4195,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "tsconfig.json",
-      "id": "tsconfig",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig"
     },
     {
       "label": "compilerOptions",
@@ -4162,8 +4206,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "compileroptions",
-      "id": "tsconfig_compileroptions",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions"
     },
     {
       "label": "target",
@@ -4173,8 +4217,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "target",
-      "id": "tsconfig_compileroptions_target",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_target"
     },
     {
       "label": "module",
@@ -4184,8 +4228,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "module",
-      "id": "tsconfig_compileroptions_module",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_module"
     },
     {
       "label": "moduleResolution",
@@ -4195,8 +4239,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "moduleresolution",
-      "id": "tsconfig_compileroptions_moduleresolution",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_moduleresolution"
     },
     {
       "label": "lib",
@@ -4206,8 +4250,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "lib",
-      "id": "tsconfig_compileroptions_lib",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_lib"
     },
     {
       "label": "ES2023",
@@ -4217,8 +4261,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "es2023",
-      "id": "ref_es2023",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "ref_es2023"
     },
     {
       "label": "outDir",
@@ -4228,8 +4272,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "outdir",
-      "id": "tsconfig_compileroptions_outdir",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_outdir"
     },
     {
       "label": "rootDir",
@@ -4239,8 +4283,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "rootdir",
-      "id": "tsconfig_compileroptions_rootdir",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_rootdir"
     },
     {
       "label": "strict",
@@ -4250,8 +4294,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "strict",
-      "id": "tsconfig_compileroptions_strict",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_strict"
     },
     {
       "label": "noUncheckedIndexedAccess",
@@ -4261,8 +4305,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "nouncheckedindexedaccess",
-      "id": "tsconfig_compileroptions_nouncheckedindexedaccess",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_nouncheckedindexedaccess"
     },
     {
       "label": "noImplicitOverride",
@@ -4272,8 +4316,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "noimplicitoverride",
-      "id": "tsconfig_compileroptions_noimplicitoverride",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_noimplicitoverride"
     },
     {
       "label": "esModuleInterop",
@@ -4283,8 +4327,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "esmoduleinterop",
-      "id": "tsconfig_compileroptions_esmoduleinterop",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_esmoduleinterop"
     },
     {
       "label": "skipLibCheck",
@@ -4294,8 +4338,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "skiplibcheck",
-      "id": "tsconfig_compileroptions_skiplibcheck",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_skiplibcheck"
     },
     {
       "label": "resolveJsonModule",
@@ -4305,8 +4349,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "resolvejsonmodule",
-      "id": "tsconfig_compileroptions_resolvejsonmodule",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_resolvejsonmodule"
     },
     {
       "label": "declaration",
@@ -4316,8 +4360,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "declaration",
-      "id": "tsconfig_compileroptions_declaration",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_declaration"
     },
     {
       "label": "sourceMap",
@@ -4327,8 +4371,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "sourcemap",
-      "id": "tsconfig_compileroptions_sourcemap",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_compileroptions_sourcemap"
     },
     {
       "label": "include",
@@ -4338,8 +4382,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "include",
-      "id": "tsconfig_include",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "tsconfig_include"
     },
     {
       "label": "src/**/*.ts",
@@ -4349,8 +4393,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "src/**/*.ts",
-      "id": "ref_src_ts",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "ref_src_ts"
     },
     {
       "label": "tests/**/*.ts",
@@ -4360,8 +4404,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "tests/**/*.ts",
-      "id": "ref_tests_ts",
-      "community_name": "TypeScript Compiler Configuration"
+      "community_name": "TypeScript Compiler Configuration",
+      "id": "ref_tests_ts"
     },
     {
       "label": "vitest.config.ts",
@@ -4371,11 +4415,33 @@
       "_origin": "ast",
       "community": 10,
       "norm_label": "vitest.config.ts",
-      "id": "vitest_config",
-      "community_name": "Vitest Configuration"
+      "community_name": "Vitest Configuration",
+      "id": "vitest_config"
     }
   ],
   "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents",
+      "target": "agents_graphify",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude",
+      "target": "claude_graphify",
+      "confidence_score": 1.0
+    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -19742,5 +19808,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "416b0f152061f58c8a2ca1894dcd534a2744f532"
+  "built_at_commit": "3ddb7ab8a3f478e98aefa1d64458e841b998d337"
 }

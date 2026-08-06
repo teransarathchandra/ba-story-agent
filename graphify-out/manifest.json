@@ -9,11 +9,6 @@
     "ast_hash": "ed04a28978d429fde2245f8ede1e6795",
     "semantic_hash": "ed04a28978d429fde2245f8ede1e6795"
   },
-  "skills-lock.json": {
-    "mtime": 1786021322.880933,
-    "ast_hash": "58568623024c70d71e2158d36593703b",
-    "semantic_hash": "58568623024c70d71e2158d36593703b"
-  },
   "src/cli/index.ts": {
     "mtime": 1786042857.5056999,
     "ast_hash": "040a374373daf37d9c40d264130aa4e3",
