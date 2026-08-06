@@ -4339,7 +4339,7 @@ Expected: FAIL — cannot find module.
 ```typescript
 // src/pipeline/stage2-validate.ts
 import { validateQuote, type GroundingSource } from "../grounding/validator.js";
-import { listClaims, updateClaimValidation } from "../store/claims.js";
+import { listClaims, updateClaimValidation, countByStatus } from "../store/claims.js";
 import { getFrozenTranscript } from "../store/transcripts.js";
 import { hydrateWindow, type PipelineState } from "./state.js";
 import type { Stage } from "./runner.js";
@@ -4378,15 +4378,11 @@ export const stage2Validate: Stage<PipelineState, PipelineState> = {
       windowCharStart: 0,
     };
 
-    let validated = 0;
-    let quarantined = 0;
-
     for (const claim of listClaims(ctx.db, ctx.sessionId, { status: "candidate" })) {
       const source = windowBySegment.get(claim.segmentId) ?? wholeTranscript;
       const result = validateQuote({ quote: claim.quote, segmentId: claim.segmentId }, source);
 
       if (result.status === "validated") {
-        validated++;
         updateClaimValidation(ctx.db, claim.id, {
           status: "validated",
           charStart: result.charStart,
@@ -4395,7 +4391,6 @@ export const stage2Validate: Stage<PipelineState, PipelineState> = {
           segmentId: result.segmentId,
         });
       } else {
-        quarantined++;
         updateClaimValidation(ctx.db, claim.id, {
           status: "quarantined",
           charStart: null,
@@ -4406,7 +4401,17 @@ export const stage2Validate: Stage<PipelineState, PipelineState> = {
       }
     }
 
-    return { ...state, validated, quarantined };
+    // Derive totals from the STORE, not from local per-run counters. With
+    // counters, re-running the stage on its own output finds no candidates
+    // and returns 0/0 — silently zeroing the quarantine-rate regression
+    // canary. Reading the store makes the stage idempotent by construction
+    // rather than by callers never chaining it.
+    const counts = countByStatus(ctx.db, ctx.sessionId);
+    return {
+      ...state,
+      validated: counts["validated"] ?? 0,
+      quarantined: counts["quarantined"] ?? 0,
+    };
   },
 };
 
