@@ -236,25 +236,27 @@ describe("stage2Validate with multi-window transcript", () => {
   it("applies first-window-wins rule for overlapping segments", async () => {
     // Segment 50 is in both window 0 (charStart = 0) and window 1 (charStart = 11336).
     // The stage must always use window 0's GroundingSource for determinism.
-    // Both windows contain the full segment text, but with different windowText contexts,
-    // which affects fuzzy-match scoring if it reaches step 4.
-    const { ctx, state, windows, segments } = setupLong([50], [
-      "The validation must happen before processing,",
+    // To discriminate window selection, use a fuzzy match (punctuation difference).
+    // Window 0 will resolve at an earlier offset within its 0–11336 span;
+    // window 1 would resolve at or beyond 11336. This assertion pins the rule.
+    const { ctx, state, windows } = setupLong([50], [
+      "The validation must happen before processing;", // Semicolon instead of period (punctuation-only)
     ]);
 
     expect(windows.length).toBe(2);
-    // Segment 50 is in both windows
-    const seg50InWindow0 = windows[0]!.segments.some(s => s.id === segments[50]!.id);
-    const seg50InWindow1 = windows[1]!.segments.some(s => s.id === segments[50]!.id);
-    expect(seg50InWindow0).toBe(true);
-    expect(seg50InWindow1).toBe(true);
+    // Segment 50 is in both windows; verify window spans
+    expect(windows[0]!.charStart).toBe(0);
+    expect(windows[1]!.charStart).toBeGreaterThan(11000); // Window 1 in later chunk
 
     const out = await stage2Validate.run(ctx, state);
     const [claim] = listClaims(ctx.db, ctx.sessionId);
 
     expect(claim?.status).toBe("validated");
-    // The rule is deterministic by design: first window wins, preventing non-deterministic
-    // outcomes when a segment's fuzzy scoring depends on window context.
+    expect(claim?.matchMode).toBe("fuzzy"); // Punctuation difference forces step 4
+    // Window 0 spans segments 0-51 at charStart 0; window 1 spans 47-59 at
+    // charStart 11336. A first-window-wins resolution must land inside window 0's
+    // span (below 11336); a last-wins policy would resolve at or beyond it.
+    expect(claim!.charStart!).toBeLessThan(11336);
   });
 
   it("validates claim on segment from different transcript via wholeTranscript fallback", async () => {
