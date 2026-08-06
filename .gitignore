@@ -3,3 +3,31 @@ dist/
 *.db
 *.db-journal
 .env
+
+# Local assistant state and machine-specific hooks.
+.agents/
+.claude/settings.json
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+.claude/skills/handoff
+.gstack/
+.claude-flow/
+.codex/hooks.json
+.swarm/
+skills-lock.json
+
+# Graphify's shared graph is committed; local runtime state is not.
+graphify-out/cache/
+graphify-out/cost.json
+graphify-out/.graphify_python
+graphify-out/.graphify_root
+graphify-out/.graphify_analysis.json
+graphify-out/.graphify_detect.json
+graphify-out/.graphify_extract.json
+graphify-out/.graphify_ast.json
+graphify-out/.graphify_semantic*.json
+graphify-out/.graphify_cached.json
+graphify-out/.graphify_uncached.txt
+graphify-out/.graphify_chunk_*.json
+graphify-out/.needs_update
+graphify-out/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/

@@ -1,0 +1,4 @@
+# Graphify regenerates these files frequently. Keeping them out of Claude's
+# workspace upload preserves the prompt cache; use `graphify query` to read them.
+graph.json
+graphify-out/

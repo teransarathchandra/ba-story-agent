@@ -1,0 +1,8 @@
+# Tool configuration and coordination state are not part of the application graph.
+.agents/
+.claude/
+.claude-flow/
+.codex/
+.gstack/
+.swarm/
+graphify-out/
