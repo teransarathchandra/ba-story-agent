@@ -1,0 +1,27 @@
+BA: Thanks for making time. Can you walk me through what you need at a high level?
+
+Client: Sure. The main thing is that our warehouse staff need to be able to log in to the new system. Right now they share a single account and it causes problems when we need to know who did what.
+
+BA: Understood. Anything else about accounts?
+
+Client: Not really. Just that each person should have their own login instead of the shared one. That is the whole of it from our side.
+
+BA: Got it. And how many staff are we talking about?
+
+Client: I would have to check the exact number. It moves around with the seasonal people.
+
+BA: No problem, we can pick that up later. Anything about how they access it — desktop, mobile?
+
+Client: They are all on the warehouse terminals. Same as today.
+
+BA: Right. Is there anything else on your list for this session?
+
+Client: No, I think that covers the account side. We can talk about the picking workflow next time, that is a much bigger conversation and I would want Dagmar in the room for it since she runs that floor day to day.
+
+BA: That works. I will write up what we have and send it over.
+
+Client: Perfect. One more thing actually, the terminals are quite old, some of them are running a browser from a few years back. I do not know if that matters for you but I thought I should mention it.
+
+BA: Good to know, thank you. That is useful context for the front end.
+
+Client: No problem. Send the notes over when you have them.

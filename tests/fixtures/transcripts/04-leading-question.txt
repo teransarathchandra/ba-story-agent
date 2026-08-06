@@ -1,0 +1,33 @@
+BA: I have been thinking about the invoice screen since we last spoke.
+
+Client: Go on.
+
+BA: So you would want manager approvals on the high value ones, right? That is normally how these work.
+
+Client: Mm.
+
+BA: And presumably a threshold of around ten thousand, something like that?
+
+Client: Mm, possibly.
+
+BA: Right, and then an audit log of who approved what, that is fairly standard in your sector.
+
+Client: I suppose so, yes.
+
+BA: Good, that all sounds sensible. What about the currency, everything in euro?
+
+Client: We deal with a few. Mostly euro.
+
+BA: Let me switch to something you did mention last time. You said the picking list needs to print at the point the order is confirmed.
+
+Client: Yes, that one is definite. The list has to come off the printer in the packing area the moment the order is confirmed, otherwise the packers are standing around waiting. That is the single biggest problem we have right now and it is why we are doing this project at all.
+
+BA: Understood, printing at confirmation, in the packing area specifically.
+
+Client: In the packing area, yes. Not the office printer, that was the mistake last time.
+
+BA: Noted. Anything else that is definite?
+
+Client: Every order needs the customer reference on the picking list. The packers use it to match against the paperwork. Without that they cannot do their job.
+
+BA: Customer reference on the picking list. Got it.

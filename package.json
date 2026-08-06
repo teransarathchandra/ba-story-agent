@@ -10,6 +10,8 @@
     "build": "tsc && node -e \"require('fs').copyFileSync('src/store/schema.sql','dist/src/store/schema.sql')\"",
     "test": "vitest run",
     "test:watch": "vitest",
+    "eval": "vitest run tests/eval",
+    "eval:live": "tsx scripts/run-live-eval.ts",
     "cli": "tsx src/cli/index.ts"
   },
   "dependencies": {

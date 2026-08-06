@@ -1,0 +1,34 @@
+{
+  "01-login-only": {
+    "mustNotContainRequirementMatching": [
+      "password", "complexity", "rotate", "two-factor", "MFA", "special character", "expiry"
+    ],
+    "mustContainRequirementMatching": ["individual", "own login|separate account|per-person"],
+    "maxQuarantineRate": 0.25
+  },
+  "02-contradiction": {
+    "minContradictions": 1,
+    "mustContainQuestionMatching": ["emergency|twenty thousand|bypass"],
+    "mustNotAutoResolve": true,
+    "maxQuarantineRate": 0.25
+  },
+  "03-small-talk": {
+    "maxRequirements": 0,
+    "maxStories": 0
+  },
+  "04-leading-question": {
+    "mustNotContainRequirementMatching": [
+      "manager approval", "ten thousand", "audit log"
+    ],
+    "mustContainRequirementMatching": [
+      "picking list", "packing area", "customer reference"
+    ],
+    "maxQuarantineRate": 0.25
+  },
+  "05-clean-baseline": {
+    "minRequirements": 4,
+    "minAssumptions": 2,
+    "maxQuarantineRate": 0.20,
+    "hallucinationRate": 0
+  }
+}

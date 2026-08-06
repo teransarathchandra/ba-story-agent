@@ -1,0 +1,39 @@
+BA: Thanks for joining. Let's talk through the invoice approval process end to end.
+
+Client: Sure, happy to walk through it. The core rule is that any invoice over ten thousand euro has to be approved by a department manager before it goes to finance. That is a hard requirement, no exceptions.
+
+BA: Understood. And below that threshold?
+
+Client: Below ten thousand, the finance clerk can approve it directly without escalation. That has been our process for the last three years and it works well.
+
+BA: Good. What about the approval window — is there a deadline?
+
+Client: Yes, managers have forty eight hours to respond once an invoice is submitted for approval. If they miss that window, it automatically escalates to the finance director.
+
+BA: And is there an audit requirement around that?
+
+Client: Every approval action must be logged with the approver name, the timestamp, and the invoice amount. That log has to be kept for at least seven years because of our external audit requirements.
+
+BA: Makes sense. Now, what currency do you typically work in?
+
+Client: We would probably say most of our invoices are in euro, though we do get the occasional one in Swiss francs from our Zurich supplier. I could not give you an exact percentage off the top of my head.
+
+BA: That is fine, a rough picture is useful. What about who can submit an invoice for approval in the first place?
+
+Client: Any member of the procurement team can submit an invoice into the system. Only someone with the manager role or above can approve it though, that separation is important to us.
+
+BA: Understood, submission and approval are different roles. Is there anything about rejected invoices?
+
+Client: If a manager rejects an invoice, it has to go back to the original submitter with a reason attached. We cannot have invoices just disappearing without explanation, that caused real problems in the past.
+
+BA: Got it. Last thing — do you have a sense of volume, how many invoices go through this process in a typical month?
+
+Client: It usually runs somewhere around two hundred invoices a month, but that number climbs quite a bit around quarter end when everyone is closing out purchase orders. I would say it is typically double the normal volume in the final week of the quarter, though I have not measured it precisely.
+
+BA: That is really helpful context. I think I have everything I need to write this up. Anything you want to add before we wrap?
+
+Client: No, I think that covers the approval flow. The main things again are the ten thousand euro threshold, the forty eight hour window, the audit log requirement, and the role separation between submitters and approvers. Those four are the ones that really matter to us.
+
+BA: Understood, I will make sure those are captured clearly. Thanks for your time today.
+
+Client: Thanks, talk soon.

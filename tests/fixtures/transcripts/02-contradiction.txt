@@ -1,0 +1,27 @@
+BA: Let us talk about the approval flow for purchase orders.
+
+Client: Anything over five thousand euro has to be signed off by a department head. That is a hard rule from finance.
+
+BA: Understood, five thousand and above goes to a department head.
+
+Client: Correct. It has been that way since the audit two years ago and it is not negotiable.
+
+BA: Good. Now what about the timing — is there a deadline on that approval?
+
+Client: Two working days. If they have not responded in two working days it goes up to the finance director automatically.
+
+BA: That is clear. And does anything bypass that?
+
+Client: No, nothing bypasses it.
+
+BA: Let me ask about emergency purchases, because that came up with another client in your sector.
+
+Client: Ah yes. For emergencies any manager can approve up to twenty thousand euro without going to a department head. We set that up during the supply chain problems and it stayed.
+
+BA: So an emergency purchase of fifteen thousand can be approved by any manager, without department head sign off.
+
+Client: Yes exactly. Emergencies are different.
+
+BA: Understood, I will note both. Anything else on approvals?
+
+Client: That is the main shape of it. We should probably also talk about what counts as an emergency but that is a longer conversation with the operations team.
