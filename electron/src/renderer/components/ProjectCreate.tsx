@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { FolderPlus, X, Loader } from 'lucide-react'
+import { showErrorToast, showSuccessToast } from '../utils/errors'
 
 interface Props {
   onCreated: (project: any) => void
@@ -10,13 +11,17 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
   const [name, setName] = useState('')
   const [domain, setDomain] = useState('')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim() || !domain.trim()) return
+
+    if (domain.trim().length < 10) {
+      showErrorToast('Business domain must be at least 10 characters (e.g. B2B freight invoicing for logistics operators)')
+      return
+    }
+
     setLoading(true)
-    setError(null)
     try {
       const project = await window.api.project.create({
         name: name.trim(),
@@ -24,9 +29,10 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
         regulatory: 'none',
         systemName: undefined,
       })
+      showSuccessToast(`Project "${project.name}" created`)
       onCreated(project)
     } catch (err: any) {
-      setError(err.message ?? 'Failed to create project')
+      showErrorToast(err, 'Failed to create project')
     } finally {
       setLoading(false)
     }
@@ -66,17 +72,12 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
               onChange={e => setDomain(e.target.value)}
               placeholder="e.g. B2B freight invoicing for logistics operators"
               required
+              minLength={10}
             />
             <p className="text-xs text-slate-500 mt-1">
-              Short summary of what this business does. Used by AI to extract domain concepts.
+              At least 10 characters describing the business area (e.g. B2B freight invoicing for logistics operators).
             </p>
           </div>
-
-          {error && (
-            <div className="text-sm text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-md px-3 py-2">
-              {error}
-            </div>
-          )}
 
           <div className="flex justify-end gap-2 pt-2">
             <button type="button" className="btn btn-ghost" onClick={onCancel}>
@@ -85,7 +86,7 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={loading || !name.trim() || !domain.trim()}
+              disabled={loading || !name.trim() || domain.trim().length < 10}
             >
               {loading ? <Loader size={14} className="animate-spin" /> : <FolderPlus size={14} />}
               {loading ? 'Creating...' : 'Create project'}

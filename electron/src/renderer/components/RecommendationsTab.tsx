@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { Sparkles, CheckCircle, X, AlertCircle } from 'lucide-react'
+import { showErrorToast, showSuccessToast } from '../utils/errors'
 
 interface Props {
   projectId: string
@@ -61,7 +62,9 @@ export default function RecommendationsTab({ projectId, onSelectClaim, onChanged
   const [decliningId, setDecliningId] = useState<string | null>(null)
 
   const load = useCallback(() => {
-    window.api.recommendation.list(projectId).then(setItems).catch(console.error)
+    window.api.recommendation.list(projectId).then(setItems).catch(err => {
+      showErrorToast(err, 'Failed to load recommendations')
+    })
   }, [projectId])
 
   useEffect(() => { load() }, [load])
@@ -69,21 +72,23 @@ export default function RecommendationsTab({ projectId, onSelectClaim, onChanged
   const handleAccept = async (rec: Recommendation) => {
     try {
       await window.api.recommendation.accept({ recommendationId: rec.id, asRequirement: false })
+      showSuccessToast(`Accepted recommendation ${rec.key}`)
       load()
       onChanged()
     } catch (e: any) {
-      console.error(e.message)
+      showErrorToast(e, 'Failed to accept recommendation')
     }
   }
 
   const handleDecline = async (rec: Recommendation, reason: string) => {
     try {
       await window.api.recommendation.decline({ recommendationId: rec.id, reason })
+      showSuccessToast(`Declined recommendation ${rec.key}`)
       setDecliningId(null)
       load()
       onChanged()
     } catch (e: any) {
-      console.error(e.message)
+      showErrorToast(e, 'Failed to decline recommendation')
     }
   }
 

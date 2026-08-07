@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { Upload, FileText, X, Loader, AlertCircle } from 'lucide-react'
+import { showErrorToast, showSuccessToast } from '../utils/errors'
 
 interface Props {
   projectId: string
@@ -12,7 +13,6 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
   const [transcriptText, setTranscriptText] = useState('')
   const [occurredAt, setOccurredAt] = useState(new Date().toISOString().slice(0, 10))
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
   const [wordCount, setWordCount] = useState(0)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -40,8 +40,13 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!title.trim() || !transcriptText.trim()) return
+
+    if (wordCount < MIN_WORDS) {
+      showErrorToast(`Transcript must be at least ${MIN_WORDS} words (currently ${wordCount} words)`)
+      return
+    }
+
     setLoading(true)
-    setError(null)
     try {
       const session = await window.api.session.add({
         projectId,
@@ -49,9 +54,10 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
         transcriptText,
         occurredAt: new Date(occurredAt).toISOString(),
       })
+      showSuccessToast(`Session "${session.title}" added`)
       onAdded(session)
     } catch (err: any) {
-      setError(err.message ?? 'Failed to add session')
+      showErrorToast(err, 'Failed to add session')
     } finally {
       setLoading(false)
     }
@@ -71,7 +77,7 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
             <h2 className="modal-title">Add session</h2>
             <p className="modal-description">Upload or paste a meeting transcript.</p>
           </div>
-          <button onClick={onCancel} className="icon-button" aria-label="Close add session dialog">
+          <button onClick={onCancel} className="icon-button" aria-label="Close dialog">
             <X size={16} />
           </button>
         </div>
@@ -128,7 +134,7 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
               className="input"
               value={transcriptText}
               onChange={e => handleTextChange(e.target.value)}
-              placeholder="Paste the meeting transcript here, or load from a .txt file…"
+              placeholder="Paste the meeting transcript here, or load from a .txt file..."
               style={{ minHeight: 180, fontFamily: 'inherit', fontSize: 13 }}
               required
             />
@@ -140,12 +146,6 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
             )}
           </div>
 
-          {error && (
-            <div className="text-sm text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-md px-3 py-2">
-              {error}
-            </div>
-          )}
-
           <div className="flex justify-end gap-2 pt-2">
             <button type="button" className="btn btn-ghost" onClick={onCancel}>
               Cancel
@@ -156,7 +156,7 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
               disabled={loading || !title.trim() || wordCount < MIN_WORDS}
             >
               {loading ? <Loader size={14} className="animate-spin" /> : <FileText size={14} />}
-              {loading ? 'Adding…' : 'Add session'}
+              {loading ? 'Adding...' : 'Add session'}
             </button>
           </div>
         </form>

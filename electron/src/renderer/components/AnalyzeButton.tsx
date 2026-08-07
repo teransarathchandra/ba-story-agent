@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Play, Loader, CheckCircle, AlertCircle, ChevronRight } from 'lucide-react'
+import { showErrorToast, showSuccessToast } from '../utils/errors'
 
 interface Props {
   sessionId: string
@@ -59,9 +60,11 @@ export default function AnalyzeButton({ sessionId, sessionTitle, onComplete }: P
       const res = await window.api.session.analyze({ sessionId, resume: false })
       setResult(res)
       setState('done')
+      showSuccessToast(`Analysis complete: extracted ${res.requirements ?? 0} requirements`)
       onComplete()
     } catch (err: any) {
-      setError(err.message ?? 'Analysis failed')
+      const formatted = showErrorToast(err, 'Analysis failed')
+      setError(formatted)
       setState('error')
     }
   }

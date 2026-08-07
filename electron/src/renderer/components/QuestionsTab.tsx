@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { HelpCircle, ChevronRight, Copy, Check } from 'lucide-react'
+import { showErrorToast, showSuccessToast } from '../utils/errors'
 
 interface Props {
   projectId: string
@@ -32,7 +33,9 @@ export default function QuestionsTab({ projectId, onSelectClaim, onChanged }: Pr
   const [copied, setCopied] = useState(false)
 
   const load = useCallback(() => {
-    window.api.question.list(projectId).then(setItems).catch(console.error)
+    window.api.question.list(projectId).then(setItems).catch(err => {
+      showErrorToast(err, 'Failed to load open questions')
+    })
   }, [projectId])
 
   useEffect(() => { load() }, [load])
@@ -42,10 +45,11 @@ export default function QuestionsTab({ projectId, onSelectClaim, onChanged }: Pr
     if (!meta?.next) return
     try {
       await window.api.question.updateStatus({ questionId: q.id, status: meta.next })
+      showSuccessToast(`Updated ${q.key} status to ${meta.next}`)
       load()
       onChanged()
     } catch (e: any) {
-      console.error(e.message)
+      showErrorToast(e, 'Failed to update question status')
     }
   }
 

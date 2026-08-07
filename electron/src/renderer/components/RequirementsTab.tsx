@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { Check, X, Edit3, ChevronDown, ChevronUp, Quote } from 'lucide-react'
+import { showErrorToast, showSuccessToast } from '../utils/errors'
 
 interface Props {
   projectId: string
@@ -60,7 +61,9 @@ export default function RequirementsTab({ projectId, onSelectClaim, selectedClai
   const [rejectingId, setRejectingId] = useState<string | null>(null)
 
   const load = useCallback(() => {
-    window.api.requirement.list(projectId).then(setItems).catch(console.error)
+    window.api.requirement.list(projectId).then(setItems).catch(err => {
+      showErrorToast(err, 'Failed to load requirements')
+    })
   }, [projectId])
 
   useEffect(() => { load() }, [load])
@@ -77,21 +80,23 @@ export default function RequirementsTab({ projectId, onSelectClaim, selectedClai
   const handleApprove = async (req: Requirement) => {
     try {
       await window.api.requirement.approve({ requirementId: req.id, projectId })
+      showSuccessToast(`Approved ${req.key}`)
       load()
       onChanged()
     } catch (e: any) {
-      console.error(e.message)
+      showErrorToast(e, 'Failed to approve requirement')
     }
   }
 
   const handleReject = async (req: Requirement, reason: string) => {
     try {
       await window.api.requirement.reject({ requirementId: req.id, projectId, reason })
+      showSuccessToast(`Rejected ${req.key}`)
       setRejectingId(null)
       load()
       onChanged()
     } catch (e: any) {
-      console.error(e.message)
+      showErrorToast(e, 'Failed to reject requirement')
     }
   }
 

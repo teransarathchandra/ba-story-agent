@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { AlertTriangle, ArrowUpCircle, MessageSquare, Quote } from 'lucide-react'
+import { showErrorToast, showSuccessToast } from '../utils/errors'
 
 interface Props {
   projectId: string
@@ -89,7 +90,9 @@ export default function AssumptionsTab({ projectId, onSelectClaim, selectedClaim
   const [promotingClaim, setPromotingClaim] = useState<Claim | null>(null)
 
   const load = useCallback(() => {
-    window.api.assumption.list(projectId).then(setItems).catch(console.error)
+    window.api.assumption.list(projectId).then(setItems).catch(err => {
+      showErrorToast(err, 'Failed to load assumptions')
+    })
   }, [projectId])
 
   useEffect(() => { load() }, [load])
@@ -101,11 +104,12 @@ export default function AssumptionsTab({ projectId, onSelectClaim, selectedClaim
         projectId,
         verificationNote: note,
       })
+      showSuccessToast('Promoted assumption to requirement')
       setPromotingClaim(null)
       load()
       onChanged()
     } catch (e: any) {
-      console.error(e.message)
+      showErrorToast(e, 'Failed to promote assumption')
     }
   }
 
