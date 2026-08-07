@@ -158,3 +158,137 @@ export function getFrozenTranscript(
     .all(row.id) as SegmentRow[];
   return { transcript: toTranscript(row), segments: segRows.map(toSegment) };
 }
+
+export interface TranscriptAmendmentResult {
+  transcript: Transcript;
+  invalidated: {
+    claims: number;
+    requirements: number;
+    stories: number;
+    questions: number;
+    recommendations: number;
+    checkpoints: number;
+  };
+}
+
+interface RequirementOriginRow {
+  id: string;
+  origin: string;
+  origin_claim_ids: string;
+}
+
+interface StoryRequirementRow {
+  id: string;
+  requirement_ids: string;
+}
+
+/**
+ * Save an amended transcript as a new immutable version and invalidate output
+ * grounded in the previous version. Earlier transcript versions remain in the
+ * database for audit history, while the session returns to draft for analysis.
+ */
+export function amendTranscript(
+  db: Db,
+  input: { sessionId: string; text: string },
+): TranscriptAmendmentResult {
+  const session = db
+    .prepare("SELECT project_id FROM sessions WHERE id = ?")
+    .get(input.sessionId) as { project_id: string } | undefined;
+  if (!session) throw new Error(`Session ${input.sessionId} not found`);
+
+  const current = getFrozenTranscript(db, input.sessionId);
+  if (!current) throw new Error(`Session ${input.sessionId} has no frozen transcript`);
+  if (hashText(input.text) === current.transcript.contentHash) {
+    throw new Error("The amended transcript is identical to the current version.");
+  }
+
+  return db.transaction(() => {
+    const claimRows = db
+      .prepare("SELECT id FROM claims WHERE session_id = ?")
+      .all(input.sessionId) as { id: string }[];
+    const staleClaimIds = new Set(claimRows.map((row) => row.id));
+
+    const requirementRows = db
+      .prepare("SELECT id, origin, origin_claim_ids FROM requirements WHERE project_id = ?")
+      .all(session.project_id) as RequirementOriginRow[];
+    const removedRequirementIds = new Set<string>();
+
+    for (const requirement of requirementRows) {
+      const originClaimIds = JSON.parse(requirement.origin_claim_ids) as string[];
+      const remainingClaimIds = originClaimIds.filter((id) => !staleClaimIds.has(id));
+      if (remainingClaimIds.length === originClaimIds.length) continue;
+
+      if (requirement.origin === "client-stated" && remainingClaimIds.length === 0) {
+        db.prepare("DELETE FROM requirements WHERE id = ?").run(requirement.id);
+        removedRequirementIds.add(requirement.id);
+      } else {
+        db.prepare("UPDATE requirements SET origin_claim_ids = ? WHERE id = ?")
+          .run(JSON.stringify(remainingClaimIds), requirement.id);
+      }
+    }
+
+    let removedStories = 0;
+    if (removedRequirementIds.size > 0) {
+      const storyRows = db
+        .prepare("SELECT id, requirement_ids FROM stories WHERE project_id = ?")
+        .all(session.project_id) as StoryRequirementRow[];
+      for (const story of storyRows) {
+        const requirementIds = JSON.parse(story.requirement_ids) as string[];
+        const remainingRequirementIds = requirementIds.filter((id) => !removedRequirementIds.has(id));
+        if (remainingRequirementIds.length === requirementIds.length) continue;
+        if (remainingRequirementIds.length === 0) {
+          removedStories += db.prepare("DELETE FROM stories WHERE id = ?").run(story.id).changes;
+        } else {
+          db.prepare("UPDATE stories SET requirement_ids = ? WHERE id = ?")
+            .run(JSON.stringify(remainingRequirementIds), story.id);
+        }
+      }
+    }
+
+    // Derived questions can be linked from acceptance criteria without a
+    // database-level foreign key, so remove those references explicitly.
+    db.prepare(
+      `UPDATE acceptance_criteria
+       SET linked_question_id = NULL
+       WHERE linked_question_id IN (
+         SELECT id FROM open_questions WHERE raised_by_session_id = ?
+       )`,
+    ).run(input.sessionId);
+
+    // Answers supplied by this session are no longer grounded after an edit.
+    db.prepare(
+      `UPDATE open_questions
+       SET status = 'open', answer_text = NULL, answered_by_session_id = NULL
+       WHERE answered_by_session_id = ? AND raised_by_session_id <> ?`,
+    ).run(input.sessionId, input.sessionId);
+
+    const removedRecommendations = db
+      .prepare("DELETE FROM recommendations WHERE raised_by_session_id = ?")
+      .run(input.sessionId).changes;
+    const removedQuestions = db
+      .prepare("DELETE FROM open_questions WHERE raised_by_session_id = ?")
+      .run(input.sessionId).changes;
+    const removedCheckpoints = db
+      .prepare("DELETE FROM stage_checkpoints WHERE session_id = ?")
+      .run(input.sessionId).changes;
+    const removedClaims = db
+      .prepare("DELETE FROM claims WHERE session_id = ?")
+      .run(input.sessionId).changes;
+
+    db.prepare("UPDATE sessions SET status = 'draft' WHERE id = ?").run(input.sessionId);
+    const { transcript } = createTranscript(db, input);
+    const frozen = freezeTranscript(db, transcript.id);
+
+    return {
+      transcript: frozen,
+      invalidated: {
+        claims: removedClaims,
+        requirements: removedRequirementIds.size,
+        stories: removedStories,
+        questions: removedQuestions,
+        recommendations: removedRecommendations,
+        checkpoints: removedCheckpoints,
+      },
+    };
+  })();
+}
