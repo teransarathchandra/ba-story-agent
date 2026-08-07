@@ -8,6 +8,8 @@ import { countByStatus } from "../store/claims.js";
 import { listRequirements, listStories } from "../store/artifacts.js";
 import { listQuestions, listRecommendations } from "../store/findings.js";
 import { createClient, AnthropicBackend } from "../llm/client.js";
+import { loadLocalBackend } from "../llm/local-client.js";
+import type { LlmBackend } from "../llm/backend.js";
 import { analyzeSession, quarantineRate } from "../pipeline/index.js";
 import { countWords, MIN_WORDS } from "../pipeline/stage0-chunk.js";
 import { buildSnapshot } from "../export/snapshot.js";
@@ -16,9 +18,20 @@ import { markdownPublisher } from "../export/markdown.js";
 import { recordApproval } from "../store/audit.js";
 import { setRequirementStatus } from "../store/artifacts.js";
 import { hashText } from "../store/transcripts.js";
-import { RegulatoryContext } from "../types/domain.js";
+import { RegulatoryContext, LlmBackendSetting } from "../types/domain.js";
 
 type Log = (line: string) => void;
+
+async function selectBackend(
+  llmBackend: "claude" | "local",
+  log: Log,
+): Promise<{ client: LlmBackend; release: () => Promise<void> }> {
+  if (llmBackend === "local") {
+    const { backend, release } = await loadLocalBackend({ log });
+    return { client: backend, release };
+  }
+  return { client: new AnthropicBackend(createClient()), release: async () => {} };
+}
 
 export function buildProgram(opts?: { log?: Log }): Command {
   const log: Log = opts?.log ?? ((s) => process.stdout.write(`${s}\n`));
@@ -42,22 +55,26 @@ export function buildProgram(opts?: { log?: Log }): Command {
     .option("--regulatory <context>", "none | GDPR | HIPAA | PCI-DSS | SOC2", "none")
     .option("--system-name <name>")
     .option("--glossary-file <path>")
+    .option("--llm-backend <backend>", "claude | local", "claude")
     .action(function (this: Command, o: {
       name: string; domain: string; regulatory: string;
-      systemName?: string; glossaryFile?: string;
+      systemName?: string; glossaryFile?: string; llmBackend: string;
     }) {
       const db = openDb(dbPath(this));
       const regulatory = RegulatoryContext.parse(o.regulatory);
+      const llmBackend = LlmBackendSetting.parse(o.llmBackend);
       const p = createProject(db, {
         name: o.name,
         domain: o.domain,
         regulatoryContext: regulatory,
         systemName: o.systemName ?? null,
         glossary: o.glossaryFile ? readFileSync(o.glossaryFile, "utf8") : null,
+        llmBackend,
       });
       log(`Created project ${p.id}`);
-      log(`  name:   ${p.name}`);
-      log(`  domain: ${p.domain}`);
+      log(`  name:        ${p.name}`);
+      log(`  domain:      ${p.domain}`);
+      log(`  llmBackend:  ${p.llmBackend}`);
     });
 
   const session = program.command("session").description("manage sessions");
@@ -100,27 +117,34 @@ export function buildProgram(opts?: { log?: Log }): Command {
         .prepare("SELECT project_id FROM sessions WHERE id = ?")
         .get(o.session) as { project_id: string } | undefined;
       if (!row) throw new Error(`session ${o.session} not found`);
+      const project = getProject(db, row.project_id);
+      if (!project) throw new Error(`project ${row.project_id} not found`);
 
-      const state = await analyzeSession(
-        { db, client: new AnthropicBackend(createClient()), projectId: row.project_id, sessionId: o.session },
-        frozen.transcript.id,
-        {
-          resume: o.resume,
-          onProgress: (name, status) => log(`  [${status.padEnd(8)}] ${name}`),
-        },
-      );
+      const { client, release } = await selectBackend(project.llmBackend, log);
+      try {
+        const state = await analyzeSession(
+          { db, client, projectId: row.project_id, sessionId: o.session },
+          frozen.transcript.id,
+          {
+            resume: o.resume,
+            onProgress: (name, status) => log(`  [${status.padEnd(8)}] ${name}`),
+          },
+        );
 
-      log("");
-      log(`Extracted:      ${state.extracted}`);
-      log(`Validated:      ${state.validated}`);
-      log(`Quarantined:    ${state.quarantined} (${(quarantineRate(state) * 100).toFixed(1)}%)`);
-      log(`Requirements:   ${state.requirements}`);
-      log(`Stories:        ${state.stories}`);
-      log(`Open questions: ${state.questions}`);
-      log(`Recommendations:${state.recommendations}`);
-      if (state.extracted === 0) {
         log("");
-        log("No requirements were found in this transcript.");
+        log(`Extracted:      ${state.extracted}`);
+        log(`Validated:      ${state.validated}`);
+        log(`Quarantined:    ${state.quarantined} (${(quarantineRate(state) * 100).toFixed(1)}%)`);
+        log(`Requirements:   ${state.requirements}`);
+        log(`Stories:        ${state.stories}`);
+        log(`Open questions: ${state.questions}`);
+        log(`Recommendations:${state.recommendations}`);
+        if (state.extracted === 0) {
+          log("");
+          log("No requirements were found in this transcript.");
+        }
+      } finally {
+        await release();
       }
     });
 
