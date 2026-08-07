@@ -22,6 +22,15 @@ import type { Claim, Requirement, Story, AcceptanceCriterion, Project, Segment }
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MODEL_URI = "hf:bartowski/Qwen2.5-7B-Instruct-GGUF/Qwen2.5-7B-Instruct-Q4_K_M.gguf";
 
+// Task 2 found that node-llama-cpp's implicit temperature default (0, pure
+// greedy decoding) collapses grammar-constrained generation to the trivially
+// -valid empty-array completion for every one of this project's six schemas
+// (none have `minItems`). 0.4 and 0.7 also failed; 1.1 produced correct,
+// complete output for ExtractedClaimsSchema. This is a starting point for
+// this throughput measurement, not a proven-safe production value — Task 5
+// should tune/sweep it per schema before shipping.
+const TEMPERATURE = 1.1;
+
 // Representative real input, not a synthetic toy prompt: the same fixture
 // the adversarial suite already uses for its "clean" baseline.
 const transcript = readFileSync(
@@ -93,9 +102,15 @@ async function main() {
   console.log(`Resolving model (downloads on first run — this can take a while): ${MODEL_URI}`);
   const modelPath = await resolveModelFile(MODEL_URI, { cli: true });
 
-  const llama = await getLlama();
+  // gpu: false forces CPU-only inference. This machine is Apple Silicon,
+  // where getLlama()'s default ("auto") picks Metal acceleration — not
+  // representative of the target CPU-only Windows-laptop case this
+  // throughput measurement is for.
+  const llama = await getLlama({ gpu: false });
+  console.log(`GPU backend: ${llama.gpu} (false = CPU-only)`);
   const model = await llama.loadModel({ modelPath });
   const context = await model.createContext();
+  console.log(`context.contextSize: ${context.contextSize}`);
   const sequence = context.getSequence();
 
   // One representative check per schema. This is a compatibility/quality
@@ -123,7 +138,12 @@ async function main() {
     const grammar = await llama.createGrammarForJsonSchema(gbnf);
     const session = new LlamaChatSession({ contextSequence: sequence, systemPrompt: system });
 
-    const raw = await session.prompt(user, { grammar, maxTokens: context.contextSize });
+    const start = performance.now();
+    const raw = await session.prompt(user, { grammar, maxTokens: context.contextSize, temperature: TEMPERATURE });
+    const elapsedSeconds = (performance.now() - start) / 1000;
+    const outputTokens = model.tokenize(raw).length;
+    const tokensPerSecond = outputTokens / elapsedSeconds;
+    console.log(`${name}: ${outputTokens} tokens in ${elapsedSeconds.toFixed(1)}s = ${tokensPerSecond.toFixed(1)} tok/s`);
 
     let grammarParseOk = true;
     let parsed: unknown = null;
