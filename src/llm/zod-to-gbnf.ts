@@ -18,6 +18,13 @@ interface NullableDef {
   innerType: z.ZodType;
 }
 
+const IMMUTABLE_TYPES = ["string", "number", "integer", "boolean"] as const;
+function isNullableImmutableType(
+  t: unknown,
+): t is (typeof IMMUTABLE_TYPES)[number] {
+  return IMMUTABLE_TYPES.includes(t as never);
+}
+
 /**
  * Walks a Zod schema's public `.def` shape directly (not via Zod's own
  * toJSONSchema) so the output is under full control and anything this
@@ -53,13 +60,13 @@ export function zodToGbnfSchema(schema: z.ZodType): GbnfJsonSchema {
     case "nullable": {
       const { innerType } = def as unknown as NullableDef;
       const inner = zodToGbnfSchema(innerType);
-      if (!("type" in inner) || Array.isArray(inner.type)) {
+      if (!("type" in inner) || !isNullableImmutableType(inner.type)) {
         throw new Error(
           `zodToGbnfSchema: cannot make ${JSON.stringify(inner)} nullable — ` +
             `only a basic single-typed schema (string/number/integer/boolean) can be widened to include "null"`,
         );
       }
-      return { type: [inner.type as string, "null"] } as GbnfJsonSchema;
+      return { type: [inner.type, "null"] };
     }
     default:
       throw new Error(

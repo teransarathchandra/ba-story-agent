@@ -48,6 +48,11 @@ describe("zodToGbnfSchema", () => {
     expect(() => zodToGbnfSchema(z.object({ n: z.number() }))).toThrow(/unsupported zod type/);
   });
 
+  it("throws when nullable wraps an object or array instead of silently producing an invalid schema", () => {
+    expect(() => zodToGbnfSchema(z.object({ a: z.string() }).nullable())).toThrow(/cannot make/);
+    expect(() => zodToGbnfSchema(z.array(z.string()).nullable())).toThrow(/cannot make/);
+  });
+
   const productionSchemas = {
     ExtractedClaimsSchema, ClassificationSchema, ReconcileSchema,
     RequirementDraftsSchema, StoryDraftsSchema, CritiqueFindingsSchema,
