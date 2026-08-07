@@ -6,20 +6,71 @@ const mockGrammar = { parse: vi.fn() };
 const mockSession = { prompt: vi.fn(), dispose: vi.fn() };
 const mockLlama = { createGrammarForJsonSchema: vi.fn() };
 const mockModel = { tokenize: vi.fn((t: string) => t.split(/\s+/)) };
-const mockSequence = {};
+
+// A TokenMeter-shaped mock: usedInputTokens/usedOutputTokens accumulate via
+// useTokens() (mirroring the real node-llama-cpp TokenMeter, which tracks
+// actual engine-processed tokens on a running total owned by the sequence),
+// getState() snapshots them, and diff() computes the delta against a prior
+// snapshot — exactly the shape LocalBackend.generate() now relies on for
+// usage accounting instead of re-tokenizing raw text (Finding 3).
+function makeMockTokenMeter() {
+  let usedInputTokens = 0;
+  let usedOutputTokens = 0;
+  return {
+    useTokens(tokens: number, type: "input" | "output") {
+      if (type === "input") usedInputTokens += tokens;
+      else usedOutputTokens += tokens;
+    },
+    getState: vi.fn(() => ({ usedInputTokens, usedOutputTokens })),
+    diff: vi.fn((start: { usedInputTokens: number; usedOutputTokens: number }) => ({
+      usedInputTokens: usedInputTokens - start.usedInputTokens,
+      usedOutputTokens: usedOutputTokens - start.usedOutputTokens,
+    })),
+  };
+}
+
+// Each mockContext.getSequence() call returns a fresh sequence object (own
+// tokenMeter, own dispose spy) — mirroring the real LlamaContext handing out
+// independent LlamaContextSequences per call. This is exactly the behavior
+// Finding 1 requires LocalBackend.generate() to rely on instead of sharing
+// one sequence across the backend's whole lifetime.
+function makeMockSequence() {
+  return { dispose: vi.fn(), tokenMeter: makeMockTokenMeter() };
+}
+const mockContext = { getSequence: vi.fn(() => makeMockSequence()) };
 
 vi.mock("node-llama-cpp", () => ({
   getLlama: vi.fn(),
   resolveModelFile: vi.fn(),
-  LlamaChatSession: vi.fn().mockImplementation(() => mockSession),
+  LlamaChatSession: vi.fn().mockImplementation(
+    (opts: { contextSequence: ReturnType<typeof makeMockSequence>; systemPrompt: string }) => ({
+      // Routes through the shared mockSession.prompt mock so existing tests
+      // keep controlling return values via mockResolvedValue(Once), while
+      // also simulating node-llama-cpp's real behavior: every prompt() call
+      // advances the underlying sequence's tokenMeter by the tokens it
+      // actually processed. Uses the same whitespace-split heuristic the
+      // old tokenize()-based accounting used, so numeric token-count
+      // assertions carry over unchanged while now exercising the
+      // tokenMeter-diff code path (Finding 3) instead of re-tokenization.
+      prompt: async (user: string, options: unknown) => {
+        const raw: unknown = await mockSession.prompt(user, options);
+        opts.contextSequence.tokenMeter.useTokens(`${opts.systemPrompt}\n\n${user}`.split(/\s+/).length, "input");
+        opts.contextSequence.tokenMeter.useTokens(String(raw).split(/\s+/).length, "output");
+        return raw;
+      },
+      dispose: mockSession.dispose,
+    }),
+  ),
 }));
 
-import { LocalBackend } from "../../src/llm/local-client.js";
+import { getLlama, resolveModelFile } from "node-llama-cpp";
+import { LocalBackend, loadLocalBackend, MAX_CONCURRENT_SEQUENCES } from "../../src/llm/local-client.js";
 
 describe("LocalBackend", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockLlama.createGrammarForJsonSchema.mockResolvedValue(mockGrammar);
+    mockContext.getSequence.mockImplementation(() => makeMockSequence());
   });
 
   it("builds a grammar from the schema and returns the parsed output on valid generation", async () => {
@@ -32,7 +83,7 @@ describe("LocalBackend", () => {
     mockSession.prompt.mockResolvedValue('{"ok":"yes"}');
     mockGrammar.parse.mockReturnValue({ ok: "yes" });
 
-    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockSequence as never, "test-model");
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
     const result = await backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) });
 
     expect(result.parsedOutput).toEqual({ ok: "yes" });
@@ -49,7 +100,7 @@ describe("LocalBackend", () => {
       throw new Error("parse failed");
     });
 
-    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockSequence as never, "test-model");
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
     const result = await backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) });
 
     expect(result.parsedOutput).toBeNull();
@@ -70,7 +121,7 @@ describe("LocalBackend", () => {
       })
       .mockImplementationOnce((raw: string) => JSON.parse(raw) as unknown);
 
-    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockSequence as never, "test-model");
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
     const result = await backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) });
 
     expect(result.parsedOutput).toEqual({ ok: "yes" });
@@ -85,7 +136,7 @@ describe("LocalBackend", () => {
   });
 
   it("reports the configured model identifier", () => {
-    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockSequence as never, "test-model");
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
     expect(backend.model).toBe("test-model");
   });
 
@@ -95,7 +146,7 @@ describe("LocalBackend", () => {
     mockSession.prompt.mockResolvedValueOnce('{"items":[]}').mockResolvedValueOnce('{"items":["a"]}');
     mockGrammar.parse.mockImplementation((raw: string) => JSON.parse(raw) as unknown);
 
-    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockSequence as never, "test-model");
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
     const result = await backend.generate({
       system: "sys",
       user: "usr",
@@ -114,18 +165,22 @@ describe("LocalBackend", () => {
     expect(secondOptions.temperature as number).toBeGreaterThan(firstOptions.temperature as number);
   });
 
-  it("accumulates usage across all attempts (discarded retries included), not just the final one", async () => {
+  it("accumulates usage across all attempts (discarded retries included), not just the final one, via the sequence's tokenMeter", async () => {
     // Attempt 0 is a degenerate-empty result (discarded and retried);
     // attempt 1 succeeds. Raws are deliberately different token counts (via
     // internal whitespace, which does not affect JSON.parse) so a correct
     // sum-across-attempts is distinguishable from a buggy last-attempt-only
-    // count.
+    // count. Both attempts run against the SAME sequence (one sequence per
+    // generate() call, shared across its sequential retry attempts — see
+    // Finding 1), so its tokenMeter accumulates both attempts automatically;
+    // this test is really asserting that the before/after tokenMeter diff at
+    // the end of generate() correctly captures that running total.
     mockSession.prompt
       .mockResolvedValueOnce('{"items":[]}') // tokenizes (split on whitespace) to 1 token
       .mockResolvedValueOnce('{"items": ["a","b","c"]}'); // tokenizes to 2 tokens
     mockGrammar.parse.mockImplementation((raw: string) => JSON.parse(raw) as unknown);
 
-    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockSequence as never, "test-model");
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
     const result = await backend.generate({
       system: "sys",
       user: "usr",
@@ -146,11 +201,21 @@ describe("LocalBackend", () => {
     expect(result.usage?.input_tokens).toBe(4);
   });
 
+  it("does not re-tokenize raw text for usage accounting (Finding 3: uses the sequence's tokenMeter instead)", async () => {
+    mockSession.prompt.mockResolvedValue('{"ok":"yes"}');
+    mockGrammar.parse.mockReturnValue({ ok: "yes" });
+
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
+    await backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) });
+
+    expect(mockModel.tokenize).not.toHaveBeenCalled();
+  });
+
   it("gives up cleanly after exhausting retries and returns the last (still degenerate) attempt instead of throwing", async () => {
     mockSession.prompt.mockResolvedValue('{"items":[]}');
     mockGrammar.parse.mockImplementation((raw: string) => JSON.parse(raw) as unknown);
 
-    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockSequence as never, "test-model");
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
     const result = await backend.generate({
       system: "sys",
       user: "usr",
@@ -172,5 +237,153 @@ describe("LocalBackend", () => {
     for (let i = 1; i < temperatures.length; i++) {
       expect(temperatures[i]!).toBeGreaterThan(temperatures[i - 1]!);
     }
+  });
+
+  it("Finding 1: allocates a fresh sequence per generate() call, not one shared for the backend's lifetime", async () => {
+    mockSession.prompt.mockResolvedValue('{"ok":"yes"}');
+    mockGrammar.parse.mockReturnValue({ ok: "yes" });
+
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
+    await backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) });
+    await backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) });
+
+    // The core behavioral change: context.getSequence() must be called once
+    // per generate() invocation (two calls here), not once total and reused
+    // — a shared LlamaContextSequence across generate() calls is exactly the
+    // corruption bug this finding fixes.
+    expect(mockContext.getSequence).toHaveBeenCalledTimes(2);
+  });
+
+  it("Finding 1: gives each concurrent generate() call its own sequence (mirrors stage7-critique.ts's Promise.all over 4 reviewers)", async () => {
+    mockSession.prompt.mockResolvedValue('{"ok":"yes"}');
+    mockGrammar.parse.mockReturnValue({ ok: "yes" });
+
+    const sequences: ReturnType<typeof makeMockSequence>[] = [];
+    mockContext.getSequence.mockImplementation(() => {
+      const seq = makeMockSequence();
+      sequences.push(seq);
+      return seq;
+    });
+
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
+    await Promise.all(
+      Array.from({ length: 4 }, () =>
+        backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) }),
+      ),
+    );
+
+    expect(mockContext.getSequence).toHaveBeenCalledTimes(4);
+    expect(sequences).toHaveLength(4);
+    // Every concurrently-claimed sequence is disposed exactly once, on its
+    // own generate() call's completion.
+    sequences.forEach((seq) => expect(seq.dispose).toHaveBeenCalledTimes(1));
+  });
+
+  it("Finding 1: disposes the (single, shared-across-retries) sequence once generate() completes", async () => {
+    // Attempt 0 is degenerate-empty (discarded, retried); attempt 1
+    // succeeds. Both attempts must share one sequence (see the
+    // accumulates-usage test above), so exactly one sequence should be
+    // claimed and disposed for this whole generate() call, not one per
+    // attempt.
+    mockSession.prompt.mockResolvedValueOnce('{"items":[]}').mockResolvedValueOnce('{"items":["a"]}');
+    mockGrammar.parse.mockImplementation((raw: string) => JSON.parse(raw) as unknown);
+
+    const sequences: ReturnType<typeof makeMockSequence>[] = [];
+    mockContext.getSequence.mockImplementation(() => {
+      const seq = makeMockSequence();
+      sequences.push(seq);
+      return seq;
+    });
+
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
+    await backend.generate({ system: "sys", user: "usr", schema: z.object({ items: z.array(z.string()) }) });
+
+    expect(sequences).toHaveLength(1);
+    expect(sequences[0]!.dispose).toHaveBeenCalledTimes(1);
+  });
+
+  it("Finding 1: disposes the sequence even when session.prompt() throws", async () => {
+    mockSession.prompt.mockRejectedValue(new Error("engine crashed"));
+
+    const sequences: ReturnType<typeof makeMockSequence>[] = [];
+    mockContext.getSequence.mockImplementation(() => {
+      const seq = makeMockSequence();
+      sequences.push(seq);
+      return seq;
+    });
+
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
+    await expect(
+      backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) }),
+    ).rejects.toThrow("engine crashed");
+
+    expect(sequences).toHaveLength(1);
+    expect(sequences[0]!.dispose).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("loadLocalBackend", () => {
+  const mockLlamaInstance = { loadModel: vi.fn(), dispose: vi.fn() };
+  const mockLoadedModel = { createContext: vi.fn(), dispose: vi.fn() };
+  const mockLoadedContext = { getSequence: vi.fn(() => makeMockSequence()), dispose: vi.fn() };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.mocked(resolveModelFile).mockResolvedValue("/fake/model/path.gguf" as never);
+    vi.mocked(getLlama).mockResolvedValue(mockLlamaInstance as never);
+    mockLlamaInstance.loadModel.mockResolvedValue(mockLoadedModel as never);
+    mockLlamaInstance.dispose.mockResolvedValue(undefined);
+    mockLoadedModel.createContext.mockResolvedValue(mockLoadedContext as never);
+    mockLoadedModel.dispose.mockResolvedValue(undefined);
+    mockLoadedContext.dispose.mockResolvedValue(undefined);
+  });
+
+  it("returns a working backend wired to the created context", async () => {
+    const { backend, release } = await loadLocalBackend();
+    expect(backend).toBeInstanceOf(LocalBackend);
+    await release();
+  });
+
+  it("Finding 1 (companion fix): creates the context with enough sequence slots for this codebase's known concurrent generate() callers", async () => {
+    const { release } = await loadLocalBackend();
+    // Each generate() call now claims its own LlamaContextSequence (Finding
+    // 1); node-llama-cpp defaults a context to a single sequence slot, which
+    // would make context.getSequence() throw for every concurrent caller
+    // past the first. stage7-critique.ts runs 4 reviewers concurrently
+    // against one shared client, so the context must be created with
+    // capacity for at least that many.
+    expect(mockLoadedModel.createContext).toHaveBeenCalledWith(
+      expect.objectContaining({ sequences: MAX_CONCURRENT_SEQUENCES }),
+    );
+    await release();
+  });
+
+  it("Finding 2: release() disposes the context, the model, and the llama runtime itself", async () => {
+    const { release } = await loadLocalBackend();
+    await release();
+
+    expect(mockLoadedContext.dispose).toHaveBeenCalledTimes(1);
+    expect(mockLoadedModel.dispose).toHaveBeenCalledTimes(1);
+    expect(mockLlamaInstance.dispose).toHaveBeenCalledTimes(1);
+  });
+
+  it("Finding 2: release() still disposes the model and the llama runtime if context.dispose() throws", async () => {
+    mockLoadedContext.dispose.mockRejectedValueOnce(new Error("context dispose failed"));
+
+    const { release } = await loadLocalBackend();
+    await expect(release()).rejects.toThrow("context dispose failed");
+
+    expect(mockLoadedModel.dispose).toHaveBeenCalledTimes(1);
+    expect(mockLlamaInstance.dispose).toHaveBeenCalledTimes(1);
+  });
+
+  it("Finding 2: release() still disposes the llama runtime if model.dispose() throws", async () => {
+    mockLoadedModel.dispose.mockRejectedValueOnce(new Error("model dispose failed"));
+
+    const { release } = await loadLocalBackend();
+    await expect(release()).rejects.toThrow("model dispose failed");
+
+    expect(mockLoadedContext.dispose).toHaveBeenCalledTimes(1);
+    expect(mockLlamaInstance.dispose).toHaveBeenCalledTimes(1);
   });
 });
