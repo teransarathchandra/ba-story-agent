@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { Upload, FileText, X, Loader, AlertCircle } from 'lucide-react'
-import { showErrorToast, showSuccessToast } from '../utils/errors'
+import { showErrorToast, showSuccessToast, formatErrorMessage } from '../utils/errors'
 
 interface Props {
   projectId: string
@@ -13,6 +13,7 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
   const [transcriptText, setTranscriptText] = useState('')
   const [occurredAt, setOccurredAt] = useState(new Date().toISOString().slice(0, 10))
   const [loading, setLoading] = useState(false)
+  const [fieldError, setFieldError] = useState<string | null>(null)
   const [wordCount, setWordCount] = useState(0)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -24,6 +25,7 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
   const handleTextChange = (text: string) => {
     setTranscriptText(text)
     setWordCount(countWords(text))
+    setFieldError(null)
   }
 
   const handleFileLoad = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,11 +44,14 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
     if (!title.trim() || !transcriptText.trim()) return
 
     if (wordCount < MIN_WORDS) {
-      showErrorToast(`Transcript must be at least ${MIN_WORDS} words (currently ${wordCount} words)`)
+      const msg = `Transcript must be at least ${MIN_WORDS} words (currently ${wordCount} words)`
+      setFieldError(msg)
+      showErrorToast(msg)
       return
     }
 
     setLoading(true)
+    setFieldError(null)
     try {
       const session = await window.api.session.add({
         projectId,
@@ -57,6 +62,8 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
       showSuccessToast(`Session "${session.title}" added`)
       onAdded(session)
     } catch (err: any) {
+      const cleanMsg = formatErrorMessage(err) || 'Failed to add session'
+      setFieldError(cleanMsg)
       showErrorToast(err, 'Failed to add session')
     } finally {
       setLoading(false)
@@ -66,8 +73,8 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
   const wordCountColor = wordCount === 0
     ? 'text-slate-500'
     : wordCount < MIN_WORDS
-      ? 'text-amber-400'
-      : 'text-emerald-400'
+      ? 'text-red-500 font-semibold'
+      : 'text-emerald-400 font-medium'
 
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onCancel()}>
@@ -89,7 +96,7 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
               <input
                 className="input"
                 value={title}
-                onChange={e => setTitle(e.target.value)}
+                onChange={e => { setTitle(e.target.value); setFieldError(null); }}
                 placeholder="e.g. Kick-off Meeting"
                 autoFocus
                 required
@@ -110,7 +117,7 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
             <div className="flex items-center justify-between mb-1.5">
               <label className="label" style={{ margin: 0 }}>Transcript *</label>
               <div className="flex items-center gap-3">
-                <span className={`text-xs font-medium ${wordCountColor}`}>
+                <span className={`text-xs ${wordCountColor}`}>
                   {wordCount} words {wordCount > 0 && wordCount < MIN_WORDS && `(min ${MIN_WORDS})`}
                 </span>
                 <button
@@ -131,17 +138,17 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
               </div>
             </div>
             <textarea
-              className="input"
+              className={`input ${fieldError ? 'border-red-500 focus:border-red-500' : ''}`}
               value={transcriptText}
               onChange={e => handleTextChange(e.target.value)}
               placeholder="Paste the meeting transcript here, or load from a .txt file..."
               style={{ minHeight: 180, fontFamily: 'inherit', fontSize: 13 }}
               required
             />
-            {wordCount > 0 && wordCount < MIN_WORDS && (
-              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-amber-400">
-                <AlertCircle size={12} />
-                Transcripts under {MIN_WORDS} words produce noise rather than requirements.
+            {fieldError && (
+              <div className="flex items-center gap-1.5 mt-2 text-xs font-semibold text-red-500 bg-red-500/10 border border-red-500/30 rounded px-2.5 py-1.5">
+                <AlertCircle size={13} className="flex-shrink-0 text-red-500" />
+                <span>{fieldError}</span>
               </div>
             )}
           </div>
