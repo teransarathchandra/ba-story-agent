@@ -8,6 +8,13 @@ CREATE TABLE IF NOT EXISTS projects (
   created_at TEXT NOT NULL
 );
 
+-- Small, app-owned markers for one-time setup such as the bundled demo workspace.
+-- Keeping the marker outside the demo project means deleting the demo is permanent.
+CREATE TABLE IF NOT EXISTS app_metadata (
+  key TEXT PRIMARY KEY NOT NULL,
+  value TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS sessions (
   id TEXT PRIMARY KEY NOT NULL,
   project_id TEXT NOT NULL REFERENCES projects(id) ON DELETE CASCADE,

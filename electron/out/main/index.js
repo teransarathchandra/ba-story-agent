@@ -173,7 +173,7 @@ const RecommendationSchema = v4.z.object({
 });
 const ApprovalEventSchema = v4.z.object({
   id: v4.z.string(),
-  entityType: v4.z.enum(["requirement", "story", "question", "recommendation", "session"]),
+  entityType: v4.z.enum(["claim", "requirement", "story", "question", "recommendation", "session"]),
   entityId: v4.z.string(),
   action: v4.z.string().min(1),
   actorNote: v4.z.string().nullable(),
@@ -200,6 +200,10 @@ function toProject(row) {
     glossary: row.glossary,
     createdAt: row.created_at
   });
+}
+function listProjects(db) {
+  const rows = db.prepare("SELECT * FROM projects ORDER BY created_at DESC").all();
+  return rows.map(toProject);
 }
 function toSession(row) {
   return SessionSchema.parse({
@@ -268,6 +272,12 @@ function setSessionStatus(db, sessionId, status) {
 function listSessions(db, projectId) {
   const rows = db.prepare("SELECT * FROM sessions WHERE project_id = ? ORDER BY occurred_at ASC").all(projectId);
   return rows.map(toSession);
+}
+function deleteProject(db, id) {
+  return db.prepare("DELETE FROM projects WHERE id = ?").run(id).changes === 1;
+}
+function deleteSession(db, id) {
+  return db.prepare("DELETE FROM sessions WHERE id = ?").run(id).changes === 1;
 }
 function hashText(text) {
   return node_crypto.createHash("sha256").update(text, "utf8").digest("hex");
@@ -392,6 +402,76 @@ function getFrozenTranscript(db, sessionId) {
   if (!row) return null;
   const segRows = db.prepare("SELECT * FROM segments WHERE transcript_id = ? ORDER BY idx ASC").all(row.id);
   return { transcript: toTranscript(row), segments: segRows.map(toSegment) };
+}
+function amendTranscript(db, input) {
+  const session = db.prepare("SELECT project_id FROM sessions WHERE id = ?").get(input.sessionId);
+  if (!session) throw new Error(`Session ${input.sessionId} not found`);
+  const current = getFrozenTranscript(db, input.sessionId);
+  if (!current) throw new Error(`Session ${input.sessionId} has no frozen transcript`);
+  if (hashText(input.text) === current.transcript.contentHash) {
+    throw new Error("The amended transcript is identical to the current version.");
+  }
+  return db.transaction(() => {
+    const claimRows = db.prepare("SELECT id FROM claims WHERE session_id = ?").all(input.sessionId);
+    const staleClaimIds = new Set(claimRows.map((row) => row.id));
+    const requirementRows = db.prepare("SELECT id, origin, origin_claim_ids FROM requirements WHERE project_id = ?").all(session.project_id);
+    const removedRequirementIds = /* @__PURE__ */ new Set();
+    for (const requirement of requirementRows) {
+      const originClaimIds = JSON.parse(requirement.origin_claim_ids);
+      const remainingClaimIds = originClaimIds.filter((id) => !staleClaimIds.has(id));
+      if (remainingClaimIds.length === originClaimIds.length) continue;
+      if (requirement.origin === "client-stated" && remainingClaimIds.length === 0) {
+        db.prepare("DELETE FROM requirements WHERE id = ?").run(requirement.id);
+        removedRequirementIds.add(requirement.id);
+      } else {
+        db.prepare("UPDATE requirements SET origin_claim_ids = ? WHERE id = ?").run(JSON.stringify(remainingClaimIds), requirement.id);
+      }
+    }
+    let removedStories = 0;
+    if (removedRequirementIds.size > 0) {
+      const storyRows = db.prepare("SELECT id, requirement_ids FROM stories WHERE project_id = ?").all(session.project_id);
+      for (const story of storyRows) {
+        const requirementIds = JSON.parse(story.requirement_ids);
+        const remainingRequirementIds = requirementIds.filter((id) => !removedRequirementIds.has(id));
+        if (remainingRequirementIds.length === requirementIds.length) continue;
+        if (remainingRequirementIds.length === 0) {
+          removedStories += db.prepare("DELETE FROM stories WHERE id = ?").run(story.id).changes;
+        } else {
+          db.prepare("UPDATE stories SET requirement_ids = ? WHERE id = ?").run(JSON.stringify(remainingRequirementIds), story.id);
+        }
+      }
+    }
+    db.prepare(
+      `UPDATE acceptance_criteria
+       SET linked_question_id = NULL
+       WHERE linked_question_id IN (
+         SELECT id FROM open_questions WHERE raised_by_session_id = ?
+       )`
+    ).run(input.sessionId);
+    db.prepare(
+      `UPDATE open_questions
+       SET status = 'open', answer_text = NULL, answered_by_session_id = NULL
+       WHERE answered_by_session_id = ? AND raised_by_session_id <> ?`
+    ).run(input.sessionId, input.sessionId);
+    const removedRecommendations = db.prepare("DELETE FROM recommendations WHERE raised_by_session_id = ?").run(input.sessionId).changes;
+    const removedQuestions = db.prepare("DELETE FROM open_questions WHERE raised_by_session_id = ?").run(input.sessionId).changes;
+    const removedCheckpoints = db.prepare("DELETE FROM stage_checkpoints WHERE session_id = ?").run(input.sessionId).changes;
+    const removedClaims = db.prepare("DELETE FROM claims WHERE session_id = ?").run(input.sessionId).changes;
+    db.prepare("UPDATE sessions SET status = 'draft' WHERE id = ?").run(input.sessionId);
+    const { transcript } = createTranscript(db, input);
+    const frozen = freezeTranscript(db, transcript.id);
+    return {
+      transcript: frozen,
+      invalidated: {
+        claims: removedClaims,
+        requirements: removedRequirementIds.size,
+        stories: removedStories,
+        questions: removedQuestions,
+        recommendations: removedRecommendations,
+        checkpoints: removedCheckpoints
+      }
+    };
+  })();
 }
 const KEYED_TABLES = ["requirements", "stories", "open_questions", "recommendations"];
 function nextKey(db, projectId, table, prefix) {
@@ -2286,18 +2366,184 @@ const jsonPublisher = {
     );
   }
 };
+const DEMO_MARKER_KEY = "demo-workspace-v1";
+const DEMO_TRANSCRIPT = `BA: Thanks for joining. I want to understand the returns process from the customer's first request through the final refund. Could you walk me through the current process and call out the steps that create the most support work?
+
+Client: A customer needs to start a return with the order number and the email used at checkout, and the normal window is thirty days from delivery. Today they email support, an agent searches the commerce system, checks the delivery date, and sends a form back. That back-and-forth is the main source of delay. We want the portal to show the eligible items from that order so the customer does not have to type product details again.
+
+BA: Does the customer have to sign in, or can someone who used guest checkout also start a return?
+
+Client: I think guest customers can use the same return flow without creating an account, but I need to confirm that with customer service. We should verify the email against the order before showing any personal or delivery information. If the lookup fails, the message should tell the customer to check the order number and email, without revealing whether a particular order exists.
+
+BA: What happens once an item is selected?
+
+Client: For eligible items, the portal must create a prepaid shipping label immediately. The label should contain our return address and a tracking number. Some products are final sale, hazardous, or supplied by marketplace partners, but legal and operations still need to give us the definitive exclusion list. Bundles are another unresolved case because nobody has decided whether one item from a bundle can be returned on its own.
+
+BA: How is the refund approved after the package arrives?
+
+Client: The warehouse team must record whether the item passed inspection before finance releases the refund. They check that the serial number matches, choose an item condition, and add a note when the inspection fails. Supervisors can override a failure today, but the new portal needs a clear rule for who can override it and what evidence they must provide. We cannot lose that history because finance uses it when a refund is disputed.
+
+BA: What service level have you promised, and how does the customer know where the return stands?
+
+Client: We usually complete refunds within five business days after inspection, although that target has never been written down. Customers need email updates when the return is submitted, received at the warehouse, approved, and refunded. Support should also see the same status timeline so they can answer a customer without checking three different systems. If the refund provider times out, retrying must not create a second refund.
+
+BA: I will capture the thirty-day eligibility rule, label generation, inspection approval, and status notifications as requirements. I will leave guest access and the five-day refund target as assumptions until their owners confirm them. I will also raise questions about exclusions, partial bundle returns, and supervisor overrides.`;
+const CLAIM_DEFINITIONS = [
+  {
+    kind: "requirement",
+    quote: "A customer needs to start a return with the order number and the email used at checkout, and the normal window is thirty days from delivery.",
+    statement: "Customers can start a return with an order number and checkout email within thirty days of delivery."
+  },
+  {
+    kind: "requirement",
+    quote: "For eligible items, the portal must create a prepaid shipping label immediately.",
+    statement: "The portal generates a prepaid shipping label for each eligible return."
+  },
+  {
+    kind: "requirement",
+    quote: "The warehouse team must record whether the item passed inspection before finance releases the refund.",
+    statement: "Warehouse inspection outcome is required before finance releases a refund."
+  },
+  {
+    kind: "requirement",
+    quote: "Customers need email updates when the return is submitted, received at the warehouse, approved, and refunded.",
+    statement: "Customers receive email updates at each major return and refund milestone."
+  },
+  {
+    kind: "assumption",
+    quote: "I think guest customers can use the same return flow without creating an account, but I need to confirm that with customer service.",
+    statement: "Guest customers can initiate returns without creating an account."
+  },
+  {
+    kind: "assumption",
+    quote: "We usually complete refunds within five business days after inspection, although that target has never been written down.",
+    statement: "Refunds should complete within five business days after inspection."
+  }
+];
+function seedDemoWorkspace(db) {
+  const marker = db.prepare("SELECT value FROM app_metadata WHERE key = ?").get(DEMO_MARKER_KEY);
+  if (marker) return null;
+  return db.transaction(() => {
+    const project = createProject(db, {
+      name: "Northstar Returns Portal · Demo",
+      domain: "E-commerce returns and refund operations for a regional retail marketplace",
+      regulatoryContext: "none",
+      systemName: "Northstar Returns Portal",
+      glossary: "RMA: Return merchandise authorization; OMS: Order management system"
+    });
+    const session = createSession(db, {
+      projectId: project.id,
+      title: "Returns workflow discovery",
+      occurredAt: "2026-07-28T09:30:00.000Z"
+    });
+    const { transcript, segments } = createTranscript(db, {
+      sessionId: session.id,
+      text: DEMO_TRANSCRIPT
+    });
+    freezeTranscript(db, transcript.id);
+    const createdAt = "2026-07-28T10:30:00.000Z";
+    const claims = CLAIM_DEFINITIONS.map((definition) => {
+      const charStart = DEMO_TRANSCRIPT.indexOf(definition.quote);
+      const charEnd = charStart + definition.quote.length;
+      const segment = segments.find((item) => item.charStart <= charStart && item.charEnd >= charEnd);
+      if (charStart < 0 || !segment) throw new Error(`Demo quote is not grounded: ${definition.quote}`);
+      return {
+        id: newId("clm"),
+        sessionId: session.id,
+        transcriptId: transcript.id,
+        segmentId: segment.id,
+        quote: definition.quote,
+        statement: definition.statement,
+        speakerRole: "client",
+        kind: definition.kind,
+        status: "validated",
+        charStart,
+        charEnd,
+        matchMode: "exact",
+        createdAt
+      };
+    });
+    insertClaims(db, claims);
+    const requirementClaims = claims.filter((claim) => claim.kind === "requirement");
+    const requirements = [
+      "Customers must be able to start a return with their order number and checkout email within thirty days of delivery.",
+      "The portal must generate a prepaid shipping label immediately for each eligible item.",
+      "Warehouse staff must record an inspection outcome before finance can release a refund.",
+      "The system must email customers when a return is submitted, received, approved, and refunded."
+    ].map((statement, index) => ({
+      id: newId("req"),
+      projectId: project.id,
+      key: `REQ-${String(index + 1).padStart(3, "0")}`,
+      statement,
+      status: "proposed",
+      origin: "client-stated",
+      originClaimIds: [requirementClaims[index].id],
+      supersedesId: null,
+      createdAt
+    }));
+    insertRequirements(db, requirements);
+    const questions = [
+      ["Which product categories, marketplace items, and sale types are excluded from returns?", "domain"],
+      ["Can a customer return one item from a bundle, and how should the bundle price be prorated?", "edge-case"],
+      ["Which roles may override a failed warehouse inspection, and what evidence must the audit record retain?", "compliance"]
+    ].map(([text, category], index) => ({
+      id: newId("oqn"),
+      projectId: project.id,
+      key: `OQ-${String(index + 1).padStart(3, "0")}`,
+      text,
+      category,
+      raisedBySessionId: session.id,
+      status: "open",
+      answerText: null,
+      answeredBySessionId: null,
+      createdAt
+    }));
+    insertQuestions(db, questions);
+    const recommendations = [
+      {
+        text: "Use idempotency keys for shipping-label creation and refund requests.",
+        rationale: "Safe retries prevent duplicate labels and duplicate refunds when a provider times out.",
+        category: "security"
+      },
+      {
+        text: "Define a measurable refund service level with owner, timer start, and escalation path.",
+        rationale: "The current five-business-day target is informal and cannot be monitored consistently.",
+        category: "testability"
+      },
+      {
+        text: "Keep an immutable audit trail for inspection decisions and supervisor overrides.",
+        rationale: "Finance needs the original decision, actor, reason, and evidence when a refund is disputed.",
+        category: "compliance"
+      }
+    ].map((item, index) => ({
+      id: newId("rec"),
+      projectId: project.id,
+      key: `REC-${String(index + 1).padStart(3, "0")}`,
+      ...item,
+      category: item.category,
+      raisedBySessionId: session.id,
+      status: "open",
+      dispositionNote: null,
+      createdAt
+    }));
+    insertRecommendations(db, recommendations);
+    setSessionStatus(db, session.id, "awaiting-review");
+    db.prepare("INSERT INTO app_metadata (key, value) VALUES (?, ?)").run(DEMO_MARKER_KEY, project.id);
+    return project.id;
+  })();
+}
 let _db = null;
 function getDb() {
   if (!_db) {
     const userData = electron.app.getPath("userData");
     _db = openDb(path.join(userData, "ba-story-agent.db"));
+    seedDemoWorkspace(_db);
   }
   return _db;
 }
 function setupIpc() {
   electron.ipcMain.handle("project:list", async () => {
-    const db = getDb();
-    return db.prepare("SELECT * FROM projects ORDER BY created_at DESC").all();
+    return listProjects(getDb());
   });
   electron.ipcMain.handle("project:create", async (_event, data) => {
     const db = getDb();
@@ -2311,6 +2557,9 @@ function setupIpc() {
   electron.ipcMain.handle("project:get", async (_event, id) => {
     const db = getDb();
     return getProject(db, id);
+  });
+  electron.ipcMain.handle("project:delete", async (_event, id) => {
+    return { deleted: deleteProject(getDb(), id) };
   });
   electron.ipcMain.handle("session:list", async (_event, projectId) => {
     const db = getDb();
@@ -2335,6 +2584,24 @@ function setupIpc() {
     });
     freezeTranscript(db, transcript.id);
     return session;
+  });
+  electron.ipcMain.handle("session:transcript", async (_event, sessionId) => {
+    return getFrozenTranscript(getDb(), sessionId)?.transcript ?? null;
+  });
+  electron.ipcMain.handle("session:amend-transcript", async (_event, data) => {
+    const words = countWords(data.transcriptText);
+    if (words < MIN_WORDS) {
+      throw new Error(
+        `Transcript is ${words} words; at least ${MIN_WORDS} required.`
+      );
+    }
+    return amendTranscript(getDb(), {
+      sessionId: data.sessionId,
+      text: data.transcriptText
+    });
+  });
+  electron.ipcMain.handle("session:delete", async (_event, id) => {
+    return { deleted: deleteSession(getDb(), id) };
   });
   electron.ipcMain.handle("session:analyze", async (event, data) => {
     const db = getDb();
@@ -2430,8 +2697,7 @@ function setupIpc() {
   });
   electron.ipcMain.handle("recommendation:accept", async (_event, data) => {
     const db = getDb();
-    const status = data.asRequirement ? "accepted-as-req" : "accepted";
-    db.prepare("UPDATE recommendations SET status = ?, disposition_note = ? WHERE id = ?").run(status, data.baStatement ?? null, data.recommendationId);
+    db.prepare("UPDATE recommendations SET status = ?, disposition_note = ? WHERE id = ?").run("accepted", data.baStatement ?? null, data.recommendationId);
     return { accepted: true };
   });
   electron.ipcMain.handle("recommendation:decline", async (_event, data) => {

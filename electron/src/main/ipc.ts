@@ -7,8 +7,16 @@ import { mkdirSync, writeFileSync } from 'node:fs'
 // ../../.. from ipc.ts = ba-story-electron/ (worktree root) = ba-story-agent repo
 // so ../../../src/ resolves correctly to the core engine's src/ directory.
 import { openDb } from '../../../src/store/db.js'
-import { createProject, getProject, createSession, listSessions } from '../../../src/store/projects.js'
-import { createTranscript, freezeTranscript, getFrozenTranscript, hashText } from '../../../src/store/transcripts.js'
+import {
+  createProject,
+  getProject,
+  createSession,
+  listProjects,
+  listSessions,
+  deleteProject,
+  deleteSession,
+} from '../../../src/store/projects.js'
+import { amendTranscript, createTranscript, freezeTranscript, getFrozenTranscript, hashText } from '../../../src/store/transcripts.js'
 import { listRequirements, setRequirementStatus, listStories } from '../../../src/store/artifacts.js'
 import { listQuestions, listRecommendations } from '../../../src/store/findings.js'
 import { listClaims, countByStatus } from '../../../src/store/claims.js'
@@ -20,6 +28,7 @@ import { jsonPublisher } from '../../../src/export/json.js'
 import { createClient, AnthropicBackend } from '../../../src/llm/client.js'
 import { countWords, MIN_WORDS } from '../../../src/pipeline/stage0-chunk.js'
 import { RegulatoryContext } from '../../../src/types/domain.js'
+import { seedDemoWorkspace } from './demo-data.js'
 
 let _db: ReturnType<typeof openDb> | null = null
 
@@ -27,6 +36,7 @@ function getDb(): ReturnType<typeof openDb> {
   if (!_db) {
     const userData = app.getPath('userData')
     _db = openDb(join(userData, 'ba-story-agent.db'))
+    seedDemoWorkspace(_db)
   }
   return _db
 }
@@ -35,9 +45,7 @@ export function setupIpc(): void {
   // ─── Projects ─────────────────────────────────────────────────────────────
 
   ipcMain.handle('project:list', async () => {
-    const db = getDb()
-    // listProjects doesn't exist in the core engine — query directly
-    return db.prepare('SELECT * FROM projects ORDER BY created_at DESC').all()
+    return listProjects(getDb())
   })
 
   ipcMain.handle('project:create', async (_event, data: {
@@ -57,6 +65,10 @@ export function setupIpc(): void {
   ipcMain.handle('project:get', async (_event, id: string) => {
     const db = getDb()
     return getProject(db, id)
+  })
+
+  ipcMain.handle('project:delete', async (_event, id: string) => {
+    return { deleted: deleteProject(getDb(), id) }
   })
 
   // ─── Sessions ─────────────────────────────────────────────────────────────
@@ -87,6 +99,29 @@ export function setupIpc(): void {
     })
     freezeTranscript(db, transcript.id)
     return session
+  })
+
+  ipcMain.handle('session:transcript', async (_event, sessionId: string) => {
+    return getFrozenTranscript(getDb(), sessionId)?.transcript ?? null
+  })
+
+  ipcMain.handle('session:amend-transcript', async (_event, data: {
+    sessionId: string; transcriptText: string
+  }) => {
+    const words = countWords(data.transcriptText)
+    if (words < MIN_WORDS) {
+      throw new Error(
+        `Transcript is ${words} words; at least ${MIN_WORDS} required.`
+      )
+    }
+    return amendTranscript(getDb(), {
+      sessionId: data.sessionId,
+      text: data.transcriptText,
+    })
+  })
+
+  ipcMain.handle('session:delete', async (_event, id: string) => {
+    return { deleted: deleteSession(getDb(), id) }
   })
 
   // ─── Analysis ─────────────────────────────────────────────────────────────
@@ -223,9 +258,8 @@ export function setupIpc(): void {
     recommendationId: string; asRequirement?: boolean; baStatement?: string
   }) => {
     const db = getDb()
-    const status = data.asRequirement ? 'accepted-as-req' : 'accepted'
     db.prepare('UPDATE recommendations SET status = ?, disposition_note = ? WHERE id = ?')
-      .run(status, data.baStatement ?? null, data.recommendationId)
+      .run('accepted', data.baStatement ?? null, data.recommendationId)
     return { accepted: true }
   })
 

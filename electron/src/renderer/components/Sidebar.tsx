@@ -1,8 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { Folder, Plus, FileText, ChevronRight, Activity, RefreshCw, Sun, Moon } from 'lucide-react'
+import { Folder, Plus, FileText, ChevronRight, Activity, RefreshCw, Sun, Moon, BookOpen, Trash2 } from 'lucide-react'
 import SessionAdd from './SessionAdd'
 import AnalyzeButton from './AnalyzeButton'
 import type { Theme } from './Layout'
+import type { Project, Session } from '../types/api'
+import ConfirmDialog from './ConfirmDialog'
+import TranscriptDialog from './TranscriptDialog'
+import { showErrorToast, showSuccessToast } from '../utils/errors'
 
 interface Props {
   activeProjectId: string | null
@@ -10,6 +14,7 @@ interface Props {
   activeSessionId: string | null
   setActiveSessionId: (id: string | null) => void
   onRefresh: () => void
+  onGoHome: () => void
   onCreateProject: () => void
   projectsRefreshKey: number
   theme: Theme
@@ -22,15 +27,23 @@ export default function Sidebar({
   activeSessionId,
   setActiveSessionId,
   onRefresh,
+  onGoHome,
   onCreateProject,
   projectsRefreshKey,
   theme,
   setTheme,
 }: Props) {
-  const [projects, setProjects] = useState<any[]>([])
-  const [sessions, setSessions] = useState<any[]>([])
+  const [projects, setProjects] = useState<Project[]>([])
+  const [sessions, setSessions] = useState<Session[]>([])
   const [showAddSession, setShowAddSession] = useState(false)
   const [expandedProjects, setExpandedProjects] = useState<Set<string>>(new Set())
+  const [transcriptSession, setTranscriptSession] = useState<Session | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<
+    | { kind: 'project'; id: string; name: string }
+    | { kind: 'session'; id: string; name: string; projectId: string }
+    | null
+  >(null)
+  const [deleting, setDeleting] = useState(false)
 
   const loadProjects = useCallback(async () => {
     try {
@@ -66,6 +79,41 @@ export default function Sidebar({
     })
   }
 
+  const handleDelete = async () => {
+    if (!deleteTarget) return
+    setDeleting(true)
+    try {
+      if (deleteTarget.kind === 'project') {
+        const result = await window.api.project.delete(deleteTarget.id)
+        if (!result.deleted) throw new Error('Project no longer exists')
+        if (activeProjectId === deleteTarget.id) {
+          setActiveProjectId(null)
+          setActiveSessionId(null)
+          setSessions([])
+        }
+        setExpandedProjects(previous => {
+          const next = new Set(previous)
+          next.delete(deleteTarget.id)
+          return next
+        })
+        await loadProjects()
+        showSuccessToast(`Deleted project "${deleteTarget.name}"`)
+      } else {
+        const result = await window.api.session.delete(deleteTarget.id)
+        if (!result.deleted) throw new Error('Session no longer exists')
+        if (activeSessionId === deleteTarget.id) setActiveSessionId(null)
+        await loadSessions(deleteTarget.projectId)
+        showSuccessToast(`Deleted session "${deleteTarget.name}"`)
+      }
+      setDeleteTarget(null)
+      onRefresh()
+    } catch (error) {
+      showErrorToast(error, `Failed to delete ${deleteTarget.kind}`)
+    } finally {
+      setDeleting(false)
+    }
+  }
+
   const statusColor: Record<string, string> = {
     draft: 'text-slate-500',
     'awaiting-review': 'text-amber-400',
@@ -73,18 +121,26 @@ export default function Sidebar({
     failed: 'text-rose-400',
   }
 
+  const activeSession = sessions.find(session => session.id === activeSessionId) ?? null
+
   return (
     <>
       <div className="flex flex-col h-full">
         {/* Header / Logo */}
         <div className="sidebar-header">
-          <div className="brand-row">
+          <button
+            type="button"
+            className="brand-row brand-home no-drag"
+            onClick={onGoHome}
+            aria-label="Go to home"
+            title="Go to home"
+          >
             <div className="brand-mark">BA</div>
             <div className="sidebar-copy">
               <div className="brand-title">Story Agent</div>
               <div className="brand-subtitle">Workspace</div>
             </div>
-          </div>
+          </button>
         </div>
 
         {/* Projects section */}
@@ -115,17 +171,29 @@ export default function Sidebar({
 
               return (
                 <div key={p.id}>
-                  <button
-                    onClick={() => handleProjectClick(p.id)}
-                    className={`sidebar-item no-drag ${isActive ? 'active' : ''}`}
-                  >
-                    <Folder size={14} className="flex-shrink-0" />
-                    <span className="sidebar-project-copy flex-1 truncate text-xs">{p.name}</span>
-                    <ChevronRight
-                      size={12}
-                      className={`sidebar-project-copy opacity-40 transition-transform duration-200 ${isExpanded && isActive ? 'rotate-90' : ''}`}
-                    />
-                  </button>
+                  <div className={`sidebar-entry ${isActive ? 'active' : ''}`}>
+                    <button
+                      onClick={() => handleProjectClick(p.id)}
+                      className="sidebar-item sidebar-entry-main no-drag"
+                      title={p.name}
+                    >
+                      <Folder size={14} className="flex-shrink-0" />
+                      <span className="sidebar-project-copy flex-1 truncate text-xs">{p.name}</span>
+                      <ChevronRight
+                        size={12}
+                        className={`sidebar-project-copy opacity-40 transition-transform duration-200 ${isExpanded && isActive ? 'rotate-90' : ''}`}
+                      />
+                    </button>
+                    <button
+                      type="button"
+                      className="sidebar-entry-action no-drag"
+                      onClick={() => setDeleteTarget({ kind: 'project', id: p.id, name: p.name })}
+                      aria-label={`Delete project ${p.name}`}
+                      title={`Delete ${p.name}`}
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
 
                   {isActive && isExpanded && (
                     <div className="sidebar-copy ml-3 pl-3 border-l border-slate-700/60 mt-1 mb-1 space-y-0.5">
@@ -133,24 +201,43 @@ export default function Sidebar({
                         {p.domain}
                       </div>
 
-                      {projectSessions.map((s: any) => (
-                        <button
+                      {projectSessions.map(s => (
+                        <div
                           key={s.id}
-                          onClick={() => setActiveSessionId(s.id === activeSessionId ? null : s.id)}
-                          className={`sidebar-item no-drag ${activeSessionId === s.id ? 'active' : ''}`}
-                          style={{ paddingLeft: 8 }}
+                          className={`sidebar-entry session-entry ${activeSessionId === s.id ? 'active' : ''}`}
                         >
-                          <FileText size={12} className="flex-shrink-0" />
-                          <div className="flex-1 text-left min-w-0">
-                            <div className="truncate text-xs">{s.title}</div>
-                            <div className={`text-[10px] ${statusColor[s.status] ?? 'text-slate-500'}`}>
-                              {s.status}
+                          <button
+                            onClick={() => setActiveSessionId(s.id === activeSessionId ? null : s.id)}
+                            className="sidebar-item sidebar-entry-main no-drag"
+                            style={{ paddingLeft: 8 }}
+                            title={s.title}
+                          >
+                            <FileText size={12} className="flex-shrink-0" />
+                            <div className="flex-1 text-left min-w-0">
+                              <div className="truncate text-xs">{s.title}</div>
+                              <div className={`text-[10px] ${statusColor[s.status] ?? 'text-slate-500'}`}>
+                                {s.status}
+                              </div>
                             </div>
-                          </div>
-                          {s.status === 'draft' && (
-                            <Activity size={11} className="text-amber-400 flex-shrink-0" />
-                          )}
-                        </button>
+                            {s.status === 'draft' && (
+                              <Activity size={11} className="text-amber-400 flex-shrink-0" />
+                            )}
+                          </button>
+                          <button
+                            type="button"
+                            className="sidebar-entry-action no-drag"
+                            onClick={() => setDeleteTarget({
+                              kind: 'session',
+                              id: s.id,
+                              name: s.title,
+                              projectId: s.projectId,
+                            })}
+                            aria-label={`Delete session ${s.title}`}
+                            title={`Delete ${s.title}`}
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
                       ))}
 
                       {/* Actions */}
@@ -162,6 +249,17 @@ export default function Sidebar({
                         >
                           <Plus size={12} /> Add session
                         </button>
+
+                        {activeSession && (
+                          <button
+                            type="button"
+                            onClick={() => setTranscriptSession(activeSession)}
+                            className="btn btn-ghost no-drag"
+                            style={{ width: '100%', fontSize: '12px', padding: '5px 10px' }}
+                          >
+                            <BookOpen size={12} /> View transcript
+                          </button>
+                        )}
 
                         {activeSessionId && sessions.find(s => s.id === activeSessionId && s.status === 'draft') && (
                           <AnalyzeButton
@@ -223,6 +321,30 @@ export default function Sidebar({
             setActiveSessionId(s.id)
           }}
           onCancel={() => setShowAddSession(false)}
+        />
+      )}
+
+      {transcriptSession && (
+        <TranscriptDialog
+          session={transcriptSession}
+          onAmended={async () => {
+            if (activeProjectId) await loadSessions(activeProjectId)
+            onRefresh()
+          }}
+          onClose={() => setTranscriptSession(null)}
+        />
+      )}
+
+      {deleteTarget && (
+        <ConfirmDialog
+          title={`Delete ${deleteTarget.kind}?`}
+          description={deleteTarget.kind === 'project'
+            ? `“${deleteTarget.name}” and all of its sessions, transcripts, and review output will be permanently deleted.`
+            : `“${deleteTarget.name}” and its transcript will be permanently deleted. The rest of the project will remain.`}
+          confirmLabel={`Delete ${deleteTarget.kind}`}
+          loading={deleting}
+          onConfirm={handleDelete}
+          onCancel={() => setDeleteTarget(null)}
         />
       )}
     </>

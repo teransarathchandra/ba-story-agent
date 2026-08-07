@@ -5,12 +5,16 @@ const api = {
     list: () => electron.ipcRenderer.invoke("project:list"),
     create: (data) => electron.ipcRenderer.invoke("project:create", data),
     get: (id) => electron.ipcRenderer.invoke("project:get", id),
-    status: (id) => electron.ipcRenderer.invoke("project:status", id)
+    status: (id) => electron.ipcRenderer.invoke("project:status", id),
+    delete: (id) => electron.ipcRenderer.invoke("project:delete", id)
   },
   session: {
     list: (projectId) => electron.ipcRenderer.invoke("session:list", projectId),
     add: (data) => electron.ipcRenderer.invoke("session:add", data),
-    analyze: (data) => electron.ipcRenderer.invoke("session:analyze", data)
+    analyze: (data) => electron.ipcRenderer.invoke("session:analyze", data),
+    transcript: (sessionId) => electron.ipcRenderer.invoke("session:transcript", sessionId),
+    amendTranscript: (data) => electron.ipcRenderer.invoke("session:amend-transcript", data),
+    delete: (id) => electron.ipcRenderer.invoke("session:delete", id)
   },
   requirement: {
     list: (projectId) => electron.ipcRenderer.invoke("requirement:list", projectId),

@@ -26,6 +26,7 @@ export default function Layout() {
   }, [theme])
 
   const handleRefresh = useCallback(() => {
+    setSelectedClaimId(null)
     setRefreshKey(k => k + 1)
   }, [])
 
@@ -46,6 +47,11 @@ export default function Layout() {
             setSelectedClaimId(null)
           }}
           onRefresh={handleRefresh}
+          onGoHome={() => {
+            setActiveProjectId(null)
+            setActiveSessionId(null)
+            setSelectedClaimId(null)
+          }}
           onCreateProject={() => setShowCreateProject(true)}
           projectsRefreshKey={sidebarRefreshKey}
           theme={theme}

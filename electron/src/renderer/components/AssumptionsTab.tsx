@@ -32,8 +32,8 @@ function PromoteModal({ claim, onConfirm, onConvertToQuestion, onCancel }: Promo
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onCancel()}>
       <div className="modal-box">
-        <h3 className="font-semibold text-white mb-1">Turn assumption into requirement</h3>
-        <p className="text-xs text-slate-400 mb-3">
+        <h3 className="modal-title">Turn assumption into requirement</h3>
+        <p className="modal-description mb-3">
           Enter a brief note explaining how this assumption was verified with the client.
         </p>
 
@@ -51,7 +51,7 @@ function PromoteModal({ claim, onConfirm, onConvertToQuestion, onCancel }: Promo
             style={{ minHeight: 80 }}
             autoFocus
           />
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="field-help">
             Who confirmed it and when?
           </p>
         </div>
@@ -131,32 +131,24 @@ export default function AssumptionsTab({ projectId, onSelectClaim, selectedClaim
   }
 
   return (
-    <div className="space-y-2">
-      <div className="text-xs text-slate-500 mb-4 flex items-center gap-2 bg-amber-500/5 border border-amber-500/10 rounded-lg px-3 py-2">
-        <AlertTriangle size={14} className="flex-shrink-0 text-amber-400" />
+    <div>
+      <div className="review-callout review-callout-warning">
+        <AlertTriangle size={16} />
         <span>Assumptions are unconfirmed client statements. Promote only after verification with the client.</span>
       </div>
 
-      {items.map(claim => {
-        const isSelected = selectedClaimId === claim.id
+      <div className="review-list">
+        {items.map(claim => {
+          const isSelected = selectedClaimId === claim.id
 
-        return (
-          <div
-            key={claim.id}
-            className={`card cursor-pointer animate-fade-in ${isSelected ? 'selected' : ''}`}
-            onClick={() => onSelectClaim(isSelected ? null : claim.id)}
-          >
-            <div className="p-4">
-              <div className="flex items-start gap-3">
-                <Quote size={14} className="text-violet-400 flex-shrink-0 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-slate-400 italic mb-2 leading-relaxed">
-                    "{claim.quote}"
-                  </p>
-                  <p className="text-sm text-slate-200 leading-relaxed">
-                    {claim.statement}
-                  </p>
-                  <div className="flex items-center gap-2 mt-2">
+          return (
+            <div key={claim.id} className={`review-item animate-fade-in ${isSelected ? 'selected' : ''}`}>
+              <div className="review-item-main">
+                <Quote size={16} className="review-item-leading review-item-leading-assumption" />
+                <div className="review-item-copy">
+                  <blockquote className="review-quote">“{claim.quote}”</blockquote>
+                  <p className="review-item-title">{claim.statement}</p>
+                  <div className="review-meta">
                     <span className="badge badge-assumption">Assumption</span>
                     <span className={`badge ${
                       claim.status === 'validated' ? 'badge-answered'
@@ -166,36 +158,39 @@ export default function AssumptionsTab({ projectId, onSelectClaim, selectedClaim
                       {claim.status}
                     </span>
                     {claim.speakerRole && (
-                      <span className="text-[10px] text-slate-500">{claim.speakerRole}</span>
+                      <span className="review-meta-text">{claim.speakerRole}</span>
                     )}
+                    <button
+                      type="button"
+                      className="evidence-link"
+                      onClick={() => onSelectClaim(isSelected ? null : claim.id)}
+                      aria-pressed={isSelected}
+                    >
+                      <Quote size={13} /> {isSelected ? 'Hide evidence' : 'View evidence'}
+                    </button>
                   </div>
                 </div>
 
-                <div
-                  className="flex-shrink-0 flex flex-col gap-1.5"
-                  onClick={e => e.stopPropagation()}
-                >
+                <div className="review-actions review-actions-stacked">
                   <button
                     onClick={() => setPromotingClaim(claim)}
                     className="btn btn-warn"
-                    style={{ padding: '5px 10px', fontSize: '12px' }}
                     title="Turn assumption into requirement"
                   >
-                    <ArrowUpCircle size={12} /> Promote
+                    <ArrowUpCircle size={15} /> Promote
                   </button>
                   <button
                     className="btn btn-ghost"
-                    style={{ padding: '4px 8px', fontSize: '11px' }}
                     onClick={() => handleConvertToQuestion(claim)}
                   >
-                    <MessageSquare size={11} /> Question
+                    <MessageSquare size={15} /> Turn into question
                   </button>
                 </div>
               </div>
             </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
 
       {promotingClaim && (
         <PromoteModal

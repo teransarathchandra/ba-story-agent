@@ -19,6 +19,28 @@ export interface Session {
   createdAt: string
 }
 
+export interface Transcript {
+  id: string
+  sessionId: string
+  version: number
+  text: string
+  contentHash: string
+  frozenAt: string | null
+  createdAt: string
+}
+
+export interface TranscriptAmendmentResult {
+  transcript: Transcript
+  invalidated: {
+    claims: number
+    requirements: number
+    stories: number
+    questions: number
+    recommendations: number
+    checkpoints: number
+  }
+}
+
 export interface Requirement {
   id: string
   projectId: string
@@ -70,7 +92,7 @@ export interface Recommendation {
   rationale: string
   category: string
   raisedBySessionId: string
-  status: 'pending' | 'accepted' | 'accepted-as-req' | 'declined'
+  status: 'open' | 'accepted' | 'declined'
   dispositionNote: string | null
   createdAt: string
 }
@@ -128,6 +150,7 @@ declare global {
         }) => Promise<Project>
         get: (id: string) => Promise<Project | null>
         status: (id: string) => Promise<ProjectStatus>
+        delete: (id: string) => Promise<{ deleted: boolean }>
       }
       session: {
         list: (projectId: string) => Promise<Session[]>
@@ -135,6 +158,11 @@ declare global {
           projectId: string; title: string; transcriptText: string; occurredAt?: string
         }) => Promise<Session>
         analyze: (data: { sessionId: string; resume?: boolean }) => Promise<AnalyzeResult>
+        transcript: (sessionId: string) => Promise<Transcript | null>
+        amendTranscript: (data: {
+          sessionId: string; transcriptText: string
+        }) => Promise<TranscriptAmendmentResult>
+        delete: (id: string) => Promise<{ deleted: boolean }>
       }
       requirement: {
         list: (projectId: string) => Promise<Requirement[]>

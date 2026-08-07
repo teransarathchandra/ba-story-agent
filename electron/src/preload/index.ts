@@ -6,11 +6,15 @@ const api = {
     create: (data: any) => ipcRenderer.invoke('project:create', data),
     get: (id: string) => ipcRenderer.invoke('project:get', id),
     status: (id: string) => ipcRenderer.invoke('project:status', id),
+    delete: (id: string) => ipcRenderer.invoke('project:delete', id),
   },
   session: {
     list: (projectId: string) => ipcRenderer.invoke('session:list', projectId),
     add: (data: any) => ipcRenderer.invoke('session:add', data),
     analyze: (data: any) => ipcRenderer.invoke('session:analyze', data),
+    transcript: (sessionId: string) => ipcRenderer.invoke('session:transcript', sessionId),
+    amendTranscript: (data: any) => ipcRenderer.invoke('session:amend-transcript', data),
+    delete: (id: string) => ipcRenderer.invoke('session:delete', id),
   },
   requirement: {
     list: (projectId: string) => ipcRenderer.invoke('requirement:list', projectId),

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { HelpCircle, ChevronRight, Copy, Check } from 'lucide-react'
+import { HelpCircle, ArrowRight, Copy, Check } from 'lucide-react'
 import { showErrorToast, showSuccessToast } from '../utils/errors'
 
 interface Props {
@@ -22,9 +22,9 @@ interface OpenQuestion {
 const STATUS_ORDER = ['open', 'asked', 'answered', 'closed']
 
 const STATUS_META: Record<string, { badge: string; next?: string; nextLabel?: string }> = {
-  open: { badge: 'badge-open', next: 'asked', nextLabel: 'Mark as Asked' },
-  asked: { badge: 'badge-asked', next: 'answered', nextLabel: 'Mark Answered' },
-  answered: { badge: 'badge-answered', next: 'closed', nextLabel: 'Close' },
+  open: { badge: 'badge-open', next: 'asked', nextLabel: 'Mark as asked' },
+  asked: { badge: 'badge-asked', next: 'answered', nextLabel: 'Mark as answered' },
+  answered: { badge: 'badge-answered', next: 'closed', nextLabel: 'Close question' },
   closed: { badge: 'badge-closed' },
 }
 
@@ -95,13 +95,12 @@ export default function QuestionsTab({ projectId, onSelectClaim, onChanged }: Pr
     <div>
       {/* Export for client email */}
       {openCount > 0 && (
-        <div className="flex items-center justify-between mb-5 bg-indigo-500/5 border border-indigo-500/15 rounded-lg px-4 py-3">
-          <div className="text-sm text-slate-300">
-            <span className="font-semibold text-indigo-300">{openCount}</span> open question{openCount > 1 ? 's' : ''} for client response
+        <div className="review-callout review-callout-info review-callout-with-action">
+          <div>
+            <strong>{openCount}</strong> open question{openCount > 1 ? 's' : ''} for client response
           </div>
           <button
             className="btn btn-ghost"
-            style={{ fontSize: '12px', padding: '5px 10px' }}
             onClick={handleCopyForEmail}
           >
             {copied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
@@ -116,42 +115,37 @@ export default function QuestionsTab({ projectId, onSelectClaim, onChanged }: Pr
         const meta = STATUS_META[status]
 
         return (
-          <div key={status} className="mb-6">
-            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-              <div className="h-px flex-1 bg-slate-800" />
-              {status} ({group.length})
-              <div className="h-px flex-1 bg-slate-800" />
+          <section key={status} className="review-group">
+            <div className="review-group-heading">
+              <span>{status}</span>
+              <span className="review-group-count">{group.length}</span>
             </div>
 
-            <div className="space-y-2">
+            <div className="review-list">
               {group.map(q => (
-                <div
-                  key={q.id}
-                  className="card animate-fade-in"
-                  style={{ padding: 0 }}
-                >
-                  <div className="p-4 flex items-start gap-3">
+                <div key={q.id} className="review-item animate-fade-in">
+                  <div className="review-item-main">
                     <HelpCircle
-                      size={15}
-                      className={`flex-shrink-0 mt-0.5 ${
+                      size={16}
+                      className={`review-item-leading ${
                         status === 'open' ? 'text-amber-400'
                         : status === 'asked' ? 'text-indigo-400'
                         : status === 'answered' ? 'text-emerald-400'
                         : 'text-slate-600'
                       }`}
                     />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-slate-200 leading-relaxed">{q.text}</p>
+                    <div className="review-item-copy">
+                      <p className="review-item-title">{q.text}</p>
                       {q.answerText && (
-                        <div className="mt-2 text-xs text-slate-400 bg-slate-900/50 rounded p-2 border border-slate-700/30">
-                          <span className="font-semibold text-emerald-400">Answer: </span>
+                        <div className="review-answer">
+                          <strong>Answer:</strong>{' '}
                           {q.answerText}
                         </div>
                       )}
-                      <div className="flex items-center gap-2 mt-2">
-                        <span className="text-[10px] font-mono font-bold text-slate-500">{q.key}</span>
+                      <div className="review-meta">
+                        <span className="review-key">{q.key}</span>
                         <span className={`badge ${meta.badge}`}>{status}</span>
-                        <span className="text-[10px] text-slate-500 bg-slate-800/50 px-1.5 py-0.5 rounded">
+                        <span className="review-category">
                           {q.category}
                         </span>
                       </div>
@@ -160,17 +154,16 @@ export default function QuestionsTab({ projectId, onSelectClaim, onChanged }: Pr
                     {meta.next && (
                       <button
                         onClick={() => handleAdvanceStatus(q)}
-                        className="btn btn-ghost flex-shrink-0"
-                        style={{ fontSize: '11px', padding: '4px 8px', whiteSpace: 'nowrap' }}
+                        className="btn btn-ghost"
                       >
-                        {meta.nextLabel} <ChevronRight size={11} />
+                        {meta.nextLabel} <ArrowRight size={15} />
                       </button>
                     )}
                   </div>
                 </div>
               ))}
             </div>
-          </div>
+          </section>
         )
       })}
     </div>

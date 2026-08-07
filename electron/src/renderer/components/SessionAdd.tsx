@@ -82,7 +82,7 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
         <div className="flex items-start justify-between mb-6">
           <div>
             <h2 className="modal-title">Add session</h2>
-            <p className="modal-description">Upload or paste a meeting transcript.</p>
+            <p className="modal-description">Import or paste a meeting transcript.</p>
           </div>
           <button onClick={onCancel} className="icon-button" aria-label="Close dialog">
             <X size={16} />
@@ -126,7 +126,7 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
                   className="btn btn-ghost"
                   style={{ padding: '4px 10px', fontSize: '12px', height: 'auto' }}
                 >
-                  <Upload size={12} /> Load file
+                  <Upload size={12} /> Import file
                 </button>
                 <input
                   ref={fileInputRef}
@@ -141,7 +141,7 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
               className={`input ${fieldError ? 'border-red-500 focus:border-red-500' : ''}`}
               value={transcriptText}
               onChange={e => handleTextChange(e.target.value)}
-              placeholder="Paste the meeting transcript here, or load from a .txt file..."
+              placeholder="Paste the meeting transcript here, or import a transcript file…"
               style={{ minHeight: 180, fontFamily: 'inherit', fontSize: 13 }}
               required
             />

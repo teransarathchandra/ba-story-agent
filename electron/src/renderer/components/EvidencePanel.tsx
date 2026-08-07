@@ -32,19 +32,9 @@ function highlightQuoteInContext(context: string, quote: string): React.ReactNod
   const after = normalizedContext.slice(idx + normalizedQuote.length)
 
   return [
-    before && <span key="before" className="text-slate-500">{before}</span>,
-    <mark
-      key="match"
-      style={{
-        background: 'rgba(99,102,241,0.25)',
-        color: '#c7d2fe',
-        borderRadius: 3,
-        padding: '1px 2px',
-      }}
-    >
-      {match}
-    </mark>,
-    after && <span key="after" className="text-slate-500">{after}</span>,
+    before && <span key="before">{before}</span>,
+    <mark key="match" className="evidence-highlight">{match}</mark>,
+    after && <span key="after">{after}</span>,
   ].filter(Boolean) as React.ReactNode[]
 }
 
@@ -70,7 +60,10 @@ export default function EvidencePanel({ claimId, onClose }: Props) {
     setLoading(true)
     setClaim(null)
     window.api.claim.get(claimId)
-      .then(c => { setClaim(c); setLoading(false) })
+      .then(c => {
+        setClaim(c ? { ...c, context: c.context ?? null } : null)
+        setLoading(false)
+      })
       .catch(() => setLoading(false))
   }, [claimId])
 
@@ -86,16 +79,17 @@ export default function EvidencePanel({ claimId, onClose }: Props) {
     <div className="h-full flex flex-col animate-slide-in-right">
       {/* Header */}
       <div
-        className="flex items-center justify-between px-4 py-3 border-b"
-        style={{ borderColor: 'var(--border-subtle)', background: 'rgba(99,102,241,0.05)' }}
+        className="evidence-header"
       >
         <div className="flex items-center gap-2">
-          <Quote size={15} className="text-indigo-400" />
-          <span className="text-sm font-semibold text-indigo-300">Evidence</span>
+          <Quote size={15} />
+          <span>Evidence</span>
         </div>
         <button
           onClick={onClose}
-          className="w-6 h-6 rounded flex items-center justify-center text-slate-500 hover:text-white hover:bg-slate-700/50 transition-smooth"
+          className="icon-button"
+          aria-label="Close evidence panel"
+          title="Close evidence panel"
         >
           <X size={14} />
         </button>
@@ -137,7 +131,7 @@ export default function EvidencePanel({ claimId, onClose }: Props) {
             {/* Statement */}
             <div>
               <div className="label mb-1.5">Statement</div>
-              <p className="text-sm text-slate-200 leading-relaxed">{claim.statement}</p>
+              <p className="evidence-statement">{claim.statement}</p>
             </div>
 
             <div className="divider" />
@@ -154,18 +148,13 @@ export default function EvidencePanel({ claimId, onClose }: Props) {
             {claim.context && (
               <div>
                 <div className="label mb-2">Transcript context</div>
-                <div
-                  className="text-xs leading-relaxed p-3 rounded-lg"
-                  style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid var(--border-subtle)' }}
-                >
+                <div className="evidence-context">
                   {contextNodes || (
-                    <span className="text-slate-500">Context unavailable</span>
+                    <span>Context unavailable</span>
                   )}
                 </div>
-                <p className="text-[10px] text-slate-600 mt-1.5 flex items-center gap-1">
-                  <span
-                    style={{ width: 10, height: 10, display: 'inline-block', background: 'rgba(99,102,241,0.25)', borderRadius: 2 }}
-                  />
+                <p className="evidence-caption">
+                  <span className="evidence-highlight-swatch" />
                   Highlighted text shows quote in transcript context
                 </p>
               </div>
@@ -173,7 +162,7 @@ export default function EvidencePanel({ claimId, onClose }: Props) {
 
             {/* Position info */}
             {claim.charStart != null && (
-              <div className="text-[10px] text-slate-600 border-t border-slate-800 pt-3">
+              <div className="evidence-position">
                 Position in transcript: chars {claim.charStart} to {claim.charEnd}
               </div>
             )}

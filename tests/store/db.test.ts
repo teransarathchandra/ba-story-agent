@@ -28,6 +28,7 @@ describe("openDb", () => {
     const names = rows.map((r) => r.name);
     for (const t of [
       "projects", "sessions", "transcripts", "segments", "claims",
+      "app_metadata",
       "requirements", "stories", "acceptance_criteria",
       "open_questions", "recommendations",
       "approval_events", "egress_log", "stage_checkpoints", "claim_links",
@@ -135,6 +136,6 @@ describe("openDb", () => {
 
     // Verify table count is unchanged (schema applied idempotently)
     expect(rows2.count).toBe(rows1.count);
-    expect(rows1.count).toBe(14); // 14 tables total
+    expect(rows1.count).toBe(15); // 15 tables total
   });
 });

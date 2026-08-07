@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { Sparkles, CheckCircle, X, AlertCircle } from 'lucide-react'
+import { Sparkles, CheckCircle, XCircle } from 'lucide-react'
 import { showErrorToast, showSuccessToast } from '../utils/errors'
 
 interface Props {
@@ -29,9 +29,9 @@ function DeclineModal({ rec, onConfirm, onCancel }: DeclineModalProps) {
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onCancel()}>
       <div className="modal-box">
-        <h3 className="font-semibold text-white mb-1">Decline recommendation</h3>
-        <p className="text-xs text-slate-400 mb-3">Provide a reason for declining this recommendation.</p>
-        <div className="text-xs text-slate-300 bg-slate-900/50 rounded p-2 mb-3 border border-slate-700/30">
+        <h3 className="modal-title">Decline recommendation</h3>
+        <p className="modal-description mb-3">Record why this recommendation should not move forward.</p>
+        <div className="modal-preview">
           {rec.text}
         </div>
         <textarea
@@ -49,7 +49,7 @@ function DeclineModal({ rec, onConfirm, onCancel }: DeclineModalProps) {
             onClick={() => reason.trim() && onConfirm(reason.trim())}
             disabled={!reason.trim()}
           >
-            <X size={14} /> Decline
+            <XCircle size={14} /> Decline recommendation
           </button>
         </div>
       </div>
@@ -104,50 +104,39 @@ export default function RecommendationsTab({ projectId, onSelectClaim, onChanged
     )
   }
 
-  const pending = items.filter(r => r.status === 'pending')
-  const accepted = items.filter(r => r.status === 'accepted' || r.status === 'accepted-as-req')
+  const pending = items.filter(r => r.status === 'open')
+  const accepted = items.filter(r => r.status === 'accepted')
   const declined = items.filter(r => r.status === 'declined')
-
-  const CATEGORY_COLORS: Record<string, string> = {
-    domain: 'bg-blue-500/15 text-blue-300',
-    security: 'bg-rose-500/15 text-rose-300',
-    compliance: 'bg-orange-500/15 text-orange-300',
-    testability: 'bg-emerald-500/15 text-emerald-300',
-    default: 'bg-slate-700/50 text-slate-300',
-  }
 
   const renderGroup = (label: string, group: Recommendation[], showActions: boolean) => {
     if (group.length === 0) return null
     return (
-      <div className="mb-6">
-        <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-          <div className="h-px flex-1 bg-slate-800" />
-          {label} ({group.length})
-          <div className="h-px flex-1 bg-slate-800" />
+      <section className="review-group">
+        <div className="review-group-heading">
+          <span>{label}</span>
+          <span className="review-group-count">{group.length}</span>
         </div>
-        <div className="space-y-2">
+        <div className="review-list">
           {group.map(rec => {
-            const catColor = CATEGORY_COLORS[rec.category] ?? CATEGORY_COLORS.default
             return (
-              <div key={rec.id} className="card animate-fade-in" style={{ padding: 0 }}>
-                <div className="p-4">
-                  <div className="flex items-start gap-3">
-                    <Sparkles size={14} className="flex-shrink-0 mt-0.5 text-amber-400" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-slate-200 leading-relaxed">{rec.text}</p>
+              <div key={rec.id} className="review-item animate-fade-in">
+                <div className="review-item-main">
+                    <Sparkles size={16} className="review-item-leading text-amber-400" />
+                    <div className="review-item-copy">
+                      <p className="review-item-title">{rec.text}</p>
                       {rec.rationale && (
-                        <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-                          <span className="font-medium text-slate-500">Rationale:</span> {rec.rationale}
+                        <p className="review-rationale">
+                          <strong>Rationale:</strong> {rec.rationale}
                         </p>
                       )}
                       {rec.dispositionNote && (
-                        <p className="text-xs text-slate-500 mt-1.5 italic">
-                          "{rec.dispositionNote}"
+                        <p className="review-disposition">
+                          “{rec.dispositionNote}”
                         </p>
                       )}
-                      <div className="flex items-center gap-2 mt-2">
-                        <span className="text-[10px] font-mono font-bold text-slate-500">{rec.key}</span>
-                        <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${catColor}`}>
+                      <div className="review-meta">
+                        <span className="review-key">{rec.key}</span>
+                        <span className="review-category">
                           {rec.category}
                         </span>
                         {rec.status !== 'pending' && (
@@ -159,45 +148,40 @@ export default function RecommendationsTab({ projectId, onSelectClaim, onChanged
                     </div>
 
                     {showActions && (
-                      <div
-                        className="flex flex-col gap-1.5 flex-shrink-0"
-                        onClick={e => e.stopPropagation()}
-                      >
+                      <div className="review-actions review-actions-stacked">
                         <button
                           onClick={() => handleAccept(rec)}
                           className="btn btn-approve"
-                          style={{ padding: '4px 10px', fontSize: '12px' }}
-                          title="Accept and add as open question"
+                          title="Accept recommendation"
                         >
-                          <CheckCircle size={12} /> Accept
+                          <CheckCircle size={15} /> Accept
                         </button>
                         <button
                           onClick={() => setDecliningId(rec.id)}
                           className="btn btn-reject"
-                          style={{ padding: '4px 8px', fontSize: '12px' }}
                           title="Decline with reason"
                         >
-                          <X size={12} /> Decline
+                          <XCircle size={15} /> Decline
                         </button>
                       </div>
                     )}
                   </div>
-                </div>
               </div>
             )
           })}
         </div>
-      </div>
+      </section>
     )
   }
 
   return (
     <div>
-      <div className="text-xs text-slate-500 mb-4 bg-slate-800/40 border border-slate-700/30 rounded-lg px-3 py-2">
-        Recommendations are suggested by AI. Accepting adds them to open questions for client verification.
+      <div className="review-callout review-callout-info">
+        Recommendations are suggested by AI. Accept or decline each one to record your review decision;
+        requirements are never changed automatically.
       </div>
 
-      {renderGroup('Pending', pending, true)}
+      {renderGroup('Open', pending, true)}
       {renderGroup('Accepted', accepted, false)}
       {renderGroup('Declined', declined, false)}
 
