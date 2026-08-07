@@ -1,9 +1,23 @@
 // scripts/verify-electron-local-backend.ts
 /**
- * Verifies the exact backend-selection code path electron/src/main/ipc.ts's
- * session:analyze handler uses for llmBackend: "local" — real model, real
- * transcript, real DB writes. Not part of `npm test` (multi-minute, uses
- * real local compute) — same category as scripts/run-live-eval.ts.
+ * Verifies real local-model inference + the analyzeSession pipeline work
+ * end-to-end against the actual cached local model — real model, real
+ * transcript, real DB writes, no mocks. Not part of `npm test` (multi-minute,
+ * uses real local compute) — same category as scripts/run-live-eval.ts.
+ *
+ * Scope, stated precisely: this proves loadLocalBackend() + analyzeSession()
+ * genuinely produce real, non-empty output together. It does NOT exercise
+ * electron/src/main/ipc.ts's own dispatch logic (selectBackend(), the real
+ * session:analyze handler) — 'electron' cannot be meaningfully imported
+ * outside a real launched Electron process, so a plain script like this one
+ * structurally cannot invoke that code path directly. That half of the claim
+ * — that Electron's IPC layer correctly dispatches to whichever backend a
+ * project's llmBackend setting selects — is covered separately by
+ * electron/tests/main/ipc.test.ts, which captures and invokes the REAL
+ * session:analyze handler (via a mocked 'electron' module, which vitest CAN
+ * do) with a MOCKED backend/pipeline. Together: ipc.test.ts proves the
+ * wiring is correct; this script proves the backend it wires to actually
+ * works. Neither alone proves the full chain — read them as a pair.
  *
  *   npx tsx scripts/verify-electron-local-backend.ts
  */
@@ -58,7 +72,11 @@ async function main() {
       console.log("\nFAIL: zero requirements produced from a transcript with known extractable content.");
       process.exitCode = 1;
     } else {
-      console.log("\nPASS: the electron IPC layer's local-backend dispatch path produces real, non-empty output.");
+      console.log(
+        "\nPASS: real local-model inference and the analyzeSession pipeline produce real, " +
+        "non-empty output. (Electron's IPC dispatch logic itself is verified separately by " +
+        "electron/tests/main/ipc.test.ts.)",
+      );
     }
   } finally {
     await release();
