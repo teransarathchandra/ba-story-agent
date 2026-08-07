@@ -1,6 +1,29 @@
 import { resolve } from 'path'
+import { copyFileSync, mkdirSync, existsSync } from 'fs'
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import react from '@vitejs/plugin-react'
+
+function copySchemaPlugin() {
+  return {
+    name: 'copy-schema-sql',
+    buildStart() {
+      const src = resolve(__dirname, '../src/store/schema.sql')
+      const destDir = resolve(__dirname, 'out/main')
+      if (!existsSync(destDir)) {
+        mkdirSync(destDir, { recursive: true })
+      }
+      copyFileSync(src, resolve(destDir, 'schema.sql'))
+    },
+    writeBundle() {
+      const src = resolve(__dirname, '../src/store/schema.sql')
+      const destDir = resolve(__dirname, 'out/main')
+      if (!existsSync(destDir)) {
+        mkdirSync(destDir, { recursive: true })
+      }
+      copyFileSync(src, resolve(destDir, 'schema.sql'))
+    }
+  }
+}
 
 export default defineConfig({
   main: {
@@ -13,7 +36,7 @@ export default defineConfig({
         ],
       },
     },
-    plugins: [externalizeDepsPlugin()],
+    plugins: [externalizeDepsPlugin(), copySchemaPlugin()],
   },
   preload: {
     plugins: [externalizeDepsPlugin()],

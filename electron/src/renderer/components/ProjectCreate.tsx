@@ -6,19 +6,9 @@ interface Props {
   onCancel: () => void
 }
 
-const REGULATORY_OPTIONS = [
-  { value: 'none', label: 'None' },
-  { value: 'GDPR', label: 'GDPR (EU Privacy)' },
-  { value: 'HIPAA', label: 'HIPAA (US Healthcare)' },
-  { value: 'PCI-DSS', label: 'PCI-DSS (Payments)' },
-  { value: 'SOC2', label: 'SOC 2 (Security)' },
-]
-
 export default function ProjectCreate({ onCreated, onCancel }: Props) {
   const [name, setName] = useState('')
   const [domain, setDomain] = useState('')
-  const [regulatory, setRegulatory] = useState('none')
-  const [systemName, setSystemName] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -31,8 +21,8 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
       const project = await window.api.project.create({
         name: name.trim(),
         domain: domain.trim(),
-        regulatory,
-        systemName: systemName.trim() || undefined,
+        regulatory: 'none',
+        systemName: undefined,
       })
       onCreated(project)
     } catch (err: any) {
@@ -80,32 +70,6 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
             <p className="text-xs text-slate-500 mt-1">
               Short summary of what this business does. Used by AI to extract domain concepts.
             </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="label">Regulatory Context (Optional)</label>
-              <select className="input" value={regulatory} onChange={e => setRegulatory(e.target.value)}>
-                {REGULATORY_OPTIONS.map(o => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
-                ))}
-              </select>
-              <p className="text-[11px] text-slate-500 mt-1">
-                Applies specific compliance checks like privacy or healthcare rules.
-              </p>
-            </div>
-            <div>
-              <label className="label">System or Product Name (Optional)</label>
-              <input
-                className="input"
-                value={systemName}
-                onChange={e => setSystemName(e.target.value)}
-                placeholder="e.g. Invoicing API"
-              />
-              <p className="text-[11px] text-slate-500 mt-1">
-                Name of the software system, if applicable.
-              </p>
-            </div>
           </div>
 
           {error && (
