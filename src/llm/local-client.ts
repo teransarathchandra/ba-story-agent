@@ -1,7 +1,7 @@
 // src/llm/local-client.ts
 import {
   getLlama, resolveModelFile, LlamaChatSession,
-  type Llama, type LlamaModel, type LlamaContextSequence, type GbnfJsonObjectSchema,
+  type Llama, type LlamaModel, type LlamaContext, type LlamaContextSequence, type GbnfJsonObjectSchema,
 } from "node-llama-cpp";
 import type { z } from "zod/v4";
 import type { LlmBackend, Effort } from "./backend.js";
@@ -84,6 +84,14 @@ export class LocalBackend implements LlmBackend {
 
     let raw = "";
     let parsedOutput: unknown = null;
+    // Every attempt — discarded retries included — is a real generation
+    // that consumed real compute and belongs in egress_log's audit trail.
+    // A fresh LlamaChatSession is constructed per attempt (see below), so
+    // each attempt genuinely re-sends the full system+user prompt to the
+    // model rather than continuing a shared history; totals here must sum
+    // across all attempts, not just report the final one.
+    let totalPromptTokens = 0;
+    let totalCompletionTokens = 0;
 
     // Inner retry loop for the empty-output reliability problem (Tasks 2-3
     // spike findings): grammar-constrained decoding at low temperature
@@ -103,7 +111,19 @@ export class LocalBackend implements LlmBackend {
       const session = new LlamaChatSession({ contextSequence: this.sequence, systemPrompt: args.system });
       const temperature = BASE_TEMPERATURE + attempt * TEMPERATURE_STEP;
 
-      raw = await session.prompt(args.user, { grammar, temperature, maxTokens: LOCAL_MAX_TOKENS });
+      try {
+        raw = await session.prompt(args.user, { grammar, temperature, maxTokens: LOCAL_MAX_TOKENS });
+      } finally {
+        // Each attempt's session holds chat history and engine resources
+        // until disposed; across up to MAX_EMPTY_RETRIES+1 attempts per
+        // generate() call these must not accumulate unfreed. Does not
+        // dispose the shared contextSequence (default), since that is
+        // owned and released by loadLocalBackend, not per-attempt.
+        session.dispose();
+      }
+
+      totalPromptTokens += this.llamaModel.tokenize(`${args.system}\n\n${args.user}`).length;
+      totalCompletionTokens += this.llamaModel.tokenize(raw).length;
 
       try {
         parsedOutput = grammar.parse(raw);
@@ -121,14 +141,11 @@ export class LocalBackend implements LlmBackend {
       // eventual StageFailure are what handle a truly unrecoverable case.
     }
 
-    const promptTokens = this.llamaModel.tokenize(`${args.system}\n\n${args.user}`).length;
-    const completionTokens = this.llamaModel.tokenize(raw).length;
-
     return {
       raw,
       parsedOutput,
       requestPayload: { system: args.system, user: args.user },
-      usage: { input_tokens: promptTokens, output_tokens: completionTokens },
+      usage: { input_tokens: totalPromptTokens, output_tokens: totalCompletionTokens },
     };
   }
 }
@@ -156,13 +173,39 @@ export async function loadLocalBackend(opts?: { log?: Log }): Promise<{
 
   const llama = await getLlama();
   const model = await llama.loadModel({ modelPath });
-  const context = await model.createContext();
-  const sequence = context.getSequence();
+
+  // No `release` handle exists yet at this point in construction, so a
+  // throw from either step below must dispose whatever was already
+  // successfully allocated itself, or it leaks until process exit.
+  let context: LlamaContext;
+  try {
+    context = await model.createContext();
+  } catch (err) {
+    await model.dispose();
+    throw err;
+  }
+
+  let sequence: LlamaContextSequence;
+  try {
+    sequence = context.getSequence();
+  } catch (err) {
+    try {
+      await context.dispose();
+    } finally {
+      await model.dispose();
+    }
+    throw err;
+  }
 
   const backend = new LocalBackend(llama, model, sequence, CANDIDATE_MODEL_URI);
   const release = async () => {
-    await context.dispose();
-    await model.dispose();
+    // If context.dispose() throws, model.dispose() must still run —
+    // otherwise the model leaks for the rest of the process's life.
+    try {
+      await context.dispose();
+    } finally {
+      await model.dispose();
+    }
   };
 
   return { backend, release };

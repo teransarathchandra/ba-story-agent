@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { z } from "zod/v4";
 
 const mockGrammar = { parse: vi.fn() };
-const mockSession = { prompt: vi.fn() };
+const mockSession = { prompt: vi.fn(), dispose: vi.fn() };
 const mockLlama = { createGrammarForJsonSchema: vi.fn() };
 const mockModel = { tokenize: vi.fn((t: string) => t.split(/\s+/)) };
 const mockSequence = {};
@@ -56,6 +56,34 @@ describe("LocalBackend", () => {
     expect(result.raw).toBe("not valid json even under grammar");
   });
 
+  it("treats a grammar.parse throw the same as a degenerate-empty result, retrying at bumped temperature until a later attempt parses", async () => {
+    // Attempt 0's raw fails grammar.parse (throws); attempt 1 produces real,
+    // successfully-parsed content. This exercises the parse-throws path
+    // through the retry loop specifically, distinct from the empty-array
+    // path the other retry tests cover.
+    mockSession.prompt
+      .mockResolvedValueOnce("not valid json even under grammar")
+      .mockResolvedValueOnce('{"ok":"yes"}');
+    mockGrammar.parse
+      .mockImplementationOnce(() => {
+        throw new Error("parse failed");
+      })
+      .mockImplementationOnce((raw: string) => JSON.parse(raw) as unknown);
+
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockSequence as never, "test-model");
+    const result = await backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) });
+
+    expect(result.parsedOutput).toEqual({ ok: "yes" });
+    expect(mockSession.prompt).toHaveBeenCalledTimes(2);
+
+    const calls = (mockSession.prompt as ReturnType<typeof vi.fn>).mock.calls;
+    const firstOptions = calls[0]![1] as Record<string, unknown>;
+    const secondOptions = calls[1]![1] as Record<string, unknown>;
+    expect(firstOptions.temperature).toBeCloseTo(1.1, 5);
+    expect(secondOptions.temperature).toBeCloseTo(1.4, 5);
+    expect(secondOptions.temperature as number).toBeGreaterThan(firstOptions.temperature as number);
+  });
+
   it("reports the configured model identifier", () => {
     const backend = new LocalBackend(mockLlama as never, mockModel as never, mockSequence as never, "test-model");
     expect(backend.model).toBe("test-model");
@@ -84,6 +112,38 @@ describe("LocalBackend", () => {
     expect(firstOptions.temperature).toBeCloseTo(1.1, 5);
     expect(secondOptions.temperature).toBeCloseTo(1.4, 5);
     expect(secondOptions.temperature as number).toBeGreaterThan(firstOptions.temperature as number);
+  });
+
+  it("accumulates usage across all attempts (discarded retries included), not just the final one", async () => {
+    // Attempt 0 is a degenerate-empty result (discarded and retried);
+    // attempt 1 succeeds. Raws are deliberately different token counts (via
+    // internal whitespace, which does not affect JSON.parse) so a correct
+    // sum-across-attempts is distinguishable from a buggy last-attempt-only
+    // count.
+    mockSession.prompt
+      .mockResolvedValueOnce('{"items":[]}') // tokenizes (split on whitespace) to 1 token
+      .mockResolvedValueOnce('{"items": ["a","b","c"]}'); // tokenizes to 2 tokens
+    mockGrammar.parse.mockImplementation((raw: string) => JSON.parse(raw) as unknown);
+
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockSequence as never, "test-model");
+    const result = await backend.generate({
+      system: "sys",
+      user: "usr",
+      schema: z.object({ items: z.array(z.string()) }),
+    });
+
+    expect(mockSession.prompt).toHaveBeenCalledTimes(2);
+    expect(result.parsedOutput).toEqual({ items: ["a", "b", "c"] });
+
+    // Completion tokens: attempt 0 = 1, attempt 1 = 2 -> summed = 3.
+    // A last-attempt-only bug would report 2.
+    expect(result.usage?.output_tokens).toBe(3);
+
+    // Prompt tokens: "sys\n\nusr" tokenizes to 2 per attempt; each attempt
+    // constructs a fresh session and genuinely re-sends the full prompt, so
+    // this should also be summed across both attempts (4), not just the
+    // final one (2).
+    expect(result.usage?.input_tokens).toBe(4);
   });
 
   it("gives up cleanly after exhausting retries and returns the last (still degenerate) attempt instead of throwing", async () => {
