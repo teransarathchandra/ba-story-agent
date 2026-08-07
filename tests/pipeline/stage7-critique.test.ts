@@ -23,14 +23,15 @@ function setup(regulatoryContext: "none" | "GDPR" = "none") {
     supersedesId: null, createdAt: new Date().toISOString(),
   }]);
   const parse = vi.fn().mockResolvedValue({
-    parsed_output: {
+    raw: "{}",
+    parsedOutput: {
       questions: [{ text: "Is an audit trail required for approvals?", category: "security" }],
       recommendations: [{ text: "Approval actions need an immutable audit trail.", rationale: "Financial approval with no audit mechanism discussed.", category: "security" }],
     },
-    content: [{ type: "text", text: "{}" }],
+    requestPayload: {},
     usage: { input_tokens: 1, output_tokens: 1 },
   });
-  const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+  const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
   return { ctx, parse, state: emptyState(transcript.id) };
 }
 
@@ -100,7 +101,7 @@ describe("stage7Critique", () => {
     const { transcript } = createTranscript(db, { sessionId: s.id, text: "a\n\nb" });
     freezeTranscript(db, transcript.id);
     const parse = vi.fn();
-    const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
     await stage7Critique.run(ctx, emptyState(transcript.id));
     expect(parse).not.toHaveBeenCalled();
   });

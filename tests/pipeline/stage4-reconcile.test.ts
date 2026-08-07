@@ -28,11 +28,12 @@ function setup(modelOutputFn: (a: string, b: string) => unknown) {
     charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: now,
   })));
   const parse = vi.fn().mockResolvedValue({
-    parsed_output: modelOutputFn(a, b),
-    content: [{ type: "text", text: "{}" }],
+    raw: "{}",
+    parsedOutput: modelOutputFn(a, b),
+    requestPayload: {},
     usage: { input_tokens: 1, output_tokens: 1 },
   });
-  const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+  const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
   return { ctx, a, b, state: emptyState(transcript.id) };
 }
 
@@ -94,7 +95,7 @@ describe("stage4Reconcile", () => {
     const { transcript } = createTranscript(db, { sessionId: s.id, text: "a\n\nb" });
     freezeTranscript(db, transcript.id);
     const parse = vi.fn();
-    const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
     await stage4Reconcile.run(ctx, emptyState(transcript.id));
     expect(parse).not.toHaveBeenCalled();
   });

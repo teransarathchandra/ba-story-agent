@@ -24,11 +24,12 @@ function setup(makeDrafts: (claimId: string) => unknown[]) {
     charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: new Date().toISOString(),
   }]);
   const parse = vi.fn().mockResolvedValue({
-    parsed_output: { requirements: makeDrafts(claimId) },
-    content: [{ type: "text", text: "{}" }],
+    raw: "{}",
+    parsedOutput: { requirements: makeDrafts(claimId) },
+    requestPayload: {},
     usage: { input_tokens: 1, output_tokens: 1 },
   });
-  const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+  const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
   return { ctx, claimId, state: emptyState(transcript.id) };
 }
 
@@ -78,7 +79,7 @@ describe("stage5Requirements", () => {
     const { transcript } = createTranscript(db, { sessionId: s.id, text: "a\n\nb" });
     freezeTranscript(db, transcript.id);
     const parse = vi.fn();
-    const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
     const out = await stage5Requirements.run(ctx, emptyState(transcript.id));
     expect(parse).not.toHaveBeenCalled();
     expect(out.requirements).toBe(0);

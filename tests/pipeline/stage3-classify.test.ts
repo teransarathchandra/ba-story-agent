@@ -24,11 +24,12 @@ function setup(quotes: string[], modelKinds: string[]) {
     matchMode: "exact" as const, createdAt: now,
   })));
   const parse = vi.fn().mockResolvedValue({
-    parsed_output: { classifications: ids.map((id, i) => ({ claimId: id, kind: modelKinds[i] })) },
-    content: [{ type: "text", text: "{}" }],
+    raw: "{}",
+    parsedOutput: { classifications: ids.map((id, i) => ({ claimId: id, kind: modelKinds[i] })) },
+    requestPayload: {},
     usage: { input_tokens: 1, output_tokens: 1 },
   });
-  const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+  const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
   return { ctx, ids, state: emptyState(transcript.id) };
 }
 
@@ -90,11 +91,12 @@ describe("stage3Classify", () => {
       createdAt: now,
     }]);
     const parse = vi.fn().mockResolvedValue({
-      parsed_output: { classifications: [{ claimId, kind: "requirement" }] },
-      content: [{ type: "text", text: "{}" }],
+      raw: "{}",
+      parsedOutput: { classifications: [{ claimId, kind: "requirement" }] },
+      requestPayload: {},
       usage: { input_tokens: 1, output_tokens: 1 },
     });
-    const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
     await stage3Classify.run(ctx, emptyState("t"));
     expect(listClaims(db, s.id)[0]?.kind).toBe("assumption");
   });
@@ -123,11 +125,12 @@ describe("stage3Classify", () => {
       createdAt: now,
     }]);
     const parse = vi.fn().mockResolvedValue({
-      parsed_output: { classifications: [{ claimId, kind: "requirement" }] },
-      content: [{ type: "text", text: "{}" }],
+      raw: "{}",
+      parsedOutput: { classifications: [{ claimId, kind: "requirement" }] },
+      requestPayload: {},
       usage: { input_tokens: 1, output_tokens: 1 },
     });
-    const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
     await stage3Classify.run(ctx, emptyState("t"));
     expect(listClaims(db, s.id)[0]?.kind).toBe("requirement");
   });
@@ -156,11 +159,12 @@ describe("stage3Classify", () => {
       createdAt: now,
     })));
     const parse = vi.fn().mockResolvedValue({
-      parsed_output: { classifications: claimIds.map((id) => ({ claimId: id, kind: "requirement" })) },
-      content: [{ type: "text", text: "{}" }],
+      raw: "{}",
+      parsedOutput: { classifications: claimIds.map((id) => ({ claimId: id, kind: "requirement" })) },
+      requestPayload: {},
       usage: { input_tokens: 1, output_tokens: 1 },
     });
-    const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
     await stage3Classify.run(ctx, emptyState("t"));
     expect(parse).toHaveBeenCalledTimes(2);
     const allClaims = listClaims(db, s.id);
@@ -192,11 +196,12 @@ describe("stage3Classify", () => {
       createdAt: now,
     })));
     const parse = vi.fn().mockResolvedValue({
-      parsed_output: { classifications: [{ claimId: claimIds[0], kind: "requirement" }] },
-      content: [{ type: "text", text: "{}" }],
+      raw: "{}",
+      parsedOutput: { classifications: [{ claimId: claimIds[0], kind: "requirement" }] },
+      requestPayload: {},
       usage: { input_tokens: 1, output_tokens: 1 },
     });
-    const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
     await stage3Classify.run(ctx, emptyState("t"));
     const claims = listClaims(db, s.id);
     expect(claims[0]?.kind).toBe("requirement");

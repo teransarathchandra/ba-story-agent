@@ -1,10 +1,9 @@
-import type Anthropic from "@anthropic-ai/sdk";
-import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
-import type { z } from "zod/v4";
 import type { Db } from "../store/db.js";
-import { MODEL, MAX_TOKENS, logEgress } from "./client.js";
+import type { z } from "zod/v4";
+import type { LlmBackend, Effort } from "./backend.js";
+import { logEgress } from "./client.js";
 
-export type Effort = "low" | "medium" | "high" | "xhigh" | "max";
+export type { Effort } from "./backend.js";
 
 export class StageFailure extends Error {
   constructor(
@@ -21,20 +20,13 @@ export class StageFailure extends Error {
 const MAX_SCHEMA_RETRIES = 2;
 
 /**
- * One typed structured-output call.
- *
- * Deliberately absent: `temperature`, `top_p`, `top_k` (all return 400 on
- * claude-opus-5) and `thinking.budget_tokens` (also 400 — thinking is on by
- * default; depth is controlled with `output_config.effort`).
- *
- * On a malformed payload the validation error is appended to the next
- * attempt's user turn, so the model is told exactly what was wrong rather
- * than being asked to guess. After MAX_SCHEMA_RETRIES the raw response is
- * preserved on the thrown StageFailure for inspection instead of being
- * silently dropped.
+ * One typed structured-output call, backend-agnostic. The retry loop, error
+ * feedback, and StageFailure contract are unchanged from before this
+ * refactor — only the request-building and response-parsing moved into
+ * whichever LlmBackend is passed in.
  */
 export async function callTyped<T>(args: {
-  client: Anthropic;
+  client: LlmBackend;
   db: Db;
   sessionId: string;
   stage: string;
@@ -43,38 +35,30 @@ export async function callTyped<T>(args: {
   schema: z.ZodType<T>;
   effort?: Effort;
 }): Promise<T> {
-  const { client, db, sessionId, stage, system, schema } = args;
+  const { client: backend, db, sessionId, stage, schema } = args;
   let user = args.user;
   let lastRaw: string | null = null;
   let lastError: unknown = null;
 
   for (let attempt = 0; attempt <= MAX_SCHEMA_RETRIES; attempt++) {
-    const request = {
-      model: MODEL,
-      max_tokens: MAX_TOKENS,
-      system,
-      output_config: {
-        effort: args.effort ?? "high",
-        format: zodOutputFormat(schema),
-      },
-      messages: [{ role: "user" as const, content: user }],
-    };
+    const result = await backend.generate({
+      system: args.system,
+      user,
+      schema: schema as z.ZodType<unknown>,
+      effort: args.effort,
+    });
+    lastRaw = result.raw;
 
-    const response = await client.messages.parse(request);
+    if (result.usage) {
+      logEgress(db, sessionId, stage, result.requestPayload, result.usage, backend.model);
+    }
 
-    const usage = response.usage;
-    if (usage) logEgress(db, sessionId, stage, request, usage);
-
-    const content = response.content ?? [];
-    lastRaw = content.map((b) => (b.type === "text" ? b.text ?? "" : "")).join("");
-
-    const parsedOutput = response.parsed_output;
-    if (parsedOutput === null || parsedOutput === undefined) {
+    if (result.parsedOutput === null || result.parsedOutput === undefined) {
       lastError = new Error("parsed_output was null — the model returned no schema-conforming JSON");
     } else {
-      const result = schema.safeParse(parsedOutput);
-      if (result.success) return result.data;
-      lastError = result.error;
+      const parsed = schema.safeParse(result.parsedOutput);
+      if (parsed.success) return parsed.data;
+      lastError = parsed.error;
     }
 
     if (attempt < MAX_SCHEMA_RETRIES) {

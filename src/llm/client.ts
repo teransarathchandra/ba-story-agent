@@ -1,7 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { createHash } from "node:crypto";
+import type { z } from "zod/v4";
 import type { Db } from "../store/db.js";
 import { recordEgress } from "../store/audit.js";
+import type { LlmBackend, Effort } from "./backend.js";
 
 /** The only model this engine targets. Never append a date suffix. */
 export const MODEL = "claude-opus-5";
@@ -51,8 +54,10 @@ export function hashRequest(payload: unknown): string {
 }
 
 /**
- * Record what left the machine. This is the compliance artifact: when a client
- * asks what was sent to an AI service, the answer is this table.
+ * Record what left the machine (or, for the local backend, what would have
+ * — the row still records the request/response shape and token counts for
+ * audit purposes, since the compliance promise is "we always log," not
+ * "we only log when something actually left the machine").
  */
 export function logEgress(
   db: Db,
@@ -60,6 +65,7 @@ export function logEgress(
   stage: string,
   payload: unknown,
   usage: { input_tokens: number; output_tokens: number },
+  model: string,
 ): void {
   recordEgress(db, {
     sessionId,
@@ -67,7 +73,7 @@ export function logEgress(
     requestHash: hashRequest(payload),
     promptTokens: usage.input_tokens,
     completionTokens: usage.output_tokens,
-    model: MODEL,
+    model,
   });
 }
 
@@ -86,4 +92,46 @@ export async function estimateInputTokens(
     messages: [{ role: "user", content: userText }],
   });
   return res.input_tokens;
+}
+
+/**
+ * Wraps the Anthropic SDK client to satisfy LlmBackend. The request shape
+ * built here (model/max_tokens/output_config/messages, no temperature/top_p/
+ * top_k/budget_tokens) is unchanged from callTyped's pre-refactor behavior —
+ * only its location moved.
+ */
+export class AnthropicBackend implements LlmBackend {
+  readonly model = MODEL;
+  constructor(private readonly client: Anthropic) {}
+
+  async generate(args: {
+    system: string;
+    user: string;
+    schema: z.ZodType<unknown>;
+    effort?: Effort;
+  }) {
+    const request = {
+      model: MODEL,
+      max_tokens: MAX_TOKENS,
+      system: args.system,
+      output_config: {
+        effort: args.effort ?? "high",
+        format: zodOutputFormat(args.schema),
+      },
+      messages: [{ role: "user" as const, content: args.user }],
+    };
+
+    const response = await this.client.messages.parse(request);
+    const content = response.content ?? [];
+    const raw = content.map((b) => (b.type === "text" ? b.text ?? "" : "")).join("");
+
+    return {
+      raw,
+      parsedOutput: response.parsed_output,
+      requestPayload: request,
+      usage: response.usage
+        ? { input_tokens: response.usage.input_tokens, output_tokens: response.usage.output_tokens }
+        : undefined,
+    };
+  }
 }

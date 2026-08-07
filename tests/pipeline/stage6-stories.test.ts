@@ -25,11 +25,12 @@ function setup(makeDrafts: (reqId: string) => unknown) {
   }]);
   const drafts = makeDrafts(reqId);
   const parse = vi.fn().mockResolvedValue({
-    parsed_output: drafts,
-    content: [{ type: "text", text: "{}" }],
+    raw: "{}",
+    parsedOutput: drafts,
+    requestPayload: {},
     usage: { input_tokens: 1, output_tokens: 1 },
   });
-  const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+  const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
   return { ctx, reqId, state: emptyState(transcript.id) };
 }
 
@@ -91,7 +92,7 @@ describe("stage6Stories", () => {
     const { transcript } = createTranscript(db, { sessionId: s.id, text: "a\n\nb" });
     freezeTranscript(db, transcript.id);
     const parse = vi.fn();
-    const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
     await stage6Stories.run(ctx, emptyState(transcript.id));
     expect(parse).not.toHaveBeenCalled();
   });

@@ -7,7 +7,7 @@ import { createTranscript, freezeTranscript, getFrozenTranscript } from "../stor
 import { countByStatus } from "../store/claims.js";
 import { listRequirements, listStories } from "../store/artifacts.js";
 import { listQuestions, listRecommendations } from "../store/findings.js";
-import { createClient } from "../llm/client.js";
+import { createClient, AnthropicBackend } from "../llm/client.js";
 import { analyzeSession, quarantineRate } from "../pipeline/index.js";
 import { countWords, MIN_WORDS } from "../pipeline/stage0-chunk.js";
 import { buildSnapshot } from "../export/snapshot.js";
@@ -102,7 +102,7 @@ export function buildProgram(opts?: { log?: Log }): Command {
       if (!row) throw new Error(`session ${o.session} not found`);
 
       const state = await analyzeSession(
-        { db, client: createClient(), projectId: row.project_id, sessionId: o.session },
+        { db, client: new AnthropicBackend(createClient()), projectId: row.project_id, sessionId: o.session },
         frozen.transcript.id,
         {
           resume: o.resume,

@@ -43,11 +43,12 @@ describe("analyzeSession", () => {
     freezeTranscript(db, transcript.id);
     // Every LLM stage returns empty results; the pipeline should still complete.
     const parse = vi.fn().mockResolvedValue({
-      parsed_output: { claims: [], classifications: [], contradictions: [], links: [], requirements: [], stories: [], questions: [], recommendations: [] },
-      content: [{ type: "text", text: "{}" }],
+      raw: "{}",
+      parsedOutput: { claims: [], classifications: [], contradictions: [], links: [], requirements: [], stories: [], questions: [], recommendations: [] },
+      requestPayload: {},
       usage: { input_tokens: 1, output_tokens: 1 },
     });
-    const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
     const state = await analyzeSession(ctx, transcript.id);
     expect(state.extracted).toBe(0);
     expect(getSession(db, s.id)?.status).toBe("awaiting-review");

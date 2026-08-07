@@ -1,12 +1,16 @@
-import type Anthropic from "@anthropic-ai/sdk";
 import type { Db } from "../store/db.js";
 import { saveCheckpoint, loadCheckpoint } from "../store/audit.js";
 import { setSessionStatus } from "../store/projects.js";
 import { StageFailure } from "../llm/parse.js";
+import type { LlmBackend } from "../llm/backend.js";
 
 export interface StageContext {
   db: Db;
-  client: Anthropic;
+  /** Holds an LlmBackend, not literally an Anthropic client — named `client`
+   * because every stage file already destructures `ctx.client` and passing
+   * `client: ctx.client` through unchanged to callTyped is what keeps this
+   * refactor from touching any of the 9 stage files. See Task 4 in the plan. */
+  client: LlmBackend;
   projectId: string;
   sessionId: string;
 }

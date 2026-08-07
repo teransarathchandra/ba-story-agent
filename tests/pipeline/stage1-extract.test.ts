@@ -20,12 +20,13 @@ function setup(parsedOutputs: unknown[]) {
   const parse = vi.fn();
   for (const out of parsedOutputs) {
     parse.mockResolvedValueOnce({
-      parsed_output: out,
-      content: [{ type: "text", text: JSON.stringify(out) }],
+      raw: JSON.stringify(out),
+      parsedOutput: out,
+      requestPayload: {},
       usage: { input_tokens: 10, output_tokens: 5 },
     });
   }
-  const ctx: StageContext = { db, client: { messages: { parse } } as never, projectId: p.id, sessionId: s.id };
+  const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
   return { ctx, transcriptId: transcript.id, parse };
 }
 
