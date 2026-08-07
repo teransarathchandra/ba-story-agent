@@ -29,4 +29,14 @@ describe("projects", () => {
     expect(sessions).toHaveLength(1);
     expect(sessions[0]?.status).toBe("awaiting-review");
   });
+
+  it("defaults llmBackend to claude and can be set to local", () => {
+    const db = openDb(":memory:");
+    const p1 = createProject(db, { name: "P1", domain: "invoice approval for logistics operators" });
+    expect(p1.llmBackend).toBe("claude");
+
+    const p2 = createProject(db, { name: "P2", domain: "invoice approval for logistics operators", llmBackend: "local" });
+    const fetched = getProject(db, p2.id);
+    expect(fetched?.llmBackend).toBe("local");
+  });
 });

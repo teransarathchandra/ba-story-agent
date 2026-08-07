@@ -20,6 +20,7 @@ export const CritiqueCategory = z.enum([
 export const RegulatoryContext = z.enum([
   "none", "GDPR", "HIPAA", "PCI-DSS", "SOC2",
 ]);
+export const LlmBackendSetting = z.enum(["claude", "local"]);
 export const SessionStatus = z.enum([
   "draft", "analyzing", "awaiting-review", "finalized", "failed",
 ]);
@@ -32,6 +33,7 @@ export const ProjectSchema = z.object({
   regulatoryContext: RegulatoryContext,
   systemName: z.string().nullable(),
   glossary: z.string().nullable(),
+  llmBackend: LlmBackendSetting,
   createdAt: Iso,
 });
 

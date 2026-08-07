@@ -7,7 +7,7 @@ import {
 
 interface ProjectRow {
   id: string; name: string; domain: string; regulatory_context: string;
-  system_name: string | null; glossary: string | null; created_at: string;
+  system_name: string | null; glossary: string | null; llm_backend: string; created_at: string;
 }
 
 interface SessionRow {
@@ -23,6 +23,7 @@ function toProject(row: ProjectRow): Project {
     regulatoryContext: row.regulatory_context,
     systemName: row.system_name,
     glossary: row.glossary,
+    llmBackend: row.llm_backend,
     createdAt: row.created_at,
   });
 }
@@ -46,6 +47,7 @@ export function createProject(
     regulatoryContext?: Project["regulatoryContext"];
     systemName?: string | null;
     glossary?: string | null;
+    llmBackend?: Project["llmBackend"];
   },
 ): Project {
   const project = ProjectSchema.parse({
@@ -55,14 +57,15 @@ export function createProject(
     regulatoryContext: input.regulatoryContext ?? "none",
     systemName: input.systemName ?? null,
     glossary: input.glossary ?? null,
+    llmBackend: input.llmBackend ?? "claude",
     createdAt: new Date().toISOString(),
   });
   db.prepare(
-    `INSERT INTO projects (id, name, domain, regulatory_context, system_name, glossary, created_at)
-     VALUES (?,?,?,?,?,?,?)`,
+    `INSERT INTO projects (id, name, domain, regulatory_context, system_name, glossary, llm_backend, created_at)
+     VALUES (?,?,?,?,?,?,?,?)`,
   ).run(
     project.id, project.name, project.domain, project.regulatoryContext,
-    project.systemName, project.glossary, project.createdAt,
+    project.systemName, project.glossary, project.llmBackend, project.createdAt,
   );
   return project;
 }
