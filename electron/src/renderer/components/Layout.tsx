@@ -1,33 +1,38 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import ReviewWorkspace from './ReviewWorkspace'
 import EvidencePanel from './EvidencePanel'
-import { FileText, GitBranch } from 'lucide-react'
+import ProjectCreate from './ProjectCreate'
+import { ArrowRight, GitBranch } from 'lucide-react'
+
+export type Theme = 'light' | 'dark'
 
 export default function Layout() {
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null)
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null)
   const [selectedClaimId, setSelectedClaimId] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
+  const [sidebarRefreshKey, setSidebarRefreshKey] = useState(0)
+  const [showCreateProject, setShowCreateProject] = useState(false)
+  const [theme, setTheme] = useState<Theme>(() => {
+    const saved = localStorage.getItem('ba-story-theme')
+    if (saved === 'light' || saved === 'dark') return saved
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  })
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    localStorage.setItem('ba-story-theme', theme)
+  }, [theme])
 
   const handleRefresh = useCallback(() => {
     setRefreshKey(k => k + 1)
   }, [])
 
   return (
-    <div
-      className="flex h-full w-full"
-      style={{ background: 'var(--bg-base)' }}
-    >
+    <div className="app-shell">
       {/* Sidebar — project & session nav */}
-      <div
-        className="flex-shrink-0 border-r"
-        style={{
-          width: 220,
-          borderColor: 'var(--border-subtle)',
-          background: 'rgba(10, 15, 30, 0.95)',
-        }}
-      >
+      <aside className="sidebar-shell">
         <Sidebar
           activeProjectId={activeProjectId}
           setActiveProjectId={id => {
@@ -41,14 +46,15 @@ export default function Layout() {
             setSelectedClaimId(null)
           }}
           onRefresh={handleRefresh}
+          onCreateProject={() => setShowCreateProject(true)}
+          projectsRefreshKey={sidebarRefreshKey}
+          theme={theme}
+          setTheme={setTheme}
         />
-      </div>
+      </aside>
 
       {/* Main review area */}
-      <div
-        className="flex-1 min-w-0 flex flex-col"
-        style={{ background: 'var(--bg-surface)' }}
-      >
+      <main className="workspace-shell">
         {activeProjectId ? (
           <ReviewWorkspace
             key={`${activeProjectId}-${refreshKey}`}
@@ -57,18 +63,16 @@ export default function Layout() {
             selectedClaimId={selectedClaimId}
           />
         ) : (
-          <EmptyState />
+          <EmptyState onCreateProject={() => setShowCreateProject(true)} />
         )}
-      </div>
+      </main>
 
       {/* Evidence panel — always visible once something is selected */}
-      <div
-        className="flex-shrink-0 border-l transition-smooth"
+      <aside
+        className="evidence-shell"
         style={{
-          width: selectedClaimId ? 320 : 0,
-          borderColor: selectedClaimId ? 'var(--border-accent)' : 'transparent',
-          overflow: 'hidden',
-          background: 'rgba(10, 15, 30, 0.97)',
+          width: selectedClaimId ? 360 : 0,
+          borderColor: selectedClaimId ? 'var(--border)' : 'transparent',
         }}
       >
         {selectedClaimId && (
@@ -77,40 +81,42 @@ export default function Layout() {
             onClose={() => setSelectedClaimId(null)}
           />
         )}
-      </div>
+      </aside>
+
+      {showCreateProject && (
+        <ProjectCreate
+          onCreated={project => {
+            setShowCreateProject(false)
+            setActiveProjectId(project.id)
+            setActiveSessionId(null)
+            setSelectedClaimId(null)
+            setSidebarRefreshKey(key => key + 1)
+            handleRefresh()
+          }}
+          onCancel={() => setShowCreateProject(false)}
+        />
+      )}
     </div>
   )
 }
 
-function EmptyState() {
+function EmptyState({ onCreateProject }: { onCreateProject: () => void }) {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center gap-6">
-      {/* Abstract decorative background */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(99,102,241,0.05) 0%, transparent 70%)',
-        }}
-      />
-
-      <div className="relative z-10 flex flex-col items-center gap-4 text-center">
-        <div
-          className="w-16 h-16 rounded-2xl flex items-center justify-center"
-          style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)' }}
-        >
-          <FileText size={28} className="text-indigo-400" />
+    <div className="workspace-empty">
+      <div className="empty-content">
+        <div className="empty-kicker">Grounded requirements workspace</div>
+        <h1 className="empty-title">Turn client conversations into an auditable baseline.</h1>
+        <p className="empty-copy">
+          Create an engagement, add meeting transcripts, and review every requirement against its original evidence.
+        </p>
+        <div className="empty-actions">
+          <button className="btn btn-primary no-drag" onClick={onCreateProject}>
+            Create project <ArrowRight size={15} />
+          </button>
         </div>
-
-        <div>
-          <h1 className="text-xl font-semibold text-white mb-2">BA Story Agent</h1>
-          <p className="text-slate-400 text-sm max-w-xs leading-relaxed">
-            Select a project from the sidebar to start reviewing requirements, or create a new one.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 text-xs text-slate-600 mt-2">
+        <div className="principle-row">
           <GitBranch size={12} />
-          <span>Every requirement traces to a verbatim client quote</span>
+          <span>Every requirement traces to a verbatim client quote.</span>
         </div>
       </div>
     </div>
