@@ -7,6 +7,7 @@ export interface Project {
   regulatoryContext: string
   systemName: string | null
   glossary: string | null
+  llmBackend: 'claude' | 'local'
   createdAt: string
 }
 
@@ -146,7 +147,7 @@ declare global {
       project: {
         list: () => Promise<Project[]>
         create: (data: {
-          name: string; domain: string; regulatory?: string; systemName?: string
+          name: string; domain: string; regulatory?: string; systemName?: string; llmBackend?: 'claude' | 'local'
         }) => Promise<Project>
         get: (id: string) => Promise<Project | null>
         status: (id: string) => Promise<ProjectStatus>

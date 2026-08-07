@@ -69,7 +69,7 @@ export function setupIpc(): void {
   })
 
   ipcMain.handle('project:create', async (_event, data: {
-    name: string; domain: string; regulatory?: string; systemName?: string
+    name: string; domain: string; regulatory?: string; systemName?: string; llmBackend?: 'claude' | 'local'
   }) => {
     const db = getDb()
     return createProject(db, {
@@ -79,6 +79,7 @@ export function setupIpc(): void {
         ? RegulatoryContext.parse(data.regulatory)
         : 'none',
       systemName: data.systemName ?? null,
+      llmBackend: data.llmBackend ?? 'claude',
     })
   })
 

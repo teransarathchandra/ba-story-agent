@@ -10,6 +10,7 @@ interface Props {
 export default function ProjectCreate({ onCreated, onCancel }: Props) {
   const [name, setName] = useState('')
   const [domain, setDomain] = useState('')
+  const [llmBackend, setLlmBackend] = useState<'claude' | 'local'>('claude')
   const [loading, setLoading] = useState(false)
   const [fieldError, setFieldError] = useState<string | null>(null)
 
@@ -25,6 +26,7 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
         domain: domain.trim(),
         regulatory: 'none',
         systemName: undefined,
+        llmBackend,
       })
       showSuccessToast(`Project "${project.name}" created`)
       onCreated(project)
@@ -75,7 +77,33 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
             <p className="text-xs text-slate-400 mt-1">
               Short summary of what this business does.
             </p>
+          </div>
 
+          <div>
+            <label className="label">LLM Backend</label>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                className={`btn ${llmBackend === 'claude' ? 'btn-primary' : 'btn-ghost'}`}
+                onClick={() => setLlmBackend('claude')}
+              >
+                Claude API
+              </button>
+              <button
+                type="button"
+                className={`btn ${llmBackend === 'local' ? 'btn-primary' : 'btn-ghost'}`}
+                onClick={() => setLlmBackend('local')}
+              >
+                Local model
+              </button>
+            </div>
+            <p className="text-xs text-slate-400 mt-1">
+              Local runs entirely on this machine — no data leaves it, but analysis is slower and
+              lower-quality on judgment-heavy calls than the Claude API.
+            </p>
+          </div>
+
+          <div>
             {fieldError && (
               <div className="flex items-center gap-1.5 mt-2 text-xs font-semibold text-red-500 bg-red-500/10 border border-red-500/30 rounded px-2.5 py-1.5">
                 <AlertCircle size={13} className="flex-shrink-0 text-red-500" />
