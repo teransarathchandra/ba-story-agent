@@ -67,7 +67,7 @@ export default function Layout() {
         )}
       </main>
 
-      {/* Evidence panel — always visible once something is selected */}
+      {/* Evidence panel — visible when an item is selected */}
       <aside
         className="evidence-shell"
         style={{
@@ -104,10 +104,10 @@ function EmptyState({ onCreateProject }: { onCreateProject: () => void }) {
   return (
     <div className="workspace-empty">
       <div className="empty-content">
-        <div className="empty-kicker">Grounded requirements workspace</div>
-        <h1 className="empty-title">Turn client conversations into an auditable baseline.</h1>
+        <div className="empty-kicker">Requirements workspace</div>
+        <h1 className="empty-title">Turn client meeting notes into software requirements.</h1>
         <p className="empty-copy">
-          Create an engagement, add meeting transcripts, and review every requirement against its original evidence.
+          Add your meeting transcripts to extract requirements backed by exact client quotes.
         </p>
         <div className="empty-actions">
           <button className="btn btn-primary no-drag" onClick={onCreateProject}>
@@ -116,7 +116,7 @@ function EmptyState({ onCreateProject }: { onCreateProject: () => void }) {
         </div>
         <div className="principle-row">
           <GitBranch size={12} />
-          <span>Every requirement traces to a verbatim client quote.</span>
+          <span>All requirements link directly to what the client said in transcripts.</span>
         </div>
       </div>
     </div>

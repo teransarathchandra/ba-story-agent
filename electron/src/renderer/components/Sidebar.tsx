@@ -82,7 +82,7 @@ export default function Sidebar({
             <div className="brand-mark">BA</div>
             <div className="sidebar-copy">
               <div className="brand-title">Story Agent</div>
-              <div className="brand-subtitle">Review workspace</div>
+              <div className="brand-subtitle">Workspace</div>
             </div>
           </div>
         </div>
@@ -104,13 +104,7 @@ export default function Sidebar({
           <div className="space-y-0.5">
             {projects.length === 0 && (
               <div className="sidebar-empty">
-                <p className="sidebar-empty-copy">No projects yet.</p>
-                <button
-                  onClick={onCreateProject}
-                  className="btn btn-primary no-drag"
-                >
-                  <Plus size={14} /> <span className="sidebar-empty-copy">Create project</span>
-                </button>
+                <p className="sidebar-empty-copy">No projects yet</p>
               </div>
             )}
 

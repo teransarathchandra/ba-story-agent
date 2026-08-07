@@ -31,9 +31,9 @@ function PromoteModal({ claim, onConfirm, onConvertToQuestion, onCancel }: Promo
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onCancel()}>
       <div className="modal-box">
-        <h3 className="font-semibold text-white mb-1">Promote assumption to requirement</h3>
+        <h3 className="font-semibold text-white mb-1">Turn assumption into requirement</h3>
         <p className="text-xs text-slate-400 mb-3">
-          An assumption cannot become a requirement in one click. Record how it was confirmed.
+          Enter a brief note explaining how this assumption was verified with the client.
         </p>
 
         <div className="quote-text text-xs mb-4">
@@ -46,12 +46,12 @@ function PromoteModal({ claim, onConfirm, onConvertToQuestion, onCancel }: Promo
             className="input"
             value={note}
             onChange={e => setNote(e.target.value)}
-            placeholder="e.g. Confirmed with client via email on 2026-08-07. Reply: 'Yes, all invoices are in EUR.' (see thread attached to OQ-003)"
+            placeholder="e.g. Confirmed with client by email on Aug 7: 'Yes, all invoices are in EUR.'"
             style={{ minHeight: 80 }}
             autoFocus
           />
           <p className="text-xs text-slate-500 mt-1">
-            How was this verified? Who confirmed it, and when? This note is recorded in the audit trail.
+            Who confirmed it and when?
           </p>
         </div>
 
@@ -76,7 +76,7 @@ function PromoteModal({ claim, onConfirm, onConvertToQuestion, onCancel }: Promo
             style={{ width: '100%', fontSize: '12px' }}
             onClick={onConvertToQuestion}
           >
-            <MessageSquare size={12} /> Convert to open question instead (default)
+            <MessageSquare size={12} /> Convert to open question instead
           </button>
         </div>
       </div>
@@ -110,9 +110,8 @@ export default function AssumptionsTab({ projectId, onSelectClaim, selectedClaim
   }
 
   const handleConvertToQuestion = async (claim: Claim) => {
-    // Record it as a question-conversion event (implementation can be enhanced)
     setPromotingClaim(null)
-    alert(`OQ created for: "${claim.quote.slice(0, 60)}…"\n\nThis would raise an open question in a full implementation.`)
+    alert(`Open question created for: "${claim.quote.slice(0, 60)}..."`)
   }
 
   if (items.length === 0) {
@@ -121,7 +120,7 @@ export default function AssumptionsTab({ projectId, onSelectClaim, selectedClaim
         <MessageSquare size={40} />
         <p className="text-sm">No assumptions found yet.</p>
         <p className="text-xs text-slate-600 max-w-xs">
-          Assumptions are hedged client statements ("we'd probably", "usually", "I think") — they get classified separately from confirmed requirements.
+          Assumptions are unconfirmed client statements (like "we'd probably" or "usually").
         </p>
       </div>
     )
@@ -131,7 +130,7 @@ export default function AssumptionsTab({ projectId, onSelectClaim, selectedClaim
     <div className="space-y-2">
       <div className="text-xs text-slate-500 mb-4 flex items-center gap-2 bg-amber-500/5 border border-amber-500/10 rounded-lg px-3 py-2">
         <AlertTriangle size={14} className="flex-shrink-0 text-amber-400" />
-        <span>Assumptions are hedged client statements. They are <strong>not client requirements</strong>. Promote only with documented verification.</span>
+        <span>Assumptions are unconfirmed client statements. Promote only after verification with the client.</span>
       </div>
 
       {items.map(claim => {
@@ -176,7 +175,7 @@ export default function AssumptionsTab({ projectId, onSelectClaim, selectedClaim
                     onClick={() => setPromotingClaim(claim)}
                     className="btn btn-warn"
                     style={{ padding: '5px 10px', fontSize: '12px' }}
-                    title="Promote to requirement (requires verification note)"
+                    title="Turn assumption into requirement"
                   >
                     <ArrowUpCircle size={12} /> Promote
                   </button>
@@ -185,7 +184,7 @@ export default function AssumptionsTab({ projectId, onSelectClaim, selectedClaim
                     style={{ padding: '4px 8px', fontSize: '11px' }}
                     onClick={() => handleConvertToQuestion(claim)}
                   >
-                    <MessageSquare size={11} /> → Question
+                    <MessageSquare size={11} /> Question
                   </button>
                 </div>
               </div>

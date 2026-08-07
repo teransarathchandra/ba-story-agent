@@ -29,7 +29,7 @@ function DeclineModal({ rec, onConfirm, onCancel }: DeclineModalProps) {
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onCancel()}>
       <div className="modal-box">
         <h3 className="font-semibold text-white mb-1">Decline recommendation</h3>
-        <p className="text-xs text-slate-400 mb-3">Provide a reason (required, recorded in audit trail).</p>
+        <p className="text-xs text-slate-400 mb-3">Provide a reason for declining this recommendation.</p>
         <div className="text-xs text-slate-300 bg-slate-900/50 rounded p-2 mb-3 border border-slate-700/30">
           {rec.text}
         </div>
@@ -37,7 +37,7 @@ function DeclineModal({ rec, onConfirm, onCancel }: DeclineModalProps) {
           className="input"
           value={reason}
           onChange={e => setReason(e.target.value)}
-          placeholder="e.g. Already covered by existing company policy; out of scope for this engagement"
+          placeholder="e.g. Out of scope for current project phase."
           style={{ minHeight: 72 }}
           autoFocus
         />
@@ -93,7 +93,7 @@ export default function RecommendationsTab({ projectId, onSelectClaim, onChanged
         <Sparkles size={40} />
         <p className="text-sm">No recommendations yet.</p>
         <p className="text-xs text-slate-600 max-w-xs">
-          The critique panel (domain, security, compliance, testability reviewers) raises recommendations when it spots gaps.
+          Recommendations appear when AI reviewers spot gaps or missing rules.
         </p>
       </div>
     )
@@ -162,7 +162,7 @@ export default function RecommendationsTab({ projectId, onSelectClaim, onChanged
                           onClick={() => handleAccept(rec)}
                           className="btn btn-approve"
                           style={{ padding: '4px 10px', fontSize: '12px' }}
-                          title="Accept → raises as open question (default)"
+                          title="Accept and add as open question"
                         >
                           <CheckCircle size={12} /> Accept
                         </button>
@@ -189,7 +189,7 @@ export default function RecommendationsTab({ projectId, onSelectClaim, onChanged
   return (
     <div>
       <div className="text-xs text-slate-500 mb-4 bg-slate-800/40 border border-slate-700/30 rounded-lg px-3 py-2">
-        Recommendations are tool-generated. They are <strong className="text-slate-300">not client requirements</strong>. Accepting raises them as open questions for the client.
+        Recommendations are suggested by AI. Accepting adds them to open questions for client verification.
       </div>
 
       {renderGroup('Pending', pending, true)}

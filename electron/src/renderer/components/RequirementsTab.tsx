@@ -29,13 +29,13 @@ function RejectModal({ onConfirm, onCancel }: RejectModalProps) {
       <div className="modal-box">
         <h3 className="font-semibold text-white mb-1">Reject requirement</h3>
         <p className="text-xs text-slate-400 mb-4">
-          Provide a reason. This is recorded in the audit trail.
+          Enter a reason for rejecting this requirement.
         </p>
         <textarea
           className="input"
           value={reason}
           onChange={e => setReason(e.target.value)}
-          placeholder="e.g. Superseded by REQ-012; client confirmed in session 3 this is not required"
+          placeholder="e.g. Client confirmed in session 2 that this feature is out of scope."
           style={{ minHeight: 80 }}
           autoFocus
         />
@@ -106,7 +106,7 @@ export default function RequirementsTab({ projectId, onSelectClaim, selectedClai
         <Check size={40} />
         <p className="text-sm">No requirements yet.</p>
         <p className="text-xs text-slate-600 max-w-xs">
-          Add a session transcript and run the analysis pipeline to extract requirements.
+          Add a meeting transcript and click Analyze to extract requirements.
         </p>
       </div>
     )
@@ -169,7 +169,7 @@ export default function RequirementsTab({ projectId, onSelectClaim, selectedClai
                       </div>
                     </div>
 
-                    {/* Action buttons — only for proposed */}
+                    {/* Action buttons */}
                     {req.status === 'proposed' && (
                       <div
                         className="flex items-center gap-1.5 flex-shrink-0 ml-2"
@@ -179,7 +179,7 @@ export default function RequirementsTab({ projectId, onSelectClaim, selectedClai
                           onClick={() => handleApprove(req)}
                           className="btn btn-approve"
                           style={{ padding: '5px 10px', fontSize: '12px' }}
-                          title="Approve — moves to finalized baseline"
+                          title="Approve requirement"
                         >
                           <Check size={12} /> Approve
                         </button>
@@ -212,10 +212,10 @@ export default function RequirementsTab({ projectId, onSelectClaim, selectedClai
                     onClick={e => e.stopPropagation()}
                   >
                     <div className="text-xs text-slate-500">
-                      Origin claim IDs: {req.originClaimIds?.join(', ') || '—'}
+                      Claim IDs: {req.originClaimIds?.join(', ') || 'None'}
                     </div>
                     <p className="text-xs text-slate-400">
-                      Click the card to show the verbatim quote in the evidence panel →
+                      Click to view the client quote in the side panel.
                     </p>
                   </div>
                 )}

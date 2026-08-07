@@ -21,9 +21,9 @@ interface OpenQuestion {
 const STATUS_ORDER = ['open', 'asked', 'answered', 'closed']
 
 const STATUS_META: Record<string, { badge: string; next?: string; nextLabel?: string }> = {
-  open: { badge: 'badge-open', next: 'asked', nextLabel: '→ Mark as Asked' },
-  asked: { badge: 'badge-asked', next: 'answered', nextLabel: '→ Mark Answered' },
-  answered: { badge: 'badge-answered', next: 'closed', nextLabel: '→ Close' },
+  open: { badge: 'badge-open', next: 'asked', nextLabel: 'Mark as Asked' },
+  asked: { badge: 'badge-asked', next: 'answered', nextLabel: 'Mark Answered' },
+  answered: { badge: 'badge-answered', next: 'closed', nextLabel: 'Close' },
   closed: { badge: 'badge-closed' },
 }
 
@@ -54,7 +54,7 @@ export default function QuestionsTab({ projectId, onSelectClaim, onChanged }: Pr
     if (openAndAsked.length === 0) return
 
     const text = [
-      'Open Questions — please review and respond:',
+      'Open questions for client review:',
       '',
       ...openAndAsked.map((q, i) =>
         `${i + 1}. [${q.key}] ${q.text}\n   Category: ${q.category} | Status: ${q.status}`
@@ -73,7 +73,7 @@ export default function QuestionsTab({ projectId, onSelectClaim, onChanged }: Pr
         <HelpCircle size={40} />
         <p className="text-sm">No open questions yet.</p>
         <p className="text-xs text-slate-600 max-w-xs">
-          Questions are raised by the critique panel when things are ambiguous, derived ACs are made, or contradictions surface.
+          Questions are raised when statements are ambiguous or conflicting.
         </p>
       </div>
     )
@@ -93,7 +93,7 @@ export default function QuestionsTab({ projectId, onSelectClaim, onChanged }: Pr
       {openCount > 0 && (
         <div className="flex items-center justify-between mb-5 bg-indigo-500/5 border border-indigo-500/15 rounded-lg px-4 py-3">
           <div className="text-sm text-slate-300">
-            <span className="font-semibold text-indigo-300">{openCount}</span> open question{openCount > 1 ? 's' : ''} awaiting client response
+            <span className="font-semibold text-indigo-300">{openCount}</span> open question{openCount > 1 ? 's' : ''} for client response
           </div>
           <button
             className="btn btn-ghost"
@@ -101,7 +101,7 @@ export default function QuestionsTab({ projectId, onSelectClaim, onChanged }: Pr
             onClick={handleCopyForEmail}
           >
             {copied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
-            {copied ? 'Copied!' : 'Copy for client email'}
+            {copied ? 'Copied!' : 'Copy for email'}
           </button>
         </div>
       )}

@@ -20,7 +20,7 @@ const STAGE_LABELS: Record<string, string> = {
   'stage4': 'Reconciling cross-session',
   'stage5': 'Synthesizing requirements',
   'stage6': 'Writing user stories',
-  'stage7': 'Running critique panel',
+  'stage7': 'Running AI reviewers',
   'stage8': 'Assembling results',
 }
 
@@ -78,7 +78,7 @@ export default function AnalyzeButton({ sessionId, sessionTitle, onComplete }: P
         style={{ width: '100%' }}
       >
         <Play size={14} />
-        Analyze with Claude
+        Analyze transcript
       </button>
     )
   }
@@ -90,7 +90,7 @@ export default function AnalyzeButton({ sessionId, sessionTitle, onComplete }: P
           <div className="flex items-center gap-2">
             <Loader size={12} className="animate-spin text-indigo-400" />
             <span className="font-medium text-indigo-300">
-              {currentStage ? (STAGE_LABELS[currentStage] ?? currentStage) : 'Starting…'}
+              {currentStage ? (STAGE_LABELS[currentStage] ?? currentStage) : 'Starting...'}
             </span>
           </div>
           <span className="text-slate-500">{progress}%</span>
@@ -147,7 +147,7 @@ export default function AnalyzeButton({ sessionId, sessionTitle, onComplete }: P
         </div>
         {(result.quarantineRate ?? 0) > 0 && (
           <div className="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded px-2 py-1">
-            Quarantine rate: {((result.quarantineRate ?? 0) * 100).toFixed(1)}% — check quarantine list.
+            Quarantine rate: {((result.quarantineRate ?? 0) * 100).toFixed(1)}%: check quarantine list.
           </div>
         )}
       </div>

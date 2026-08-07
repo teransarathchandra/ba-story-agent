@@ -19,13 +19,11 @@ interface ClaimDetail {
 }
 
 function highlightQuoteInContext(context: string, quote: string): React.ReactNode[] {
-  // Find the quote within the context and wrap it in a highlight span
   const normalizedContext = context
   const normalizedQuote = quote.trim()
 
   const idx = normalizedContext.indexOf(normalizedQuote)
   if (idx < 0) {
-    // Quote not found in context (e.g. fuzzy-matched), show context with quote separately
     return [<span key="full">{context}</span>]
   }
 
@@ -136,17 +134,17 @@ export default function EvidencePanel({ claimId, onClose }: Props) {
               )}
             </div>
 
-            {/* Normalized statement */}
+            {/* Statement */}
             <div>
-              <div className="label mb-1.5">Normalized statement</div>
+              <div className="label mb-1.5">Statement</div>
               <p className="text-sm text-slate-200 leading-relaxed">{claim.statement}</p>
             </div>
 
             <div className="divider" />
 
-            {/* Verbatim quote */}
+            {/* Client quote */}
             <div>
-              <div className="label mb-2">Verbatim quote</div>
+              <div className="label mb-2">Client quote</div>
               <blockquote className="quote-text text-sm">
                 "{claim.quote}"
               </blockquote>
@@ -155,7 +153,7 @@ export default function EvidencePanel({ claimId, onClose }: Props) {
             {/* Transcript context with inline highlight */}
             {claim.context && (
               <div>
-                <div className="label mb-2">In context</div>
+                <div className="label mb-2">Transcript context</div>
                 <div
                   className="text-xs leading-relaxed p-3 rounded-lg"
                   style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid var(--border-subtle)' }}
@@ -168,7 +166,7 @@ export default function EvidencePanel({ claimId, onClose }: Props) {
                   <span
                     style={{ width: 10, height: 10, display: 'inline-block', background: 'rgba(99,102,241,0.25)', borderRadius: 2 }}
                   />
-                  Highlighted: the exact quote from transcript
+                  Highlighted text shows quote in transcript context
                 </p>
               </div>
             )}
@@ -176,7 +174,7 @@ export default function EvidencePanel({ claimId, onClose }: Props) {
             {/* Position info */}
             {claim.charStart != null && (
               <div className="text-[10px] text-slate-600 border-t border-slate-800 pt-3">
-                Position in transcript: chars {claim.charStart}–{claim.charEnd}
+                Position in transcript: chars {claim.charStart} to {claim.charEnd}
               </div>
             )}
 
@@ -184,7 +182,7 @@ export default function EvidencePanel({ claimId, onClose }: Props) {
             {claim.status === 'quarantined' && (
               <div className="flex items-start gap-2 text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2.5">
                 <AlertCircle size={13} className="flex-shrink-0 mt-0.5" />
-                <span>This claim was quarantined — its quote could not be matched to the transcript with ≥90% similarity. It is excluded from all output.</span>
+                <span>This claim was quarantined: quote could not be matched to transcript with 90% accuracy. Excluded from results.</span>
               </div>
             )}
           </>
