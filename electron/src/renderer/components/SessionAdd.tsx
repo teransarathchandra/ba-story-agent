@@ -66,17 +66,12 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onCancel()}>
       <div className="modal-box" style={{ maxWidth: 560 }}>
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-violet-500/20 flex items-center justify-center">
-              <FileText size={18} className="text-violet-400" />
-            </div>
-            <div>
-              <h2 className="font-semibold text-base text-white">Add Session</h2>
-              <p className="text-xs text-slate-400">Upload or paste a meeting transcript</p>
-            </div>
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <h2 className="modal-title">Add session</h2>
+            <p className="modal-description">Upload or paste a meeting transcript.</p>
           </div>
-          <button onClick={onCancel} className="btn btn-ghost w-8 h-8 p-0 rounded-full">
+          <button onClick={onCancel} className="icon-button" aria-label="Close add session dialog">
             <X size={16} />
           </button>
         </div>
@@ -161,7 +156,7 @@ export default function SessionAdd({ projectId, onAdded, onCancel }: Props) {
               disabled={loading || !title.trim() || wordCount < MIN_WORDS}
             >
               {loading ? <Loader size={14} className="animate-spin" /> : <FileText size={14} />}
-              {loading ? 'Adding…' : 'Add Session'}
+              {loading ? 'Adding…' : 'Add session'}
             </button>
           </div>
         </form>

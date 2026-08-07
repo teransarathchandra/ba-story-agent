@@ -45,17 +45,12 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onCancel()}>
       <div className="modal-box">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-indigo-500/20 flex items-center justify-center">
-              <FolderPlus size={18} className="text-indigo-400" />
-            </div>
-            <div>
-              <h2 className="font-semibold text-base text-white">New Project</h2>
-              <p className="text-xs text-slate-400">Set up your BA engagement</p>
-            </div>
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <h2 className="modal-title">Create project</h2>
+            <p className="modal-description">Set the context used to interpret every transcript.</p>
           </div>
-          <button onClick={onCancel} className="btn btn-ghost w-8 h-8 p-0 rounded-full">
+          <button onClick={onCancel} className="icon-button" aria-label="Close create project dialog">
             <X size={16} />
           </button>
         </div>
@@ -97,7 +92,7 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
               </select>
             </div>
             <div>
-              <label className="label">System / Product Name</label>
+                <label className="label">System or product name</label>
               <input
                 className="input"
                 value={systemName}
@@ -123,7 +118,7 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
               disabled={loading || !name.trim() || !domain.trim()}
             >
               {loading ? <Loader size={14} className="animate-spin" /> : <FolderPlus size={14} />}
-              {loading ? 'Creating…' : 'Create Project'}
+              {loading ? 'Creating…' : 'Create project'}
             </button>
           </div>
         </form>
