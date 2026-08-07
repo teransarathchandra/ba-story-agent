@@ -147,7 +147,7 @@ export const RecommendationSchema = z.object({
 
 export const ApprovalEventSchema = z.object({
   id: z.string(),
-  entityType: z.enum(["requirement", "story", "question", "recommendation", "session"]),
+  entityType: z.enum(["claim", "requirement", "story", "question", "recommendation", "session"]),
   entityId: z.string(),
   action: z.string().min(1),
   actorNote: z.string().nullable(),

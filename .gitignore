@@ -1,5 +1,7 @@
 node_modules/
 dist/
+electron/out/
+electron/node_modules/
 *.db
 *.db-journal
 .env

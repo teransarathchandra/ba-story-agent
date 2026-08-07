@@ -28,6 +28,13 @@ function toProject(row: ProjectRow): Project {
   });
 }
 
+export function listProjects(db: Db): Project[] {
+  const rows = db
+    .prepare("SELECT * FROM projects ORDER BY created_at DESC")
+    .all() as ProjectRow[];
+  return rows.map(toProject);
+}
+
 function toSession(row: SessionRow): Session {
   return SessionSchema.parse({
     id: row.id,
@@ -112,4 +119,12 @@ export function listSessions(db: Db, projectId: string): Session[] {
     .prepare("SELECT * FROM sessions WHERE project_id = ? ORDER BY occurred_at ASC")
     .all(projectId) as SessionRow[];
   return rows.map(toSession);
+}
+
+export function deleteProject(db: Db, id: string): boolean {
+  return db.prepare("DELETE FROM projects WHERE id = ?").run(id).changes === 1;
+}
+
+export function deleteSession(db: Db, id: string): boolean {
+  return db.prepare("DELETE FROM sessions WHERE id = ?").run(id).changes === 1;
 }
