@@ -26,6 +26,8 @@ import { buildSnapshot } from '../../../src/export/snapshot.js'
 import { markdownPublisher } from '../../../src/export/markdown.js'
 import { jsonPublisher } from '../../../src/export/json.js'
 import { createClient, AnthropicBackend } from '../../../src/llm/client.js'
+import { loadLocalBackend } from '../../../src/llm/local-client.js'
+import type { LlmBackend } from '../../../src/llm/backend.js'
 import { countWords, MIN_WORDS } from '../../../src/pipeline/stage0-chunk.js'
 import { RegulatoryContext } from '../../../src/types/domain.js'
 import { seedDemoWorkspace } from './demo-data.js'
@@ -39,6 +41,24 @@ function getDb(): ReturnType<typeof openDb> {
     seedDemoWorkspace(_db)
   }
   return _db
+}
+
+type Log = (line: string) => void
+
+/**
+ * Mirrors src/cli/index.ts's selectBackend() exactly — same dispatch logic,
+ * same release contract. Do not let this drift into a second, divergent
+ * implementation of the same idea.
+ */
+async function selectBackend(
+  llmBackend: 'claude' | 'local',
+  log: Log,
+): Promise<{ client: LlmBackend; release: () => Promise<void> }> {
+  if (llmBackend === 'local') {
+    const { backend, release } = await loadLocalBackend({ log })
+    return { client: backend, release }
+  }
+  return { client: new AnthropicBackend(createClient()), release: async () => {} }
 }
 
 export function setupIpc(): void {
@@ -136,26 +156,36 @@ export function setupIpc(): void {
       .prepare('SELECT project_id FROM sessions WHERE id = ?')
       .get(data.sessionId) as { project_id: string } | undefined
     if (!row) throw new Error(`Session ${data.sessionId} not found`)
+    const project = getProject(db, row.project_id)
+    if (!project) throw new Error(`Project ${row.project_id} not found`)
 
-    const state = await analyzeSession(
-      {
-        db,
-        client: new AnthropicBackend(createClient()),
-        projectId: row.project_id,
-        sessionId: data.sessionId,
-      },
-      frozen.transcript.id,
-      {
-        resume: data.resume ?? false,
-        onProgress: (name: string, status: string) => {
-          event.sender.send('analyze:progress', { stage: name, status })
-        },
-      }
+    const { client, release } = await selectBackend(
+      project.llmBackend,
+      (line: string) => event.sender.send('analyze:progress', { stage: 'local-model', status: line }),
     )
+    try {
+      const state = await analyzeSession(
+        {
+          db,
+          client,
+          projectId: row.project_id,
+          sessionId: data.sessionId,
+        },
+        frozen.transcript.id,
+        {
+          resume: data.resume ?? false,
+          onProgress: (name: string, status: string) => {
+            event.sender.send('analyze:progress', { stage: name, status })
+          },
+        }
+      )
 
-    return {
-      ...state,
-      quarantineRate: quarantineRate(state),
+      return {
+        ...state,
+        quarantineRate: quarantineRate(state),
+      }
+    } finally {
+      await release()
     }
   })
 
