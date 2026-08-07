@@ -357,7 +357,7 @@
 
   .theme-option {
     min-width: 0;
-    min-height: 32px;
+    min-height: 40px;
     flex: 1 1 0;
     display: inline-flex;
     align-items: center;
@@ -795,6 +795,20 @@
 .text-xs { font-size: 13px !important; }
 .text-\[10px\] { font-size: 12px !important; }
 
+.evidence-shell button.w-6 {
+  width: 40px !important;
+  height: 40px !important;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted) !important;
+}
+
+.evidence-shell button.w-6:hover {
+  background: var(--surface-soft);
+  color: var(--ink) !important;
+}
+
 @media (max-width: 900px) {
   .sidebar-shell {
     width: 76px;
@@ -840,7 +854,20 @@
   }
 
   .theme-switch {
-    width: 52px;
+    width: 48px;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px;
+    border-radius: 12px;
+  }
+
+  .theme-option {
+    width: 40px;
+    min-width: 40px;
+    flex: 0 0 40px;
+    padding: 0;
+    border-radius: 8px;
   }
 
   .workspace-empty {
