@@ -18,17 +18,20 @@ import { analyzeSession, quarantineRate } from "../src/pipeline/index.js";
 import { listRequirements } from "../src/store/artifacts.js";
 import { listQuestions } from "../src/store/findings.js";
 import { listProjectClaims } from "../src/store/claims.js";
+import { listLinks } from "../src/store/links.js";
 
 interface Expectation {
   mustNotContainRequirementMatching?: string[];
   mustContainRequirementMatching?: string[];
   mustContainQuestionMatching?: string[];
   minContradictions?: number;
+  mustNotAutoResolve?: boolean;
   maxRequirements?: number;
   maxStories?: number;
   minRequirements?: number;
   minAssumptions?: number;
   maxQuarantineRate?: number;
+  hallucinationRate?: number;
 }
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -101,6 +104,39 @@ for (const file of readdirSync(fixturesDir).filter((f) => f.endsWith(".txt"))) {
   if (exp.maxQuarantineRate !== undefined) {
     const rate = quarantineRate(state);
     check(name, `quarantine rate <= ${exp.maxQuarantineRate}`, rate <= exp.maxQuarantineRate, rate.toFixed(3));
+  }
+  if (exp.minContradictions !== undefined) {
+    const contradictionLinks = listLinks(db, project.id).filter((l) => l.linkKind === "contradicts");
+    check(
+      name,
+      `at least ${exp.minContradictions} contradiction(s) detected`,
+      contradictionLinks.length >= exp.minContradictions,
+      `got ${contradictionLinks.length}`,
+    );
+  }
+  if (exp.mustNotAutoResolve) {
+    // `questions` (built above for mustContainQuestionMatching) isn't
+    // status-filtered, so this re-queries with status: "open" — the point
+    // of this check is specifically that a matching question is still open,
+    // not merely that one was ever raised.
+    const openQuestionTexts = listQuestions(db, project.id, { status: "open" }).map((q) => q.text.toLowerCase());
+    const stillOpen = (exp.mustContainQuestionMatching ?? []).some((p) => {
+      const re = new RegExp(p, "i");
+      return openQuestionTexts.some((t) => re.test(t));
+    });
+    check(name, "matched question(s) remain open, not auto-resolved", stillOpen);
+  }
+  if (exp.hallucinationRate !== undefined) {
+    // Same underlying metric as maxQuarantineRate above (quarantineRate()),
+    // checked at a tighter/different tolerance — not a separately invented
+    // "hallucination" signal. See Task 8 in the plan.
+    const rate = quarantineRate(state);
+    check(
+      name,
+      `hallucination rate <= ${exp.hallucinationRate} (same metric as quarantine rate, checked at a tighter tolerance — see Task 8 in the plan)`,
+      rate <= exp.hallucinationRate,
+      rate.toFixed(3),
+    );
   }
 }
 
