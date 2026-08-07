@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { ArrowUpCircle, MessageSquare, Quote } from 'lucide-react'
+import { AlertTriangle, ArrowUpCircle, MessageSquare, Quote } from 'lucide-react'
 
 interface Props {
   projectId: string
@@ -130,7 +130,7 @@ export default function AssumptionsTab({ projectId, onSelectClaim, selectedClaim
   return (
     <div className="space-y-2">
       <div className="text-xs text-slate-500 mb-4 flex items-center gap-2 bg-amber-500/5 border border-amber-500/10 rounded-lg px-3 py-2">
-        <span>⚠️</span>
+        <AlertTriangle size={14} className="flex-shrink-0 text-amber-400" />
         <span>Assumptions are hedged client statements. They are <strong>not client requirements</strong>. Promote only with documented verification.</span>
       </div>
 
