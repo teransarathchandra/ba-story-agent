@@ -103,14 +103,12 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
             </p>
           </div>
 
-          <div>
-            {fieldError && (
-              <div className="flex items-center gap-1.5 mt-2 text-xs font-semibold text-red-500 bg-red-500/10 border border-red-500/30 rounded px-2.5 py-1.5">
-                <AlertCircle size={13} className="flex-shrink-0 text-red-500" />
-                <span>{fieldError}</span>
-              </div>
-            )}
-          </div>
+          {fieldError && (
+            <div className="flex items-center gap-1.5 mt-2 text-xs font-semibold text-red-500 bg-red-500/10 border border-red-500/30 rounded px-2.5 py-1.5">
+              <AlertCircle size={13} className="flex-shrink-0 text-red-500" />
+              <span>{fieldError}</span>
+            </div>
+          )}
 
           <div className="flex justify-end gap-2 pt-2">
             <button type="button" className="btn btn-ghost" onClick={onCancel}>
