@@ -43,4 +43,28 @@ describe("transcripts", () => {
     expect(a.transcript.version).toBe(1);
     expect(b.transcript.version).toBe(2);
   });
+
+  it("parses a leading 'Name:' prefix into speakerLabel", () => {
+    const { db, sessionId } = seed();
+    const text = "Maya: Okay, thanks everyone.\n\nSarah: Yeah, sure.";
+    const { segments } = createTranscript(db, { sessionId, text });
+    expect(segments[0]?.speakerLabel).toBe("Maya");
+    expect(segments[1]?.speakerLabel).toBe("Sarah");
+  });
+
+  it("leaves speakerLabel null when a segment has no speaker prefix", () => {
+    const { db, sessionId } = seed();
+    const text = "just a note with no speaker\n\nanother line here";
+    const { segments } = createTranscript(db, { sessionId, text });
+    expect(segments[0]?.speakerLabel).toBeNull();
+    expect(segments[1]?.speakerLabel).toBeNull();
+  });
+
+  it("does not alter segment text or char offsets when parsing a speaker label", () => {
+    const { db, sessionId } = seed();
+    const text = "Maya: Okay, thanks everyone.\n\nSarah: Yeah, sure.";
+    const { segments } = createTranscript(db, { sessionId, text });
+    expect(text.slice(segments[0]!.charStart, segments[0]!.charEnd)).toBe("Maya: Okay, thanks everyone.");
+    expect(segments[0]!.text).toBe("Maya: Okay, thanks everyone.");
+  });
 });

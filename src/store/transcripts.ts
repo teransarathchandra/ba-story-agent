@@ -48,6 +48,14 @@ function toSegment(row: SegmentRow): Segment {
   });
 }
 
+/** Matches a leading "Name: " turn marker without consuming the rest of the line. */
+const SPEAKER_PREFIX = /^([A-Z][A-Za-z0-9 ._'-]{0,40}):\s/;
+
+function detectSpeakerLabel(segmentText: string): string | null {
+  const m = SPEAKER_PREFIX.exec(segmentText);
+  return m ? m[1]! : null;
+}
+
 /**
  * Split raw text into segments on blank lines, preserving exact character
  * offsets into the original text. Offsets are the anchor the grounding
@@ -65,6 +73,7 @@ function splitSegments(transcriptId: string, text: string): Segment[] {
     const s = start + leading;
     const e = end - trailing;
     if (e <= s) return;
+    const segmentText = text.slice(s, e);
     segments.push(
       SegmentSchema.parse({
         id: newId("seg"),
@@ -72,8 +81,8 @@ function splitSegments(transcriptId: string, text: string): Segment[] {
         idx: idx++,
         startMs: null,
         endMs: null,
-        speakerLabel: null,
-        text: text.slice(s, e),
+        speakerLabel: detectSpeakerLabel(segmentText),
+        text: segmentText,
         charStart: s,
         charEnd: e,
       }),
