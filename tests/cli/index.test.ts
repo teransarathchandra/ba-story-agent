@@ -115,26 +115,26 @@ describe("cli", () => {
     ).rejects.toThrow(/not found/);
   });
 
-  it("project create defaults llmBackend to claude", async () => {
+  it("project create defaults llmBackend to local", async () => {
     const out = await run(["project", "create", "--name", "P", "--domain", "invoice approval for logistics operators"]);
     const projectId = /prj_[0-9A-Z]+/.exec(out)![0];
     const { openDb } = await import("../../src/store/db.js");
     const { getProject } = await import("../../src/store/projects.js");
     const db = openDb(dbPath);
-    expect(getProject(db, projectId)?.llmBackend).toBe("claude");
+    expect(getProject(db, projectId)?.llmBackend).toBe("local");
   });
 
-  it("project create --llm-backend local persists local", async () => {
+  it("project create --llm-backend claude persists claude", async () => {
     const out = await run([
       "project", "create", "--name", "P",
       "--domain", "invoice approval for logistics operators",
-      "--llm-backend", "local",
+      "--llm-backend", "claude",
     ]);
     const projectId = /prj_[0-9A-Z]+/.exec(out)![0];
     const { openDb } = await import("../../src/store/db.js");
     const { getProject } = await import("../../src/store/projects.js");
     const db = openDb(dbPath);
-    expect(getProject(db, projectId)?.llmBackend).toBe("local");
+    expect(getProject(db, projectId)?.llmBackend).toBe("claude");
   });
 });
 

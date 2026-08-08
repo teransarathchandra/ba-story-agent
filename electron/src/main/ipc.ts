@@ -69,7 +69,7 @@ export function setupIpc(): void {
   })
 
   ipcMain.handle('project:create', async (_event, data: {
-    name: string; domain: string; regulatory?: string; systemName?: string; llmBackend?: 'claude' | 'local'
+    name: string; domain: string; regulatory?: string; systemName?: string
   }) => {
     const db = getDb()
     return createProject(db, {
@@ -79,7 +79,9 @@ export function setupIpc(): void {
         ? RegulatoryContext.parse(data.regulatory)
         : 'none',
       systemName: data.systemName ?? null,
-      llmBackend: data.llmBackend ?? 'claude',
+      // No user-facing choice: this app is fully local-only. llmBackend is
+      // never accepted from the renderer — always 'local', unconditionally.
+      llmBackend: 'local',
     })
   })
 

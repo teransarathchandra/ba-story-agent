@@ -147,7 +147,7 @@ declare global {
       project: {
         list: () => Promise<Project[]>
         create: (data: {
-          name: string; domain: string; regulatory?: string; systemName?: string; llmBackend?: 'claude' | 'local'
+          name: string; domain: string; regulatory?: string; systemName?: string
         }) => Promise<Project>
         get: (id: string) => Promise<Project | null>
         status: (id: string) => Promise<ProjectStatus>

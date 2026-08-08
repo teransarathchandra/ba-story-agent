@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS projects (
   regulatory_context TEXT NOT NULL DEFAULT 'none',
   system_name TEXT,
   glossary TEXT,
-  llm_backend TEXT NOT NULL DEFAULT 'claude',
+  llm_backend TEXT NOT NULL DEFAULT 'local',
   created_at TEXT NOT NULL
 );
 

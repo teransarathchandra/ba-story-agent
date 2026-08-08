@@ -40,14 +40,14 @@ describe("projects", () => {
     expect(sessions[0]?.status).toBe("awaiting-review");
   });
 
-  it("defaults llmBackend to claude and can be set to local", () => {
+  it("defaults llmBackend to local and can be overridden to claude", () => {
     const db = openDb(":memory:");
     const p1 = createProject(db, { name: "P1", domain: "invoice approval for logistics operators" });
-    expect(p1.llmBackend).toBe("claude");
+    expect(p1.llmBackend).toBe("local");
 
-    const p2 = createProject(db, { name: "P2", domain: "invoice approval for logistics operators", llmBackend: "local" });
+    const p2 = createProject(db, { name: "P2", domain: "invoice approval for logistics operators", llmBackend: "claude" });
     const fetched = getProject(db, p2.id);
-    expect(fetched?.llmBackend).toBe("local");
+    expect(fetched?.llmBackend).toBe("claude");
   });
 
   it("lists projects newest first", () => {

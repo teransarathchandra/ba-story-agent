@@ -64,7 +64,7 @@ export function createProject(
     regulatoryContext: input.regulatoryContext ?? "none",
     systemName: input.systemName ?? null,
     glossary: input.glossary ?? null,
-    llmBackend: input.llmBackend ?? "claude",
+    llmBackend: input.llmBackend ?? "local",
     createdAt: new Date().toISOString(),
   });
   db.prepare(

@@ -55,7 +55,7 @@ export function buildProgram(opts?: { log?: Log }): Command {
     .option("--regulatory <context>", "none | GDPR | HIPAA | PCI-DSS | SOC2", "none")
     .option("--system-name <name>")
     .option("--glossary-file <path>")
-    .option("--llm-backend <backend>", "claude | local", "claude")
+    .option("--llm-backend <backend>", "claude | local", "local")
     .action(function (this: Command, o: {
       name: string; domain: string; regulatory: string;
       systemName?: string; glossaryFile?: string; llmBackend: string;
