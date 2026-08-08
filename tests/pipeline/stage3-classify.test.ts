@@ -6,6 +6,7 @@ import { insertClaims, listClaims } from "../../src/store/claims.js";
 import { stage3Classify } from "../../src/pipeline/stage3-classify.js";
 import { emptyState } from "../../src/pipeline/state.js";
 import { newId } from "../../src/types/ids.js";
+import { CLASSIFY_SYSTEM } from "../../src/prompts/classify.js";
 import type { StageContext } from "../../src/pipeline/runner.js";
 
 function setup(quotes: string[], modelKinds: string[]) {
@@ -206,5 +207,11 @@ describe("stage3Classify", () => {
     const claims = listClaims(db, s.id);
     expect(claims[0]?.kind).toBe("requirement");
     expect(claims[1]?.kind).toBe("ambiguity");
+  });
+});
+
+describe("CLASSIFY_SYSTEM", () => {
+  it("gives the model an honest home for a plain current-state description", () => {
+    expect(CLASSIFY_SYSTEM).toMatch(/current state|today's process|happens now/i);
   });
 });
