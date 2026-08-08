@@ -10,7 +10,7 @@ import type { Stage } from "./runner.js";
 export const ClassificationSchema = z.object({
   classifications: z.array(
     z.object({
-      claimId: z.string(),
+      index: z.number().int().positive(),
       kind: z.enum(["requirement", "assumption", "ambiguity"]),
     }),
   ),
@@ -48,13 +48,13 @@ export const stage3Classify: Stage<PipelineState, PipelineState> = {
         effort: "high",
       });
 
-      const byId = new Map(result.classifications.map((c) => [c.claimId, c.kind]));
-      for (const claim of batch) {
-        const modelKind = byId.get(claim.id) ?? "ambiguity";
+      const byIndex = new Map(result.classifications.map((c) => [c.index, c.kind]));
+      batch.forEach((claim, i) => {
+        const modelKind = byIndex.get(i + 1) ?? "ambiguity";
         // Deterministic floor: hedged speech is never a requirement.
         const kind = isHedged(claim.quote) ? "assumption" : modelKind;
         setClaimKind(ctx.db, claim.id, kind);
-      }
+      });
     }
 
     return state;

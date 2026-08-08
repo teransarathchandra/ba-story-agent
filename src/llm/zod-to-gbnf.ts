@@ -29,10 +29,10 @@ function isNullableImmutableType(
  * Walks a Zod schema's public `.def` shape directly (not via Zod's own
  * toJSONSchema) so the output is under full control and anything this
  * function doesn't recognize fails loudly instead of being silently
- * mis-converted. Only handles the five constructs the six production
- * schemas actually use (object, array, string, enum, nullable) — extend
- * deliberately if a schema changes, don't guess at broader JSON Schema
- * support node-llama-cpp's GbnfJsonSchema type doesn't have anyway
+ * mis-converted. Only handles the six constructs the six production
+ * schemas actually use (object, array, string, number, enum, nullable) —
+ * extend deliberately if a schema changes, don't guess at broader JSON
+ * Schema support node-llama-cpp's GbnfJsonSchema type doesn't have anyway
  * (no numeric bounds, no regex pattern — see Task 1 in the plan for why).
  */
 export function zodToGbnfSchema(schema: z.ZodType): GbnfJsonSchema {
@@ -53,6 +53,15 @@ export function zodToGbnfSchema(schema: z.ZodType): GbnfJsonSchema {
     }
     case "string":
       return { type: "string" };
+    case "number": {
+      // Zod v4 reports def.type as "number" for both z.number() and its
+      // .int()/z.int() refinements — the public `.format` getter is how an
+      // integer constraint actually surfaces ("safeint", "int32", etc, vs
+      // null for a plain float). GBNF has a distinct "integer" type, so
+      // translate accordingly instead of collapsing both to "number".
+      const format = (schema as unknown as { format?: string | null }).format;
+      return { type: typeof format === "string" && /int/i.test(format) ? "integer" : "number" };
+    }
     case "enum": {
       const { entries } = def as unknown as EnumDef;
       return { enum: Object.values(entries) };

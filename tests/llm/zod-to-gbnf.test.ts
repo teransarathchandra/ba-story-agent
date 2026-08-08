@@ -45,7 +45,23 @@ describe("zodToGbnfSchema", () => {
   });
 
   it("throws on an unsupported zod construct instead of silently mis-converting", () => {
-    expect(() => zodToGbnfSchema(z.object({ n: z.number() }))).toThrow(/unsupported zod type/);
+    expect(() => zodToGbnfSchema(z.object({ n: z.bigint() }))).toThrow(/unsupported zod type/);
+  });
+
+  it("converts a positive integer to the GBNF integer type, not number", () => {
+    expect(zodToGbnfSchema(z.object({ n: z.number().int().positive() }))).toEqual({
+      type: "object",
+      properties: { n: { type: "integer" } },
+      additionalProperties: false,
+    });
+  });
+
+  it("converts a plain float number to the GBNF number type", () => {
+    expect(zodToGbnfSchema(z.object({ n: z.number() }))).toEqual({
+      type: "object",
+      properties: { n: { type: "number" } },
+      additionalProperties: false,
+    });
   });
 
   it("throws when nullable wraps an object or array instead of silently producing an invalid schema", () => {

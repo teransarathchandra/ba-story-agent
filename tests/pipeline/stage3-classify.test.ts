@@ -26,7 +26,7 @@ function setup(quotes: string[], modelKinds: string[]) {
   })));
   const parse = vi.fn().mockResolvedValue({
     raw: "{}",
-    parsedOutput: { classifications: ids.map((id, i) => ({ claimId: id, kind: modelKinds[i] })) },
+    parsedOutput: { classifications: modelKinds.map((kind, i) => ({ index: i + 1, kind })) },
     requestPayload: {},
     usage: { input_tokens: 1, output_tokens: 1 },
   });
@@ -93,7 +93,7 @@ describe("stage3Classify", () => {
     }]);
     const parse = vi.fn().mockResolvedValue({
       raw: "{}",
-      parsedOutput: { classifications: [{ claimId, kind: "requirement" }] },
+      parsedOutput: { classifications: [{ index: 1, kind: "requirement" }] },
       requestPayload: {},
       usage: { input_tokens: 1, output_tokens: 1 },
     });
@@ -127,7 +127,7 @@ describe("stage3Classify", () => {
     }]);
     const parse = vi.fn().mockResolvedValue({
       raw: "{}",
-      parsedOutput: { classifications: [{ claimId, kind: "requirement" }] },
+      parsedOutput: { classifications: [{ index: 1, kind: "requirement" }] },
       requestPayload: {},
       usage: { input_tokens: 1, output_tokens: 1 },
     });
@@ -161,7 +161,7 @@ describe("stage3Classify", () => {
     })));
     const parse = vi.fn().mockResolvedValue({
       raw: "{}",
-      parsedOutput: { classifications: claimIds.map((id) => ({ claimId: id, kind: "requirement" })) },
+      parsedOutput: { classifications: Array.from({ length: 40 }, (_, i) => ({ index: i + 1, kind: "requirement" })) },
       requestPayload: {},
       usage: { input_tokens: 1, output_tokens: 1 },
     });
@@ -198,7 +198,7 @@ describe("stage3Classify", () => {
     })));
     const parse = vi.fn().mockResolvedValue({
       raw: "{}",
-      parsedOutput: { classifications: [{ claimId: claimIds[0], kind: "requirement" }] },
+      parsedOutput: { classifications: [{ index: 1, kind: "requirement" }] },
       requestPayload: {},
       usage: { input_tokens: 1, output_tokens: 1 },
     });

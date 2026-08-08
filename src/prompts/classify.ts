@@ -14,11 +14,11 @@ The difference between "requirement" and "assumption" is the single most consequ
 
 export function buildClassifyUser(claims: Claim[], project: Project): string {
   const list = claims
-    .map((c) => `claimId: ${c.id}\nquote: "${c.quote}"\nrestatement: ${c.statement}`)
+    .map((c, i) => `[${i + 1}]\nquote: "${c.quote}"\nrestatement: ${c.statement}`)
     .join("\n\n");
   return `Project domain: ${project.domain}
 
-Classify each claim below.
+Classify each claim below. Refer to each claim by the number in brackets before it — do not invent or modify that number.
 
 ${list}`;
 }
