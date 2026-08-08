@@ -21,7 +21,7 @@ export interface Evidence {
 
 export interface ExportSnapshot {
   schemaVersion: string;
-  project: { name: string; domain: string; regulatoryContext: string };
+  project: { name: string; domain: string | null; regulatoryContext: string };
   generatedAt: string;
   requirements: {
     key: string; statement: string; status: string; origin: string; evidence: Evidence[];

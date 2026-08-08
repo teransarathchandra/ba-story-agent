@@ -15,14 +15,14 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!name.trim() || !domain.trim()) return
+    if (!name.trim()) return
 
     setLoading(true)
     setFieldError(null)
     try {
       const project = await window.api.project.create({
         name: name.trim(),
-        domain: domain.trim(),
+        domain: domain.trim() || undefined,
         regulatory: 'none',
         systemName: undefined,
       })
@@ -64,17 +64,13 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
           </div>
 
           <div>
-            <label className="label">Business Domain *</label>
+            <label className="label">Business Domain</label>
             <input
               className={`input ${fieldError ? 'border-red-500 focus:border-red-500' : ''}`}
               value={domain}
               onChange={e => { setDomain(e.target.value); setFieldError(null); }}
               placeholder="e.g. Freight invoicing for logistics operators"
-              required
             />
-            <p className="text-xs text-slate-400 mt-1">
-              Short summary of what this business does.
-            </p>
           </div>
 
           {fieldError && (
@@ -91,7 +87,7 @@ export default function ProjectCreate({ onCreated, onCancel }: Props) {
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={loading || !name.trim() || !domain.trim()}
+              disabled={loading || !name.trim()}
             >
               {loading ? <Loader size={14} className="animate-spin" /> : <FolderPlus size={14} />}
               {loading ? 'Creating...' : 'Create project'}

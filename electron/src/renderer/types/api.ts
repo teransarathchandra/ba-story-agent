@@ -3,7 +3,7 @@
 export interface Project {
   id: string
   name: string
-  domain: string
+  domain: string | null
   regulatoryContext: string
   systemName: string | null
   glossary: string | null
@@ -147,8 +147,9 @@ declare global {
       project: {
         list: () => Promise<Project[]>
         create: (data: {
-          name: string; domain: string; regulatory?: string; systemName?: string
+          name: string; domain?: string; regulatory?: string; systemName?: string
         }) => Promise<Project>
+        setDomain: (data: { projectId: string; domain: string }) => Promise<Project>
         get: (id: string) => Promise<Project | null>
         status: (id: string) => Promise<ProjectStatus>
         delete: (id: string) => Promise<{ deleted: boolean }>

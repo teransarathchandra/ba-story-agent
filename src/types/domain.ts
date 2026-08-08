@@ -29,7 +29,14 @@ export const LinkKind = z.enum(["confirms", "refines", "supersedes", "contradict
 export const ProjectSchema = z.object({
   id: z.string(),
   name: z.string().min(1),
-  domain: z.string().min(10, "project domain must be a meaningful one-liner"),
+  // Optional at project-creation time (removes friction from the create
+  // form), but genuinely required before any LLM call can run — see
+  // analyzeSession() in src/pipeline/index.ts, which refuses to start an
+  // analysis for a project with no domain set. When a value IS provided
+  // (here or via a later setProjectDomain() call), the min(10) constraint
+  // still applies: every prompt builder interpolates this string directly
+  // into what's sent to the model, and a fragment is worse than nothing.
+  domain: z.string().min(10, "project domain must be a meaningful one-liner").nullable(),
   regulatoryContext: RegulatoryContext,
   systemName: z.string().nullable(),
   glossary: z.string().nullable(),

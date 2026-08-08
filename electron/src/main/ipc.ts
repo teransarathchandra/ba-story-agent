@@ -13,6 +13,7 @@ import {
   createSession,
   listProjects,
   listSessions,
+  setProjectDomain,
   deleteProject,
   deleteSession,
 } from '../../../src/store/projects.js'
@@ -69,12 +70,15 @@ export function setupIpc(): void {
   })
 
   ipcMain.handle('project:create', async (_event, data: {
-    name: string; domain: string; regulatory?: string; systemName?: string
+    name: string; domain?: string; regulatory?: string; systemName?: string
   }) => {
     const db = getDb()
     return createProject(db, {
       name: data.name,
-      domain: data.domain,
+      // domain is optional at creation — analyzeSession() itself refuses to
+      // run for a project with no domain set, so this is safe to leave
+      // unset here. Use project:set-domain to fill it in later.
+      domain: data.domain ?? null,
       regulatoryContext: data.regulatory
         ? RegulatoryContext.parse(data.regulatory)
         : 'none',
@@ -83,6 +87,11 @@ export function setupIpc(): void {
       // never accepted from the renderer — always 'local', unconditionally.
       llmBackend: 'local',
     })
+  })
+
+  ipcMain.handle('project:set-domain', async (_event, data: { projectId: string; domain: string }) => {
+    const db = getDb()
+    return setProjectDomain(db, data.projectId, data.domain)
   })
 
   ipcMain.handle('project:get', async (_event, id: string) => {

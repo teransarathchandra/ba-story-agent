@@ -7,6 +7,7 @@ import {
   listProjects,
   listSessions,
   setSessionStatus,
+  setProjectDomain,
   deleteProject,
   deleteSession,
 } from "../../src/store/projects.js";
@@ -28,6 +29,24 @@ describe("projects", () => {
   it("rejects a project with a too-short domain", () => {
     const db = openDb(":memory:");
     expect(() => createProject(db, { name: "X", domain: "stuff" })).toThrow();
+  });
+
+  it("allows creating a project with no domain, and setting one later", () => {
+    const db = openDb(":memory:");
+    const created = createProject(db, { name: "No Domain Yet" });
+    expect(created.domain).toBeNull();
+    const fetched = getProject(db, created.id);
+    expect(fetched?.domain).toBeNull();
+
+    const updated = setProjectDomain(db, created.id, "invoice approval for logistics operators");
+    expect(updated.domain).toBe("invoice approval for logistics operators");
+    expect(getProject(db, created.id)?.domain).toBe("invoice approval for logistics operators");
+  });
+
+  it("still enforces the minimum length when setting a domain later", () => {
+    const db = openDb(":memory:");
+    const created = createProject(db, { name: "No Domain Yet" });
+    expect(() => setProjectDomain(db, created.id, "stuff")).toThrow();
   });
 
   it("lists sessions for a project and updates status", () => {

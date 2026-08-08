@@ -6,7 +6,7 @@ import {
 } from "../types/domain.js";
 
 interface ProjectRow {
-  id: string; name: string; domain: string; regulatory_context: string;
+  id: string; name: string; domain: string | null; regulatory_context: string;
   system_name: string | null; glossary: string | null; llm_backend: string; created_at: string;
 }
 
@@ -50,7 +50,7 @@ export function createProject(
   db: Db,
   input: {
     name: string;
-    domain: string;
+    domain?: string | null;
     regulatoryContext?: Project["regulatoryContext"];
     systemName?: string | null;
     glossary?: string | null;
@@ -60,7 +60,7 @@ export function createProject(
   const project = ProjectSchema.parse({
     id: newId("prj"),
     name: input.name,
-    domain: input.domain,
+    domain: input.domain ?? null,
     regulatoryContext: input.regulatoryContext ?? "none",
     systemName: input.systemName ?? null,
     glossary: input.glossary ?? null,
@@ -80,6 +80,21 @@ export function createProject(
 export function getProject(db: Db, id: string): Project | null {
   const row = db.prepare("SELECT * FROM projects WHERE id = ?").get(id) as ProjectRow | undefined;
   return row ? toProject(row) : null;
+}
+
+/**
+ * Sets a project's domain after creation — the only way to fill it in for a
+ * project created without one (domain is optional at createProject() time
+ * but required before analyzeSession() will run, see src/pipeline/index.ts).
+ * Re-validates the same min(10) constraint createProject() enforces, so a
+ * project can't end up with a too-short domain via this path either.
+ */
+export function setProjectDomain(db: Db, id: string, domain: string): Project {
+  const parsedDomain = ProjectSchema.shape.domain.parse(domain);
+  db.prepare("UPDATE projects SET domain = ? WHERE id = ?").run(parsedDomain, id);
+  const project = getProject(db, id);
+  if (!project) throw new Error(`project ${id} not found`);
+  return project;
 }
 
 export function createSession(

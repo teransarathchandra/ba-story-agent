@@ -2,7 +2,7 @@ import { Command, CommanderError } from "commander";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { openDb } from "../store/db.js";
-import { createProject, createSession, getProject, listSessions } from "../store/projects.js";
+import { createProject, createSession, getProject, listSessions, setProjectDomain } from "../store/projects.js";
 import { createTranscript, freezeTranscript, getFrozenTranscript } from "../store/transcripts.js";
 import { countByStatus } from "../store/claims.js";
 import { listRequirements, listStories } from "../store/artifacts.js";
@@ -51,13 +51,13 @@ export function buildProgram(opts?: { log?: Log }): Command {
   project
     .command("create")
     .requiredOption("--name <name>")
-    .requiredOption("--domain <domain>", "one-line description of the business domain")
+    .option("--domain <domain>", "one-line description of the business domain (can be set later with `project set-domain`; required before `analyze` will run)")
     .option("--regulatory <context>", "none | GDPR | HIPAA | PCI-DSS | SOC2", "none")
     .option("--system-name <name>")
     .option("--glossary-file <path>")
     .option("--llm-backend <backend>", "claude | local", "local")
     .action(function (this: Command, o: {
-      name: string; domain: string; regulatory: string;
+      name: string; domain?: string; regulatory: string;
       systemName?: string; glossaryFile?: string; llmBackend: string;
     }) {
       const db = openDb(dbPath(this));
@@ -65,7 +65,7 @@ export function buildProgram(opts?: { log?: Log }): Command {
       const llmBackend = LlmBackendSetting.parse(o.llmBackend);
       const p = createProject(db, {
         name: o.name,
-        domain: o.domain,
+        domain: o.domain ?? null,
         regulatoryContext: regulatory,
         systemName: o.systemName ?? null,
         glossary: o.glossaryFile ? readFileSync(o.glossaryFile, "utf8") : null,
@@ -73,8 +73,19 @@ export function buildProgram(opts?: { log?: Log }): Command {
       });
       log(`Created project ${p.id}`);
       log(`  name:        ${p.name}`);
-      log(`  domain:      ${p.domain}`);
+      log(`  domain:      ${p.domain ?? "(not set — run \`project set-domain\` before analyzing)"}`);
       log(`  llmBackend:  ${p.llmBackend}`);
+    });
+
+  project
+    .command("set-domain")
+    .requiredOption("--project <id>")
+    .requiredOption("--domain <domain>", "one-line description of the business domain")
+    .action(function (this: Command, o: { project: string; domain: string }) {
+      const db = openDb(dbPath(this));
+      const p = setProjectDomain(db, o.project, o.domain);
+      log(`Set domain for project ${p.id}`);
+      log(`  domain: ${p.domain}`);
     });
 
   const session = program.command("session").description("manage sessions");
@@ -201,7 +212,7 @@ export function buildProgram(opts?: { log?: Log }): Command {
       const p = getProject(db, o.project);
       if (!p) throw new Error(`project ${o.project} not found`);
       const sessions = listSessions(db, o.project);
-      log(`Project: ${p.name} (${p.domain})`);
+      log(`Project: ${p.name} (${p.domain ?? "no domain set"})`);
       log(`Sessions: ${sessions.length}`);
       for (const s of sessions) {
         const counts = countByStatus(db, s.id);

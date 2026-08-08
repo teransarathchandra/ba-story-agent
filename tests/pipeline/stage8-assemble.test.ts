@@ -53,4 +53,19 @@ describe("analyzeSession", () => {
     expect(state.extracted).toBe(0);
     expect(getSession(db, s.id)?.status).toBe("awaiting-review");
   });
+
+  it("refuses to run when the project has no domain set, without touching session status or the LLM client", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P" }); // no domain
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript } = createTranscript(db, { sessionId: s.id, text: LONG });
+    freezeTranscript(db, transcript.id);
+    const generate = vi.fn();
+    const ctx: StageContext = { db, client: { model: "test", generate } as never, projectId: p.id, sessionId: s.id };
+
+    await expect(analyzeSession(ctx, transcript.id)).rejects.toThrow(/no domain set/);
+
+    expect(generate).not.toHaveBeenCalled();
+    expect(getSession(db, s.id)?.status).toBe("draft"); // never advanced to "analyzing"
+  });
 });

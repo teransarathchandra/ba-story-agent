@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS projects (
   id TEXT PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
-  domain TEXT NOT NULL,
+  domain TEXT,
   regulatory_context TEXT NOT NULL DEFAULT 'none',
   system_name TEXT,
   glossary TEXT,

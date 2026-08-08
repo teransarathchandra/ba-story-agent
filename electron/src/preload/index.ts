@@ -4,6 +4,7 @@ const api = {
   project: {
     list: () => ipcRenderer.invoke('project:list'),
     create: (data: any) => ipcRenderer.invoke('project:create', data),
+    setDomain: (data: any) => ipcRenderer.invoke('project:set-domain', data),
     get: (id: string) => ipcRenderer.invoke('project:get', id),
     status: (id: string) => ipcRenderer.invoke('project:status', id),
     delete: (id: string) => ipcRenderer.invoke('project:delete', id),

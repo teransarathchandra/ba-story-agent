@@ -35,6 +35,22 @@ describe("cli", () => {
     await expect(run(["project", "create", "--name", "P", "--domain", "x"])).rejects.toThrow();
   });
 
+  it("creates a project with no domain, and set-domain fills it in later", async () => {
+    const out = await run(["project", "create", "--name", "P"]);
+    expect(out).toMatch(/prj_/);
+    expect(out).toMatch(/not set/);
+    const projectId = /prj_[0-9A-Z]+/.exec(out)![0];
+
+    const { openDb } = await import("../../src/store/db.js");
+    const { getProject } = await import("../../src/store/projects.js");
+    const db = openDb(dbPath);
+    expect(getProject(db, projectId)?.domain).toBeNull();
+
+    const setOut = await run(["project", "set-domain", "--project", projectId, "--domain", "invoice approval for logistics operators"]);
+    expect(setOut).toMatch(/invoice approval for logistics operators/);
+    expect(getProject(db, projectId)?.domain).toBe("invoice approval for logistics operators");
+  });
+
   it("adds a session from a text file", async () => {
     const projectOut = await run(["project", "create", "--name", "P", "--domain", "invoice approval for logistics operators"]);
     const projectId = /prj_[0-9A-Z]+/.exec(projectOut)![0];
