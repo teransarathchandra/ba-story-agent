@@ -21,6 +21,43 @@ export const ExtractedClaimsSchema = z.object({
   ),
 });
 
+/**
+ * A speaker label's true role is a session-wide property, not a per-claim
+ * guess. Vote across every claim tagged with the same segment speaker label
+ * and force them all to the majority role — the same "deterministic floor
+ * under model judgment" pattern the hedge lexicon (src/hedge/lexicon.ts)
+ * already applies to `kind`. Ties keep the first-listed role (client),
+ * matching the model's own historical default so an even split doesn't
+ * flip a claim's role on no real signal.
+ */
+export function applySpeakerRoleFloor(
+  claims: Claim[],
+  segmentLabels: Map<string, string | null>,
+): void {
+  const tally = new Map<string, Record<Claim["speakerRole"], number>>();
+  for (const c of claims) {
+    const label = segmentLabels.get(c.segmentId);
+    if (!label) continue;
+    const counts = tally.get(label) ?? { client: 0, ba: 0, other: 0, unknown: 0 };
+    counts[c.speakerRole]++;
+    tally.set(label, counts);
+  }
+
+  const majorityByLabel = new Map<string, Claim["speakerRole"]>();
+  for (const [label, counts] of tally) {
+    const ranked = (Object.entries(counts) as [Claim["speakerRole"], number][])
+      .sort((a, b) => b[1] - a[1]);
+    majorityByLabel.set(label, ranked[0]![0]);
+  }
+
+  for (const c of claims) {
+    const label = segmentLabels.get(c.segmentId);
+    if (!label) continue;
+    const majority = majorityByLabel.get(label);
+    if (majority) c.speakerRole = majority;
+  }
+}
+
 export const stage0Chunk: Stage<{ transcriptId: string }, PipelineState> = {
   name: "chunk",
   async run(ctx, input) {
@@ -47,10 +84,12 @@ export const stage1Extract: Stage<PipelineState, PipelineState> = {
     if (!project) throw new Error("project not found");
 
     const all: Claim[] = [];
+    const segmentLabels = new Map<string, string | null>();
     const now = new Date().toISOString();
 
     for (const ref of state.windows) {
       const window = hydrateWindow(ctx.db, frozen.transcript.text, ref);
+      for (const seg of window.segments) segmentLabels.set(seg.id, seg.speakerLabel);
       const result = await callTyped({
         client: ctx.client,
         db: ctx.db,
@@ -92,6 +131,7 @@ export const stage1Extract: Stage<PipelineState, PipelineState> = {
       }
     }
 
+    applySpeakerRoleFloor(all, segmentLabels);
     insertClaims(ctx.db, all);
     return { ...state, extracted: all.length };
   },

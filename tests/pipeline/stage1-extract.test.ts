@@ -3,11 +3,11 @@ import { openDb } from "../../src/store/db.js";
 import { createProject, createSession } from "../../src/store/projects.js";
 import { createTranscript, freezeTranscript } from "../../src/store/transcripts.js";
 import { listClaims } from "../../src/store/claims.js";
-import { ExtractedClaimsSchema, stage0Chunk, stage1Extract } from "../../src/pipeline/stage1-extract.js";
+import { ExtractedClaimsSchema, stage0Chunk, stage1Extract, applySpeakerRoleFloor } from "../../src/pipeline/stage1-extract.js";
 import { EXTRACT_SYSTEM, buildExtractUser } from "../../src/prompts/extract.js";
 import type { StageContext } from "../../src/pipeline/runner.js";
 import type { Window } from "../../src/pipeline/stage0-chunk.js";
-import type { Project } from "../../src/types/domain.js";
+import type { Project, Claim } from "../../src/types/domain.js";
 
 const LONG = Array.from({ length: 40 }, (_, i) =>
   `Client: point number ${i} about invoice approval thresholds and routing rules for the logistics operator. We need to implement detailed requirements for threshold management including escalation procedures, approval chains, and exception handling in various scenarios. The system should support different approval workflows based on invoice amount, vendor classification, and business relationship history. We also need audit trails and compliance reporting.`,
@@ -127,5 +127,49 @@ describe("buildExtractUser", () => {
     const project = { domain: "salon scheduling", glossary: null } as Project;
     const user = buildExtractUser(window, project);
     expect(user).toContain("[speaker: unknown]");
+  });
+});
+
+describe("applySpeakerRoleFloor", () => {
+  it("forces every claim from a speaker label to that label's majority role", () => {
+    const claims = [
+      { id: "c1", segmentId: "seg_1", speakerRole: "client" },
+      { id: "c2", segmentId: "seg_1", speakerRole: "ba" },
+      { id: "c3", segmentId: "seg_1", speakerRole: "ba" },
+    ] as unknown as Claim[];
+    const labels = new Map<string, string | null>([["seg_1", "Maya"]]);
+    applySpeakerRoleFloor(claims, labels);
+    expect(claims.map((c) => c.speakerRole)).toEqual(["ba", "ba", "ba"]);
+  });
+
+  it("leaves claims alone when their segment has no parsed speaker label", () => {
+    const claims = [{ id: "c1", segmentId: "seg_1", speakerRole: "client" }] as unknown as Claim[];
+    const labels = new Map<string, string | null>([["seg_1", null]]);
+    applySpeakerRoleFloor(claims, labels);
+    expect(claims[0]?.speakerRole).toBe("client");
+  });
+
+  it("breaks a tie in favor of the first-listed role (client)", () => {
+    const claims = [
+      { id: "c1", segmentId: "seg_1", speakerRole: "client" },
+      { id: "c2", segmentId: "seg_1", speakerRole: "ba" },
+    ] as unknown as Claim[];
+    const labels = new Map<string, string | null>([["seg_1", "Kevin"]]);
+    applySpeakerRoleFloor(claims, labels);
+    expect(claims.map((c) => c.speakerRole)).toEqual(["client", "client"]);
+  });
+
+  it("votes independently per speaker label", () => {
+    const claims = [
+      { id: "c1", segmentId: "seg_maya", speakerRole: "ba" },
+      { id: "c2", segmentId: "seg_maya", speakerRole: "ba" },
+      { id: "c3", segmentId: "seg_sarah", speakerRole: "client" },
+    ] as unknown as Claim[];
+    const labels = new Map<string, string | null>([
+      ["seg_maya", "Maya"],
+      ["seg_sarah", "Sarah"],
+    ]);
+    applySpeakerRoleFloor(claims, labels);
+    expect(claims.map((c) => c.speakerRole)).toEqual(["ba", "ba", "client"]);
   });
 });
