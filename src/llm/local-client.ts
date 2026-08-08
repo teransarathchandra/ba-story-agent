@@ -1,14 +1,38 @@
 // src/llm/local-client.ts
-import {
-  getLlama, resolveModelFile, LlamaChatSession,
-  type Llama, type LlamaModel, type LlamaContext, type LlamaContextSequence, type GbnfJsonObjectSchema,
-  type TokenMeterState,
+import type {
+  Llama, LlamaModel, LlamaContext, LlamaContextSequence, GbnfJsonObjectSchema,
+  TokenMeterState,
 } from "node-llama-cpp";
 import type { z } from "zod/v4";
 import type { LlmBackend, Effort } from "./backend.js";
 import { zodToGbnfSchema } from "./zod-to-gbnf.js";
 
 type Log = (line: string) => void;
+
+/**
+ * node-llama-cpp is pure ESM ("type": "module", no CJS entry point). This
+ * project's own root package.json is also "type": "module", so a static
+ * `import` here loads fine when this file runs under tsx (the CLI) or
+ * vitest. But electron-vite's main-process build externalizes
+ * node-llama-cpp (electron.vite.config.ts — it has native bindings and must
+ * not be bundled) and emits the main process as a CommonJS bundle, so a
+ * static `import` gets compiled to a top-level `require("node-llama-cpp")`
+ * there — which throws ERR_REQUIRE_ESM at Electron startup, since CJS
+ * require() cannot load a pure-ESM package synchronously. A lazy dynamic
+ * `import()`, resolved once and cached, is valid in both CJS and ESM
+ * consumers (Node's own documented interop path for this exact case) and
+ * works identically for the CLI, vitest, and the Electron main process — so
+ * it replaces the static value import here rather than needing separate
+ * per-consumer workarounds. Only runtime VALUE bindings need this; `type`
+ * imports above are erased by TypeScript and never reach the compiled
+ * output, so they stay static.
+ */
+type NodeLlamaCpp = typeof import("node-llama-cpp");
+let nodeLlamaCppModule: Promise<NodeLlamaCpp> | undefined;
+function loadNodeLlamaCpp(): Promise<NodeLlamaCpp> {
+  if (!nodeLlamaCppModule) nodeLlamaCppModule = import("node-llama-cpp");
+  return nodeLlamaCppModule;
+}
 
 /**
  * Starting candidate from the Task 1-3 compatibility spike — see
@@ -98,6 +122,7 @@ export class LocalBackend implements LlmBackend {
     // real mismatch.
     const gbnfSchema = zodToGbnfSchema(args.schema) as GbnfJsonObjectSchema;
     const grammar = await this.llama.createGrammarForJsonSchema(gbnfSchema);
+    const { LlamaChatSession } = await loadNodeLlamaCpp();
 
     let raw = "";
     let parsedOutput: unknown = null;
@@ -217,6 +242,7 @@ export async function loadLocalBackend(opts?: { log?: Log }): Promise<{
   release: () => Promise<void>;
 }> {
   const log = opts?.log ?? (() => {});
+  const { getLlama, resolveModelFile } = await loadNodeLlamaCpp();
 
   const modelPath = await resolveModelFile(CANDIDATE_MODEL_URI, {
     cli: false,
