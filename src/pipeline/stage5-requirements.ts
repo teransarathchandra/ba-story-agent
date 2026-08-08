@@ -50,6 +50,7 @@ export const stage5Requirements: Stage<PipelineState, PipelineState> = {
     const known = new Set(claims.map((c) => c.id));
     const now = new Date().toISOString();
     const toInsert: Requirement[] = [];
+    const coveredClaimIds = new Set<string>();
 
     for (const draft of result.requirements) {
       const cited = draft.originClaimIds.filter((id) => known.has(id));
@@ -66,6 +67,28 @@ export const stage5Requirements: Stage<PipelineState, PipelineState> = {
         createdAt: now,
       };
       insertRequirements(ctx.db, [req]); // one at a time so nextKey stays unique
+      toInsert.push(req);
+      for (const id of cited) coveredClaimIds.add(id);
+    }
+
+    // Deterministic fallback: a claim the model's synthesis failed to cite
+    // (empty draft list, or drafts citing ids that don't exist) still becomes
+    // a minimal requirement of its own — client-stated content must never be
+    // silently dropped because a synthesis call underperformed.
+    for (const claim of claims) {
+      if (coveredClaimIds.has(claim.id)) continue;
+      const req: Requirement = {
+        id: newId("req"),
+        projectId: ctx.projectId,
+        key: nextKey(ctx.db, ctx.projectId, "requirements", "REQ"),
+        statement: claim.statement,
+        status: "proposed",
+        origin: "client-stated",
+        originClaimIds: [claim.id],
+        supersedesId: null,
+        createdAt: now,
+      };
+      insertRequirements(ctx.db, [req]);
       toInsert.push(req);
     }
 

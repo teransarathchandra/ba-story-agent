@@ -48,17 +48,24 @@ describe("stage5Requirements", () => {
     expect(out.requirements).toBe(1);
   });
 
-  it("DROPS a requirement with no origin claims", async () => {
-    const { ctx, state } = setup(() => [{ statement: "Invented rule.", originClaimIds: [] }]);
+  it("DROPS an unsourced draft but the fallback still covers the underlying claim", async () => {
+    const { ctx, claimId, state } = setup(() => [{ statement: "Invented rule.", originClaimIds: [] }]);
     const out = await stage5Requirements.run(ctx, state);
-    expect(listRequirements(ctx.db, ctx.projectId)).toHaveLength(0);
-    expect(out.requirements).toBe(0);
+    const reqs = listRequirements(ctx.db, ctx.projectId);
+    expect(reqs).toHaveLength(1);
+    expect(reqs[0]?.statement).not.toBe("Invented rule.");
+    expect(reqs[0]?.statement).toBe("threshold");
+    expect(reqs[0]?.originClaimIds).toEqual([claimId]);
+    expect(out.requirements).toBe(1);
   });
 
-  it("DROPS a requirement citing a claim that does not exist", async () => {
-    const { ctx, state } = setup(() => [{ statement: "Invented rule.", originClaimIds: ["clm_fabricated"] }]);
+  it("DROPS a requirement citing a claim that does not exist, but the fallback still covers the real claim", async () => {
+    const { ctx, claimId, state } = setup(() => [{ statement: "Invented rule.", originClaimIds: ["clm_fabricated"] }]);
     await stage5Requirements.run(ctx, state);
-    expect(listRequirements(ctx.db, ctx.projectId)).toHaveLength(0);
+    const reqs = listRequirements(ctx.db, ctx.projectId);
+    expect(reqs).toHaveLength(1);
+    expect(reqs[0]?.statement).not.toBe("Invented rule.");
+    expect(reqs[0]?.originClaimIds).toEqual([claimId]);
   });
 
   it("drops only the unsourced entries, keeping the sourced ones", async () => {
@@ -83,5 +90,73 @@ describe("stage5Requirements", () => {
     const out = await stage5Requirements.run(ctx, emptyState(transcript.id));
     expect(parse).not.toHaveBeenCalled();
     expect(out.requirements).toBe(0);
+  });
+
+  it("falls back to a direct requirement when the model returns no drafts at all", async () => {
+    const { ctx, claimId, state } = setup(() => []);
+    const out = await stage5Requirements.run(ctx, state);
+    const reqs = listRequirements(ctx.db, ctx.projectId);
+    expect(reqs).toHaveLength(1);
+    expect(reqs[0]?.statement).toBe("threshold");
+    expect(reqs[0]?.originClaimIds).toEqual([claimId]);
+    expect(out.requirements).toBe(1);
+  });
+
+  it("falls back to a direct requirement when every draft cites an unknown claim id", async () => {
+    const { ctx, claimId, state } = setup(() => [
+      { statement: "Invented rule.", originClaimIds: ["clm_fabricated"] },
+    ]);
+    const out = await stage5Requirements.run(ctx, state);
+    const reqs = listRequirements(ctx.db, ctx.projectId);
+    expect(reqs).toHaveLength(1);
+    expect(reqs[0]?.originClaimIds).toEqual([claimId]);
+    expect(out.requirements).toBe(1);
+  });
+
+  it("does not duplicate a claim already covered by a sourced LLM draft", async () => {
+    const { ctx, state } = setup((id) => [
+      { statement: "Real one.", originClaimIds: [id] },
+    ]);
+    await stage5Requirements.run(ctx, state);
+    const reqs = listRequirements(ctx.db, ctx.projectId);
+    expect(reqs).toHaveLength(1);
+    expect(reqs[0]?.statement).toBe("Real one.");
+  });
+
+  it("fallback covers only claims the LLM draft didn't cite, alongside the LLM's own results", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "invoice approval for logistics operators" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript, segments } = createTranscript(db, { sessionId: s.id, text: "a\n\nb" });
+    freezeTranscript(db, transcript.id);
+    const now = new Date().toISOString();
+    const claimA = newId("clm");
+    const claimB = newId("clm");
+    insertClaims(db, [
+      {
+        id: claimA, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+        quote: "invoices over ten thousand must go to a manager", statement: "threshold A",
+        speakerRole: "client" as const, kind: "requirement" as const, status: "validated" as const,
+        charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: now,
+      },
+      {
+        id: claimB, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+        quote: "customers must confirm by email", statement: "threshold B",
+        speakerRole: "client" as const, kind: "requirement" as const, status: "validated" as const,
+        charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: now,
+      },
+    ]);
+    const parse = vi.fn().mockResolvedValue({
+      raw: "{}",
+      parsedOutput: { requirements: [{ statement: "Real one.", originClaimIds: [claimA] }] },
+      requestPayload: {},
+      usage: { input_tokens: 1, output_tokens: 1 },
+    });
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
+    const out = await stage5Requirements.run(ctx, emptyState(transcript.id));
+    const reqs = listRequirements(db, p.id);
+    expect(reqs).toHaveLength(2);
+    expect(reqs.map((r) => r.statement).sort()).toEqual(["Real one.", "threshold B"]);
+    expect(out.requirements).toBe(2);
   });
 });
