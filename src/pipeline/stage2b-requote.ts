@@ -70,20 +70,28 @@ export const stage2bRequote: Stage<PipelineState, PipelineState> = {
           }
         : wholeTranscript;
 
-      const result = await callTyped({
-        client: ctx.client,
-        db: ctx.db,
-        sessionId: ctx.sessionId,
-        stage: "requote",
-        system: REQUOTE_SYSTEM,
-        user: buildRequoteUser(
-          claimsInGroup.map((c) => ({ id: c.id, statement: c.statement })),
-          source.windowText,
-          project,
-        ),
-        schema: RequoteSchema,
-        effort: "high",
-      });
+      let result: z.infer<typeof RequoteSchema>;
+      try {
+        result = await callTyped({
+          client: ctx.client,
+          db: ctx.db,
+          sessionId: ctx.sessionId,
+          stage: "requote",
+          system: REQUOTE_SYSTEM,
+          user: buildRequoteUser(
+            claimsInGroup.map((c) => ({ id: c.id, statement: c.statement })),
+            source.windowText,
+            project,
+          ),
+          schema: RequoteSchema,
+          effort: "high",
+        });
+      } catch {
+        // Best-effort repair pass: a group whose call can't produce a
+        // schema-conforming response leaves its claims quarantined
+        // (unchanged) rather than failing the whole session.
+        continue;
+      }
 
       const byId = new Map(result.requotes.map((r) => [r.id, r.quote]));
       for (const claim of claimsInGroup) {

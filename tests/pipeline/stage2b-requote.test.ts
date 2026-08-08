@@ -85,4 +85,94 @@ describe("stage2bRequote", () => {
     await stage2bRequote.run(ctx, state);
     expect(parse).not.toHaveBeenCalled();
   });
+
+  it("does not fail the whole stage when a group's LLM call throws", async () => {
+    const { db, projectId, sessionId, state } = setup("anything over ten thousand euro but garbled somehow", "quarantined");
+    const parse = vi.fn().mockRejectedValue(new Error("model unavailable"));
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId, sessionId };
+    await expect(stage2bRequote.run(ctx, state)).resolves.toBeDefined();
+    const [claim] = listClaims(db, sessionId);
+    expect(claim?.status).toBe("quarantined");
+  });
+});
+
+describe("stage2bRequote with multi-window transcript", () => {
+  const LONG_TEXT = (() => {
+    const segments: string[] = [];
+    for (let i = 0; i < 30; i++) {
+      segments.push(
+        `BA: Let's discuss requirement ${i}. ` +
+        `This is a detailed explanation about requirement ${i}. ` +
+        `We need to ensure that the system handles this case properly. ` +
+        `The implementation should be robust and scalable. ` +
+        `We should also consider edge cases and error scenarios. `
+      );
+      segments.push(
+        `Client: I agree with that. ` +
+        `For requirement ${i}, we need to validate input thoroughly. ` +
+        `The validation must happen before processing. ` +
+        `We want to ensure data quality at all stages. ` +
+        `Performance is also critical for this feature. `
+      );
+    }
+    return segments.join("\n\n");
+  })();
+
+  it("calls the model once per window, each call scoped to that window's own claims and text", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "invoice approval for logistics operators" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript, segments } = createTranscript(db, { sessionId: s.id, text: LONG_TEXT });
+    freezeTranscript(db, transcript.id);
+    const windows = chunkTranscript(LONG_TEXT, segments);
+    expect(windows.length).toBe(2); // guard: fixture must span 2 windows
+
+    const now = new Date().toISOString();
+    // Segment 0 exists only in window 0; segment 52 exists only in window 1
+    // (same split used by stage2-validate.test.ts's multi-window fixture).
+    const claimWindow0 = newId("clm");
+    const claimWindow1 = newId("clm");
+    insertClaims(db, [
+      {
+        id: claimWindow0, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+        quote: "garbled quote zero", statement: "requirement 0 needs input validation",
+        speakerRole: "client" as const, kind: "requirement" as const, status: "quarantined" as const,
+        charStart: null, charEnd: null, matchMode: null, createdAt: now,
+      },
+      {
+        id: claimWindow1, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[52]!.id,
+        quote: "garbled quote fifty two", statement: "validation must happen before processing",
+        speakerRole: "client" as const, kind: "requirement" as const, status: "quarantined" as const,
+        charStart: null, charEnd: null, matchMode: null, createdAt: now,
+      },
+    ]);
+
+    const parse = vi.fn().mockImplementation(({ user }: { user: string }) => {
+      if (user.includes(claimWindow0)) {
+        return Promise.resolve({
+          raw: "{}",
+          parsedOutput: { requotes: [{ id: claimWindow0, quote: "For requirement 0, we need to validate input thoroughly." }] },
+          requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+        });
+      }
+      return Promise.resolve({
+        raw: "{}",
+        parsedOutput: { requotes: [{ id: claimWindow1, quote: "The validation must happen before processing." }] },
+        requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+      });
+    });
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
+    const state = { ...emptyState(transcript.id), windows: windows.map(toRef) };
+
+    const out = await stage2bRequote.run(ctx, state);
+
+    expect(parse).toHaveBeenCalledTimes(2); // one call per window group, not per claim
+    const claims = listClaims(db, s.id);
+    const c0 = claims.find((c) => c.id === claimWindow0)!;
+    const c1 = claims.find((c) => c.id === claimWindow1)!;
+    expect(c0.status).toBe("validated");
+    expect(c1.status).toBe("validated");
+    expect(out.validated).toBe(2);
+    expect(out.quarantined).toBe(0);
+  });
 });
