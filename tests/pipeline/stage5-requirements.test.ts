@@ -90,6 +90,15 @@ describe("stage5Requirements", () => {
     const out = await stage5Requirements.run(ctx, emptyState(transcript.id));
     expect(parse).not.toHaveBeenCalled();
     expect(out.requirements).toBe(0);
+    expect(out.requirementClaims).toBe(0);
+  });
+
+  it("records how many requirement-kind claims reached synthesis", async () => {
+    const { ctx, state } = setup((id) => [
+      { statement: "Real one.", originClaimIds: [id] },
+    ]);
+    const out = await stage5Requirements.run(ctx, state);
+    expect(out.requirementClaims).toBe(1);
   });
 
   it("falls back to a direct requirement when the model returns no drafts at all", async () => {

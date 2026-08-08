@@ -60,6 +60,7 @@ export const stage2bRequote: Stage<PipelineState, PipelineState> = {
       groups.set(key, list);
     }
 
+    let failedGroups = 0;
     for (const [key, claimsInGroup] of groups) {
       const window = key === "orphan" ? null : windowByIdx.get(key)!;
       const source: GroundingSource = window
@@ -86,10 +87,13 @@ export const stage2bRequote: Stage<PipelineState, PipelineState> = {
           schema: RequoteSchema,
           effort: "high",
         });
-      } catch {
+      } catch (err) {
         // Best-effort repair pass: a group whose call can't produce a
         // schema-conforming response leaves its claims quarantined
-        // (unchanged) rather than failing the whole session.
+        // (unchanged) rather than failing the whole session — but the
+        // failure itself must not vanish silently, since this stage is
+        // the primary recovery path for the quarantine rate.
+        failedGroups++;
         continue;
       }
 
@@ -112,6 +116,11 @@ export const stage2bRequote: Stage<PipelineState, PipelineState> = {
     }
 
     const counts = countByStatus(ctx.db, ctx.sessionId);
-    return { ...state, validated: counts["validated"] ?? 0, quarantined: counts["quarantined"] ?? 0 };
+    return {
+      ...state,
+      validated: counts["validated"] ?? 0,
+      quarantined: counts["quarantined"] ?? 0,
+      requoteFailures: state.requoteFailures + failedGroups,
+    };
   },
 };

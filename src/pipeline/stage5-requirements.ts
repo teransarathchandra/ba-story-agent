@@ -34,7 +34,12 @@ export const stage5Requirements: Stage<PipelineState, PipelineState> = {
     if (!project) throw new Error("project not found");
 
     const claims = listClaims(ctx.db, ctx.sessionId, { status: "validated", kind: "requirement" });
-    if (claims.length === 0) return state;
+    // Recorded unconditionally (both the early-return and full-synthesis paths)
+    // so a session with validated claims but zero requirement-kind ones is
+    // distinguishable in the persisted pipeline state from a session where
+    // nothing was validated at all — otherwise this and every downstream
+    // stage go silent with no diagnostic anywhere.
+    if (claims.length === 0) return { ...state, requirementClaims: 0 };
 
     const result = await callTyped({
       client: ctx.client,
@@ -92,6 +97,6 @@ export const stage5Requirements: Stage<PipelineState, PipelineState> = {
       toInsert.push(req);
     }
 
-    return { ...state, requirements: state.requirements + toInsert.length };
+    return { ...state, requirements: state.requirements + toInsert.length, requirementClaims: claims.length };
   },
 };

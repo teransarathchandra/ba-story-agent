@@ -90,9 +90,11 @@ describe("stage2bRequote", () => {
     const { db, projectId, sessionId, state } = setup("anything over ten thousand euro but garbled somehow", "quarantined");
     const parse = vi.fn().mockRejectedValue(new Error("model unavailable"));
     const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId, sessionId };
-    await expect(stage2bRequote.run(ctx, state)).resolves.toBeDefined();
+    const out = await stage2bRequote.run(ctx, state);
+    expect(out).toBeDefined();
     const [claim] = listClaims(db, sessionId);
     expect(claim?.status).toBe("quarantined");
+    expect(out.requoteFailures).toBe(1);
   });
 });
 
