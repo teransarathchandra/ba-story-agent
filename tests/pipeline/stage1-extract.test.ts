@@ -96,6 +96,10 @@ describe("EXTRACT_SYSTEM confirmation rule", () => {
     expect(EXTRACT_SYSTEM).toMatch(/not a role/i);
     expect(EXTRACT_SYSTEM).not.toMatch(/set speakerRole — do not guess/i);
   });
+
+  it("tells the model not to extract a claim when the confirmed proposal was to leave something unresolved", () => {
+    expect(EXTRACT_SYSTEM).toMatch(/unresolved|deferred|not.{0,10}yet.{0,10}decided/i);
+  });
 });
 
 describe("buildExtractUser", () => {
