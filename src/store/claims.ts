@@ -108,3 +108,22 @@ export function countByStatus(db: Db, sessionId: string): Record<string, number>
 export function setClaimKind(db: Db, id: string, kind: Claim["kind"]): void {
   db.prepare("UPDATE claims SET kind = ? WHERE id = ?").run(kind, id);
 }
+
+export function requoteClaim(
+  db: Db,
+  id: string,
+  patch: {
+    quote: string;
+    status: Claim["status"];
+    charStart: number | null;
+    charEnd: number | null;
+    matchMode: Claim["matchMode"];
+    segmentId: string;
+  },
+): void {
+  db.prepare(
+    `UPDATE claims
+     SET quote = ?, status = ?, char_start = ?, char_end = ?, match_mode = ?, segment_id = ?
+     WHERE id = ?`,
+  ).run(patch.quote, patch.status, patch.charStart, patch.charEnd, patch.matchMode, patch.segmentId, id);
+}

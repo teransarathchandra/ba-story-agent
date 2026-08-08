@@ -3,6 +3,7 @@ import { runPipeline, type Stage, type StageContext } from "./runner.js";
 import { getProject, setSessionStatus } from "../store/projects.js";
 import { stage0Chunk, stage1Extract } from "./stage1-extract.js";
 import { stage2Validate } from "./stage2-validate.js";
+import { stage2bRequote } from "./stage2b-requote.js";
 import { stage3Classify } from "./stage3-classify.js";
 import { stage4Reconcile } from "./stage4-reconcile.js";
 import { stage5Requirements } from "./stage5-requirements.js";
@@ -12,7 +13,7 @@ import { stage8Assemble } from "./stage8-assemble.js";
 import type { PipelineState } from "./state.js";
 
 export const ALL_STAGES: Stage<unknown, unknown>[] = [
-  stage0Chunk, stage1Extract, stage2Validate, stage3Classify, stage4Reconcile,
+  stage0Chunk, stage1Extract, stage2Validate, stage2bRequote, stage3Classify, stage4Reconcile,
   stage5Requirements, stage6Stories, stage7Critique, stage8Assemble,
 ];
 

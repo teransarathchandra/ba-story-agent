@@ -26,9 +26,9 @@ describe("stage8Assemble", () => {
 });
 
 describe("ALL_STAGES", () => {
-  it("runs the nine stages in spec order", () => {
+  it("runs the ten stages in spec order", () => {
     expect(ALL_STAGES.map((s) => s.name)).toEqual([
-      "chunk", "extract", "validate", "classify", "reconcile",
+      "chunk", "extract", "validate", "requote", "classify", "reconcile",
       "requirements", "stories", "critique", "assemble",
     ]);
   });
