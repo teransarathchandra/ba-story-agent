@@ -208,6 +208,44 @@ describe("stage3Classify", () => {
     expect(claims[0]?.kind).toBe("requirement");
     expect(claims[1]?.kind).toBe("ambiguity");
   });
+
+  it("does not abort the stage when the model emits a 0-based index instead of 1-based", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "invoice approval for logistics operators" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript, segments } = createTranscript(db, { sessionId: s.id, text: "x\n\ny" });
+    freezeTranscript(db, transcript.id);
+    const now = new Date().toISOString();
+    const claimId = newId("clm");
+    insertClaims(db, [{
+      id: claimId,
+      sessionId: s.id,
+      transcriptId: transcript.id,
+      segmentId: segments[0]!.id,
+      quote: "invoices over ten thousand must go to a manager",
+      statement: "invoices over ten thousand must go to a manager",
+      speakerRole: "client" as const,
+      kind: "requirement" as const,
+      status: "validated" as const,
+      charStart: 0,
+      charEnd: 1,
+      matchMode: "exact" as const,
+      createdAt: now,
+    }]);
+    const parse = vi.fn().mockResolvedValue({
+      raw: "{}",
+      parsedOutput: { classifications: [{ index: 0, kind: "requirement" }] },
+      requestPayload: {},
+      usage: { input_tokens: 1, output_tokens: 1 },
+    });
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
+    // Should not throw or abort; should complete normally.
+    await expect(stage3Classify.run(ctx, emptyState("t"))).resolves.toBeDefined();
+    const [claim] = listClaims(db, ctx.sessionId);
+    // index 0 matches nothing (real claims are indexed from 1), so it falls
+    // through to the default rather than aborting the stage.
+    expect(claim?.kind).toBe("ambiguity");
+  });
 });
 
 describe("CLASSIFY_SYSTEM", () => {

@@ -10,7 +10,14 @@ import type { Stage } from "./runner.js";
 export const ClassificationSchema = z.object({
   classifications: z.array(
     z.object({
-      index: z.number().int().positive(),
+      // No .positive() — the GBNF grammar generator cannot express numeric
+      // bounds, so a 0-based-index model mistake would pass the grammar,
+      // fail this constraint, and abort the whole classify stage via
+      // StageFailure. A non-positive or out-of-range index is instead left
+      // to fall through the existing `byIndex.get(i + 1) ?? "ambiguity"`
+      // default below, same graceful handling an out-of-range index already
+      // gets.
+      index: z.number().int(),
       kind: z.enum(["requirement", "assumption", "ambiguity"]),
     }),
   ),
