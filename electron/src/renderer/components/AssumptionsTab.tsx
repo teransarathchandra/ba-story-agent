@@ -2,6 +2,12 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { AlertTriangle, ArrowUpCircle, MessageSquare, Quote } from 'lucide-react'
 import { showErrorToast, showSuccessToast } from '../utils/errors'
 
+const STATUS_LABEL: Record<string, string> = {
+  validated: 'Quote Verified',
+  quarantined: 'Quote Not Found',
+  candidate: 'Processing',
+}
+
 interface Props {
   projectId: string
   onSelectClaim: (id: string | null) => void
@@ -155,7 +161,7 @@ export default function AssumptionsTab({ projectId, onSelectClaim, selectedClaim
                       : claim.status === 'quarantined' ? 'badge-rejected'
                       : 'badge-pending'
                     }`}>
-                      {claim.status}
+                      {STATUS_LABEL[claim.status] ?? claim.status}
                     </span>
                     {claim.speakerRole && (
                       <span className="review-meta-text">{claim.speakerRole}</span>
