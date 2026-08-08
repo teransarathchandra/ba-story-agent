@@ -11,6 +11,7 @@ import { createClient, AnthropicBackend } from "../llm/client.js";
 import { loadLocalBackend } from "../llm/local-client.js";
 import type { LlmBackend } from "../llm/backend.js";
 import { analyzeSession, quarantineRate } from "../pipeline/index.js";
+import { suggestProjectDomain } from "../pipeline/suggest-domain.js";
 import { countWords, MIN_WORDS } from "../pipeline/stage0-chunk.js";
 import { buildSnapshot } from "../export/snapshot.js";
 import { jsonPublisher } from "../export/json.js";
@@ -86,6 +87,32 @@ export function buildProgram(opts?: { log?: Log }): Command {
       const p = setProjectDomain(db, o.project, o.domain);
       log(`Set domain for project ${p.id}`);
       log(`  domain: ${p.domain}`);
+    });
+
+  project
+    .command("suggest-domain")
+    .description("propose a one-line domain from a session's transcript, without saving it")
+    .requiredOption("--session <id>", "session whose transcript to read")
+    .action(async function (this: Command, o: { session: string }) {
+      const db = openDb(dbPath(this));
+      // Project is derived from the session, not taken as a separate flag —
+      // same reasoning as `analyze`: a caller-supplied project id could
+      // mismatch the session's real project and route its transcript
+      // through the wrong project's backend.
+      const row = db
+        .prepare("SELECT project_id FROM sessions WHERE id = ?")
+        .get(o.session) as { project_id: string } | undefined;
+      if (!row) throw new Error(`session ${o.session} not found`);
+      const project = getProject(db, row.project_id);
+      if (!project) throw new Error(`project ${row.project_id} not found`);
+      const { client, release } = await selectBackend(project.llmBackend, log);
+      try {
+        const domain = await suggestProjectDomain({ db, client, sessionId: o.session });
+        log(`Suggested domain: ${domain}`);
+        log(`Run \`project set-domain --project ${project.id} --domain "..."\` to save it (edited or as-is).`);
+      } finally {
+        await release();
+      }
     });
 
   const session = program.command("session").description("manage sessions");

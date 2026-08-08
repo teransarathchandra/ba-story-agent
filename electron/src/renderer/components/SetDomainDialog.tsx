@@ -1,29 +1,49 @@
 import React, { useEffect, useId, useState } from 'react'
-import { Target, X, Loader, AlertCircle } from 'lucide-react'
+import { Target, X, Loader, AlertCircle, Sparkles } from 'lucide-react'
 import { showErrorToast, showSuccessToast, formatErrorMessage } from '../utils/errors'
 import type { Project } from '../types/api'
 
 interface Props {
   projectId: string
   projectName: string
+  /** When present, a transcript exists to suggest a domain from — shows the "Suggest" affordance. */
+  sessionId?: string
   onSet: (project: Project) => void
   onCancel: () => void
 }
 
-export default function SetDomainDialog({ projectId, projectName, onSet, onCancel }: Props) {
+export default function SetDomainDialog({ projectId, projectName, sessionId, onSet, onCancel }: Props) {
   const [domain, setDomain] = useState('')
   const [loading, setLoading] = useState(false)
+  const [suggesting, setSuggesting] = useState(false)
   const [fieldError, setFieldError] = useState<string | null>(null)
+  const busy = loading || suggesting
   const titleId = useId()
   const descriptionId = useId()
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && !loading) onCancel()
+      if (event.key === 'Escape' && !busy) onCancel()
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [loading, onCancel])
+  }, [busy, onCancel])
+
+  const handleSuggest = async () => {
+    if (!sessionId) return
+    setSuggesting(true)
+    setFieldError(null)
+    try {
+      const { domain: suggested } = await window.api.project.suggestDomain({ sessionId })
+      setDomain(suggested)
+    } catch (err: any) {
+      const cleanMsg = formatErrorMessage(err) || 'Failed to suggest a domain'
+      setFieldError(cleanMsg)
+      showErrorToast(err, 'Failed to suggest a domain')
+    } finally {
+      setSuggesting(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -47,7 +67,7 @@ export default function SetDomainDialog({ projectId, projectName, onSet, onCance
   return (
     <div
       className="modal-overlay"
-      onClick={e => e.target === e.currentTarget && !loading && onCancel()}
+      onClick={e => e.target === e.currentTarget && !busy && onCancel()}
     >
       <div
         className="modal-box"
@@ -61,14 +81,28 @@ export default function SetDomainDialog({ projectId, projectName, onSet, onCance
             <h2 className="modal-title" id={titleId}>Set business domain</h2>
             <p className="modal-description" id={descriptionId}>Required before you can analyze sessions in &ldquo;{projectName}&rdquo;.</p>
           </div>
-          <button onClick={onCancel} className="icon-button" aria-label="Close dialog" disabled={loading}>
+          <button onClick={onCancel} className="icon-button" aria-label="Close dialog" disabled={busy}>
             <X size={16} />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="label" htmlFor={`${titleId}-domain`}>Business Domain *</label>
+            <div className="flex items-center justify-between">
+              <label className="label" htmlFor={`${titleId}-domain`}>Business Domain *</label>
+              {sessionId && (
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  style={{ fontSize: '11px', padding: '3px 8px' }}
+                  onClick={handleSuggest}
+                  disabled={busy}
+                >
+                  {suggesting ? <Loader size={12} className="animate-spin" /> : <Sparkles size={12} />}
+                  {suggesting ? 'Reading transcript...' : 'Suggest from transcript'}
+                </button>
+              )}
+            </div>
             <input
               id={`${titleId}-domain`}
               className={`input ${fieldError ? 'border-red-500 focus:border-red-500' : ''}`}
@@ -77,6 +111,7 @@ export default function SetDomainDialog({ projectId, projectName, onSet, onCance
               placeholder="e.g. Freight invoicing for logistics operators"
               autoFocus
               required
+              disabled={suggesting}
             />
           </div>
 
@@ -88,13 +123,13 @@ export default function SetDomainDialog({ projectId, projectName, onSet, onCance
           )}
 
           <div className="flex justify-end gap-2 pt-2">
-            <button type="button" className="btn btn-ghost" onClick={onCancel} disabled={loading}>
+            <button type="button" className="btn btn-ghost" onClick={onCancel} disabled={busy}>
               Cancel
             </button>
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={loading || !domain.trim()}
+              disabled={busy || !domain.trim()}
             >
               {loading ? <Loader size={14} className="animate-spin" /> : <Target size={14} />}
               {loading ? 'Saving...' : 'Save domain'}

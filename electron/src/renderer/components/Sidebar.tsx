@@ -39,7 +39,7 @@ export default function Sidebar({
   const [showAddSession, setShowAddSession] = useState(false)
   const [expandedProjects, setExpandedProjects] = useState<Set<string>>(new Set())
   const [transcriptSession, setTranscriptSession] = useState<Session | null>(null)
-  const [domainTarget, setDomainTarget] = useState<{ id: string; name: string } | null>(null)
+  const [domainTarget, setDomainTarget] = useState<{ id: string; name: string; sessionId?: string } | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<
     | { kind: 'project'; id: string; name: string }
     | { kind: 'session'; id: string; name: string; projectId: string }
@@ -207,7 +207,11 @@ export default function Sidebar({
                         <button
                           type="button"
                           className="text-[10px] text-amber-400 hover:text-amber-300 px-2 py-1 no-drag underline decoration-dotted"
-                          onClick={() => setDomainTarget({ id: p.id, name: p.name })}
+                          onClick={() => setDomainTarget({
+                            id: p.id,
+                            name: p.name,
+                            sessionId: activeSessionId ?? sessions[0]?.id,
+                          })}
                         >
                           Set domain (required to analyze)
                         </button>
@@ -286,7 +290,11 @@ export default function Sidebar({
                           ) : (
                             <button
                               type="button"
-                              onClick={() => setDomainTarget({ id: p.id, name: p.name })}
+                              onClick={() => setDomainTarget({
+                                id: p.id,
+                                name: p.name,
+                                sessionId: activeSessionId,
+                              })}
                               className="btn btn-ghost no-drag"
                               style={{ width: '100%', fontSize: '12px', padding: '5px 10px' }}
                             >
@@ -362,6 +370,7 @@ export default function Sidebar({
         <SetDomainDialog
           projectId={domainTarget.id}
           projectName={domainTarget.name}
+          sessionId={domainTarget.sessionId}
           onSet={() => {
             setDomainTarget(null)
             loadProjects()

@@ -150,6 +150,7 @@ declare global {
           name: string; domain?: string; regulatory?: string; systemName?: string
         }) => Promise<Project>
         setDomain: (data: { projectId: string; domain: string }) => Promise<Project>
+        suggestDomain: (data: { sessionId: string }) => Promise<{ domain: string }>
         get: (id: string) => Promise<Project | null>
         status: (id: string) => Promise<ProjectStatus>
         delete: (id: string) => Promise<{ deleted: boolean }>

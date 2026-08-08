@@ -23,6 +23,7 @@ import { listQuestions, listRecommendations } from '../../../src/store/findings.
 import { listClaims, countByStatus } from '../../../src/store/claims.js'
 import { recordApproval } from '../../../src/store/audit.js'
 import { analyzeSession, quarantineRate } from '../../../src/pipeline/index.js'
+import { suggestProjectDomain } from '../../../src/pipeline/suggest-domain.js'
 import { buildSnapshot } from '../../../src/export/snapshot.js'
 import { markdownPublisher } from '../../../src/export/markdown.js'
 import { jsonPublisher } from '../../../src/export/json.js'
@@ -92,6 +93,26 @@ export function setupIpc(): void {
   ipcMain.handle('project:set-domain', async (_event, data: { projectId: string; domain: string }) => {
     const db = getDb()
     return setProjectDomain(db, data.projectId, data.domain)
+  })
+
+  ipcMain.handle('project:suggest-domain', async (_event, data: { sessionId: string }) => {
+    const db = getDb()
+    // Project is derived from the session, not taken from the caller —
+    // mirrors session:analyze's own lookup, so a mismatched project id can
+    // never route a transcript through the wrong project's backend.
+    const row = db
+      .prepare('SELECT project_id FROM sessions WHERE id = ?')
+      .get(data.sessionId) as { project_id: string } | undefined
+    if (!row) throw new Error(`Session ${data.sessionId} not found`)
+    const project = getProject(db, row.project_id)
+    if (!project) throw new Error(`Project ${row.project_id} not found`)
+    const { client, release } = await selectBackend(project.llmBackend, () => {})
+    try {
+      const domain = await suggestProjectDomain({ db, client, sessionId: data.sessionId })
+      return { domain }
+    } finally {
+      await release()
+    }
   })
 
   ipcMain.handle('project:get', async (_event, id: string) => {
