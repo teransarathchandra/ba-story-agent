@@ -9,7 +9,7 @@ A claim is one indivisible thing that was actually said. For each claim you emit
 - "segmentId": the id of the segment the quote came from.
 - "speakerRole": who said it.
 
-Each transcript segment below is labeled with its speaker, e.g. "[speaker: Maya]". Use that label to set speakerRole — do not guess it from the prose. If a segment carries "[speaker: unknown]", use your best judgment from context rather than defaulting to "client".
+Each transcript segment below is labeled with its speaker, e.g. "[speaker: Maya]". That label is a name, not a role — speakerRole is one of "client", "ba", "other", or "unknown", describing the person's role in the meeting. Decide the role from context (the analyst drives the meeting with exploratory questions like "walk me through..." or "what happens when..."; client-side participants describe their own business, its problems, and what they need), then apply that same role to every claim from that same speaker label — a label's role does not change partway through a window. If a segment carries "[speaker: unknown]", or context gives no real signal either way, use "unknown" rather than defaulting to "client".
 
 Rules, in order of importance:
 

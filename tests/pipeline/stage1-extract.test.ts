@@ -91,6 +91,11 @@ describe("EXTRACT_SYSTEM confirmation rule", () => {
   it("tells the model to use the segment's speaker label instead of guessing", () => {
     expect(EXTRACT_SYSTEM).toMatch(/\[speaker:/);
   });
+
+  it("tells the model speakerRole is a role, not the speaker's name, and to derive it from context", () => {
+    expect(EXTRACT_SYSTEM).toMatch(/not a role/i);
+    expect(EXTRACT_SYSTEM).not.toMatch(/set speakerRole — do not guess/i);
+  });
 });
 
 describe("buildExtractUser", () => {
