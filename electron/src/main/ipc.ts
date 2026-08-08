@@ -272,7 +272,8 @@ export function setupIpc(): void {
     const db = getDb()
     const sessions = listSessions(db, projectId)
     const allAssumptions = sessions.flatMap(s =>
-      listClaims(db, s.id, { status: 'validated' }).filter(c => c.kind === 'assumption')
+      listClaims(db, s.id, { status: 'validated' })
+        .filter(c => c.kind === 'assumption' && c.speakerRole !== 'ba')
     )
     return allAssumptions
   })

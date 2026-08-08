@@ -63,6 +63,8 @@ vi.mock('electron', () => ({
 import { openDb } from '../../../src/store/db.js'
 import { createProject, createSession } from '../../../src/store/projects.js'
 import { createTranscript, freezeTranscript } from '../../../src/store/transcripts.js'
+import { insertClaims } from '../../../src/store/claims.js'
+import { newId } from '../../../src/types/ids.js'
 
 describe('session:analyze (real ipc.ts handler, via setupIpc)', () => {
   let db: ReturnType<typeof openDb>
@@ -128,5 +130,46 @@ describe('session:analyze (real ipc.ts handler, via setupIpc)', () => {
     expect(fakeEvent.sender.send).toHaveBeenCalledWith('analyze:progress', {
       stage: 'local-model', status: 'Downloading local model: 50.0%',
     })
+  })
+})
+
+describe('assumption:list (real ipc.ts handler)', () => {
+  let db: ReturnType<typeof openDb>
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    handlers.clear()
+    db = openDb(':memory:')
+    const { setupIpc } = await import('../../src/main/ipc.js')
+    setupIpc()
+  })
+
+  it('excludes a validated assumption-kind claim whose speakerRole is "ba"', async () => {
+    const project = createProject(db, { name: 'P', domain: 'salon scheduling', llmBackend: 'local' })
+    const session = createSession(db, { projectId: project.id, title: 'S' })
+    const { transcript, segments } = createTranscript(db, {
+      sessionId: session.id,
+      text: 'Maya: How do staff schedules work?\n\nKevin: Usually 9 to 6.',
+    })
+    freezeTranscript(db, transcript.id)
+    const now = new Date().toISOString()
+    insertClaims(db, [
+      {
+        id: newId('clm'), sessionId: session.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+        quote: 'How do staff schedules work?', statement: 'how staff schedules work',
+        speakerRole: 'ba', kind: 'assumption', status: 'validated',
+        charStart: 0, charEnd: 1, matchMode: 'exact', createdAt: now,
+      },
+      {
+        id: newId('clm'), sessionId: session.id, transcriptId: transcript.id, segmentId: segments[1]!.id,
+        quote: 'Usually 9 to 6.', statement: 'staff typically work 9 to 6',
+        speakerRole: 'client', kind: 'assumption', status: 'validated',
+        charStart: 0, charEnd: 1, matchMode: 'exact', createdAt: now,
+      },
+    ])
+    const handler = handlers.get('assumption:list')!
+    const result = await handler({}, project.id)
+    expect(result).toHaveLength(1)
+    expect(result[0].speakerRole).toBe('client')
   })
 })
