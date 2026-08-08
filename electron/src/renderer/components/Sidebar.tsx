@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { Folder, Plus, FileText, ChevronRight, Activity, RefreshCw, Sun, Moon, BookOpen, Trash2 } from 'lucide-react'
 import SessionAdd from './SessionAdd'
 import AnalyzeButton from './AnalyzeButton'
+import SetDomainDialog from './SetDomainDialog'
 import type { Theme } from './Layout'
 import type { Project, Session } from '../types/api'
 import ConfirmDialog from './ConfirmDialog'
@@ -38,6 +39,7 @@ export default function Sidebar({
   const [showAddSession, setShowAddSession] = useState(false)
   const [expandedProjects, setExpandedProjects] = useState<Set<string>>(new Set())
   const [transcriptSession, setTranscriptSession] = useState<Session | null>(null)
+  const [domainTarget, setDomainTarget] = useState<{ id: string; name: string } | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<
     | { kind: 'project'; id: string; name: string }
     | { kind: 'session'; id: string; name: string; projectId: string }
@@ -197,9 +199,19 @@ export default function Sidebar({
 
                   {isActive && isExpanded && (
                     <div className="sidebar-copy ml-3 pl-3 border-l border-slate-700/60 mt-1 mb-1 space-y-0.5">
-                      <div className="text-[10px] text-slate-500 px-2 py-1">
-                        {p.domain}
-                      </div>
+                      {p.domain ? (
+                        <div className="text-[10px] text-slate-500 px-2 py-1">
+                          {p.domain}
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          className="text-[10px] text-amber-400 hover:text-amber-300 px-2 py-1 no-drag underline decoration-dotted"
+                          onClick={() => setDomainTarget({ id: p.id, name: p.name })}
+                        >
+                          Set domain (required to analyze)
+                        </button>
+                      )}
 
                       {projectSessions.map(s => (
                         <div
@@ -262,14 +274,25 @@ export default function Sidebar({
                         )}
 
                         {activeSessionId && sessions.find(s => s.id === activeSessionId && s.status === 'draft') && (
-                          <AnalyzeButton
-                            sessionId={activeSessionId}
-                            sessionTitle={sessions.find(s => s.id === activeSessionId)?.title ?? ''}
-                            onComplete={() => {
-                              loadSessions(activeProjectId!)
-                              onRefresh()
-                            }}
-                          />
+                          p.domain ? (
+                            <AnalyzeButton
+                              sessionId={activeSessionId}
+                              sessionTitle={sessions.find(s => s.id === activeSessionId)?.title ?? ''}
+                              onComplete={() => {
+                                loadSessions(activeProjectId!)
+                                onRefresh()
+                              }}
+                            />
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => setDomainTarget({ id: p.id, name: p.name })}
+                              className="btn btn-ghost no-drag"
+                              style={{ width: '100%', fontSize: '12px', padding: '5px 10px' }}
+                            >
+                              Set domain to enable analysis
+                            </button>
+                          )
                         )}
                       </div>
                     </div>
@@ -332,6 +355,18 @@ export default function Sidebar({
             onRefresh()
           }}
           onClose={() => setTranscriptSession(null)}
+        />
+      )}
+
+      {domainTarget && (
+        <SetDomainDialog
+          projectId={domainTarget.id}
+          projectName={domainTarget.name}
+          onSet={() => {
+            setDomainTarget(null)
+            loadProjects()
+          }}
+          onCancel={() => setDomainTarget(null)}
         />
       )}
 
