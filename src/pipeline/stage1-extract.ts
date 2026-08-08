@@ -84,12 +84,10 @@ export const stage1Extract: Stage<PipelineState, PipelineState> = {
     if (!project) throw new Error("project not found");
 
     const all: Claim[] = [];
-    const segmentLabels = new Map<string, string | null>();
     const now = new Date().toISOString();
 
     for (const ref of state.windows) {
       const window = hydrateWindow(ctx.db, frozen.transcript.text, ref);
-      for (const seg of window.segments) segmentLabels.set(seg.id, seg.speakerLabel);
       const result = await callTyped({
         client: ctx.client,
         db: ctx.db,
@@ -131,7 +129,6 @@ export const stage1Extract: Stage<PipelineState, PipelineState> = {
       }
     }
 
-    applySpeakerRoleFloor(all, segmentLabels);
     insertClaims(ctx.db, all);
     return { ...state, extracted: all.length };
   },

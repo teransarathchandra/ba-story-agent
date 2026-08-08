@@ -127,3 +127,7 @@ export function requoteClaim(
      WHERE id = ?`,
   ).run(patch.quote, patch.status, patch.charStart, patch.charEnd, patch.matchMode, patch.segmentId, id);
 }
+
+export function setClaimSpeakerRole(db: Db, id: string, speakerRole: Claim["speakerRole"]): void {
+  db.prepare("UPDATE claims SET speaker_role = ? WHERE id = ?").run(speakerRole, id);
+}

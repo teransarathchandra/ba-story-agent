@@ -1,9 +1,11 @@
 import { z } from "zod/v4";
-import { listClaims, setClaimKind } from "../store/claims.js";
+import { listClaims, setClaimKind, setClaimSpeakerRole } from "../store/claims.js";
 import { getProject } from "../store/projects.js";
 import { isHedged } from "../hedge/lexicon.js";
 import { callTyped } from "../llm/parse.js";
 import { CLASSIFY_SYSTEM, buildClassifyUser } from "../prompts/classify.js";
+import { applySpeakerRoleFloor } from "./stage1-extract.js";
+import { getFrozenTranscript } from "../store/transcripts.js";
 import type { PipelineState } from "./state.js";
 import type { Stage } from "./runner.js";
 
@@ -41,6 +43,20 @@ export const stage3Classify: Stage<PipelineState, PipelineState> = {
 
     const claims = listClaims(ctx.db, ctx.sessionId, { status: "validated" });
     if (claims.length === 0) return state;
+
+    // Speaker roles are only correct once grounding has finished — stage2Validate
+    // and stage2bRequote can both move a claim's segmentId after extraction ran
+    // its own (necessarily provisional) role floor, and neither of those stages
+    // re-derives speakerRole. This is the first point after all grounding is
+    // final, and the last point before role is read for anything (classification
+    // itself, and stage5-requirements' ba-exclusion downstream) — so it is the
+    // one authoritative place this floor can run.
+    const frozen = getFrozenTranscript(ctx.db, ctx.sessionId);
+    if (frozen) {
+      const segmentLabels = new Map(frozen.segments.map((s) => [s.id, s.speakerLabel]));
+      applySpeakerRoleFloor(claims, segmentLabels);
+      for (const claim of claims) setClaimSpeakerRole(ctx.db, claim.id, claim.speakerRole);
+    }
 
     for (let i = 0; i < claims.length; i += BATCH) {
       const batch = claims.slice(i, i + BATCH);

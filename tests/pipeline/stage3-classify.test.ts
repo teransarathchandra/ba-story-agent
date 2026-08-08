@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { openDb } from "../../src/store/db.js";
 import { createProject, createSession } from "../../src/store/projects.js";
-import { createTranscript, freezeTranscript } from "../../src/store/transcripts.js";
+import { createTranscript, freezeTranscript, getFrozenTranscript } from "../../src/store/transcripts.js";
 import { insertClaims, listClaims } from "../../src/store/claims.js";
 import { stage3Classify } from "../../src/pipeline/stage3-classify.js";
 import { emptyState } from "../../src/pipeline/state.js";
@@ -251,5 +251,80 @@ describe("stage3Classify", () => {
 describe("CLASSIFY_SYSTEM", () => {
   it("gives the model an honest home for a plain current-state description", () => {
     expect(CLASSIFY_SYSTEM).toMatch(/current state|today's process|happens now/i);
+  });
+});
+
+describe("stage3Classify speaker-role floor", () => {
+  it("corrects speakerRole using the claim's FINAL (post-grounding) segment, not a stale pre-validation one", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "salon scheduling" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const text = "Maya: How do staff schedules work?\n\nKevin: Usually 9 to 6.";
+    const { transcript, segments } = createTranscript(db, { sessionId: s.id, text });
+    freezeTranscript(db, transcript.id);
+
+    // Simulates the real bug: the extraction model quoted Maya's own
+    // question but tagged it speakerRole "client", AND the segmentId now
+    // on the claim (post-grounding correction) is Maya's segment — this is
+    // the state a claim is actually in by the time stage3Classify runs, in
+    // both the real bug and this reproduction.
+    //
+    // applySpeakerRoleFloor (unchanged by this task) is a majority vote
+    // across every claim sharing a segment label, not a per-claim rule — a
+    // single claim can never out-vote itself. The two sibling claims below,
+    // both correctly tagged "ba" from Maya's own segment, are what actually
+    // produced the majority signal in the real session (Maya's segment
+    // yielded several claims; only this one quote was mistagged) and is
+    // what this in-memory reproduction needs to give the floor a real
+    // majority to act on.
+    const now = new Date().toISOString();
+    const claimId = newId("clm");
+    insertClaims(db, [
+      {
+        id: claimId, sessionId: s.id, transcriptId: transcript.id,
+        segmentId: segments[0]!.id, // Maya's segment
+        quote: "How do staff schedules work?", statement: "how staff schedules work",
+        speakerRole: "client" as const, // wrong, as extracted
+        kind: "requirement" as const, status: "validated" as const,
+        charStart: 0, charEnd: 1, matchMode: "segment-corrected" as const, createdAt: now,
+      },
+      {
+        id: newId("clm"), sessionId: s.id, transcriptId: transcript.id,
+        segmentId: segments[0]!.id, // Maya's segment, correctly tagged "ba"
+        quote: "How do staff schedules work?", statement: "asks how staff schedules work",
+        speakerRole: "ba" as const,
+        kind: "requirement" as const, status: "validated" as const,
+        charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: now,
+      },
+      {
+        id: newId("clm"), sessionId: s.id, transcriptId: transcript.id,
+        segmentId: segments[0]!.id, // Maya's segment, correctly tagged "ba"
+        quote: "How do staff schedules work?", statement: "wants to understand staff scheduling",
+        speakerRole: "ba" as const,
+        kind: "requirement" as const, status: "validated" as const,
+        charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: now,
+      },
+    ]);
+
+    const parse = vi.fn().mockResolvedValue({
+      raw: "{}",
+      parsedOutput: { classifications: [{ index: 1, kind: "ambiguity" }] },
+      requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+    });
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
+    await stage3Classify.run(ctx, emptyState("t"));
+
+    const [claim] = listClaims(db, s.id);
+    expect(claim?.speakerRole).toBe("ba");
+  });
+
+  it("leaves speakerRole unchanged when the claim's segment has no parsed speaker label", async () => {
+    const { ctx, ids } = setup(["it should be fast"], ["ambiguity"]);
+    // setup()'s transcript text ("x\n\ny") has no "Name: " prefix, so segments
+    // have speakerLabel: null — the floor must not touch anything here.
+    await stage3Classify.run(ctx, emptyState("t"));
+    const [claim] = listClaims(ctx.db, ctx.sessionId);
+    expect(claim?.speakerRole).toBe("client"); // unchanged from setup()'s default
+    expect(ids).toHaveLength(1); // guard: setup() ran as expected
   });
 });
