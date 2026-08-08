@@ -176,4 +176,42 @@ describe("applySpeakerRoleFloor", () => {
     applySpeakerRoleFloor(claims, labels);
     expect(claims.map((c) => c.speakerRole)).toEqual(["ba", "ba", "client"]);
   });
+
+  it("overrides the vote for the first-speaker label even against a unanimous wrong vote", () => {
+    const claims = [
+      { id: "c1", segmentId: "seg_maya1", speakerRole: "client" },
+      { id: "c2", segmentId: "seg_maya2", speakerRole: "client" },
+      { id: "c3", segmentId: "seg_maya3", speakerRole: "client" },
+    ] as unknown as Claim[];
+    const labels = new Map<string, string | null>([
+      ["seg_maya1", "Maya"], ["seg_maya2", "Maya"], ["seg_maya3", "Maya"],
+    ]);
+    applySpeakerRoleFloor(claims, labels, "Maya");
+    expect(claims.map((c) => c.speakerRole)).toEqual(["ba", "ba", "ba"]);
+  });
+
+  it("leaves normal majority voting alone for every label other than the first speaker", () => {
+    const claims = [
+      { id: "c1", segmentId: "seg_maya", speakerRole: "client" },
+      { id: "c2", segmentId: "seg_sarah1", speakerRole: "client" },
+      { id: "c3", segmentId: "seg_sarah2", speakerRole: "ba" },
+      { id: "c4", segmentId: "seg_sarah3", speakerRole: "client" },
+    ] as unknown as Claim[];
+    const labels = new Map<string, string | null>([
+      ["seg_maya", "Maya"],
+      ["seg_sarah1", "Sarah"], ["seg_sarah2", "Sarah"], ["seg_sarah3", "Sarah"],
+    ]);
+    applySpeakerRoleFloor(claims, labels, "Maya");
+    // Maya's single claim is overridden to "ba" regardless of its own vote.
+    // Sarah's 3 claims are untouched by the override and still resolve by
+    // ordinary majority vote (2 client vs 1 ba -> client).
+    expect(claims.map((c) => c.speakerRole)).toEqual(["ba", "client", "client", "client"]);
+  });
+
+  it("has no effect when firstSpeakerLabel is omitted (backward compatible)", () => {
+    const claims = [{ id: "c1", segmentId: "seg_1", speakerRole: "client" }] as unknown as Claim[];
+    const labels = new Map<string, string | null>([["seg_1", "Maya"]]);
+    applySpeakerRoleFloor(claims, labels);
+    expect(claims[0]?.speakerRole).toBe("client"); // unchanged: majority-of-one, no override requested
+  });
 });

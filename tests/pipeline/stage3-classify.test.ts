@@ -327,4 +327,47 @@ describe("stage3Classify speaker-role floor", () => {
     expect(claim?.speakerRole).toBe("client"); // unchanged from setup()'s default
     expect(ids).toHaveLength(1); // guard: setup() ran as expected
   });
+
+  it("corrects a speaker the model was wrong about on every single claim, via the first-speaker override", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "salon scheduling" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const text =
+      "Maya: Okay, thanks everyone. The main thing I want to understand today is how appointments work.\n\n" +
+      "Sarah: Sure, happy to explain.\n\n" +
+      "Maya: How do staff schedules work?\n\n" +
+      "Kevin: Usually 9 to 6.\n\n" +
+      "Maya: Walk me through what the customer needs to select.\n\n" +
+      "Sarah: Service, staff, date, time.";
+    const { transcript, segments } = createTranscript(db, { sessionId: s.id, text });
+    freezeTranscript(db, transcript.id);
+
+    // All three of Maya's claims are wrongly tagged "client" by "extraction" —
+    // reproducing the real bug's 3-for-0 systematic bias, unfixable by
+    // ordinary majority voting alone.
+    const now = new Date().toISOString();
+    const mayaSegmentIndices = segments
+      .map((seg, i) => ({ seg, i }))
+      .filter(({ seg }) => seg.speakerLabel === "Maya")
+      .map(({ i }) => i);
+    insertClaims(db, mayaSegmentIndices.map((i) => ({
+      id: newId("clm"), sessionId: s.id, transcriptId: transcript.id,
+      segmentId: segments[i]!.id, quote: segments[i]!.text.replace(/^Maya:\s*/, ""),
+      statement: "s", speakerRole: "client" as const, kind: "requirement" as const,
+      status: "validated" as const, charStart: 0, charEnd: 1,
+      matchMode: "exact" as const, createdAt: now,
+    })));
+
+    const parse = vi.fn().mockResolvedValue({
+      raw: "{}",
+      parsedOutput: { classifications: mayaSegmentIndices.map((_, i) => ({ index: i + 1, kind: "ambiguity" })) },
+      requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+    });
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
+    await stage3Classify.run(ctx, emptyState("t"));
+
+    const claims = listClaims(db, s.id);
+    expect(claims.length).toBeGreaterThan(0); // guard: fixture produced Maya claims
+    for (const claim of claims) expect(claim.speakerRole).toBe("ba");
+  });
 });

@@ -54,7 +54,11 @@ export const stage3Classify: Stage<PipelineState, PipelineState> = {
     const frozen = getFrozenTranscript(ctx.db, ctx.sessionId);
     if (frozen) {
       const segmentLabels = new Map(frozen.segments.map((s) => [s.id, s.speakerLabel]));
-      applySpeakerRoleFloor(claims, segmentLabels);
+      // frozen.segments is already ordered by idx ASC (see getFrozenTranscript),
+      // so the first entry with a non-null label is the transcript's first
+      // identified speaker.
+      const firstSpeakerLabel = frozen.segments.find((s) => s.speakerLabel)?.speakerLabel ?? null;
+      applySpeakerRoleFloor(claims, segmentLabels, firstSpeakerLabel);
       for (const claim of claims) setClaimSpeakerRole(ctx.db, claim.id, claim.speakerRole);
     }
 

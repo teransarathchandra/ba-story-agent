@@ -33,6 +33,7 @@ export const ExtractedClaimsSchema = z.object({
 export function applySpeakerRoleFloor(
   claims: Claim[],
   segmentLabels: Map<string, string | null>,
+  firstSpeakerLabel?: string | null,
 ): void {
   const tally = new Map<string, Record<Claim["speakerRole"], number>>();
   for (const c of claims) {
@@ -49,6 +50,17 @@ export function applySpeakerRoleFloor(
       .sort((a, b) => b[1] - a[1]);
     majorityByLabel.set(label, ranked[0]![0]);
   }
+
+  // The speaker who opens a discovery-call transcript is, in practice,
+  // overwhelmingly the analyst running the meeting — a stronger, more
+  // reliable signal than the model's own per-claim guesses, which have been
+  // observed to be systematically (not just occasionally) wrong about a
+  // given speaker across every one of their claims in a real session. A
+  // majority vote can only correct a minority outlier; it cannot correct a
+  // unanimous wrong vote, so this overrides that one label's result rather
+  // than adding it as another vote (a small number of synthetic votes could
+  // never outweigh a lopsided real majority).
+  if (firstSpeakerLabel) majorityByLabel.set(firstSpeakerLabel, "ba");
 
   for (const c of claims) {
     const label = segmentLabels.get(c.segmentId);
