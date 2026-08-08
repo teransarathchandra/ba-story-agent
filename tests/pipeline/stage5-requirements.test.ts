@@ -168,4 +168,50 @@ describe("stage5Requirements", () => {
     expect(reqs.map((r) => r.statement).sort()).toEqual(["Real one.", "threshold B"]);
     expect(out.requirements).toBe(2);
   });
+
+  it("excludes a validated requirement-kind claim whose speakerRole is 'ba' from synthesis", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "invoice approval for logistics operators" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript, segments } = createTranscript(db, { sessionId: s.id, text: "a\n\nb" });
+    freezeTranscript(db, transcript.id);
+    const claimId = newId("clm");
+    insertClaims(db, [{
+      id: claimId, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+      quote: "should we require manager approval for large invoices?", statement: "manager approval is required",
+      speakerRole: "ba" as const, kind: "requirement" as const, status: "validated" as const,
+      charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: new Date().toISOString(),
+    }]);
+    const parse = vi.fn();
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
+    const out = await stage5Requirements.run(ctx, emptyState(transcript.id));
+    expect(parse).not.toHaveBeenCalled();
+    expect(listRequirements(db, p.id)).toHaveLength(0);
+    expect(out.requirements).toBe(0);
+    expect(out.requirementClaims).toBe(0);
+  });
+
+  it("still includes a validated requirement-kind claim whose speakerRole is 'unknown'", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "invoice approval for logistics operators" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript, segments } = createTranscript(db, { sessionId: s.id, text: "a\n\nb" });
+    freezeTranscript(db, transcript.id);
+    const claimId = newId("clm");
+    insertClaims(db, [{
+      id: claimId, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+      quote: "anything over ten thousand euro goes to a manager", statement: "threshold",
+      speakerRole: "unknown" as const, kind: "requirement" as const, status: "validated" as const,
+      charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: new Date().toISOString(),
+    }]);
+    const parse = vi.fn().mockResolvedValue({
+      raw: "{}",
+      parsedOutput: { requirements: [{ statement: "Invoices over EUR 10,000 must be approved by a manager.", originClaimIds: [claimId] }] },
+      requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+    });
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
+    const out = await stage5Requirements.run(ctx, emptyState(transcript.id));
+    expect(listRequirements(db, p.id)).toHaveLength(1);
+    expect(out.requirementClaims).toBe(1);
+  });
 });
