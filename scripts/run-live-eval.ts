@@ -102,6 +102,7 @@ async function runAgainstBackend(backendLabel: string, client: LlmBackend): Prom
         generator: { backendLabel, model: client.model },
         db,
         projectId: project.id,
+        sessionId: session.id,
         anthropicApiKey: process.env.ANTHROPIC_API_KEY,
       });
       const artifactPath = persistArtifact(artifact);

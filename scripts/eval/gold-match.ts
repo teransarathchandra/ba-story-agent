@@ -14,7 +14,7 @@ import { createClient } from "../../src/llm/client.js";
 import type { Db } from "../../src/store/db.js";
 import { listRequirements } from "../../src/store/artifacts.js";
 import { listQuestions } from "../../src/store/findings.js";
-import { listProjectClaims } from "../../src/store/claims.js";
+import { listClaims, listProjectClaims } from "../../src/store/claims.js";
 import { supportedItems, type GoldFixture } from "../../src/eval/gold-schema.js";
 import { GoldMatchSchema, type GoldMatchResult } from "../../src/eval/gold-match-schema.js";
 import { checkCoverage, type CoverageResult } from "../../src/eval/gold-coverage.js";
@@ -82,30 +82,59 @@ export function checkJudgeIndependence(
  * all (critique-stage questions are BA-suggested, not claim-extracted),
  * so question candidates always report an empty quote; that is expected,
  * not a bug, and the judge prompt says so explicitly.
+ *
+ * `sessionId`, when provided, scopes every bucket to exactly that
+ * session's own persisted output — never another session under the same
+ * project. This matters because `requirements` and `open_questions` are
+ * stored project-scoped, not session-scoped: RequirementSchema carries no
+ * sessionId field at all (only `originClaimIds`, which trace back to a
+ * session indirectly via each claim's own `sessionId`), and while
+ * OpenQuestionSchema does carry `raisedBySessionId`, the underlying
+ * `listQuestions()` store function doesn't filter by it. Nothing in the
+ * schema stops a second session existing under the same project, so
+ * project-only scoping (the sessionId-omitted path below, kept for the
+ * fresh-in-memory-run caller where exactly one session ever exists by
+ * construction) would silently mix a different session's output into a
+ * supposedly session-specific evaluation if one is ever added. Claims
+ * already have a genuinely session-scoped store function (`listClaims`),
+ * used directly here instead of the project-scoped `listProjectClaims`
+ * when a session is specified — requirements and questions are filtered
+ * client-side against that same claim set / session id, not by adding new
+ * session-scoped store functions.
  */
 export function collectGeneratedCandidates(
   db: Db,
   projectId: string,
+  sessionId?: string,
 ): { requirements: GeneratedCandidate[]; questions: GeneratedCandidate[]; assumptionClaims: GeneratedCandidate[] } {
-  const claims = listProjectClaims(db, projectId);
+  const claims = sessionId ? listClaims(db, sessionId) : listProjectClaims(db, projectId);
   const claimById = new Map(claims.map((c) => [c.id, c]));
+  const claimIdsInSession = sessionId ? new Set(claims.map((c) => c.id)) : null;
 
-  const requirements: GeneratedCandidate[] = listRequirements(db, projectId).map((r) => ({
-    id: r.id,
-    bucket: "requirement",
-    text: r.statement,
-    quote: r.originClaimIds
-      .map((cid) => claimById.get(cid)?.quote)
-      .filter((q): q is string => Boolean(q))
-      .join(" | "),
-  }));
+  const requirements: GeneratedCandidate[] = listRequirements(db, projectId)
+    .filter((r) => {
+      if (!claimIdsInSession) return true;
+      // A requirement belongs to this session if ANY of its origin claims
+      // does. A client-stated requirement always cites at least one origin
+      // claim (RequirementSchema's own .refine() enforces this); a
+      // ba-authored requirement with zero origin claims can't be
+      // attributed to any specific session and is excluded when
+      // session-scoping is requested.
+      return r.originClaimIds.some((cid) => claimIdsInSession.has(cid));
+    })
+    .map((r) => ({
+      id: r.id,
+      bucket: "requirement",
+      text: r.statement,
+      quote: r.originClaimIds
+        .map((cid) => claimById.get(cid)?.quote)
+        .filter((q): q is string => Boolean(q))
+        .join(" | "),
+    }));
 
-  const questions: GeneratedCandidate[] = listQuestions(db, projectId).map((q) => ({
-    id: q.id,
-    bucket: "question",
-    text: q.text,
-    quote: "",
-  }));
+  const questions: GeneratedCandidate[] = listQuestions(db, projectId)
+    .filter((q) => !sessionId || q.raisedBySessionId === sessionId)
+    .map((q) => ({ id: q.id, bucket: "question", text: q.text, quote: "" }));
 
   const assumptionClaims: GeneratedCandidate[] = claims
     .filter((c) => c.kind === "assumption" && c.status === "validated")
@@ -233,6 +262,17 @@ export async function runGoldEval(opts: {
   generator: GeneratorInfo;
   db: Db;
   projectId: string;
+  /**
+   * Scopes candidate collection to exactly this session — see
+   * collectGeneratedCandidates()'s doc comment for why this matters
+   * (requirements/questions are stored project-scoped, not
+   * session-scoped, and nothing in the schema stops a second session
+   * existing under the same project). Omit only for a fresh
+   * single-session in-memory run where project-level scoping is safe by
+   * construction; always pass this for evaluating a historical/persisted
+   * session.
+   */
+  sessionId?: string;
   anthropicApiKey?: string;
   /**
    * Skips the judge entirely — no independence check, no API call, not even
@@ -245,7 +285,7 @@ export async function runGoldEval(opts: {
    */
   skipJudge?: boolean;
 }): Promise<EvalRunArtifact> {
-  const generated = collectGeneratedCandidates(opts.db, opts.projectId);
+  const generated = collectGeneratedCandidates(opts.db, opts.projectId, opts.sessionId);
   const allCandidates = [...generated.requirements, ...generated.questions, ...generated.assumptionClaims];
 
   const unsupportedDetailViolations = checkUnsupportedDetails(opts.fixture.unsupportedDetailChecks, allCandidates);

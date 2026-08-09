@@ -186,6 +186,109 @@ describe("collectGeneratedCandidates — real store integration, no network", ()
   });
 });
 
+describe("collectGeneratedCandidates — session-scoping prevents cross-session contamination", () => {
+  function seedSession(db: ReturnType<typeof openDb>, projectId: string, label: string) {
+    const session = createSession(db, { projectId, title: label });
+    const { transcript, segments } = createTranscript(db, {
+      sessionId: session.id,
+      text: `Client: ${label} transcript text with enough words in it to be valid.`,
+    });
+    freezeTranscript(db, transcript.id);
+    const segmentId = segments[0]!.id;
+
+    const claimId = newId("clm");
+    insertClaims(db, [
+      {
+        id: claimId,
+        sessionId: session.id,
+        transcriptId: transcript.id,
+        segmentId,
+        quote: `${label} quote`,
+        statement: `${label} statement`,
+        speakerRole: "client",
+        kind: "assumption",
+        status: "validated",
+        charStart: 0,
+        charEnd: 10,
+        matchMode: "exact",
+        createdAt: new Date().toISOString(),
+      },
+    ]);
+    insertRequirements(db, [
+      {
+        id: newId("req"),
+        projectId,
+        key: label === "session-one" ? "REQ-001" : "REQ-002",
+        statement: `${label} requirement`,
+        status: "confirmed",
+        origin: "client-stated",
+        originClaimIds: [claimId],
+        supersedesId: null,
+        createdAt: new Date().toISOString(),
+      },
+    ]);
+    insertQuestions(db, [
+      {
+        id: newId("oqn"),
+        projectId,
+        key: label === "session-one" ? "OQ-001" : "OQ-002",
+        text: `${label} question`,
+        category: "edge-case",
+        raisedBySessionId: session.id,
+        status: "open",
+        answerText: null,
+        answeredBySessionId: null,
+        createdAt: new Date().toISOString(),
+      },
+    ]);
+    return session;
+  }
+
+  it("with NO sessionId (project-only scoping), both sessions' output mixes together — this is the contamination risk itself, proven, not assumed", () => {
+    const db = openDb(":memory:");
+    const project = createProject(db, { name: "Shared project", domain: "test domain for contamination check" });
+    seedSession(db, project.id, "session-one");
+    seedSession(db, project.id, "session-two");
+
+    const generated = collectGeneratedCandidates(db, project.id);
+
+    expect(generated.requirements).toHaveLength(2);
+    expect(generated.questions).toHaveLength(2);
+    expect(generated.assumptionClaims).toHaveLength(2);
+    expect(generated.requirements.map((r) => r.text)).toEqual(
+      expect.arrayContaining(["session-one requirement", "session-two requirement"]),
+    );
+  });
+
+  it("with sessionId provided, only that session's requirements/questions/claims are returned — the other session is fully excluded", () => {
+    const db = openDb(":memory:");
+    const project = createProject(db, { name: "Shared project", domain: "test domain for contamination check" });
+    const sessionOne = seedSession(db, project.id, "session-one");
+    const sessionTwo = seedSession(db, project.id, "session-two");
+
+    const genOne = collectGeneratedCandidates(db, project.id, sessionOne.id);
+    expect(genOne.requirements).toHaveLength(1);
+    expect(genOne.requirements[0]!.text).toBe("session-one requirement");
+    expect(genOne.questions).toHaveLength(1);
+    expect(genOne.questions[0]!.text).toBe("session-one question");
+    expect(genOne.assumptionClaims).toHaveLength(1);
+    expect(genOne.assumptionClaims[0]!.text).toBe("session-one statement");
+
+    const genTwo = collectGeneratedCandidates(db, project.id, sessionTwo.id);
+    expect(genTwo.requirements).toHaveLength(1);
+    expect(genTwo.requirements[0]!.text).toBe("session-two requirement");
+    expect(genTwo.questions).toHaveLength(1);
+    expect(genTwo.questions[0]!.text).toBe("session-two question");
+    expect(genTwo.assumptionClaims).toHaveLength(1);
+    expect(genTwo.assumptionClaims[0]!.text).toBe("session-two statement");
+
+    // Cross-check: neither session's candidate IDs appear in the other's result.
+    const oneIds = new Set([...genOne.requirements, ...genOne.questions, ...genOne.assumptionClaims].map((c) => c.id));
+    const twoIds = [...genTwo.requirements, ...genTwo.questions, ...genTwo.assumptionClaims].map((c) => c.id);
+    for (const id of twoIds) expect(oneIds.has(id)).toBe(false);
+  });
+});
+
 describe("checkJudgeIndependence / resolveJudgeConfig — real env-driven defaults", () => {
   it("defaults the judge to a model distinct from the AnthropicBackend generator model", () => {
     const judge = resolveJudgeConfig();
