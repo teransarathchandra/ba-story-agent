@@ -99,4 +99,43 @@ describe("stage4Reconcile", () => {
     await stage4Reconcile.run(ctx, emptyState(transcript.id));
     expect(parse).not.toHaveBeenCalled();
   });
+
+  it("excludes analyst-attributed claims from reconciliation, even when validated and kind=requirement", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "invoice approval for logistics operators" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript, segments } = createTranscript(db, { sessionId: s.id, text: "a\n\nb" });
+    freezeTranscript(db, transcript.id);
+    const now = new Date().toISOString();
+    const baClaimId = newId("clm");
+    const clientClaimId = newId("clm");
+    insertClaims(db, [
+      {
+        id: baClaimId, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+        quote: "should approvals go to a manager?", statement: "approval routing question",
+        speakerRole: "ba" as const, kind: "requirement" as const, status: "validated" as const,
+        charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: now,
+      },
+      {
+        id: clientClaimId, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+        quote: "approvals go to the finance lead", statement: "approval routing",
+        speakerRole: "client" as const, kind: "requirement" as const, status: "validated" as const,
+        charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: now,
+      },
+    ]);
+    const parse = vi.fn().mockResolvedValue({
+      raw: "{}",
+      // The model is never given a chance to reference baClaimId at all —
+      // this test proves the FILTER excludes it before the LLM call is even
+      // built, not merely that the model chose not to use it.
+      parsedOutput: { contradictions: [], links: [] },
+      requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+    });
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
+    await stage4Reconcile.run(ctx, emptyState(transcript.id));
+    const [call] = parse.mock.calls;
+    const userPrompt = (call![0] as { user: string }).user;
+    expect(userPrompt).not.toContain(baClaimId);
+    expect(userPrompt).toContain(clientClaimId);
+  });
 });

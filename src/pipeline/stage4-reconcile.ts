@@ -35,7 +35,14 @@ export const stage4Reconcile: Stage<PipelineState, PipelineState> = {
     const project = getProject(ctx.db, ctx.projectId);
     if (!project) throw new Error("project not found");
 
-    const claims = listClaims(ctx.db, ctx.sessionId, { status: "validated", kind: "requirement" });
+    // Mechanical defense-in-depth, matching stage5-requirements.ts's ba-exclusion
+    // (commit f14e217) and the assumption:list IPC handler's (Task 10, this
+    // repo's earlier extraction-fix plan): an analyst-attributed claim must
+    // not reach ANY consumer that treats it as client-stated content —
+    // including this stage's contradiction/link generation, not just
+    // requirement synthesis.
+    const claims = listClaims(ctx.db, ctx.sessionId, { status: "validated", kind: "requirement" })
+      .filter((c) => c.speakerRole !== "ba");
     if (claims.length === 0) return state;
 
     const existing = listRequirements(ctx.db, ctx.projectId);
