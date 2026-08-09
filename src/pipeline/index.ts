@@ -1,6 +1,7 @@
 // src/pipeline/index.ts
 import { runPipeline, type Stage, type StageContext } from "./runner.js";
 import { getProject, setSessionStatus } from "../store/projects.js";
+import { listDetectedSpeakers } from "../store/speaker-overrides.js";
 import { stage0Chunk, stage1Extract } from "./stage1-extract.js";
 import { stage2Validate } from "./stage2-validate.js";
 import { stage2bRequote } from "./stage2b-requote.js";
@@ -35,6 +36,21 @@ export async function analyzeSession(
     throw new Error(
       `project ${ctx.projectId} has no domain set — a domain is required before analysis can run, ` +
         `since every extraction, classification, and review call is grounded by it. Set one before analyzing.`,
+    );
+  }
+
+  // Mirrors the domain check above: a speaker whose role was never confirmed
+  // must not silently reach classification with only a model-guessed role.
+  // The Electron UI gates this too (Sidebar.tsx), but that gate alone can be
+  // bypassed by a direct IPC call, a stale UI, or a test/CLI harness — this
+  // is the one place every caller of analyzeSession() passes through. A
+  // transcript with zero detected speakers returns an empty array from
+  // listDetectedSpeakers and is correctly treated as "nothing to confirm".
+  const unconfirmed = listDetectedSpeakers(ctx.db, ctx.sessionId).filter((sp) => sp.confirmedRole === null);
+  if (unconfirmed.length > 0) {
+    throw new Error(
+      `session ${ctx.sessionId} has ${unconfirmed.length} speaker(s) with no confirmed role ` +
+        `(${unconfirmed.map((sp) => sp.label).join(", ")}) — confirm every detected speaker's role before analysis can run.`,
     );
   }
 

@@ -3,6 +3,7 @@ import { describe, it, expect, vi } from "vitest";
 import { openDb } from "../../src/store/db.js";
 import { createProject, createSession, getSession } from "../../src/store/projects.js";
 import { createTranscript, freezeTranscript } from "../../src/store/transcripts.js";
+import { setSpeakerRoleOverrides } from "../../src/store/speaker-overrides.js";
 import { stage8Assemble } from "../../src/pipeline/stage8-assemble.js";
 import { ALL_STAGES, analyzeSession } from "../../src/pipeline/index.js";
 import { emptyState } from "../../src/pipeline/state.js";
@@ -41,6 +42,7 @@ describe("analyzeSession", () => {
     const s = createSession(db, { projectId: p.id, title: "S" });
     const { transcript } = createTranscript(db, { sessionId: s.id, text: LONG });
     freezeTranscript(db, transcript.id);
+    setSpeakerRoleOverrides(db, s.id, new Map([["Client", "client" as const]]));
     // Every LLM stage returns empty results; the pipeline should still complete.
     const parse = vi.fn().mockResolvedValue({
       raw: "{}",
@@ -67,5 +69,20 @@ describe("analyzeSession", () => {
 
     expect(generate).not.toHaveBeenCalled();
     expect(getSession(db, s.id)?.status).toBe("draft"); // never advanced to "analyzing"
+  });
+
+  it("refuses to run when a detected speaker has no confirmed role, without touching session status or the LLM client", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "invoice approval for logistics operators" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript } = createTranscript(db, { sessionId: s.id, text: LONG });
+    freezeTranscript(db, transcript.id);
+    const generate = vi.fn();
+    const ctx: StageContext = { db, client: { model: "test", generate } as never, projectId: p.id, sessionId: s.id };
+
+    await expect(analyzeSession(ctx, transcript.id)).rejects.toThrow(/confirmed role/);
+
+    expect(generate).not.toHaveBeenCalled();
+    expect(getSession(db, s.id)?.status).toBe("draft");
   });
 });
