@@ -1,0 +1,243 @@
+{
+  "runId": "900614e0-2d42-4cdd-ad62-45e0db662ab9",
+  "timestamp": "2026-08-09T18:25:45.830Z",
+  "fixtureName": "06-salon-booking",
+  "goldFixtureContentHash": "88e39d0628f8dde49df8ce7276bb5dadcf1e35149f260d7c96fccab1b6d03f96",
+  "generator": {
+    "backendLabel": "local",
+    "model": "hf:bartowski/Qwen2.5-7B-Instruct-GGUF/Qwen2.5-7B-Instruct-Q4_K_M.gguf"
+  },
+  "judge": {
+    "skipped": true,
+    "reason": "judge not requested for this run (deterministic-only invocation)"
+  },
+  "normalizedPipelineOutputs": {
+    "requirements": [
+      {
+        "id": "req_01KZK7RMDPSMCK42F3S5G6TE2H",
+        "bucket": "requirement",
+        "text": "Managers must be able to configure working hours and unavailable periods for each salon branch.",
+        "quote": "Sarah: Yes."
+      },
+      {
+        "id": "req_01KZK7RMDSAEJHSKMG2Y3QX6R8",
+        "bucket": "requirement",
+        "text": "An auditing mechanism must be implemented to record no-shows within the appointment booking system.",
+        "quote": "Sarah: We should."
+      },
+      {
+        "id": "req_01KZK7RMDTFKD9B5RFAN6ETY8Z",
+        "bucket": "requirement",
+        "text": "Appointments must not be automatically canceled or altered without staff confirmation.",
+        "quote": "\"Don't automatically cancel or move appointments without staff confirmation.\""
+      },
+      {
+        "id": "req_01KZK7RMDTFKD9B5RFAN6ETY90",
+        "bucket": "requirement",
+        "text": "Custom customers booking must be blocked when trying to book a stylist who is unavailable.",
+        "quote": "\"And don't let customers book a stylist who's not working.\""
+      },
+      {
+        "id": "req_01KZK7RMDTFKD9B5RFAN6ETY91",
+        "bucket": "requirement",
+        "text": "Customer data must only be accessible to appropriately authenticated users.",
+        "quote": "\"Customer information shouldn't be visible to everyone.\"\""
+      }
+    ],
+    "questions": [
+      {
+        "id": "oqn_01KZK7T6DJJZ798TPHJX4YPH93",
+        "bucket": "question",
+        "text": "What are the standard business hours for each day, and should these be customizable per branch?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7T6DMD1QP1ES9RCQCKYDR",
+        "bucket": "question",
+        "text": "Are there instances of specific dates or periods when the branches are not available to provide services, and should these be defined independently for each branch?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT432KP7DGZW5J94JMJF",
+        "bucket": "question",
+        "text": "What are the operational hours and unavailable periods that will be set for each branch?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT45S4A7KYQVD1BWVGTW",
+        "bucket": "question",
+        "text": "How many branches are there, and are there specific examples or names for each one?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT45S4A7KYQVD1BWVGTX",
+        "bucket": "question",
+        "text": "Could you clarify the exact definition of a 'no-show' in your context? Are there any gray areas or specific cases (e.g., early cancellations) that should be handled differently?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT45S4A7KYQVD1BWVGTY",
+        "bucket": "question",
+        "text": "What are the implications of not showing up within 30 minutes of the scheduled time? Are there any procedures or notifications involved?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT45S4A7KYQVD1BWVGTZ",
+        "bucket": "question",
+        "text": "Is there a specific process or system in place to handle cancellations that are marked as no-shows?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT45S4A7KYQVD1BWVGV0",
+        "bucket": "question",
+        "text": "How are the alerts for unconfirmed cancellations or changes handled (e.g., who receives them and what actions does it trigger)?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT45S4A7KYQVD1BWVGV1",
+        "bucket": "question",
+        "text": "Are there specific scenarios or edge cases related to appointment changes that need to be addressed (e.g., last-minute rescheduling)?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4611KZREY11M0ZKK0P",
+        "bucket": "question",
+        "text": "How do you define 'appropriately authenticated users' in the context of customer data access? Are there different roles or levels of access?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4611KZREY11M0ZKK0Q",
+        "bucket": "question",
+        "text": "Are there any regulatory requirements or internal policies concerning the handling of no-shows, appointment cancellations, or customer data?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4611KZREY11M0ZKK0R",
+        "bucket": "question",
+        "text": "Are there any downstream systems or integrations that this appointment booking system needs to interact with (e.g., payment systems, marketing automation)?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4ADD6BTW067KK425CG",
+        "bucket": "question",
+        "text": "How will you establish the authentication and authorization of staff members, managers, and admins to ensure they have the appropriate permissions to access and modify customer data and system configurations?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4ADD6BTW067KK425CH",
+        "bucket": "question",
+        "text": "What are the data retention policies for customer records, and how will expired or unused records be automatically deleted or archived?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4ADD6BTW067KK425CJ",
+        "bucket": "question",
+        "text": "How will you ensure the privacy and security of customer data in transit and at rest, especially since reservation details and customer preferences might be considered sensitive?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4ADD6BTW067KK425CK",
+        "bucket": "question",
+        "text": "How will the system handle data residency, particularly if the hair salon operates in multiple regions or countries? Are there any specific data storage and processing requirements we should be aware of?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4ADD6BTW067KK425CM",
+        "bucket": "question",
+        "text": "How will the audit mechanism for no-shows be designed to ensure it is tamper-proof and can support retrospective analysis and audits of booking patterns?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4ADD6BTW067KK425CN",
+        "bucket": "question",
+        "text": "Can you specify how long appointments and related data will be retained in the system, and what criteria will trigger their deletion?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4ADD6BTW067KK425CP",
+        "bucket": "question",
+        "text": "How will you manage customer data when a branch undergoes a change in ownership or management, especially in terms of transferring or deleting data under the new management’s control?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4BETSY1P5B94M0N9W7",
+        "bucket": "question",
+        "text": "How should the system handle data for each customer, including any personally identifiable information (PII), to ensure compliance with data protection best practices and legal requirements?",
+        "quote": ""
+      },
+      {
+        "id": "oqn_01KZK7XT4BETSY1P5B94M0N9W8",
+        "bucket": "question",
+        "text": "What are the criteria for 'appropriately authenticated users' as defined in Requirement REQ-005, and are any specific roles or permissions associated with different levels of access?",
+        "quote": ""
+      }
+    ],
+    "assumptionClaims": [
+      {
+        "id": "clm_01KZK7N2AA0G84SY55420PB60H",
+        "bucket": "assumptionClaim",
+        "text": "The amount of existing customer data is unknown.",
+        "quote": "Maya: Do we know how much data?"
+      },
+      {
+        "id": "clm_01KZK7N2AA0G84SY55420PB60J",
+        "bucket": "assumptionClaim",
+        "text": "The amount of existing customer data is unknown.",
+        "quote": "Sarah: No."
+      },
+      {
+        "id": "clm_01KZK7N2AA0G84SY55420PB60K",
+        "bucket": "assumptionClaim",
+        "text": "Customers should be able to select a specific staff member or any available stylist.",
+        "quote": "They can select a stylist if they have a preference. Otherwise choose something like "
+      },
+      {
+        "id": "clm_01KZK7N2AA0G84SY55420PB60M",
+        "bucket": "assumptionClaim",
+        "text": "A drop-down to selecting a known stylist or choosing any available stylist should be available during booking for some services.",
+        "quote": "Sarah: Yes, that would be good."
+      },
+      {
+        "id": "clm_01KZK7P5FQ0QMPTPP8MJASJNAM",
+        "bucket": "assumptionClaim",
+        "text": "We need to ensure we are no longer double-Booking customer appointments.",
+        "quote": "If customers can book online and we're no longer double-booking people"
+      }
+    ]
+  },
+  "deterministicInvariantResults": {
+    "unsupportedDetailViolations": [
+      {
+        "checkId": "UDC-03",
+        "candidateId": "clm_01KZK7N2AA0G84SY55420PB60M",
+        "bucket": "assumptionClaim",
+        "matchedText": "drop-down"
+      },
+      {
+        "checkId": "UDC-04",
+        "candidateId": "oqn_01KZK7XT4ADD6BTW067KK425CK",
+        "bucket": "question",
+        "matchedText": "data residency"
+      },
+      {
+        "checkId": "UDC-05",
+        "candidateId": "oqn_01KZK7XT4ADD6BTW067KK425CP",
+        "bucket": "question",
+        "matchedText": "change in ownership"
+      }
+    ],
+    "alreadyAnsweredQuestionViolations": [
+      {
+        "checkId": "AAQ-01",
+        "candidateId": "oqn_01KZK7XT45S4A7KYQVD1BWVGTW",
+        "bucket": "question",
+        "matchedText": "How many branch"
+      }
+    ]
+  },
+  "judgeMatchTable": null,
+  "metrics": {
+    "skipped": true,
+    "reason": "judge not requested for this run (deterministic-only invocation)"
+  }
+}
