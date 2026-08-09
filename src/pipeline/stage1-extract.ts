@@ -110,10 +110,11 @@ export const stage1Extract: Stage<PipelineState, PipelineState> = {
 
     const all: Claim[] = [];
     const now = new Date().toISOString();
+    let extractFailures = 0;
 
     for (const ref of state.windows) {
       const window = hydrateWindow(ctx.db, frozen.transcript.text, ref);
-      const result = await callTyped({
+      const buildArgs = () => ({
         client: ctx.client,
         db: ctx.db,
         sessionId: ctx.sessionId,
@@ -121,8 +122,31 @@ export const stage1Extract: Stage<PipelineState, PipelineState> = {
         system: EXTRACT_SYSTEM,
         user: buildExtractUser(window, project),
         schema: ExtractedClaimsSchema,
-        effort: "high",
+        effort: "high" as const,
       });
+
+      let result = await callTyped(buildArgs());
+
+      // A window with zero claims is ambiguous on its own — EXTRACT_SYSTEM
+      // explicitly allows an empty result for a genuinely logistics-only
+      // window — but it is also exactly the shape of the local model's
+      // degenerate-empty collapse (isDegenerateEmpty in
+      // src/llm/local-client.ts): confirmed by direct repro (see
+      // scripts/repro-window1-extract.ts / investigate-skill session
+      // 2026-08-09) that a real window can return {"claims":[]} on every one
+      // of LocalBackend.generate()'s internal retry attempts, exhausting
+      // that ladder without success, and that an independent fresh call
+      // against the identical window can then succeed — the failure is
+      // stochastic per-call, not a property of the window's content. One
+      // retry with a completely fresh call (its own new internal retry
+      // ladder) gives a window that came back empty a real second chance
+      // before its content is silently dropped with no visible signal —
+      // the same fix shape as stage3-classify.ts's zero-coverage retry
+      // (e837ded).
+      if (result.claims.length === 0) {
+        result = await callTyped(buildArgs());
+      }
+      if (result.claims.length === 0) extractFailures++;
 
       const validSegmentIds = new Set(window.segments.map((s) => s.id));
       const fallbackSegmentId = window.segments[0]?.id;
@@ -155,6 +179,13 @@ export const stage1Extract: Stage<PipelineState, PipelineState> = {
     }
 
     insertClaims(ctx.db, all);
-    return { ...state, extracted: all.length };
+    return {
+      ...state,
+      extracted: all.length,
+      // ?? 0 guards resuming a checkpoint saved before extractFailures
+      // existed on PipelineState — its payload_json won't have the field,
+      // and JSON round-tripping leaves it undefined rather than 0.
+      extractFailures: (state.extractFailures ?? 0) + extractFailures,
+    };
   },
 };

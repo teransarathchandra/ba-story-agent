@@ -13,6 +13,7 @@ export interface PipelineState {
   transcriptId: string;
   windows: WindowRef[];
   extracted: number;
+  extractFailures: number;
   validated: number;
   quarantined: number;
   requoteFailures: number;
@@ -27,7 +28,7 @@ export interface PipelineState {
 export function emptyState(transcriptId: string): PipelineState {
   return {
     transcriptId, windows: [],
-    extracted: 0, validated: 0, quarantined: 0,
+    extracted: 0, extractFailures: 0, validated: 0, quarantined: 0,
     requoteFailures: 0, classifyFailures: 0, requirementClaims: 0,
     requirements: 0, stories: 0, questions: 0, recommendations: 0,
   };

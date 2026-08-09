@@ -126,8 +126,11 @@ export interface Story {
 
 export interface AnalyzeResult {
   extracted: number
+  extractFailures?: number
   validated: number
   quarantined: number
+  requoteFailures?: number
+  classifyFailures?: number
   requirements: number
   stories: number
   questions: number

@@ -159,6 +159,12 @@ export default function AnalyzeButton({ sessionId, sessionTitle, onComplete }: P
             "ambiguity" — consider re-running analysis.
           </div>
         )}
+        {(result.extractFailures ?? 0) > 0 && (
+          <div className="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded px-2 py-1">
+            {result.extractFailures} transcript window(s) returned no claims even after a retry —
+            consider re-running analysis if the claim count looks too low.
+          </div>
+        )}
       </div>
     )
   }

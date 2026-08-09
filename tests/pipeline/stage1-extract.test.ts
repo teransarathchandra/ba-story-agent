@@ -4,6 +4,7 @@ import { createProject, createSession } from "../../src/store/projects.js";
 import { createTranscript, freezeTranscript } from "../../src/store/transcripts.js";
 import { listClaims } from "../../src/store/claims.js";
 import { ExtractedClaimsSchema, stage0Chunk, stage1Extract, applySpeakerRoleFloor } from "../../src/pipeline/stage1-extract.js";
+import { emptyState, hydrateWindow } from "../../src/pipeline/state.js";
 import { EXTRACT_SYSTEM, buildExtractUser } from "../../src/prompts/extract.js";
 import type { StageContext } from "../../src/pipeline/runner.js";
 import type { Window } from "../../src/pipeline/stage0-chunk.js";
@@ -28,6 +29,15 @@ function setup(parsedOutputs: unknown[]) {
       usage: { input_tokens: 10, output_tokens: 5 },
     });
   }
+  // Fallback for any call beyond the explicit queue above — e.g. the
+  // zero-coverage retry firing on a window whose queued response was empty
+  // but the caller didn't also queue a retry response. Tests that care about
+  // exact call counts for the retry itself build their own full queue via
+  // setupSingleWindow() below instead of this shared helper.
+  parse.mockResolvedValue({
+    raw: "{}", parsedOutput: { claims: [] },
+    requestPayload: {}, usage: { input_tokens: 10, output_tokens: 5 },
+  });
   const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
   return { ctx, transcriptId: transcript.id, parse };
 }
@@ -74,12 +84,163 @@ describe("stage0Chunk + stage1Extract", () => {
     expect(after.extracted).toBe(1);
   });
 
-  it("calls the model once per window", async () => {
-    const { ctx, transcriptId, parse } = setup([{ claims: [] }, { claims: [] }, { claims: [] }, { claims: [] }]);
+  it("calls the model once per window when each returns real claims", async () => {
+    // A window with real (non-empty) output should not trigger the
+    // zero-coverage retry below — this only verifies "one call per window,"
+    // not "one call regardless of yield."
+    const claimOut = {
+      claims: [{ quote: "point number 0 about invoice approval thresholds", statement: "There is an approval threshold.", segmentId: "IGNORED", speakerRole: "client" }],
+    };
+    const { ctx, transcriptId, parse } = setup([claimOut, claimOut, claimOut, claimOut]);
     const state = await stage0Chunk.run(ctx, { transcriptId });
     expect(state.windows.length).toBeGreaterThan(1); // Guard: fixture spans multiple windows
     await stage1Extract.run(ctx, state);
     expect(parse).toHaveBeenCalledTimes(state.windows.length);
+  });
+});
+
+describe("stage1Extract zero-coverage retry", () => {
+  // Short enough to guarantee exactly one window (target is 2000 words),
+  // long enough to clear stage0Chunk's 200-word minimum.
+  const SHORT = Array.from({ length: 30 }, (_, i) =>
+    `Client: point number ${i} about invoice approval thresholds and routing rules.`,
+  ).join("\n\n");
+
+  function setupSingleWindow() {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "B2B freight invoicing for EU logistics operators" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript } = createTranscript(db, { sessionId: s.id, text: SHORT });
+    freezeTranscript(db, transcript.id);
+    const generate = vi.fn();
+    const ctx: StageContext = { db, client: { model: "test", generate } as never, projectId: p.id, sessionId: s.id };
+    return { ctx, transcriptId: transcript.id, generate };
+  }
+
+  it("retries a window that comes back with zero claims, and applies the retry's real result", async () => {
+    const { ctx, transcriptId, generate } = setupSingleWindow();
+    const state = await stage0Chunk.run(ctx, { transcriptId });
+    expect(state.windows.length).toBe(1); // Guard: fixture fits in one window
+
+    // Mirrors stage3-classify.test.ts's zero-coverage retry test: first call
+    // degenerates to an empty claims array (the local model's known failure
+    // mode — see isDegenerateEmpty in src/llm/local-client.ts, and the
+    // direct repro in scripts/repro-window1-extract.ts), second call
+    // succeeds.
+    generate
+      .mockResolvedValueOnce({
+        raw: "{}", parsedOutput: { claims: [] },
+        requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+      })
+      .mockResolvedValueOnce({
+        raw: "{}",
+        parsedOutput: {
+          claims: [{ quote: "point number 0 about invoice approval thresholds", statement: "There is an approval threshold.", segmentId: "IGNORED", speakerRole: "client" }],
+        },
+        requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+      });
+
+    const after = await stage1Extract.run(ctx, state);
+
+    expect(generate).toHaveBeenCalledTimes(2);
+    expect(after.extracted).toBe(1);
+    expect(after.extractFailures).toBe(0);
+  });
+
+  it("marks extractFailures and leaves the window empty when the retry ALSO comes back empty", async () => {
+    const { ctx, transcriptId, generate } = setupSingleWindow();
+    const state = await stage0Chunk.run(ctx, { transcriptId });
+    expect(state.windows.length).toBe(1);
+
+    generate.mockResolvedValue({
+      raw: "{}", parsedOutput: { claims: [] },
+      requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+    });
+
+    const after = await stage1Extract.run(ctx, state);
+
+    // One retry attempt per window, not an unbounded loop.
+    expect(generate).toHaveBeenCalledTimes(2);
+    expect(after.extracted).toBe(0);
+    expect(after.extractFailures).toBe(1);
+  });
+
+  it("retries each window independently and counts failures cumulatively across windows", async () => {
+    // Three disjoint segment groups, manually assembled into three
+    // WindowRefs, so each window's outcome (immediate success / recover on
+    // retry / fail after retry) can be controlled precisely regardless of
+    // stage0Chunk's real windowing thresholds.
+    const MULTI = Array.from({ length: 45 }, (_, i) =>
+      `Client: point number ${i} about invoice approval thresholds and routing rules.`,
+    ).join("\n\n");
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "B2B freight invoicing for EU logistics operators" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript } = createTranscript(db, { sessionId: s.id, text: MULTI });
+    freezeTranscript(db, transcript.id);
+
+    const segRows = db
+      .prepare("SELECT id, char_start as charStart, char_end as charEnd FROM segments WHERE transcript_id = ? ORDER BY idx")
+      .all(transcript.id) as { id: string; charStart: number; charEnd: number }[];
+    expect(segRows.length).toBe(45); // Guard: one segment per line
+
+    const groups = [segRows.slice(0, 15), segRows.slice(15, 30), segRows.slice(30, 45)];
+    const windows = groups.map((g, idx) => ({
+      idx,
+      segmentIds: g.map((r) => r.id),
+      charStart: g[0]!.charStart,
+      charEnd: g[g.length - 1]!.charEnd,
+    }));
+
+    const generate = vi.fn();
+    const ctx: StageContext = { db, client: { model: "test", generate } as never, projectId: p.id, sessionId: s.id };
+    const state = { ...emptyState(transcript.id), windows };
+
+    const claimResponse = (n: number) => ({
+      raw: "{}",
+      parsedOutput: {
+        claims: [{ quote: `point number ${n} about invoice approval thresholds`, statement: "There is an approval threshold.", segmentId: "IGNORED", speakerRole: "client" }],
+      },
+      requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+    });
+    const emptyResponse = {
+      raw: "{}", parsedOutput: { claims: [] },
+      requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+    };
+
+    generate
+      .mockResolvedValueOnce(claimResponse(0)) // window 0: succeeds immediately, no retry
+      .mockResolvedValueOnce(emptyResponse) // window 1: empty, then recovers on retry
+      .mockResolvedValueOnce(claimResponse(15))
+      .mockResolvedValueOnce(emptyResponse) // window 2: empty on both attempts, stays failed
+      .mockResolvedValueOnce(emptyResponse);
+
+    const after = await stage1Extract.run(ctx, state);
+
+    expect(generate).toHaveBeenCalledTimes(5); // 1 + 2 + 2
+    expect(after.extracted).toBe(2); // window 0's claim + window 1's recovered claim
+    expect(after.extractFailures).toBe(1); // only window 2 stayed empty after its retry
+
+    // Verify each call actually carried its OWN window's exact content, not
+    // just that the queue was drained in the right order — a retry that
+    // accidentally reused another window's prompt would still pass the
+    // count/total assertions above. Compare each call's `user` field against
+    // the real buildExtractUser() output for its window (the same function
+    // stage1-extract.ts itself calls), rather than substring checks that a
+    // partially-wrong prompt (e.g. one window's text mixed into another's)
+    // could still slip past.
+    const expectedPrompts = windows.map((ref) =>
+      buildExtractUser(hydrateWindow(db, transcript.text, ref), p),
+    );
+    const calls = generate.mock.calls.map((c) => (c[0] as { user: string }).user);
+    expect(calls[0]).toBe(expectedPrompts[0]); // window 0, single call
+    expect(calls[1]).toBe(expectedPrompts[1]); // window 1, initial call
+    expect(calls[2]).toBe(expectedPrompts[1]); // window 1, retry — identical prompt
+    expect(calls[3]).toBe(expectedPrompts[2]); // window 2, initial call
+    expect(calls[4]).toBe(expectedPrompts[2]); // window 2, retry — identical prompt
+    // Guard against a degenerate test where every window's prompt happens to
+    // be identical (e.g. a bug in the group-slicing above).
+    expect(new Set(expectedPrompts).size).toBe(3);
   });
 });
 

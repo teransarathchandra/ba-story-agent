@@ -229,6 +229,14 @@ export function buildProgram(opts?: { log?: Log }): Command {
               `or review the ambiguity list manually.`,
           );
         }
+        if (state.extractFailures > 0) {
+          log("");
+          log(
+            `Warning: ${state.extractFailures} transcript window(s) returned no claims even after ` +
+              `a retry — this may be a genuinely quiet window, or a local-model failure. Re-run ` +
+              `analysis if the claim count looks too low.`,
+          );
+        }
       } finally {
         await release();
       }
