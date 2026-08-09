@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { Folder, Plus, FileText, ChevronRight, Activity, RefreshCw, Sun, Moon, BookOpen, Trash2 } from 'lucide-react'
 import SessionAdd from './SessionAdd'
 import AnalyzeButton from './AnalyzeButton'
@@ -77,18 +77,28 @@ export default function Sidebar({
     if (activeProjectId) loadSessions(activeProjectId)
   }, [activeProjectId, loadSessions])
 
+  // Guards against an in-flight request for a previously active session
+  // resolving after a newer one and overwriting the current session's
+  // speakers with stale data (rapid session switching).
+  const latestSpeakerRequestRef = useRef<string | null>(null)
+
   const loadDetectedSpeakers = useCallback(async (sessionId: string) => {
+    latestSpeakerRequestRef.current = sessionId
     try {
       const speakers = await window.api.speaker.list(sessionId)
-      setDetectedSpeakers(speakers)
+      if (latestSpeakerRequestRef.current === sessionId) setDetectedSpeakers(speakers)
     } catch (e) {
       console.error('Failed to load detected speakers', e)
     }
   }, [])
 
   useEffect(() => {
-    if (activeSessionId) loadDetectedSpeakers(activeSessionId)
-    else setDetectedSpeakers([])
+    if (activeSessionId) {
+      loadDetectedSpeakers(activeSessionId)
+    } else {
+      latestSpeakerRequestRef.current = null
+      setDetectedSpeakers([])
+    }
   }, [activeSessionId, loadDetectedSpeakers])
 
   const handleProjectClick = (projectId: string) => {
@@ -401,6 +411,7 @@ export default function Sidebar({
           session={transcriptSession}
           onAmended={async () => {
             if (activeProjectId) await loadSessions(activeProjectId)
+            await loadDetectedSpeakers(transcriptSession.id)
             onRefresh()
           }}
           onClose={() => setTranscriptSession(null)}
