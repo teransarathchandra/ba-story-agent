@@ -3,6 +3,8 @@ import { Folder, Plus, FileText, ChevronRight, Activity, RefreshCw, Sun, Moon, B
 import SessionAdd from './SessionAdd'
 import AnalyzeButton from './AnalyzeButton'
 import SetDomainDialog from './SetDomainDialog'
+import SpeakerRoleDialog from './SpeakerRoleDialog'
+import type { DetectedSpeaker } from '../types/api'
 import type { Theme } from './Layout'
 import type { Project, Session } from '../types/api'
 import ConfirmDialog from './ConfirmDialog'
@@ -40,6 +42,10 @@ export default function Sidebar({
   const [expandedProjects, setExpandedProjects] = useState<Set<string>>(new Set())
   const [transcriptSession, setTranscriptSession] = useState<Session | null>(null)
   const [domainTarget, setDomainTarget] = useState<{ id: string; name: string; sessionId?: string } | null>(null)
+  const [speakerRoleTarget, setSpeakerRoleTarget] = useState<
+    { sessionId: string; sessionTitle: string; speakers: DetectedSpeaker[] } | null
+  >(null)
+  const [detectedSpeakers, setDetectedSpeakers] = useState<DetectedSpeaker[]>([])
   const [deleteTarget, setDeleteTarget] = useState<
     | { kind: 'project'; id: string; name: string }
     | { kind: 'session'; id: string; name: string; projectId: string }
@@ -70,6 +76,20 @@ export default function Sidebar({
   useEffect(() => {
     if (activeProjectId) loadSessions(activeProjectId)
   }, [activeProjectId, loadSessions])
+
+  const loadDetectedSpeakers = useCallback(async (sessionId: string) => {
+    try {
+      const speakers = await window.api.speaker.list(sessionId)
+      setDetectedSpeakers(speakers)
+    } catch (e) {
+      console.error('Failed to load detected speakers', e)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (activeSessionId) loadDetectedSpeakers(activeSessionId)
+    else setDetectedSpeakers([])
+  }, [activeSessionId, loadDetectedSpeakers])
 
   const handleProjectClick = (projectId: string) => {
     setActiveProjectId(projectId)
@@ -277,31 +297,52 @@ export default function Sidebar({
                           </button>
                         )}
 
-                        {activeSessionId && sessions.find(s => s.id === activeSessionId && s.status === 'draft') && (
-                          p.domain ? (
+                        {activeSessionId && sessions.find(s => s.id === activeSessionId && s.status === 'draft') && (() => {
+                          const sessionTitle = sessions.find(s => s.id === activeSessionId)?.title ?? ''
+                          const unconfirmedSpeakers = detectedSpeakers.filter(sp => sp.confirmedRole === null)
+                          if (!p.domain) {
+                            return (
+                              <button
+                                type="button"
+                                onClick={() => setDomainTarget({
+                                  id: p.id,
+                                  name: p.name,
+                                  sessionId: activeSessionId,
+                                })}
+                                className="btn btn-ghost no-drag"
+                                style={{ width: '100%', fontSize: '12px', padding: '5px 10px' }}
+                              >
+                                Set domain to enable analysis
+                              </button>
+                            )
+                          }
+                          if (unconfirmedSpeakers.length > 0) {
+                            return (
+                              <button
+                                type="button"
+                                onClick={() => setSpeakerRoleTarget({
+                                  sessionId: activeSessionId,
+                                  sessionTitle,
+                                  speakers: detectedSpeakers,
+                                })}
+                                className="btn btn-ghost no-drag"
+                                style={{ width: '100%', fontSize: '12px', padding: '5px 10px' }}
+                              >
+                                Set speaker roles to enable analysis
+                              </button>
+                            )
+                          }
+                          return (
                             <AnalyzeButton
                               sessionId={activeSessionId}
-                              sessionTitle={sessions.find(s => s.id === activeSessionId)?.title ?? ''}
+                              sessionTitle={sessionTitle}
                               onComplete={() => {
                                 loadSessions(activeProjectId!)
                                 onRefresh()
                               }}
                             />
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setDomainTarget({
-                                id: p.id,
-                                name: p.name,
-                                sessionId: activeSessionId,
-                              })}
-                              className="btn btn-ghost no-drag"
-                              style={{ width: '100%', fontSize: '12px', padding: '5px 10px' }}
-                            >
-                              Set domain to enable analysis
-                            </button>
                           )
-                        )}
+                        })()}
                       </div>
                     </div>
                   )}
@@ -376,6 +417,19 @@ export default function Sidebar({
             loadProjects()
           }}
           onCancel={() => setDomainTarget(null)}
+        />
+      )}
+
+      {speakerRoleTarget && (
+        <SpeakerRoleDialog
+          sessionId={speakerRoleTarget.sessionId}
+          sessionTitle={speakerRoleTarget.sessionTitle}
+          speakers={speakerRoleTarget.speakers}
+          onSet={() => {
+            setSpeakerRoleTarget(null)
+            loadDetectedSpeakers(speakerRoleTarget.sessionId)
+          }}
+          onCancel={() => setSpeakerRoleTarget(null)}
         />
       )}
 
