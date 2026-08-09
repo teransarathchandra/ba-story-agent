@@ -22,6 +22,12 @@ yarn-error.log*
 vite.config.*.timestamp-*
 vitest.config.*.timestamp-*
 
+# Gold-fixture eval run artifacts and the judge-response cache — benchmark
+# logs, not reviewed artifacts (docs/superpowers/specs/2026-08-09-gold-eval-harness-design.md §9).
+# Promoting a specific run to a checked-in snapshot is a deliberate, manual
+# action, not something this ignore rule should auto-exempt.
+.eval-runs/
+
 # macOS
 .DS_Store
 

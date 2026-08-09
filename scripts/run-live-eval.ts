@@ -9,7 +9,7 @@
  *   LLM_BACKENDS=local npm run eval:live                       # local only
  *   ANTHROPIC_API_KEY=... LLM_BACKENDS=claude,local npm run eval:live  # both, compared
  */
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { openDb } from "../src/store/db.js";
@@ -23,6 +23,9 @@ import { listRequirements } from "../src/store/artifacts.js";
 import { listQuestions } from "../src/store/findings.js";
 import { listProjectClaims } from "../src/store/claims.js";
 import { listLinks } from "../src/store/links.js";
+import { loadGoldFixture } from "../src/eval/gold-schema.js";
+import { runGoldEval, persistArtifact } from "./eval/gold-match.js";
+import { printGoldEvalReport } from "./eval/gold-report.js";
 
 interface Expectation {
   mustNotContainRequirementMatching?: string[];
@@ -70,6 +73,42 @@ function check(name: string, label: string, ok: boolean, detail = ""): boolean {
 async function runAgainstBackend(backendLabel: string, client: LlmBackend): Promise<void> {
   for (const file of readdirSync(fixturesDir).filter((f) => f.endsWith(".txt"))) {
     const name = file.replace(/\.txt$/, "");
+    const goldPath = join(here, "../tests/fixtures/golden", `${name}.gold.json`);
+
+    // Gold-fixture path (design doc: docs/superpowers/specs/2026-08-09-gold-eval-harness-design.md)
+    // is mutually exclusive with the regex-Expectation path below — a
+    // fixture gets ONE or the other, never both. The 5 original fixtures
+    // have no .gold.json and are completely untouched by this branch.
+    if (existsSync(goldPath)) {
+      process.stdout.write(`\n[${backendLabel}] ${name} (gold-fixture eval)\n`);
+
+      const fixture = loadGoldFixture(goldPath);
+      const db = openDb(":memory:");
+      const project = createProject(db, {
+        name,
+        domain: "appointment booking and management for a multi-branch beauty salon",
+      });
+      const session = createSession(db, { projectId: project.id, title: name });
+      const { transcript } = createTranscript(db, {
+        sessionId: session.id,
+        text: readFileSync(join(fixturesDir, file), "utf8"),
+      });
+      freezeTranscript(db, transcript.id);
+
+      await analyzeSession({ db, client, projectId: project.id, sessionId: session.id }, transcript.id);
+
+      const artifact = await runGoldEval({
+        fixture,
+        generator: { backendLabel, model: client.model },
+        db,
+        projectId: project.id,
+        anthropicApiKey: process.env.ANTHROPIC_API_KEY,
+      });
+      const artifactPath = persistArtifact(artifact);
+      printGoldEvalReport(artifact, artifactPath);
+      continue;
+    }
+
     const exp = expectations[name];
     if (!exp) continue;
 

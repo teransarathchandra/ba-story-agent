@@ -35,8 +35,8 @@ describe("adversarial fixtures — deterministic guarantees", () => {
     .filter((f) => f.endsWith(".txt"))
     .map((f) => f.replace(/\.txt$/, ""));
 
-  it("has all five fixtures", () => {
-    expect(names).toHaveLength(5);
+  it("has all six fixtures", () => {
+    expect(names).toHaveLength(6);
   });
 
   it("every fixture except small-talk clears the 200-word floor", () => {
