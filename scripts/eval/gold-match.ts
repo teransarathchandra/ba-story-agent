@@ -234,6 +234,16 @@ export async function runGoldEval(opts: {
   db: Db;
   projectId: string;
   anthropicApiKey?: string;
+  /**
+   * Skips the judge entirely — no independence check, no API call, not even
+   * a cache lookup. For a deterministic-only pass (e.g. against an
+   * already-persisted session where a paid judge call hasn't been
+   * authorized yet): every judge-dependent metric reports SKIPPED with an
+   * explicit reason, and the two hard invariants still run in full. This
+   * branches BEFORE any judge-path code runs — it doesn't reuse or
+   * reinterpret that path's logic, it simply declines to enter it.
+   */
+  skipJudge?: boolean;
 }): Promise<EvalRunArtifact> {
   const generated = collectGeneratedCandidates(opts.db, opts.projectId);
   const allCandidates = [...generated.requirements, ...generated.questions, ...generated.assumptionClaims];
@@ -241,42 +251,47 @@ export async function runGoldEval(opts: {
   const unsupportedDetailViolations = checkUnsupportedDetails(opts.fixture.unsupportedDetailChecks, allCandidates);
   const alreadyAnsweredQuestionViolations = checkAlreadyAnsweredQuestions(opts.fixture.answeredQuestionChecks, allCandidates);
 
-  const judgeConfig = resolveJudgeConfig();
-  const independence = checkJudgeIndependence(opts.generator, judgeConfig);
   const fixtureHash = goldFixtureContentHash(opts.fixture);
 
   let judgeField: EvalRunArtifact["judge"];
   let matchResult: GoldMatchResult | null = null;
   let coverage: CoverageResult | null = null;
 
-  if (!independence.independent) {
-    judgeField = { skipped: true, reason: independence.reason! };
+  if (opts.skipJudge) {
+    judgeField = { skipped: true, reason: "judge not requested for this run (deterministic-only invocation)" };
   } else {
-    try {
-      const cacheKey = cacheKeyFor(fixtureHash, generated, judgeConfig);
-      matchResult = loadCachedMatch(cacheKey);
-      if (!matchResult) {
-        const { system, user } = buildJudgePrompt(opts.fixture, allCandidates);
-        const client = createClient({ apiKey: opts.anthropicApiKey });
-        matchResult = await callJudge(client, judgeConfig.model, system, user);
-        saveCachedMatch(cacheKey, matchResult);
-      }
+    const judgeConfig = resolveJudgeConfig();
+    const independence = checkJudgeIndependence(opts.generator, judgeConfig);
 
-      coverage = checkCoverage(
-        matchResult,
-        supportedItems(opts.fixture).map((i) => i.id),
-        allCandidates.map((c) => c.id),
-      );
-      judgeField = {
-        backendLabel: judgeConfig.backendLabel,
-        model: judgeConfig.model,
-        promptVersion: JUDGE_PROMPT_VERSION,
-        schemaVersion: JUDGE_SCHEMA_VERSION,
-        coverageValid: coverage.valid,
-        coverageErrors: coverage.errors,
-      };
-    } catch (err) {
-      judgeField = { skipped: true, reason: err instanceof Error ? err.message : String(err) };
+    if (!independence.independent) {
+      judgeField = { skipped: true, reason: independence.reason! };
+    } else {
+      try {
+        const cacheKey = cacheKeyFor(fixtureHash, generated, judgeConfig);
+        matchResult = loadCachedMatch(cacheKey);
+        if (!matchResult) {
+          const { system, user } = buildJudgePrompt(opts.fixture, allCandidates);
+          const client = createClient({ apiKey: opts.anthropicApiKey });
+          matchResult = await callJudge(client, judgeConfig.model, system, user);
+          saveCachedMatch(cacheKey, matchResult);
+        }
+
+        coverage = checkCoverage(
+          matchResult,
+          supportedItems(opts.fixture).map((i) => i.id),
+          allCandidates.map((c) => c.id),
+        );
+        judgeField = {
+          backendLabel: judgeConfig.backendLabel,
+          model: judgeConfig.model,
+          promptVersion: JUDGE_PROMPT_VERSION,
+          schemaVersion: JUDGE_SCHEMA_VERSION,
+          coverageValid: coverage.valid,
+          coverageErrors: coverage.errors,
+        };
+      } catch (err) {
+        judgeField = { skipped: true, reason: err instanceof Error ? err.message : String(err) };
+      }
     }
   }
 
