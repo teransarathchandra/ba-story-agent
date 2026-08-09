@@ -1,0 +1,563 @@
+Maya: Okay, thanks everyone. The main thing I want to understand today is how appointments are handled now and what you actually want the new system to change. We don't need to solve everything today.
+
+Sarah: Yeah. The biggest issue is basically bookings. Right now customers either call us, WhatsApp us, or message Instagram.
+
+Kevin: Mostly WhatsApp, actually.
+
+Sarah: Yeah, probably WhatsApp now.
+
+Maya: And then someone manually puts the appointment somewhere?
+
+Kevin: We have a book at reception.
+
+Sarah: And the Google Calendar.
+
+Kevin: Well... not everything goes into Google Calendar.
+
+Maya: Okay. So which one is considered the actual record?
+
+Kevin: The appointment book, normally.
+
+Sarah: Ideally both should match, but they don't always.
+
+Maya: That's useful. What sort of problems happen because of that?
+
+Kevin: Double bookings mostly. Someone replies on WhatsApp, another person answers the phone, and both give the same 3 PM slot.
+
+Sarah: That's probably the main reason we're doing this.
+
+Maya: So customers should be able to see available slots and book without contacting reception?
+
+Sarah: Yes.
+
+Kevin: But we still need to book appointments ourselves because some customers will always call.
+
+Maya: Right. So both customers and staff need to be able to create appointments.
+
+Sarah: Correct.
+
+Maya: Walk me through what the customer needs to select.
+
+Sarah: Service, staff member, date, time... that's probably it.
+
+Nina: Branch as well.
+
+Sarah: Oh yes, branch.
+
+Maya: How many branches?
+
+Sarah: Three currently.
+
+Nina: Colombo 5, Rajagiriya and Nugegoda.
+
+Maya: Could a staff member work at more than one branch?
+
+Sarah: Yes.
+
+Kevin: But not usually on the same day.
+
+Sarah: Usually, yes. But sometimes they move if someone's absent.
+
+Maya: So staff availability needs to depend on their branch schedule?
+
+Sarah: Exactly.
+
+Maya: What about services? Are all staff allowed to perform every service?
+
+Sarah: No.
+
+Kevin: Definitely not.
+
+Sarah: For example, some junior stylists don't do colouring.
+
+Maya: So when someone chooses a service, should the system only show staff members qualified to provide that service?
+
+Sarah: Yes, that would be good.
+
+Daniel: Just to clarify, is that mandatory for launch, or something we could add later?
+
+Sarah: No, it should be there from the beginning. Otherwise customers might book the wrong person.
+
+Maya: Got it.
+
+Maya: How long is an appointment?
+
+Sarah: Depends on the service.
+
+Maya: Can you give me an example?
+
+Sarah: Haircut, maybe 45 minutes.
+
+Kevin: Men's haircut is 30.
+
+Sarah: Right. Women's haircut is around 45.
+
+Nina: Colouring can be two or three hours depending on what they're doing.
+
+Daniel: Does the duration have to be fixed in the system?
+
+Sarah: I think we should configure a standard duration for each service.
+
+Kevin: But sometimes we need longer.
+
+Maya: Would staff need to manually adjust the duration when creating a booking?
+
+Kevin: That would help.
+
+Sarah: Yes, for staff. Customers shouldn't change it themselves.
+
+Maya: What happens after a customer selects a time?
+
+Sarah: They confirm the booking.
+
+Maya: Do they pay online?
+
+Sarah: Eventually.
+
+Daniel: Eventually meaning not version one?
+
+Sarah: Actually... for expensive services we may need a deposit.
+
+Nina: Colour treatments especially.
+
+Maya: Do you currently collect deposits?
+
+Sarah: Sometimes through a bank transfer.
+
+Kevin: Then customers send us the payment screenshot on WhatsApp.
+
+Sarah: Which is another headache.
+
+Daniel: Are we saying online payment is required for the first release?
+
+Sarah: I'm not sure yet.
+
+Nina: We should probably check the payment provider fees first.
+
+Maya: Okay. I'll leave online deposits as an unresolved item rather than treating it as a confirmed requirement.
+
+Sarah: Yes.
+
+Maya: Do customers need an account to make a booking?
+
+Sarah: I'd prefer that.
+
+Kevin: I don't know. Customers hate creating accounts for everything.
+
+Sarah: That's true.
+
+Maya: Could they book using just their mobile number?
+
+Kevin: That would be easier.
+
+Sarah: But then how do they see their previous appointments?
+
+Daniel: We could authenticate using OTP.
+
+Sarah: Like a code sent to the phone?
+
+Daniel: Yes.
+
+Sarah: That sounds better than passwords.
+
+Maya: Are we agreeing that customers should use mobile number plus OTP rather than a traditional password?
+
+Sarah: I think so.
+
+Kevin: Yeah.
+
+Nina: As long as SMS cost isn't ridiculous.
+
+Maya: So technically preferred, but SMS cost needs checking?
+
+Sarah: Correct.
+
+Maya: What information should we collect from the customer?
+
+Kevin: Name, phone number.
+
+Sarah: Email.
+
+Kevin: Most customers don't give email.
+
+Sarah: Okay, email can be optional.
+
+Maya: Anything else?
+
+Sarah: Maybe birthday, because we send birthday offers.
+
+Nina: We don't actually do that consistently.
+
+Sarah: But we want to.
+
+Maya: Is birthday required for booking?
+
+Sarah: No, optional.
+
+Maya: Let's talk cancellations.
+
+Kevin: That's another problem.
+
+Sarah: Yeah.
+
+Maya: What happens today?
+
+Kevin: They WhatsApp or call us.
+
+Maya: How late can someone cancel?
+
+Sarah: At least 24 hours before.
+
+Kevin: But we let people cancel later all the time.
+
+Sarah: That's because there's no system enforcing it.
+
+Maya: In the new system, do you want customers prevented from cancelling within 24 hours?
+
+Sarah: Hmm.
+
+Nina: Maybe they should still be able to request cancellation, but reception decides.
+
+Sarah: That's better.
+
+Maya: So before 24 hours, customers can cancel themselves. Within 24 hours, they need to contact the salon?
+
+Sarah: Yes.
+
+Kevin: That works.
+
+Maya: Rescheduling?
+
+Sarah: Same rule.
+
+Kevin: Actually, maybe rescheduling should be allowed until six hours before.
+
+Sarah: Why would that be different?
+
+Kevin: Because if they're still coming, just at a different time, it's less of a problem.
+
+Sarah: But the original slot becomes empty.
+
+Nina: Let's not make separate rules yet.
+
+Maya: So cancellation and rescheduling policy still needs confirmation?
+
+Sarah: Yes. Don't lock that one yet.
+
+Maya: Do you need reminders?
+
+Everyone: Yes.
+
+Kevin: Definitely.
+
+Maya: What kind?
+
+Sarah: SMS.
+
+Nina: WhatsApp would be better.
+
+Daniel: WhatsApp integration may have additional setup and costs.
+
+Sarah: Then maybe SMS first.
+
+Maya: When should the reminder go out?
+
+Kevin: The day before.
+
+Sarah: And maybe two hours before.
+
+Nina: Two messages for every appointment could get expensive.
+
+Sarah: True.
+
+Maya: So reminder channel and frequency need a cost check.
+
+Sarah: Yes.
+
+Maya: What does reception need to see?
+
+Kevin: Basically the day's appointments.
+
+Maya: One list?
+
+Kevin: I'd rather see a calendar.
+
+Sarah: Calendar by staff member would be useful.
+
+Kevin: Yeah. Like columns for each stylist.
+
+Daniel: Daily view only?
+
+Kevin: Daily is most important, but weekly would be useful too.
+
+Maya: Can reception move an appointment by dragging it?
+
+Kevin: That would be nice.
+
+Sarah: But make sure it doesn't accidentally change appointments too easily.
+
+Maya: So drag-and-drop might be useful, but we'd need some kind of confirmation before saving the change?
+
+Sarah: Exactly.
+
+Maya: Should customers choose a specific employee or just choose anyone available?
+
+Sarah: Both.
+
+Maya: How would that work?
+
+Sarah: They can select a stylist if they have a preference. Otherwise choose something like "any available stylist."
+
+Kevin: A lot of new customers won't know the staff.
+
+Maya: Makes sense.
+
+Maya: Pricing. Is the price determined only by the service?
+
+Sarah: Mostly.
+
+Kevin: Not always.
+
+Sarah: Yeah. Colouring depends on hair length and product usage.
+
+Maya: Can the website show a fixed price?
+
+Sarah: For those, it should probably say "starting from."
+
+Daniel: Is the final price entered by staff after the appointment?
+
+Sarah: Usually at checkout.
+
+Maya: Does this booking system also need to handle checkout and payments in-store?
+
+Sarah: Eventually yes, but I don't want this project to become a full POS system.
+
+Daniel: Good.
+
+Maya: So POS functionality is outside the initial scope?
+
+Sarah: Yes. Definitely.
+
+Maya: Do you want customer history?
+
+Sarah: Yes.
+
+Kevin: Appointment history would help.
+
+Sarah: And notes.
+
+Maya: What kind of notes?
+
+Kevin: Things like colour formula, allergies, preferences.
+
+Sarah: Be careful with that though because some information might be sensitive.
+
+Daniel: We'd need access controls.
+
+Maya: Who should be allowed to see customer notes?
+
+Sarah: Stylists working with that customer and managers.
+
+Kevin: Reception might need some notes too.
+
+Sarah: Maybe not all notes.
+
+Maya: Sounds like we need to define note categories or permissions later.
+
+Sarah: Yes.
+
+Maya: Can staff write anything they want in the customer record?
+
+Sarah: Within reason.
+
+Nina: We should probably have audit logs if someone changes important customer information.
+
+Daniel: Which actions need auditing?
+
+Nina: Changes to appointments, customer records, staff schedules... maybe cancellations.
+
+Sarah: And refunds, if we add payments.
+
+Maya: Okay. Audit requirements need to be defined in more detail.
+
+Maya: How do staff schedules work?
+
+Kevin: Usually 9 to 6.
+
+Sarah: Different for some people.
+
+Kevin: And days off.
+
+Nina: Plus leave.
+
+Maya: So managers need to configure working hours and unavailable periods?
+
+Sarah: Yes.
+
+Kevin: Also lunch breaks.
+
+Maya: Should the system automatically prevent bookings during breaks?
+
+Kevin: Yes.
+
+Sarah: Definitely.
+
+Maya: What about emergency changes? For example, someone calls in sick after customers have already booked.
+
+Kevin: That's painful right now.
+
+Sarah: We normally call everyone and try to move them.
+
+Maya: Should the system automatically move their appointments to another stylist?
+
+Sarah: No.
+
+Kevin: Definitely not automatically.
+
+Sarah: Reception should decide.
+
+Maya: Could the system show alternative staff and time slots?
+
+Kevin: That would be useful.
+
+Sarah: Yes, suggestions are fine. Just don't automatically change customer appointments.
+
+Maya: Notifications when staff change something?
+
+Sarah: Customers should know if their appointment changes.
+
+Maya: Immediately?
+
+Sarah: Yes.
+
+Kevin: Maybe only after we confirm the change.
+
+Sarah: Obviously, yes.
+
+Maya: So when an appointment change is saved, send the customer a notification.
+
+Sarah: Correct.
+
+Daniel: What about permissions? Are all staff using the same admin account?
+
+Kevin: Currently, basically yes.
+
+Daniel: We shouldn't do that in the new system.
+
+Sarah: Agreed.
+
+Maya: What roles do you expect?
+
+Sarah: Admin, manager, receptionist and stylist.
+
+Maya: Different permissions for each?
+
+Sarah: Yes.
+
+Daniel: Can a stylist see other stylists' appointments?
+
+Sarah: Hmm.
+
+Kevin: They probably need to.
+
+Nina: Maybe only the schedule, not customer details.
+
+Maya: That needs a permission decision.
+
+Sarah: Yes.
+
+Maya: Any reporting requirements?
+
+Sarah: Definitely revenue reports.
+
+Daniel: Revenue would require payment information.
+
+Sarah: True.
+
+Nina: For the first version, maybe appointment reports: number of bookings, cancellations, no-shows, busiest services.
+
+Sarah: And busiest staff.
+
+Kevin: Maybe customer retention too.
+
+Maya: Do you have a definition for retention?
+
+Kevin: Not really.
+
+Maya: Okay, let's not invent one. We can define that later.
+
+Maya: You mentioned no-shows. How are those recorded?
+
+Kevin: We don't really record them properly.
+
+Sarah: We should.
+
+Maya: So staff should be able to mark an appointment as no-show?
+
+Sarah: Yes.
+
+Maya: And should anything happen automatically after multiple no-shows?
+
+Sarah: Maybe require a deposit.
+
+Nina: That's another policy we haven't decided.
+
+Maya: I'll record the ability to mark no-show as confirmed, but automated penalties as unresolved.
+
+Sarah: Correct.
+
+Maya: Is there anything the system absolutely must not do?
+
+Sarah: Don't automatically cancel or move appointments without staff confirmation.
+
+Kevin: And don't let customers book a stylist who's not working.
+
+Sarah: Yes.
+
+Nina: Customer information shouldn't be visible to everyone.
+
+Daniel: So we'll need role-based access control.
+
+Maya: Anything else?
+
+Sarah: I really don't want the system sending customers random messages because somebody accidentally edited something.
+
+Maya: So notifications should only be triggered by confirmed appointment changes.
+
+Sarah: Yes.
+
+Maya: For launch, what would make you say the system is successful?
+
+Sarah: If customers can book online and we're no longer double-booking people.
+
+Kevin: If reception can see one reliable schedule instead of checking the book, WhatsApp and Google Calendar.
+
+Nina: And if managers can control staff availability.
+
+Maya: Okay. Those sound like the main priorities.
+
+Daniel: One last technical question. Do we need to migrate all the existing customer data?
+
+Sarah: We have customer details in different places.
+
+Kevin: Some in Excel.
+
+Sarah: Some in the old POS.
+
+Maya: Do we know how much data?
+
+Sarah: No.
+
+Daniel: We'll need to inspect it before promising migration.
+
+Maya: So data migration is not confirmed until we assess the existing data.
+
+Sarah: Correct.
+
+Maya: I'll summarise what we've confirmed and separate it from things that still need decisions. I'll also include the exact meeting statements so you can verify where each requirement came from.
+
+Sarah: Perfect.
+
+Kevin: Yeah.
+
+Maya: Thanks everyone.
