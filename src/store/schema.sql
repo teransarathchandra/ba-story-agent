@@ -187,3 +187,13 @@ CREATE TABLE IF NOT EXISTS stage_checkpoints (
   updated_at TEXT NOT NULL,
   UNIQUE (session_id, stage)
 );
+
+CREATE TABLE IF NOT EXISTS speaker_role_overrides (
+  id TEXT PRIMARY KEY NOT NULL,
+  session_id TEXT NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
+  speaker_label TEXT NOT NULL,
+  role TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  UNIQUE (session_id, speaker_label)
+);
+CREATE INDEX IF NOT EXISTS idx_speaker_overrides_session ON speaker_role_overrides(session_id);

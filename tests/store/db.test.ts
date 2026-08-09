@@ -137,7 +137,7 @@ describe("openDb", () => {
 
     // Verify table count is unchanged (schema applied idempotently)
     expect(rows2.count).toBe(rows1.count);
-    expect(rows1.count).toBe(15); // 15 tables total
+    expect(rows1.count).toBe(16); // 16 tables total
   });
 
   it("adds llm_backend to a projects table that predates that column", () => {
