@@ -12,6 +12,11 @@ const LONG = Array.from({ length: 30 }, (_, i) =>
   `Client: statement number ${i} about invoice approval thresholds and routing rules in some detail`,
 ).join("\n\n");
 
+const LABELED = [
+  ...Array.from({ length: 20 }, (_, i) => `Maya: statement number ${i} about invoice approval thresholds and routing rules in detail`),
+  ...Array.from({ length: 20 }, (_, i) => `Sarah: reply number ${i} about invoice approval thresholds and routing rules in detail`),
+].join("\n\n");
+
 beforeEach(() => {
   dir = mkdtempSync(join(tmpdir(), "bsa-"));
   dbPath = join(dir, "test.db");
@@ -151,6 +156,61 @@ describe("cli", () => {
     const { getProject } = await import("../../src/store/projects.js");
     const db = openDb(dbPath);
     expect(getProject(db, projectId)?.llmBackend).toBe("claude");
+  });
+
+  it("session list-speakers lists each detected speaker as unconfirmed by default", async () => {
+    const projectOut = await run(["project", "create", "--name", "P", "--domain", "invoice approval for logistics operators"]);
+    const projectId = /prj_[0-9A-Z]+/.exec(projectOut)![0];
+    const file = join(dir, "labeled.txt");
+    writeFileSync(file, LABELED);
+    const sessionOut = await run(["session", "add", "--project", projectId, "--title", "Kickoff", "--file", file]);
+    const sessionId = /ses_[0-9A-Z]+/.exec(sessionOut)![0];
+
+    const out = await run(["session", "list-speakers", "--session", sessionId]);
+    expect(out).toMatch(/Maya: \(unconfirmed\)/);
+    expect(out).toMatch(/Sarah: \(unconfirmed\)/);
+  });
+
+  it("session set-speaker-roles persists roles and list-speakers reflects them afterward", async () => {
+    const projectOut = await run(["project", "create", "--name", "P", "--domain", "invoice approval for logistics operators"]);
+    const projectId = /prj_[0-9A-Z]+/.exec(projectOut)![0];
+    const file = join(dir, "labeled.txt");
+    writeFileSync(file, LABELED);
+    const sessionOut = await run(["session", "add", "--project", projectId, "--title", "Kickoff", "--file", file]);
+    const sessionId = /ses_[0-9A-Z]+/.exec(sessionOut)![0];
+
+    const setOut = await run(["session", "set-speaker-roles", "--session", sessionId, "--roles", "Maya=ba,Sarah=client"]);
+    expect(setOut).toMatch(/Set 2 speaker role/);
+
+    const listOut = await run(["session", "list-speakers", "--session", sessionId]);
+    expect(listOut).toMatch(/Maya: ba/);
+    expect(listOut).toMatch(/Sarah: client/);
+  });
+
+  it("session set-speaker-roles rejects a label that is not a detected speaker", async () => {
+    const projectOut = await run(["project", "create", "--name", "P", "--domain", "invoice approval for logistics operators"]);
+    const projectId = /prj_[0-9A-Z]+/.exec(projectOut)![0];
+    const file = join(dir, "labeled.txt");
+    writeFileSync(file, LABELED);
+    const sessionOut = await run(["session", "add", "--project", projectId, "--title", "Kickoff", "--file", file]);
+    const sessionId = /ses_[0-9A-Z]+/.exec(sessionOut)![0];
+
+    await expect(
+      run(["session", "set-speaker-roles", "--session", sessionId, "--roles", "NotReal=ba"]),
+    ).rejects.toThrow(/not a detected speaker/);
+  });
+
+  it("session set-speaker-roles rejects an invalid role value", async () => {
+    const projectOut = await run(["project", "create", "--name", "P", "--domain", "invoice approval for logistics operators"]);
+    const projectId = /prj_[0-9A-Z]+/.exec(projectOut)![0];
+    const file = join(dir, "labeled.txt");
+    writeFileSync(file, LABELED);
+    const sessionOut = await run(["session", "add", "--project", projectId, "--title", "Kickoff", "--file", file]);
+    const sessionId = /ses_[0-9A-Z]+/.exec(sessionOut)![0];
+
+    await expect(
+      run(["session", "set-speaker-roles", "--session", sessionId, "--roles", "Maya=not-a-real-role"]),
+    ).rejects.toThrow();
   });
 });
 

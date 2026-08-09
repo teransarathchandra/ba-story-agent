@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { openDb } from "../store/db.js";
 import { createProject, createSession, getProject, listSessions, setProjectDomain } from "../store/projects.js";
 import { createTranscript, freezeTranscript, getFrozenTranscript } from "../store/transcripts.js";
+import { listDetectedSpeakers, setSpeakerRoleOverrides } from "../store/speaker-overrides.js";
 import { countByStatus } from "../store/claims.js";
 import { listRequirements, listStories } from "../store/artifacts.js";
 import { listQuestions, listRecommendations } from "../store/findings.js";
@@ -19,7 +20,7 @@ import { markdownPublisher } from "../export/markdown.js";
 import { recordApproval } from "../store/audit.js";
 import { setRequirementStatus } from "../store/artifacts.js";
 import { hashText } from "../store/transcripts.js";
-import { RegulatoryContext, LlmBackendSetting } from "../types/domain.js";
+import { RegulatoryContext, LlmBackendSetting, SpeakerRole } from "../types/domain.js";
 
 type Log = (line: string) => void;
 
@@ -141,6 +142,45 @@ export function buildProgram(opts?: { log?: Log }): Command {
       const { transcript } = createTranscript(db, { sessionId: s.id, text });
       freezeTranscript(db, transcript.id);
       log(`Created session ${s.id} (${words} words, transcript ${transcript.id} frozen)`);
+    });
+
+  session
+    .command("list-speakers")
+    .description("list each speaker detected in a session's transcript, and their confirmed role if set")
+    .requiredOption("--session <id>")
+    .action(function (this: Command, o: { session: string }) {
+      const db = openDb(dbPath(this));
+      const speakers = listDetectedSpeakers(db, o.session);
+      if (speakers.length === 0) {
+        log("No labeled speakers detected in this session's transcript.");
+        return;
+      }
+      for (const sp of speakers) {
+        log(`${sp.label}: ${sp.confirmedRole ?? "(unconfirmed)"}`);
+      }
+    });
+
+  session
+    .command("set-speaker-roles")
+    .description("confirm each detected speaker's role — required before `analyze` will run on a session with labeled speakers")
+    .requiredOption("--session <id>")
+    .requiredOption("--roles <pairs>", 'comma-separated Label=role pairs, e.g. "Maya=ba,Sarah=client" (roles: client | ba | other | unknown)')
+    .action(function (this: Command, o: { session: string; roles: string }) {
+      const db = openDb(dbPath(this));
+      const detected = new Set(listDetectedSpeakers(db, o.session).map((sp) => sp.label));
+      const overrides = new Map<string, ReturnType<typeof SpeakerRole.parse>>();
+      for (const pair of o.roles.split(",")) {
+        const eq = pair.indexOf("=");
+        if (eq === -1) throw new Error(`malformed pair "${pair}" — expected Label=role`);
+        const label = pair.slice(0, eq).trim();
+        const role = pair.slice(eq + 1).trim();
+        if (!detected.has(label)) {
+          throw new Error(`"${label}" is not a detected speaker for this session`);
+        }
+        overrides.set(label, SpeakerRole.parse(role));
+      }
+      setSpeakerRoleOverrides(db, o.session, overrides);
+      log(`Set ${overrides.size} speaker role(s) for session ${o.session}.`);
     });
 
   program
