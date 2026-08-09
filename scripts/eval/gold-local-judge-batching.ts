@@ -88,7 +88,7 @@ function evidenceBatchCacheKey(candidateBatch: readonly GeneratedCandidate[], ju
     .digest("hex");
 }
 
-function buildCorrespondenceBatchPrompt(goldBatch: readonly GoldItem[], allCandidates: readonly GeneratedCandidate[]): { system: string; user: string } {
+export function buildCorrespondenceBatchPrompt(goldBatch: readonly GoldItem[], allCandidates: readonly GeneratedCandidate[]): { system: string; user: string } {
   const goldForPrompt = goldBatch.map((item) => ({
     id: item.id,
     category: item.category,
@@ -122,7 +122,7 @@ Set reviewedGoldIds to exactly ${JSON.stringify(goldIds)}. For each, decide if i
   return { system, user };
 }
 
-function buildEvidenceBatchPrompt(candidateBatch: readonly GeneratedCandidate[]): { system: string; user: string } {
+export function buildEvidenceBatchPrompt(candidateBatch: readonly GeneratedCandidate[]): { system: string; user: string } {
   const candidatesForPrompt = candidateBatch.map((c) => ({ id: c.id, bucket: c.bucket, text: c.text, quote: c.quote }));
   const ids = candidatesForPrompt.map((c) => c.id);
 
