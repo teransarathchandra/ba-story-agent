@@ -64,9 +64,11 @@ export const stage3Classify: Stage<PipelineState, PipelineState> = {
       for (const claim of claims) setClaimSpeakerRole(ctx.db, claim.id, claim.speakerRole);
     }
 
+    let classifyFailures = 0;
+
     for (let i = 0; i < claims.length; i += BATCH) {
       const batch = claims.slice(i, i + BATCH);
-      const result = await callTyped({
+      const buildArgs = () => ({
         client: ctx.client,
         db: ctx.db,
         sessionId: ctx.sessionId,
@@ -74,10 +76,31 @@ export const stage3Classify: Stage<PipelineState, PipelineState> = {
         system: CLASSIFY_SYSTEM,
         user: buildClassifyUser(batch, project),
         schema: ClassificationSchema,
-        effort: "high",
+        effort: "high" as const,
       });
 
-      const byIndex = new Map(result.classifications.map((c) => [c.index, c.kind]));
+      let result = await callTyped(buildArgs());
+      let byIndex = new Map(result.classifications.map((c) => [c.index, c.kind]));
+
+      // A batch-wide zero-coverage result is a distinct failure mode from a
+      // few individual index mismatches (which the fallback below already
+      // handles gracefully, per this file's original design): it means the
+      // model's classify call collapsed entirely for this batch — the same
+      // degenerate-empty phenomenon LocalBackend.generate() already retries
+      // internally (see isDegenerateEmpty in src/llm/local-client.ts), which
+      // can still exhaust its own retry ladder without success. One retry
+      // with a completely fresh call (a fresh generate(), which runs its own
+      // internal degenerate-empty retry ladder again) gives this batch a
+      // real second chance before every claim in it is silently demoted to
+      // "ambiguity" — which removes it from both requirement and assumption
+      // synthesis with no visible signal that classification ever failed.
+      if (byIndex.size === 0 && batch.length > 0) {
+        result = await callTyped(buildArgs());
+        byIndex = new Map(result.classifications.map((c) => [c.index, c.kind]));
+      }
+
+      if (byIndex.size === 0 && batch.length > 0) classifyFailures += batch.length;
+
       batch.forEach((claim, i) => {
         const modelKind = byIndex.get(i + 1) ?? "ambiguity";
         // Deterministic floor: hedged speech is never a requirement.
@@ -86,6 +109,6 @@ export const stage3Classify: Stage<PipelineState, PipelineState> = {
       });
     }
 
-    return state;
+    return { ...state, classifyFailures: state.classifyFailures + classifyFailures };
   },
 };

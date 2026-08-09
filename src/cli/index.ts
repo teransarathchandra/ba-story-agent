@@ -221,6 +221,14 @@ export function buildProgram(opts?: { log?: Log }): Command {
           log("");
           log("No requirements were found in this transcript.");
         }
+        if (state.classifyFailures > 0) {
+          log("");
+          log(
+            `Warning: ${state.classifyFailures} claim(s) could not be classified after retry ` +
+              `and were marked "ambiguity" instead of requirement/assumption — re-run analysis, ` +
+              `or review the ambiguity list manually.`,
+          );
+        }
       } finally {
         await release();
       }

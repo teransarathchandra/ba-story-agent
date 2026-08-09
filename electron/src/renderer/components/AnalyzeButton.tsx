@@ -153,6 +153,12 @@ export default function AnalyzeButton({ sessionId, sessionTitle, onComplete }: P
             Quarantine rate: {((result.quarantineRate ?? 0) * 100).toFixed(1)}%: check quarantine list.
           </div>
         )}
+        {(result.classifyFailures ?? 0) > 0 && (
+          <div className="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded px-2 py-1">
+            {result.classifyFailures} claim(s) could not be classified after retry and were marked
+            "ambiguity" — consider re-running analysis.
+          </div>
+        )}
       </div>
     )
   }

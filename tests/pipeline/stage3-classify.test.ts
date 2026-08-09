@@ -412,4 +412,57 @@ describe("stage3Classify speaker-role floor", () => {
     // first-speaker override rescues it anymore.
     expect(claim?.speakerRole).toBe("client");
   });
+
+  it("retries a batch that comes back with zero classifications, and applies the retry's real result", async () => {
+    const { ctx, ids } = setup(
+      ["invoices over ten thousand must go to a manager"],
+      // setup()'s parse mock only supports a single resolved value; override
+      // it here with a two-call sequence: first call degenerates to an empty
+      // classifications array (the local model's known failure mode — see
+      // isDegenerateEmpty in src/llm/local-client.ts), second call succeeds.
+      [],
+    );
+    const generate = ctx.client.generate as ReturnType<typeof vi.fn>;
+    generate.mockReset();
+    generate
+      .mockResolvedValueOnce({
+        raw: "{}",
+        parsedOutput: { classifications: [] },
+        requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+      })
+      .mockResolvedValueOnce({
+        raw: "{}",
+        parsedOutput: { classifications: [{ index: 1, kind: "requirement" }] },
+        requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+      });
+
+    const state = await stage3Classify.run(ctx, emptyState("t"));
+
+    expect(generate).toHaveBeenCalledTimes(2);
+    expect(listClaims(ctx.db, ctx.sessionId).find((c) => c.id === ids[0])?.kind).toBe("requirement");
+    expect(state.classifyFailures).toBe(0);
+  });
+
+  it("marks classifyFailures and falls back to ambiguity when the retry ALSO comes back empty", async () => {
+    const { ctx, ids } = setup(
+      ["invoices over ten thousand must go to a manager", "the customer confirmed the deadline"],
+      [],
+    );
+    const generate = ctx.client.generate as ReturnType<typeof vi.fn>;
+    generate.mockReset();
+    generate.mockResolvedValue({
+      raw: "{}",
+      parsedOutput: { classifications: [] },
+      requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+    });
+
+    const state = await stage3Classify.run(ctx, emptyState("t"));
+
+    // One retry attempt per batch, not an unbounded loop.
+    expect(generate).toHaveBeenCalledTimes(2);
+    const claims = listClaims(ctx.db, ctx.sessionId);
+    expect(claims.find((c) => c.id === ids[0])?.kind).toBe("ambiguity");
+    expect(claims.find((c) => c.id === ids[1])?.kind).toBe("ambiguity");
+    expect(state.classifyFailures).toBe(2);
+  });
 });
