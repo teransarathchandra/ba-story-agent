@@ -104,6 +104,7 @@ async function runAgainstBackend(backendLabel: string, client: LlmBackend): Prom
         projectId: project.id,
         sessionId: session.id,
         anthropicApiKey: process.env.ANTHROPIC_API_KEY,
+        judgeLog: (line) => process.stdout.write(`  [judge] ${line}\n`),
       });
       const artifactPath = persistArtifact(artifact);
       printGoldEvalReport(artifact, artifactPath);

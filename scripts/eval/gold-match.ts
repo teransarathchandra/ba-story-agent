@@ -3,14 +3,16 @@
 // semantic judge (one call, per design), validates its response's
 // coverage, computes every metric, and persists an audit artifact.
 //
-// This is real-LLM eval code (the judge call costs money) — it lives
-// alongside run-live-eval.ts's gating, not in npm test.
+// This is real-LLM eval code (the Claude judge path costs money; the local
+// judge path costs real inference time/compute) — it lives alongside
+// run-live-eval.ts's gating, not in npm test.
 import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { createClient } from "../../src/llm/client.js";
+import { loadLocalBackend } from "../../src/llm/local-client.js";
 import type { Db } from "../../src/store/db.js";
 import { listRequirements } from "../../src/store/artifacts.js";
 import { listQuestions } from "../../src/store/findings.js";
@@ -35,17 +37,64 @@ export const JUDGE_SCHEMA_VERSION = "v1";
  * generator happened to default to the same model.
  */
 export const DEFAULT_JUDGE_MODEL = "claude-sonnet-5";
+/**
+ * Default output-token ceiling for a LOCAL judge call — deliberately
+ * distinct from and much larger than LOCAL_MAX_TOKENS (2048, the
+ * production per-stage default in src/llm/local-client.ts): measured
+ * directly against the real frozen 06-salon-booking fixture + a real
+ * persisted 31-candidate pipeline output, the judge's GoldMatchSchema
+ * response is estimated at ~3,400 output tokens for that fixture alone —
+ * comfortably below this ceiling, but a fixture with more gold items or
+ * more generated candidates could need more. Overridable via
+ * EVAL_JUDGE_MAX_OUTPUT_TOKENS; this default is a generous starting
+ * point, not a measured maximum for every possible fixture.
+ */
+export const DEFAULT_JUDGE_MAX_OUTPUT_TOKENS = 8192;
 const EVAL_RUNS_DIR = ".eval-runs";
 
 export interface JudgeConfig {
   backendLabel: string;
   model: string;
+  /** LOCAL judge only — passed through to loadLocalBackend()'s contextSize. Undefined lets node-llama-cpp use the model's own trained context. */
+  contextSize?: number;
+  /** LOCAL judge only — passed through to loadLocalBackend()'s maxTokens (the output-token ceiling for the judge's one generate() call). */
+  maxOutputTokens?: number;
 }
 
+/**
+ * EVAL_JUDGE_BACKEND: "claude" (default) or "local". EVAL_JUDGE_MODEL: for
+ * "claude", any Claude model id (default DEFAULT_JUDGE_MODEL); for
+ * "local", an hf:/URL/local-path GGUF model URI resolved through
+ * loadLocalBackend() exactly like the production generator resolves
+ * CANDIDATE_MODEL_URI — genuinely independent judge and generator
+ * configuration, never sharing state (see checkJudgeIndependence, which
+ * compares the resolved model identifiers regardless of runtime — a local
+ * judge model and a local generator model both going through
+ * node-llama-cpp is still independent, since independence is about the
+ * MODEL, not the runtime). EVAL_JUDGE_CONTEXT_SIZE / EVAL_JUDGE_MAX_OUTPUT_TOKENS
+ * are local-only; both are parsed as integers and ignored (left undefined)
+ * if unset or non-numeric, in which case loadLocalBackend()'s own
+ * production-safe defaults apply.
+ */
 export function resolveJudgeConfig(): JudgeConfig {
+  const backendLabel = process.env.EVAL_JUDGE_BACKEND ?? "claude";
+  // DEFAULT_JUDGE_MODEL ("claude-sonnet-5") is a Claude model id — it is
+  // NEVER a sensible fallback for a local judge (it isn't a GGUF URI, and
+  // would either fail confusingly deep inside resolveModelFile() or, worse,
+  // attempt a nonsensical download). Only the "claude" backend gets that
+  // default; a "local" backend with no explicit EVAL_JUDGE_MODEL is left
+  // with model: "" so the caller can detect and report the real
+  // configuration error clearly instead of silently misconfiguring.
+  const model = process.env.EVAL_JUDGE_MODEL ?? (backendLabel === "claude" ? DEFAULT_JUDGE_MODEL : "");
+  const contextSizeRaw = process.env.EVAL_JUDGE_CONTEXT_SIZE;
+  const maxOutputTokensRaw = process.env.EVAL_JUDGE_MAX_OUTPUT_TOKENS;
+  const contextSize = contextSizeRaw ? Number.parseInt(contextSizeRaw, 10) : undefined;
+  const maxOutputTokens = maxOutputTokensRaw ? Number.parseInt(maxOutputTokensRaw, 10) : undefined;
   return {
-    backendLabel: process.env.EVAL_JUDGE_BACKEND ?? "claude",
-    model: process.env.EVAL_JUDGE_MODEL ?? DEFAULT_JUDGE_MODEL,
+    backendLabel,
+    model,
+    ...(contextSize !== undefined && Number.isFinite(contextSize) ? { contextSize } : {}),
+    ...(maxOutputTokens !== undefined && Number.isFinite(maxOutputTokens) ? { maxOutputTokens } : {}),
   };
 }
 
@@ -209,8 +258,15 @@ function cacheKeyFor(
   judge: JudgeConfig,
 ): string {
   const outputsHash = createHash("sha256").update(JSON.stringify(normalizedOutputs)).digest("hex");
+  // contextSize/maxOutputTokens are folded in alongside model — a change to
+  // either is a judge-configuration change, and per this design's own rule
+  // (a judge-config change starts a new eval series, never silently
+  // compared to a prior run), it must invalidate the cache too, not just a
+  // model-string change.
   return createHash("sha256")
-    .update(`${goldFixtureContentHash}|${outputsHash}|${judge.model}|${JUDGE_PROMPT_VERSION}|${JUDGE_SCHEMA_VERSION}`)
+    .update(
+      `${goldFixtureContentHash}|${outputsHash}|${judge.model}|${judge.contextSize ?? ""}|${judge.maxOutputTokens ?? ""}|${JUDGE_PROMPT_VERSION}|${JUDGE_SCHEMA_VERSION}`,
+    )
     .digest("hex");
 }
 
@@ -229,7 +285,7 @@ function saveCachedMatch(cacheKey: string, result: GoldMatchResult): void {
   writeFileSync(join(cacheDir(), `${cacheKey}.json`), JSON.stringify(result, null, 2));
 }
 
-async function callJudge(
+async function callClaudeJudge(
   client: Anthropic,
   model: string,
   system: string,
@@ -243,6 +299,47 @@ async function callJudge(
     messages: [{ role: "user", content: user }],
   });
   return GoldMatchSchema.parse(response.parsed_output);
+}
+
+/**
+ * The local-judge equivalent of callClaudeJudge — loads a SEPARATE local
+ * model (never the production generator's CANDIDATE_MODEL_URI, and never
+ * held loaded any longer than this one call) through the exact same
+ * node-llama-cpp runtime abstraction the production generator uses, via
+ * loadLocalBackend()'s modelUri/contextSize/sequences/maxTokens
+ * parameterization. `sequences: 1` because this is a single sequential
+ * call, not concurrent — no reason to allocate KV-cache slots for
+ * concurrency this call never uses. Loaded, used once, and released in a
+ * finally block: the judge model is never resident in memory alongside a
+ * fresh generator run, and for the historical-session evaluation path
+ * (scripts/eval/run-existing-session.ts) the generator is never loaded at
+ * all in the first place, so there is only ever the judge model loaded,
+ * never both.
+ */
+async function callLocalJudge(
+  judge: JudgeConfig,
+  system: string,
+  user: string,
+  log?: (line: string) => void,
+): Promise<GoldMatchResult> {
+  const { backend, release } = await loadLocalBackend({
+    modelUri: judge.model,
+    contextSize: judge.contextSize,
+    sequences: 1,
+    maxTokens: judge.maxOutputTokens ?? DEFAULT_JUDGE_MAX_OUTPUT_TOKENS,
+    log,
+  });
+  try {
+    const result = await backend.generate({ system, user, schema: GoldMatchSchema, effort: "high" });
+    if (result.parsedOutput === null || result.parsedOutput === undefined) {
+      throw new Error(
+        "local judge produced no schema-conforming output — the grammar-constrained decode may have collapsed to a degenerate result even after LocalBackend's internal retry ladder",
+      );
+    }
+    return GoldMatchSchema.parse(result.parsedOutput);
+  } finally {
+    await release();
+  }
 }
 
 function goldFixtureContentHash(fixture: GoldFixture): string {
@@ -284,6 +381,8 @@ export async function runGoldEval(opts: {
    * reinterpret that path's logic, it simply declines to enter it.
    */
   skipJudge?: boolean;
+  /** Forwarded to a local judge's loadLocalBackend() call for download-progress logging. Ignored for the Claude judge path. */
+  judgeLog?: (line: string) => void;
 }): Promise<EvalRunArtifact> {
   const generated = collectGeneratedCandidates(opts.db, opts.projectId, opts.sessionId);
   const allCandidates = [...generated.requirements, ...generated.questions, ...generated.assumptionClaims];
@@ -301,36 +400,45 @@ export async function runGoldEval(opts: {
     judgeField = { skipped: true, reason: "judge not requested for this run (deterministic-only invocation)" };
   } else {
     const judgeConfig = resolveJudgeConfig();
-    const independence = checkJudgeIndependence(opts.generator, judgeConfig);
 
-    if (!independence.independent) {
-      judgeField = { skipped: true, reason: independence.reason! };
+    if (judgeConfig.backendLabel !== "claude" && judgeConfig.backendLabel !== "local") {
+      judgeField = { skipped: true, reason: `unknown EVAL_JUDGE_BACKEND "${judgeConfig.backendLabel}" — expected "claude" or "local"` };
+    } else if (judgeConfig.backendLabel === "local" && judgeConfig.model === "") {
+      judgeField = { skipped: true, reason: "EVAL_JUDGE_BACKEND=local requires EVAL_JUDGE_MODEL to be set to a GGUF model URI/path — no default local judge model exists" };
     } else {
-      try {
-        const cacheKey = cacheKeyFor(fixtureHash, generated, judgeConfig);
-        matchResult = loadCachedMatch(cacheKey);
-        if (!matchResult) {
-          const { system, user } = buildJudgePrompt(opts.fixture, allCandidates);
-          const client = createClient({ apiKey: opts.anthropicApiKey });
-          matchResult = await callJudge(client, judgeConfig.model, system, user);
-          saveCachedMatch(cacheKey, matchResult);
-        }
+      const independence = checkJudgeIndependence(opts.generator, judgeConfig);
 
-        coverage = checkCoverage(
-          matchResult,
-          supportedItems(opts.fixture).map((i) => i.id),
-          allCandidates.map((c) => c.id),
-        );
-        judgeField = {
-          backendLabel: judgeConfig.backendLabel,
-          model: judgeConfig.model,
-          promptVersion: JUDGE_PROMPT_VERSION,
-          schemaVersion: JUDGE_SCHEMA_VERSION,
-          coverageValid: coverage.valid,
-          coverageErrors: coverage.errors,
-        };
-      } catch (err) {
-        judgeField = { skipped: true, reason: err instanceof Error ? err.message : String(err) };
+      if (!independence.independent) {
+        judgeField = { skipped: true, reason: independence.reason! };
+      } else {
+        try {
+          const cacheKey = cacheKeyFor(fixtureHash, generated, judgeConfig);
+          matchResult = loadCachedMatch(cacheKey);
+          if (!matchResult) {
+            const { system, user } = buildJudgePrompt(opts.fixture, allCandidates);
+            matchResult =
+              judgeConfig.backendLabel === "claude"
+                ? await callClaudeJudge(createClient({ apiKey: opts.anthropicApiKey }), judgeConfig.model, system, user)
+                : await callLocalJudge(judgeConfig, system, user, opts.judgeLog);
+            saveCachedMatch(cacheKey, matchResult);
+          }
+
+          coverage = checkCoverage(
+            matchResult,
+            supportedItems(opts.fixture).map((i) => i.id),
+            allCandidates.map((c) => c.id),
+          );
+          judgeField = {
+            backendLabel: judgeConfig.backendLabel,
+            model: judgeConfig.model,
+            promptVersion: JUDGE_PROMPT_VERSION,
+            schemaVersion: JUDGE_SCHEMA_VERSION,
+            coverageValid: coverage.valid,
+            coverageErrors: coverage.errors,
+          };
+        } catch (err) {
+          judgeField = { skipped: true, reason: err instanceof Error ? err.message : String(err) };
+        }
       }
     }
   }

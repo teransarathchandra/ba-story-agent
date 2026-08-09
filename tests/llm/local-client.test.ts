@@ -64,7 +64,7 @@ vi.mock("node-llama-cpp", () => ({
 }));
 
 import { getLlama, resolveModelFile } from "node-llama-cpp";
-import { LocalBackend, loadLocalBackend, MAX_CONCURRENT_SEQUENCES } from "../../src/llm/local-client.js";
+import { LocalBackend, loadLocalBackend, MAX_CONCURRENT_SEQUENCES, LOCAL_MAX_TOKENS } from "../../src/llm/local-client.js";
 
 describe("LocalBackend", () => {
   beforeEach(() => {
@@ -138,6 +138,28 @@ describe("LocalBackend", () => {
   it("reports the configured model identifier", () => {
     const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
     expect(backend.model).toBe("test-model");
+  });
+
+  it("uses LOCAL_MAX_TOKENS by default when no maxTokens override is given", async () => {
+    mockSession.prompt.mockResolvedValue('{"ok":"yes"}');
+    mockGrammar.parse.mockReturnValue({ ok: "yes" });
+
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model");
+    await backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) });
+
+    const call = (mockSession.prompt as ReturnType<typeof vi.fn>).mock.calls[0]!;
+    expect((call[1] as Record<string, unknown>).maxTokens).toBe(LOCAL_MAX_TOKENS);
+  });
+
+  it("uses a caller-supplied maxTokens override instead of LOCAL_MAX_TOKENS — e.g. for a judge whose output legitimately exceeds any single pipeline stage's ceiling", async () => {
+    mockSession.prompt.mockResolvedValue('{"ok":"yes"}');
+    mockGrammar.parse.mockReturnValue({ ok: "yes" });
+
+    const backend = new LocalBackend(mockLlama as never, mockModel as never, mockContext as never, "test-model", 16000);
+    await backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) });
+
+    const call = (mockSession.prompt as ReturnType<typeof vi.fn>).mock.calls[0]!;
+    expect((call[1] as Record<string, unknown>).maxTokens).toBe(16000);
   });
 
   it("retries at a bumped temperature when the first attempt is a degenerate-empty result, and returns the eventual non-empty output", async () => {
@@ -385,5 +407,67 @@ describe("loadLocalBackend", () => {
 
     expect(mockLoadedContext.dispose).toHaveBeenCalledTimes(1);
     expect(mockLlamaInstance.dispose).toHaveBeenCalledTimes(1);
+  });
+
+  it("resolves the default production model URI when no modelUri override is given", async () => {
+    const { release } = await loadLocalBackend();
+    expect(vi.mocked(resolveModelFile)).toHaveBeenCalledWith(
+      "hf:bartowski/Qwen2.5-7B-Instruct-GGUF/Qwen2.5-7B-Instruct-Q4_K_M.gguf",
+      expect.anything(),
+    );
+    await release();
+  });
+
+  it("resolves a caller-supplied modelUri instead of the production model — e.g. for loading a genuinely different eval-judge model", async () => {
+    const judgeUri = "hf:some-org/Llama-3.2-3B-Instruct-GGUF:Q4_K_M";
+    const { backend, release } = await loadLocalBackend({ modelUri: judgeUri });
+    expect(vi.mocked(resolveModelFile)).toHaveBeenCalledWith(judgeUri, expect.anything());
+    // The returned backend's own .model identifier reflects the requested
+    // judge model, not the production one — this is what
+    // checkJudgeIndependence() compares against the generator's model.
+    expect(backend.model).toBe(judgeUri);
+    await release();
+  });
+
+  it("passes a caller-supplied contextSize through to createContext, and omits it entirely when not given (so node-llama-cpp's own default applies)", async () => {
+    const { release: release1 } = await loadLocalBackend();
+    expect(mockLoadedModel.createContext).toHaveBeenLastCalledWith(
+      expect.not.objectContaining({ contextSize: expect.anything() }),
+    );
+    await release1();
+
+    vi.clearAllMocks();
+    mockLoadedModel.createContext.mockResolvedValue(mockLoadedContext as never);
+    const { release: release2 } = await loadLocalBackend({ contextSize: 16000 });
+    expect(mockLoadedModel.createContext).toHaveBeenCalledWith(expect.objectContaining({ contextSize: 16000 }));
+    await release2();
+  });
+
+  it("passes a caller-supplied sequences count through to createContext instead of the production MAX_CONCURRENT_SEQUENCES default — e.g. 1 for a single sequential judge call, avoiding unused KV-cache sequence-slot allocation", async () => {
+    const { release } = await loadLocalBackend({ sequences: 1 });
+    expect(mockLoadedModel.createContext).toHaveBeenCalledWith(expect.objectContaining({ sequences: 1 }));
+    await release();
+  });
+
+  it("threads a caller-supplied maxTokens through to the returned backend's generate() calls", async () => {
+    mockSession.prompt.mockResolvedValue('{"ok":"yes"}');
+    mockGrammar.parse.mockReturnValue({ ok: "yes" });
+    mockLoadedContext.getSequence.mockImplementation(() => makeMockSequence());
+    // This is the only test in this describe block that actually exercises
+    // backend.generate() (the others only assert on loadLocalBackend()'s
+    // own resolve/createContext/release plumbing), so it's the only one
+    // that needs the loaded llama instance's createGrammarForJsonSchema
+    // mocked — the module-level `mockLlama` used by the LocalBackend
+    // describe block above is a separate object from this describe
+    // block's `mockLlamaInstance` (the getLlama() return value).
+    (mockLlamaInstance as unknown as { createGrammarForJsonSchema: ReturnType<typeof vi.fn> }).createGrammarForJsonSchema =
+      vi.fn().mockResolvedValue(mockGrammar);
+
+    const { backend, release } = await loadLocalBackend({ maxTokens: 16000 });
+    await backend.generate({ system: "sys", user: "usr", schema: z.object({ ok: z.string() }) });
+
+    const call = (mockSession.prompt as ReturnType<typeof vi.fn>).mock.calls[0]!;
+    expect((call[1] as Record<string, unknown>).maxTokens).toBe(16000);
+    await release();
   });
 });

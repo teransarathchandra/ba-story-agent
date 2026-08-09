@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { openDb } from "../../src/store/db.js";
 import { createProject, createSession } from "../../src/store/projects.js";
 import { createTranscript, freezeTranscript } from "../../src/store/transcripts.js";
@@ -6,7 +6,7 @@ import { insertClaims } from "../../src/store/claims.js";
 import { insertRequirements } from "../../src/store/artifacts.js";
 import { insertQuestions } from "../../src/store/findings.js";
 import { newId } from "../../src/types/ids.js";
-import { collectGeneratedCandidates, checkJudgeIndependence, resolveJudgeConfig } from "../../scripts/eval/gold-match.js";
+import { collectGeneratedCandidates, checkJudgeIndependence, resolveJudgeConfig, runGoldEval } from "../../scripts/eval/gold-match.js";
 import { checkCoverage } from "../../src/eval/gold-coverage.js";
 import { computeGoldMetrics } from "../../src/eval/gold-metrics.js";
 import type { GoldFixture } from "../../src/eval/gold-schema.js";
@@ -300,5 +300,140 @@ describe("checkJudgeIndependence / resolveJudgeConfig — real env-driven defaul
   it("flags non-independence when generator and judge resolve to the identical model string", () => {
     const independence = checkJudgeIndependence({ backendLabel: "claude", model: "claude-sonnet-5" }, { backendLabel: "claude", model: "claude-sonnet-5" });
     expect(independence.independent).toBe(false);
+  });
+});
+
+describe("resolveJudgeConfig — local judge env-var resolution", () => {
+  // Save/restore every env var this suite touches, per-test, so mutating
+  // process.env here can never leak into a different test file's run
+  // (vitest runs test FILES in separate workers by default, but tests
+  // WITHIN this file still share one process.env, and this describe block
+  // sits alongside the "real env-driven defaults" block above, which reads
+  // process.env's ambient state too).
+  const ENV_KEYS = ["EVAL_JUDGE_BACKEND", "EVAL_JUDGE_MODEL", "EVAL_JUDGE_CONTEXT_SIZE", "EVAL_JUDGE_MAX_OUTPUT_TOKENS"] as const;
+  let saved: Record<string, string | undefined>;
+
+  beforeEach(() => {
+    saved = Object.fromEntries(ENV_KEYS.map((k) => [k, process.env[k]]));
+  });
+  afterEach(() => {
+    for (const k of ENV_KEYS) {
+      if (saved[k] === undefined) delete process.env[k];
+      else process.env[k] = saved[k];
+    }
+  });
+
+  it("never falls back to the Claude DEFAULT_JUDGE_MODEL for a local backend with no EVAL_JUDGE_MODEL set", () => {
+    process.env.EVAL_JUDGE_BACKEND = "local";
+    delete process.env.EVAL_JUDGE_MODEL;
+    const config = resolveJudgeConfig();
+    expect(config.backendLabel).toBe("local");
+    // Must be empty, not silently "claude-sonnet-5" (a Claude model id is
+    // never a valid GGUF URI) — runGoldEval() treats this empty string as
+    // its own explicit SKIPPED reason rather than attempting to resolve it.
+    expect(config.model).toBe("");
+  });
+
+  it("resolves EVAL_JUDGE_MODEL verbatim for a local backend", () => {
+    process.env.EVAL_JUDGE_BACKEND = "local";
+    process.env.EVAL_JUDGE_MODEL = "hf:some-org/Llama-3.2-3B-Instruct-GGUF:Q4_K_M";
+    const config = resolveJudgeConfig();
+    expect(config.model).toBe("hf:some-org/Llama-3.2-3B-Instruct-GGUF:Q4_K_M");
+  });
+
+  it("parses EVAL_JUDGE_CONTEXT_SIZE and EVAL_JUDGE_MAX_OUTPUT_TOKENS as integers when set", () => {
+    process.env.EVAL_JUDGE_BACKEND = "local";
+    process.env.EVAL_JUDGE_MODEL = "some-model";
+    process.env.EVAL_JUDGE_CONTEXT_SIZE = "16000";
+    process.env.EVAL_JUDGE_MAX_OUTPUT_TOKENS = "6000";
+    const config = resolveJudgeConfig();
+    expect(config.contextSize).toBe(16000);
+    expect(config.maxOutputTokens).toBe(6000);
+  });
+
+  it("leaves contextSize/maxOutputTokens undefined (not NaN, not 0) when the env vars are unset", () => {
+    delete process.env.EVAL_JUDGE_CONTEXT_SIZE;
+    delete process.env.EVAL_JUDGE_MAX_OUTPUT_TOKENS;
+    const config = resolveJudgeConfig();
+    expect(config.contextSize).toBeUndefined();
+    expect(config.maxOutputTokens).toBeUndefined();
+  });
+
+  it("leaves contextSize undefined (does not silently coerce to NaN) when the env var is set but non-numeric", () => {
+    process.env.EVAL_JUDGE_CONTEXT_SIZE = "not-a-number";
+    const config = resolveJudgeConfig();
+    expect(config.contextSize).toBeUndefined();
+  });
+
+  it("defaults EVAL_JUDGE_BACKEND to claude when unset", () => {
+    delete process.env.EVAL_JUDGE_BACKEND;
+    const config = resolveJudgeConfig();
+    expect(config.backendLabel).toBe("claude");
+  });
+});
+
+describe("runGoldEval — local-judge validation branches never reach loadLocalBackend (no download risk)", () => {
+  const ENV_KEYS = ["EVAL_JUDGE_BACKEND", "EVAL_JUDGE_MODEL"] as const;
+  let saved: Record<string, string | undefined>;
+
+  beforeEach(() => {
+    saved = Object.fromEntries(ENV_KEYS.map((k) => [k, process.env[k]]));
+  });
+  afterEach(() => {
+    for (const k of ENV_KEYS) {
+      if (saved[k] === undefined) delete process.env[k];
+      else process.env[k] = saved[k];
+    }
+  });
+
+  const emptyFixture: GoldFixture = {
+    fixtureName: "empty",
+    transcriptFile: "n/a",
+    frozenMarkdownContentHash: "n/a",
+    items: [],
+    unsupportedDetailChecks: [],
+    answeredQuestionChecks: [],
+  };
+
+  function seedEmptyProject() {
+    const db = openDb(":memory:");
+    const project = createProject(db, { name: "P", domain: "test domain for runGoldEval validation" });
+    return { db, projectId: project.id };
+  }
+
+  it("reports SKIPPED with a clear reason for an unknown EVAL_JUDGE_BACKEND, without attempting any model load", async () => {
+    process.env.EVAL_JUDGE_BACKEND = "not-a-real-backend";
+    process.env.EVAL_JUDGE_MODEL = "irrelevant";
+    const { db, projectId } = seedEmptyProject();
+
+    const artifact = await runGoldEval({
+      fixture: emptyFixture,
+      generator: { backendLabel: "claude", model: "claude-opus-5" },
+      db,
+      projectId,
+    });
+
+    expect(artifact.judge).toMatchObject({ skipped: true });
+    if ("skipped" in artifact.judge) {
+      expect(artifact.judge.reason).toMatch(/unknown EVAL_JUDGE_BACKEND/);
+    }
+  });
+
+  it("reports SKIPPED with a clear reason when EVAL_JUDGE_BACKEND=local has no EVAL_JUDGE_MODEL set, without attempting any model load", async () => {
+    process.env.EVAL_JUDGE_BACKEND = "local";
+    delete process.env.EVAL_JUDGE_MODEL;
+    const { db, projectId } = seedEmptyProject();
+
+    const artifact = await runGoldEval({
+      fixture: emptyFixture,
+      generator: { backendLabel: "claude", model: "claude-opus-5" },
+      db,
+      projectId,
+    });
+
+    expect(artifact.judge).toMatchObject({ skipped: true });
+    if ("skipped" in artifact.judge) {
+      expect(artifact.judge.reason).toMatch(/EVAL_JUDGE_MODEL/);
+    }
   });
 });

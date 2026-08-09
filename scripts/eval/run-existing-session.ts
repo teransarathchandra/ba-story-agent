@@ -23,10 +23,14 @@
 //     --session-id ses_XXXXXXXXXXXXXXXXXXXXXXXXXX \
 //     --fixture 06-salon-booking
 //
-// Add --with-judge to also make the one real judge call (costs money,
-// requires ANTHROPIC_API_KEY) — omitted by default, so a bare invocation
-// makes zero external model calls and every judge-dependent metric
-// reports SKIPPED.
+// Add --with-judge to also make the one real judge call — omitted by
+// default, so a bare invocation makes zero external model calls and every
+// judge-dependent metric reports SKIPPED. The judge itself is configured
+// via env vars (scripts/eval/gold-match.ts's resolveJudgeConfig()):
+//   EVAL_JUDGE_BACKEND=claude (default, costs money, needs ANTHROPIC_API_KEY)
+//   EVAL_JUDGE_BACKEND=local  (no API key, no per-call cost — needs
+//     EVAL_JUDGE_MODEL set to a GGUF URI/path; EVAL_JUDGE_CONTEXT_SIZE and
+//     EVAL_JUDGE_MAX_OUTPUT_TOKENS are optional local-only overrides)
 import Database from "better-sqlite3";
 import { loadGoldFixture } from "../../src/eval/gold-schema.js";
 import { runGoldEval, persistArtifact } from "./gold-match.js";
@@ -82,6 +86,7 @@ async function main() {
     projectId,
     sessionId,
     skipJudge: !withJudge,
+    judgeLog: (line) => process.stdout.write(`  [judge] ${line}\n`),
   });
 
   const artifactPath = persistArtifact(artifact);

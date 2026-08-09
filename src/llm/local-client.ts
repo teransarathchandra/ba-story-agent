@@ -104,6 +104,15 @@ export class LocalBackend implements LlmBackend {
     private readonly llamaModel: LlamaModel,
     private readonly context: LlamaContext,
     readonly model: string,
+    // Defaults to the production LOCAL_MAX_TOKENS ceiling (derived from
+    // this project's real CPU throughput measurement, see the doc comment
+    // on that constant) — overridable per-instance for a caller whose
+    // expected output is legitimately larger than any single pipeline
+    // stage's, e.g. the eval judge's GoldMatchSchema response, which can
+    // run to several thousand tokens for a rich fixture. Never changes
+    // production stage-call behavior: loadLocalBackend()'s default path
+    // still resolves to LOCAL_MAX_TOKENS unchanged.
+    private readonly maxTokens: number = LOCAL_MAX_TOKENS,
   ) {}
 
   async generate(args: {
@@ -172,7 +181,7 @@ export class LocalBackend implements LlmBackend {
         const temperature = BASE_TEMPERATURE + attempt * TEMPERATURE_STEP;
 
         try {
-          raw = await session.prompt(args.user, { grammar, temperature, maxTokens: LOCAL_MAX_TOKENS });
+          raw = await session.prompt(args.user, { grammar, temperature, maxTokens: this.maxTokens });
         } finally {
           // Each attempt's session holds chat history and engine resources
           // until disposed; across up to MAX_EMPTY_RETRIES+1 attempts per
@@ -236,15 +245,37 @@ export class LocalBackend implements LlmBackend {
  * run, release after — reloading a multi-GB model per stage call would be
  * far too slow. Download progress reports through the same Log callback
  * pattern buildProgram already uses elsewhere in the CLI.
+ *
+ * Every option beyond `log` defaults to today's production behavior
+ * unchanged — this exists so a SEPARATE caller (the gold-eval harness's
+ * local semantic judge, scripts/eval/gold-match.ts) can load a genuinely
+ * different model, with its own context size and output-token ceiling,
+ * through this exact same runtime abstraction, without touching or
+ * risking the production generator path at all. The production model
+ * (CANDIDATE_MODEL_URI, the app's one hardcoded generator) is never
+ * overridden by anything in this codebase's own production call sites
+ * (electron/src/main/ipc.ts, src/cli/index.ts) — only eval code ever
+ * passes `modelUri`.
  */
-export async function loadLocalBackend(opts?: { log?: Log }): Promise<{
+export async function loadLocalBackend(opts?: {
+  log?: Log;
+  /** Overrides CANDIDATE_MODEL_URI — for loading a genuinely different model (e.g. an eval judge), never used by production call sites. */
+  modelUri?: string;
+  /** Passed through to LlamaContextOptions.contextSize; omitted keeps node-llama-cpp's own default (the model's trained context, e.g. 32768 for Qwen2.5-7B per the local-llm spike). */
+  contextSize?: number;
+  /** Passed through to LlamaContextOptions.sequences; defaults to MAX_CONCURRENT_SEQUENCES (production's concurrency ceiling — see stage7-critique.ts). A single-call, non-concurrent caller like the eval judge should pass 1 to avoid allocating unused KV-cache sequence slots. */
+  sequences?: number;
+  /** Overrides LOCAL_MAX_TOKENS for this backend's generate() calls — see LocalBackend's constructor doc comment for why a caller like the eval judge needs a larger ceiling than any single pipeline stage. */
+  maxTokens?: number;
+}): Promise<{
   backend: LocalBackend;
   release: () => Promise<void>;
 }> {
   const log = opts?.log ?? (() => {});
+  const modelUri = opts?.modelUri ?? CANDIDATE_MODEL_URI;
   const { getLlama, resolveModelFile } = await loadNodeLlamaCpp();
 
-  const modelPath = await resolveModelFile(CANDIDATE_MODEL_URI, {
+  const modelPath = await resolveModelFile(modelUri, {
     cli: false,
     onProgress: (status) => {
       const pct = status.totalSize > 0 ? ((status.downloadedSize / status.totalSize) * 100).toFixed(1) : "?";
@@ -267,13 +298,16 @@ export async function loadLocalBackend(opts?: { log?: Log }): Promise<{
     // than sharing one for this backend's lifetime, so the context needs
     // enough sequence slots for all of those calls to run at once, or
     // context.getSequence() throws for the callers beyond the first.
-    context = await model.createContext({ sequences: MAX_CONCURRENT_SEQUENCES });
+    context = await model.createContext({
+      sequences: opts?.sequences ?? MAX_CONCURRENT_SEQUENCES,
+      ...(opts?.contextSize !== undefined ? { contextSize: opts.contextSize } : {}),
+    });
   } catch (err) {
     await model.dispose();
     throw err;
   }
 
-  const backend = new LocalBackend(llama, model, context, CANDIDATE_MODEL_URI);
+  const backend = new LocalBackend(llama, model, context, modelUri, opts?.maxTokens);
   const release = async () => {
     // Staged cleanup of three separate native/OS resources (the context's
     // KV cache, the loaded model weights, and the llama.cpp runtime itself)
