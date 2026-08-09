@@ -65,6 +65,7 @@ import { createProject, createSession } from '../../../src/store/projects.js'
 import { createTranscript, freezeTranscript } from '../../../src/store/transcripts.js'
 import { insertClaims } from '../../../src/store/claims.js'
 import { newId } from '../../../src/types/ids.js'
+import { setSpeakerRoleOverrides } from '../../../src/store/speaker-overrides.js'
 
 describe('session:analyze (real ipc.ts handler, via setupIpc)', () => {
   let db: ReturnType<typeof openDb>
@@ -171,5 +172,79 @@ describe('assumption:list (real ipc.ts handler)', () => {
     const result = await handler({}, project.id)
     expect(result).toHaveLength(1)
     expect(result[0].speakerRole).toBe('client')
+  })
+})
+
+describe('speaker:list / speaker:setRoles (real ipc.ts handlers)', () => {
+  let db: ReturnType<typeof openDb>
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    handlers.clear()
+    db = openDb(':memory:')
+    const { setupIpc } = await import('../../src/main/ipc.js')
+    setupIpc()
+  })
+
+  it('speaker:list returns each detected speaker with confirmedRole null by default', async () => {
+    const project = createProject(db, { name: 'P', domain: 'salon scheduling', llmBackend: 'local' })
+    const session = createSession(db, { projectId: project.id, title: 'S' })
+    const { transcript } = createTranscript(db, {
+      sessionId: session.id,
+      text: 'Maya: hi everyone\n\nSarah: hello',
+    })
+    freezeTranscript(db, transcript.id)
+    const handler = handlers.get('speaker:list')!
+    const result = await handler({}, session.id)
+    expect(result).toEqual([
+      { label: 'Maya', confirmedRole: null },
+      { label: 'Sarah', confirmedRole: null },
+    ])
+  })
+
+  it('speaker:setRoles persists valid roles and speaker:list reflects them afterward', async () => {
+    const project = createProject(db, { name: 'P', domain: 'salon scheduling', llmBackend: 'local' })
+    const session = createSession(db, { projectId: project.id, title: 'S' })
+    const { transcript } = createTranscript(db, {
+      sessionId: session.id,
+      text: 'Maya: hi everyone\n\nSarah: hello',
+    })
+    freezeTranscript(db, transcript.id)
+    const setHandler = handlers.get('speaker:setRoles')!
+    const result = await setHandler({}, { sessionId: session.id, roles: { Maya: 'ba', Sarah: 'client' } })
+    expect(result).toEqual({ saved: true })
+
+    const listHandler = handlers.get('speaker:list')!
+    const speakers = await listHandler({}, session.id)
+    expect(speakers).toEqual([
+      { label: 'Maya', confirmedRole: 'ba' },
+      { label: 'Sarah', confirmedRole: 'client' },
+    ])
+  })
+
+  it('speaker:setRoles rejects a label that is not actually a detected speaker for this session', async () => {
+    const project = createProject(db, { name: 'P', domain: 'salon scheduling', llmBackend: 'local' })
+    const session = createSession(db, { projectId: project.id, title: 'S' })
+    const { transcript } = createTranscript(db, {
+      sessionId: session.id,
+      text: 'Maya: hi everyone',
+    })
+    freezeTranscript(db, transcript.id)
+    const setHandler = handlers.get('speaker:setRoles')!
+    await expect(setHandler({}, { sessionId: session.id, roles: { NotARealSpeaker: 'ba' } }))
+      .rejects.toThrow(/not a detected speaker/)
+  })
+
+  it('speaker:setRoles rejects an invalid role value', async () => {
+    const project = createProject(db, { name: 'P', domain: 'salon scheduling', llmBackend: 'local' })
+    const session = createSession(db, { projectId: project.id, title: 'S' })
+    const { transcript } = createTranscript(db, {
+      sessionId: session.id,
+      text: 'Maya: hi everyone',
+    })
+    freezeTranscript(db, transcript.id)
+    const setHandler = handlers.get('speaker:setRoles')!
+    await expect(setHandler({}, { sessionId: session.id, roles: { Maya: 'not-a-real-role' } }))
+      .rejects.toThrow()
   })
 })

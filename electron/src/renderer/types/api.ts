@@ -42,6 +42,11 @@ export interface TranscriptAmendmentResult {
   }
 }
 
+export interface DetectedSpeaker {
+  label: string
+  confirmedRole: string | null
+}
+
 export interface Requirement {
   id: string
   projectId: string
@@ -166,6 +171,10 @@ declare global {
           sessionId: string; transcriptText: string
         }) => Promise<TranscriptAmendmentResult>
         delete: (id: string) => Promise<{ deleted: boolean }>
+      }
+      speaker: {
+        list: (sessionId: string) => Promise<DetectedSpeaker[]>
+        setRoles: (data: { sessionId: string; roles: Record<string, string> }) => Promise<{ saved: boolean }>
       }
       requirement: {
         list: (projectId: string) => Promise<Requirement[]>

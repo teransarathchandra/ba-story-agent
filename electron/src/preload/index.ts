@@ -18,6 +18,10 @@ const api = {
     amendTranscript: (data: any) => ipcRenderer.invoke('session:amend-transcript', data),
     delete: (id: string) => ipcRenderer.invoke('session:delete', id),
   },
+  speaker: {
+    list: (sessionId: string) => ipcRenderer.invoke('speaker:list', sessionId),
+    setRoles: (data: any) => ipcRenderer.invoke('speaker:setRoles', data),
+  },
   requirement: {
     list: (projectId: string) => ipcRenderer.invoke('requirement:list', projectId),
     approve: (data: any) => ipcRenderer.invoke('requirement:approve', data),

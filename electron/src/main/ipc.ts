@@ -33,6 +33,8 @@ import type { LlmBackend } from '../../../src/llm/backend.js'
 import { countWords, MIN_WORDS } from '../../../src/pipeline/stage0-chunk.js'
 import { RegulatoryContext } from '../../../src/types/domain.js'
 import { seedDemoWorkspace } from './demo-data.js'
+import { listDetectedSpeakers, setSpeakerRoleOverrides } from '../../../src/store/speaker-overrides.js'
+import { SpeakerRole } from '../../../src/types/domain.js'
 
 let _db: ReturnType<typeof openDb> | null = null
 
@@ -220,6 +222,35 @@ export function setupIpc(): void {
     } finally {
       await release()
     }
+  })
+
+  // ─── Speaker Roles ────────────────────────────────────────────────────────
+
+  ipcMain.handle('speaker:list', async (_event, sessionId: string) => {
+    const db = getDb()
+    return listDetectedSpeakers(db, sessionId)
+  })
+
+  ipcMain.handle('speaker:setRoles', async (_event, data: {
+    sessionId: string; roles: Record<string, string>
+  }) => {
+    const db = getDb()
+    // Project is derived from listDetectedSpeakers itself (session-scoped),
+    // not taken on faith from the caller — any label not actually detected
+    // for this session is rejected rather than silently stored, so a stale
+    // client or a bug can never leave an orphan override row.
+    const detected = new Set(listDetectedSpeakers(db, data.sessionId).map(sp => sp.label))
+    for (const label of Object.keys(data.roles)) {
+      if (!detected.has(label)) {
+        throw new Error(`"${label}" is not a detected speaker for this session`)
+      }
+    }
+    setSpeakerRoleOverrides(
+      db,
+      data.sessionId,
+      new Map(Object.entries(data.roles).map(([label, role]) => [label, SpeakerRole.parse(role)])),
+    )
+    return { saved: true }
   })
 
   // ─── Requirements ─────────────────────────────────────────────────────────
