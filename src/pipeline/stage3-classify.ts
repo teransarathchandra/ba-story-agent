@@ -6,6 +6,7 @@ import { callTyped } from "../llm/parse.js";
 import { CLASSIFY_SYSTEM, buildClassifyUser } from "../prompts/classify.js";
 import { applySpeakerRoleFloor } from "./stage1-extract.js";
 import { getFrozenTranscript } from "../store/transcripts.js";
+import { getSpeakerRoleOverrides } from "../store/speaker-overrides.js";
 import type { PipelineState } from "./state.js";
 import type { Stage } from "./runner.js";
 
@@ -54,11 +55,12 @@ export const stage3Classify: Stage<PipelineState, PipelineState> = {
     const frozen = getFrozenTranscript(ctx.db, ctx.sessionId);
     if (frozen) {
       const segmentLabels = new Map(frozen.segments.map((s) => [s.id, s.speakerLabel]));
-      // frozen.segments is already ordered by idx ASC (see getFrozenTranscript),
-      // so the first entry with a non-null label is the transcript's first
-      // identified speaker.
-      const firstSpeakerLabel = frozen.segments.find((s) => s.speakerLabel)?.speakerLabel ?? null;
-      applySpeakerRoleFloor(claims, segmentLabels, firstSpeakerLabel);
+      // The automatic first-speaker-is-analyst heuristic is intentionally not
+      // invoked here anymore (see applySpeakerRoleFloor's comment) — the
+      // session-confirmed override, read fresh from the DB on every call, is
+      // the real correction mechanism now.
+      const sessionOverrides = getSpeakerRoleOverrides(ctx.db, ctx.sessionId);
+      applySpeakerRoleFloor(claims, segmentLabels, undefined, sessionOverrides);
       for (const claim of claims) setClaimSpeakerRole(ctx.db, claim.id, claim.speakerRole);
     }
 

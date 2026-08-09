@@ -3,6 +3,7 @@ import { openDb } from "../../src/store/db.js";
 import { createProject, createSession } from "../../src/store/projects.js";
 import { createTranscript, freezeTranscript, getFrozenTranscript } from "../../src/store/transcripts.js";
 import { insertClaims, listClaims } from "../../src/store/claims.js";
+import { setSpeakerRoleOverrides } from "../../src/store/speaker-overrides.js";
 import { stage3Classify } from "../../src/pipeline/stage3-classify.js";
 import { emptyState } from "../../src/pipeline/state.js";
 import { newId } from "../../src/types/ids.js";
@@ -328,7 +329,7 @@ describe("stage3Classify speaker-role floor", () => {
     expect(ids).toHaveLength(1); // guard: setup() ran as expected
   });
 
-  it("corrects a speaker the model was wrong about on every single claim, via the first-speaker override", async () => {
+  it("corrects a speaker the model was wrong about on every single claim, via an explicit session override", async () => {
     const db = openDb(":memory:");
     const p = createProject(db, { name: "P", domain: "salon scheduling" });
     const s = createSession(db, { projectId: p.id, title: "S" });
@@ -358,6 +359,10 @@ describe("stage3Classify speaker-role floor", () => {
       matchMode: "exact" as const, createdAt: now,
     })));
 
+    // The user confirms Maya's role via the session override — the automatic
+    // first-speaker heuristic that used to do this was removed.
+    setSpeakerRoleOverrides(db, s.id, new Map([["Maya", "ba"]]));
+
     const parse = vi.fn().mockResolvedValue({
       raw: "{}",
       parsedOutput: { classifications: mayaSegmentIndices.map((_, i) => ({ index: i + 1, kind: "ambiguity" })) },
@@ -367,7 +372,44 @@ describe("stage3Classify speaker-role floor", () => {
     await stage3Classify.run(ctx, emptyState("t"));
 
     const claims = listClaims(db, s.id);
-    expect(claims.length).toBeGreaterThan(0); // guard: fixture produced Maya claims
+    expect(claims.length).toBeGreaterThan(0);
     for (const claim of claims) expect(claim.speakerRole).toBe("ba");
+  });
+
+  it("no longer auto-corrects a wrong first speaker without an explicit session override", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "salon scheduling" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const text =
+      "Maya: Okay, thanks everyone. The main thing I want to understand today is how appointments work.\n\n" +
+      "Sarah: Sure, happy to explain.";
+    const { transcript, segments } = createTranscript(db, { sessionId: s.id, text });
+    freezeTranscript(db, transcript.id);
+
+    const now = new Date().toISOString();
+    const mayaSegment = segments.find((seg) => seg.speakerLabel === "Maya")!;
+    const claimId = newId("clm");
+    insertClaims(db, [{
+      id: claimId, sessionId: s.id, transcriptId: transcript.id,
+      segmentId: mayaSegment.id, quote: "Okay, thanks everyone.",
+      statement: "s", speakerRole: "client" as const, kind: "requirement" as const,
+      status: "validated" as const, charStart: 0, charEnd: 1,
+      matchMode: "exact" as const, createdAt: now,
+    }]);
+
+    // No setSpeakerRoleOverrides call — Maya (the first speaker) is left
+    // unconfirmed on purpose, to prove the old automatic override no longer fires.
+    const parse = vi.fn().mockResolvedValue({
+      raw: "{}",
+      parsedOutput: { classifications: [{ index: 1, kind: "ambiguity" }] },
+      requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+    });
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
+    await stage3Classify.run(ctx, emptyState("t"));
+
+    const [claim] = listClaims(db, s.id);
+    // Majority vote of one keeps the model's own (wrong) guess — no
+    // first-speaker override rescues it anymore.
+    expect(claim?.speakerRole).toBe("client");
   });
 });

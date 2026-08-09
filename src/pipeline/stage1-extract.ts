@@ -34,6 +34,7 @@ export function applySpeakerRoleFloor(
   claims: Claim[],
   segmentLabels: Map<string, string | null>,
   firstSpeakerLabel?: string | null,
+  sessionOverrides?: Map<string, Claim["speakerRole"]>,
 ): void {
   const tally = new Map<string, Record<Claim["speakerRole"], number>>();
   for (const c of claims) {
@@ -60,7 +61,19 @@ export function applySpeakerRoleFloor(
   // unanimous wrong vote, so this overrides that one label's result rather
   // than adding it as another vote (a small number of synthetic votes could
   // never outweigh a lopsided real majority).
+  //
+  // As of the speaker-role-confirmation-modal plan, `firstSpeakerLabel` is
+  // never invoked with a real value by the pipeline anymore — the heuristic
+  // proved unreliable in real usage (client-side participants often speak
+  // first, not the analyst). The parameter stays because it is still
+  // directly, correctly unit-tested above; removing it would be a bigger
+  // diff than simply not calling it. `sessionOverrides` (explicit,
+  // user-confirmed roles) is the real mechanism now, and is applied last so
+  // it always wins over both the heuristic and the plain majority vote.
   if (firstSpeakerLabel) majorityByLabel.set(firstSpeakerLabel, "ba");
+  if (sessionOverrides) {
+    for (const [label, role] of sessionOverrides) majorityByLabel.set(label, role);
+  }
 
   for (const c of claims) {
     const label = segmentLabels.get(c.segmentId);

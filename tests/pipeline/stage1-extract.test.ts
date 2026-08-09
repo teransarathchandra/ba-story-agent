@@ -153,6 +153,62 @@ describe("applySpeakerRoleFloor", () => {
     expect(claims[0]?.speakerRole).toBe("client");
   });
 
+  it("applies a session override, taking priority over the majority vote", () => {
+    const claims = [
+      { id: "c1", segmentId: "seg_1", speakerRole: "client" },
+      { id: "c2", segmentId: "seg_1", speakerRole: "client" },
+    ] as unknown as Claim[];
+    const labels = new Map<string, string | null>([["seg_1", "Kevin"]]);
+    const overrides = new Map<string, Claim["speakerRole"]>([["Kevin", "ba"]]);
+    applySpeakerRoleFloor(claims, labels, undefined, overrides);
+    expect(claims.map((c) => c.speakerRole)).toEqual(["ba", "ba"]);
+  });
+
+  it("applies a session override even against a unanimous wrong vote", () => {
+    const claims = [
+      { id: "c1", segmentId: "seg_maya", speakerRole: "client" },
+      { id: "c2", segmentId: "seg_maya", speakerRole: "client" },
+      { id: "c3", segmentId: "seg_maya", speakerRole: "client" },
+    ] as unknown as Claim[];
+    const labels = new Map<string, string | null>([["seg_maya", "Maya"]]);
+    const overrides = new Map<string, Claim["speakerRole"]>([["Maya", "ba"]]);
+    applySpeakerRoleFloor(claims, labels, undefined, overrides);
+    expect(claims.map((c) => c.speakerRole)).toEqual(["ba", "ba", "ba"]);
+  });
+
+  it("leaves ordinary majority-vote labels untouched when they have no session override", () => {
+    const claims = [
+      { id: "c1", segmentId: "seg_maya", speakerRole: "ba" },
+      { id: "c2", segmentId: "seg_sarah1", speakerRole: "client" },
+      { id: "c3", segmentId: "seg_sarah2", speakerRole: "ba" },
+      { id: "c4", segmentId: "seg_sarah3", speakerRole: "client" },
+    ] as unknown as Claim[];
+    const labels = new Map<string, string | null>([
+      ["seg_maya", "Maya"],
+      ["seg_sarah1", "Sarah"], ["seg_sarah2", "Sarah"], ["seg_sarah3", "Sarah"],
+    ]);
+    const overrides = new Map<string, Claim["speakerRole"]>([["Maya", "ba"]]);
+    applySpeakerRoleFloor(claims, labels, undefined, overrides);
+    // Maya's override wins (redundant with her existing role here, but proves
+    // the override path). Sarah has no override, so ordinary majority vote
+    // (2 client vs 1 ba) still resolves her claims to "client".
+    expect(claims.map((c) => c.speakerRole)).toEqual(["ba", "client", "client", "client"]);
+  });
+
+  it("has no effect when sessionOverrides is omitted (backward compatible)", () => {
+    const claims = [{ id: "c1", segmentId: "seg_1", speakerRole: "client" }] as unknown as Claim[];
+    const labels = new Map<string, string | null>([["seg_1", "Kevin"]]);
+    applySpeakerRoleFloor(claims, labels);
+    expect(claims[0]?.speakerRole).toBe("client");
+  });
+
+  it("has no effect when sessionOverrides is an empty Map", () => {
+    const claims = [{ id: "c1", segmentId: "seg_1", speakerRole: "client" }] as unknown as Claim[];
+    const labels = new Map<string, string | null>([["seg_1", "Kevin"]]);
+    applySpeakerRoleFloor(claims, labels, undefined, new Map());
+    expect(claims[0]?.speakerRole).toBe("client");
+  });
+
   it("breaks a tie in favor of the first-listed role (client)", () => {
     const claims = [
       { id: "c1", segmentId: "seg_1", speakerRole: "client" },
