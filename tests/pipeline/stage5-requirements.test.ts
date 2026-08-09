@@ -191,6 +191,28 @@ describe("stage5Requirements", () => {
     expect(out.requirementClaims).toBe(0);
   });
 
+  it("excludes a validated requirement-kind claim whose speakerRole is 'other' from synthesis", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "invoice approval for logistics operators" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript, segments } = createTranscript(db, { sessionId: s.id, text: "a\n\nb" });
+    freezeTranscript(db, transcript.id);
+    const claimId = newId("clm");
+    insertClaims(db, [{
+      id: claimId, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+      quote: "the vendor mentioned a different threshold", statement: "vendor-mentioned threshold",
+      speakerRole: "other" as const, kind: "requirement" as const, status: "validated" as const,
+      charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: new Date().toISOString(),
+    }]);
+    const parse = vi.fn();
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
+    const out = await stage5Requirements.run(ctx, emptyState(transcript.id));
+    expect(parse).not.toHaveBeenCalled();
+    expect(listRequirements(db, p.id)).toHaveLength(0);
+    expect(out.requirements).toBe(0);
+    expect(out.requirementClaims).toBe(0);
+  });
+
   it("still includes a validated requirement-kind claim whose speakerRole is 'unknown'", async () => {
     const db = openDb(":memory:");
     const p = createProject(db, { name: "P", domain: "invoice approval for logistics operators" });

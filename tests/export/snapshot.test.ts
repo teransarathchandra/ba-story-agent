@@ -47,7 +47,7 @@ function seed() {
   );
   insertQuestions(db, [{ id: newId("oqn"), projectId: p.id, key: "OQ-001", text: "Escalation window?", category: "domain", raisedBySessionId: s.id, status: "open", answerText: null, answeredBySessionId: null, createdAt: now }]);
   insertRecommendations(db, [{ id: newId("rec"), projectId: p.id, key: "REC-001", text: "Add an audit trail.", rationale: "No audit mechanism discussed.", category: "security", raisedBySessionId: s.id, status: "open", dispositionNote: null, createdAt: now }]);
-  return { db, projectId: p.id };
+  return { db, projectId: p.id, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[0]!.id };
 }
 
 describe("buildSnapshot", () => {
@@ -95,6 +95,24 @@ describe("buildSnapshot", () => {
 
   it("lists assumptions separately from requirements", () => {
     const { db, projectId } = seed();
+    const snap = buildSnapshot(db, projectId);
+    expect(snap.assumptions).toHaveLength(1);
+    expect(snap.assumptions[0]?.quote).toMatch(/usually be dealing in euro/);
+  });
+
+  it("excludes an analyst- or vendor-attributed assumption claim from the snapshot", () => {
+    const { db, projectId, sessionId, transcriptId, segmentId } = seed();
+    const now = new Date().toISOString();
+    insertClaims(db, [
+      { id: newId("clm"), sessionId, transcriptId, segmentId,
+        quote: "should we track currency at all?", statement: "analyst question about currency tracking",
+        speakerRole: "ba", kind: "assumption", status: "validated",
+        charStart: 0, charEnd: 1, matchMode: "exact", createdAt: now },
+      { id: newId("clm"), sessionId, transcriptId, segmentId,
+        quote: "the vendor mentioned they invoice in USD sometimes", statement: "vendor invoices in USD sometimes",
+        speakerRole: "other", kind: "assumption", status: "validated",
+        charStart: 0, charEnd: 1, matchMode: "exact", createdAt: now },
+    ]);
     const snap = buildSnapshot(db, projectId);
     expect(snap.assumptions).toHaveLength(1);
     expect(snap.assumptions[0]?.quote).toMatch(/usually be dealing in euro/);

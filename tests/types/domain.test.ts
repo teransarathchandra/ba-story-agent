@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { ClaimSchema, RequirementSchema, RecommendationSchema } from "../../src/types/domain.js";
+import { ClaimSchema, RequirementSchema, RecommendationSchema, isClientAttributable } from "../../src/types/domain.js";
 
 describe("ClaimSchema", () => {
   it("accepts a well-formed claim", () => {
@@ -65,5 +65,14 @@ describe("RecommendationSchema", () => {
     const keys = Object.keys(RecommendationSchema.shape);
     expect(keys).not.toContain("requirement");
     expect(keys).not.toContain("statement");
+  });
+});
+
+describe("isClientAttributable", () => {
+  it("excludes 'ba' and 'other', includes 'client' and 'unknown'", () => {
+    expect(isClientAttributable("ba")).toBe(false);
+    expect(isClientAttributable("other")).toBe(false);
+    expect(isClientAttributable("client")).toBe(true);
+    expect(isClientAttributable("unknown")).toBe(true);
   });
 });

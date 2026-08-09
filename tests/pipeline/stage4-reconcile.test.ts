@@ -138,4 +138,40 @@ describe("stage4Reconcile", () => {
     expect(userPrompt).not.toContain(baClaimId);
     expect(userPrompt).toContain(clientClaimId);
   });
+
+  it("excludes 'other'-attributed claims from reconciliation, same as 'ba'", async () => {
+    const db = openDb(":memory:");
+    const p = createProject(db, { name: "P", domain: "invoice approval for logistics operators" });
+    const s = createSession(db, { projectId: p.id, title: "S" });
+    const { transcript, segments } = createTranscript(db, { sessionId: s.id, text: "a\n\nb" });
+    freezeTranscript(db, transcript.id);
+    const now = new Date().toISOString();
+    const otherClaimId = newId("clm");
+    const clientClaimId = newId("clm");
+    insertClaims(db, [
+      {
+        id: otherClaimId, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+        quote: "the vendor mentioned a different threshold", statement: "vendor-mentioned threshold",
+        speakerRole: "other" as const, kind: "requirement" as const, status: "validated" as const,
+        charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: now,
+      },
+      {
+        id: clientClaimId, sessionId: s.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+        quote: "approvals go to the finance lead", statement: "approval routing",
+        speakerRole: "client" as const, kind: "requirement" as const, status: "validated" as const,
+        charStart: 0, charEnd: 1, matchMode: "exact" as const, createdAt: now,
+      },
+    ]);
+    const parse = vi.fn().mockResolvedValue({
+      raw: "{}",
+      parsedOutput: { contradictions: [], links: [] },
+      requestPayload: {}, usage: { input_tokens: 1, output_tokens: 1 },
+    });
+    const ctx: StageContext = { db, client: { model: "test", generate: parse } as never, projectId: p.id, sessionId: s.id };
+    await stage4Reconcile.run(ctx, emptyState(transcript.id));
+    const [call2] = parse.mock.calls;
+    const userPrompt2 = (call2![0] as { user: string }).user;
+    expect(userPrompt2).not.toContain(otherClaimId);
+    expect(userPrompt2).toContain(clientClaimId);
+  });
 });

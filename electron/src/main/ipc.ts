@@ -34,7 +34,7 @@ import { countWords, MIN_WORDS } from '../../../src/pipeline/stage0-chunk.js'
 import { RegulatoryContext } from '../../../src/types/domain.js'
 import { seedDemoWorkspace } from './demo-data.js'
 import { listDetectedSpeakers, setSpeakerRoleOverrides } from '../../../src/store/speaker-overrides.js'
-import { SpeakerRole } from '../../../src/types/domain.js'
+import { SpeakerRole, isClientAttributable } from '../../../src/types/domain.js'
 
 let _db: ReturnType<typeof openDb> | null = null
 
@@ -304,7 +304,7 @@ export function setupIpc(): void {
     const sessions = listSessions(db, projectId)
     const allAssumptions = sessions.flatMap(s =>
       listClaims(db, s.id, { status: 'validated' })
-        .filter(c => c.kind === 'assumption' && c.speakerRole !== 'ba')
+        .filter(c => c.kind === 'assumption' && isClientAttributable(c.speakerRole))
     )
     return allAssumptions
   })

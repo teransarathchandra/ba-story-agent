@@ -8,7 +8,7 @@ import { callTyped } from "../llm/parse.js";
 import { REQUIREMENTS_SYSTEM, buildRequirementsUser } from "../prompts/requirements.js";
 import type { PipelineState } from "./state.js";
 import type { Stage } from "./runner.js";
-import type { Requirement } from "../types/domain.js";
+import { isClientAttributable, type Requirement } from "../types/domain.js";
 
 export const RequirementDraftsSchema = z.object({
   requirements: z.array(
@@ -40,12 +40,12 @@ export const stage5Requirements: Stage<PipelineState, PipelineState> = {
     // mis-attributes the analyst's own words as a client claim, this is the
     // last point before that content becomes a persisted "client-stated"
     // Requirement — so it is excluded here rather than trusted to have been
-    // filtered correctly upstream. Only "ba" is excluded, not "unknown" or
-    // "other": "unknown" commonly means the model couldn't identify the
-    // speaker at all (e.g. an unlabeled segment), not that the claim is
-    // disqualified, and excluding it too would risk losing legitimate client
-    // content — the exact failure mode this plan exists to fix.
-    const claims = validatedRequirementClaims.filter((c) => c.speakerRole !== "ba");
+    // filtered correctly upstream. "ba" and "other" are excluded; "unknown" is
+    // not — "unknown" commonly means the model couldn't identify the speaker
+    // at all (e.g. an unlabeled segment), not that the claim is disqualified,
+    // and excluding it too would risk losing legitimate client content — the
+    // exact failure mode this plan exists to fix.
+    const claims = validatedRequirementClaims.filter((c) => isClientAttributable(c.speakerRole));
     // Recorded unconditionally (both the early-return and full-synthesis paths)
     // so a session with validated claims but zero requirement-kind ones is
     // distinguishable in the persisted pipeline state from a session where

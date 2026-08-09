@@ -173,6 +173,35 @@ describe('assumption:list (real ipc.ts handler)', () => {
     expect(result).toHaveLength(1)
     expect(result[0].speakerRole).toBe('client')
   })
+
+  it('excludes a validated assumption-kind claim whose speakerRole is "other"', async () => {
+    const project = createProject(db, { name: 'P', domain: 'salon scheduling', llmBackend: 'local' })
+    const session = createSession(db, { projectId: project.id, title: 'S' })
+    const { transcript, segments } = createTranscript(db, {
+      sessionId: session.id,
+      text: 'Maya: How do staff schedules work?\n\nKevin: Usually 9 to 6.',
+    })
+    freezeTranscript(db, transcript.id)
+    const now = new Date().toISOString()
+    insertClaims(db, [
+      {
+        id: newId('clm'), sessionId: session.id, transcriptId: transcript.id, segmentId: segments[0]!.id,
+        quote: 'How do staff schedules work?', statement: 'how staff schedules work',
+        speakerRole: 'other', kind: 'assumption', status: 'validated',
+        charStart: 0, charEnd: 1, matchMode: 'exact', createdAt: now,
+      },
+      {
+        id: newId('clm'), sessionId: session.id, transcriptId: transcript.id, segmentId: segments[1]!.id,
+        quote: 'Usually 9 to 6.', statement: 'staff typically work 9 to 6',
+        speakerRole: 'client', kind: 'assumption', status: 'validated',
+        charStart: 0, charEnd: 1, matchMode: 'exact', createdAt: now,
+      },
+    ])
+    const handler = handlers.get('assumption:list')!
+    const result = await handler({}, project.id)
+    expect(result).toHaveLength(1)
+    expect(result[0].speakerRole).toBe('client')
+  })
 })
 
 describe('speaker:list / speaker:setRoles (real ipc.ts handlers)', () => {

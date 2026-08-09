@@ -7,7 +7,7 @@ import { listQuestions, listRecommendations } from "../store/findings.js";
 import { egressSummary } from "../store/audit.js";
 import { ENGINE_VERSION } from "../version.js";
 import { MODEL } from "../llm/client.js";
-import type { AcceptanceCriterion } from "../types/domain.js";
+import { isClientAttributable, type AcceptanceCriterion } from "../types/domain.js";
 
 export const SNAPSHOT_SCHEMA_VERSION = "1.0.0";
 
@@ -150,7 +150,7 @@ export function buildSnapshot(
       })),
     })),
     assumptions: claims
-      .filter((c) => c.status === "validated" && c.kind === "assumption")
+      .filter((c) => c.status === "validated" && c.kind === "assumption" && isClientAttributable(c.speakerRole))
       .map((c) => ({
         quote: c.quote,
         statement: c.statement,

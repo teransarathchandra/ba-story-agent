@@ -7,6 +7,20 @@ export const ClaimKind = z.enum(["requirement", "assumption", "ambiguity"]);
 export const ClaimStatus = z.enum(["candidate", "validated", "quarantined"]);
 export const MatchMode = z.enum(["exact", "segment-corrected", "fuzzy"]);
 export const SpeakerRole = z.enum(["client", "ba", "other", "unknown"]);
+
+// Client-attributable: a claim whose speaker was never confirmed as being on
+// the analyst/vendor side of the table. Excludes "ba" (the analyst) and
+// "other" (explicitly a non-client participant, e.g. a third-party vendor);
+// "unknown" stays included — it commonly means the model couldn't identify
+// the speaker at all (e.g. an unlabeled segment), not that the claim is
+// disqualified. Every surface that treats a claim as "the client said this"
+// (requirement synthesis, reconciliation, the assumptions list, and exports)
+// must call this function rather than inline-checking speakerRole itself —
+// that duplication is exactly how one surface (src/export/snapshot.ts) ended
+// up with no exclusion at all while the others had one.
+export function isClientAttributable(role: z.infer<typeof SpeakerRole>): boolean {
+  return role !== "ba" && role !== "other";
+}
 export const RequirementStatus = z.enum([
   "proposed", "confirmed", "finalized", "superseded", "rejected",
 ]);

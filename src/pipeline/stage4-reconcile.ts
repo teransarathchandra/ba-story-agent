@@ -4,6 +4,7 @@ import { listRequirements, nextKey } from "../store/artifacts.js";
 import { insertQuestions } from "../store/findings.js";
 import { insertLinks } from "../store/links.js";
 import { getProject } from "../store/projects.js";
+import { isClientAttributable } from "../types/domain.js";
 import { newId } from "../types/ids.js";
 import { callTyped } from "../llm/parse.js";
 import { RECONCILE_SYSTEM, buildReconcileUser } from "../prompts/reconcile.js";
@@ -42,7 +43,7 @@ export const stage4Reconcile: Stage<PipelineState, PipelineState> = {
     // including this stage's contradiction/link generation, not just
     // requirement synthesis.
     const claims = listClaims(ctx.db, ctx.sessionId, { status: "validated", kind: "requirement" })
-      .filter((c) => c.speakerRole !== "ba");
+      .filter((c) => isClientAttributable(c.speakerRole));
     if (claims.length === 0) return state;
 
     const existing = listRequirements(ctx.db, ctx.projectId);
