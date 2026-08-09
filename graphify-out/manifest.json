@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "scripts/run-live-eval.ts": {
-    "mtime": 1786096105.0243425,
-    "ast_hash": "49479db865fe3bf35745764aa5e4a348",
+    "mtime": 1786302231.6832457,
+    "ast_hash": "ef89f5bcbf06902d7e3315d40fd29f2e",
     "semantic_hash": ""
   },
   "src/cli/index.ts": {
@@ -215,9 +215,9 @@
     "semantic_hash": ""
   },
   "tests/eval/adversarial.test.ts": {
-    "mtime": 1786044211.7516117,
-    "ast_hash": "6e85cea982be47bdcdf5cf37e0430b1e",
-    "semantic_hash": "6e85cea982be47bdcdf5cf37e0430b1e"
+    "mtime": 1786288893.1884558,
+    "ast_hash": "c271fcc611c75d279d0888456f34d426",
+    "semantic_hash": ""
   },
   "tests/export/json.test.ts": {
     "mtime": 1786040983.6815162,
@@ -440,13 +440,13 @@
     "semantic_hash": ""
   },
   "src/llm/zod-to-gbnf.ts": {
-    "mtime": 1786207650.0358217,
-    "ast_hash": "a0a2cdc2c04629c98a53d0025109d9fd",
+    "mtime": 1786301673.5946083,
+    "ast_hash": "d5bb23844854cf45d6caa035b7cb33bc",
     "semantic_hash": ""
   },
   "tests/llm/zod-to-gbnf.test.ts": {
-    "mtime": 1786207656.1720972,
-    "ast_hash": "e72dfdc42f4fffe3c42c98c635fe648e",
+    "mtime": 1786304270.3021147,
+    "ast_hash": "87567141e9d7cf29d29dd6547082928b",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-08-07-local-llm-spike-findings.md": {
@@ -465,13 +465,13 @@
     "semantic_hash": ""
   },
   "src/llm/local-client.ts": {
-    "mtime": 1786275900.3041203,
-    "ast_hash": "4ae7d82aa2b1c1c2206e514012b7d1fa",
+    "mtime": 1786301968.7071586,
+    "ast_hash": "598e76d563f37296cfa0232bafeb0474",
     "semantic_hash": ""
   },
   "tests/llm/local-client.test.ts": {
-    "mtime": 1786098703.0489206,
-    "ast_hash": "81644958dd260c7c1f8e0765bf1fed64",
+    "mtime": 1786302051.053636,
+    "ast_hash": "c1c5272acf60a3a879f7860e338c8473",
     "semantic_hash": ""
   },
   "docs/superpowers/specs/2026-08-07-electron-integration-design.md": {
@@ -727,6 +727,146 @@
   "scripts/repro-window1-extract.ts": {
     "mtime": 1786276312.6916661,
     "ast_hash": "ca80cea8e3f3bead4d0996c6eab3de5e",
+    "semantic_hash": ""
+  },
+  "tests/fixtures/golden/06-salon-booking.goldlabels.md": {
+    "mtime": 1786281926.8767529,
+    "ast_hash": "ba4f49fe0a789f1b8c0c2d033e983c5e",
+    "semantic_hash": ""
+  },
+  "tests/fixtures/transcripts/06-salon-booking.txt": {
+    "mtime": 1786279740.0843947,
+    "ast_hash": "c7bf5012c82c3dc7b6ad439f1c99133d",
+    "semantic_hash": ""
+  },
+  "scripts/eval/gold-match.ts": {
+    "mtime": 1786304094.6878748,
+    "ast_hash": "c2e0f9e24e5574ede00f501096dac6b0",
+    "semantic_hash": ""
+  },
+  "scripts/eval/gold-report.ts": {
+    "mtime": 1786299849.1976023,
+    "ast_hash": "5ea509dc070ee3b50e83eef72d0a987a",
+    "semantic_hash": ""
+  },
+  "src/eval/gold-coverage.ts": {
+    "mtime": 1786288309.784462,
+    "ast_hash": "4c1f9c714318a4b17d0b6e1bf002ffa2",
+    "semantic_hash": ""
+  },
+  "src/eval/gold-deterministic-checks.ts": {
+    "mtime": 1786288450.1334386,
+    "ast_hash": "a8fb7edab2d7e049ddf341daf35150f1",
+    "semantic_hash": ""
+  },
+  "src/eval/gold-match-schema.ts": {
+    "mtime": 1786301687.9785454,
+    "ast_hash": "47c8d599297f1bbd46bccf590f1e50d0",
+    "semantic_hash": ""
+  },
+  "src/eval/gold-metrics.ts": {
+    "mtime": 1786299831.5015354,
+    "ast_hash": "c174e12d8e7c5793a42ad32eb069f2b8",
+    "semantic_hash": ""
+  },
+  "src/eval/gold-schema.ts": {
+    "mtime": 1786284084.6787736,
+    "ast_hash": "0e87007351ca6e34d44ea2ac5e0b04a2",
+    "semantic_hash": ""
+  },
+  "src/eval/gold-sync.ts": {
+    "mtime": 1786288255.3474612,
+    "ast_hash": "ff9312bb40bf774c3ae7bb619c81bae3",
+    "semantic_hash": ""
+  },
+  "tests/eval/gold-coverage.test.ts": {
+    "mtime": 1786301723.4531767,
+    "ast_hash": "c442df9a8b9aec2332a81dc37e681679",
+    "semantic_hash": ""
+  },
+  "tests/eval/gold-deterministic-checks.test.ts": {
+    "mtime": 1786288875.216403,
+    "ast_hash": "409352432138df837ba6d35665daf511",
+    "semantic_hash": ""
+  },
+  "tests/eval/gold-match-integration.test.ts": {
+    "mtime": 1786302317.551607,
+    "ast_hash": "e89e0d5d94a81884208a6657573d59ab",
+    "semantic_hash": ""
+  },
+  "tests/eval/gold-metrics.test.ts": {
+    "mtime": 1786301782.3216567,
+    "ast_hash": "edb3945f4c08d02495c8948eb3d0b9ca",
+    "semantic_hash": ""
+  },
+  "tests/eval/gold-sync.test.ts": {
+    "mtime": 1786288629.73886,
+    "ast_hash": "fb2864af4368de23a5c71571b741448b",
+    "semantic_hash": ""
+  },
+  "tests/fixtures/golden/06-salon-booking.gold.json": {
+    "mtime": 1786288565.4748642,
+    "ast_hash": "812a3460adb2892be8d3778606434f14",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/specs/2026-08-09-gold-eval-harness-design.md": {
+    "mtime": 1786289261.2557297,
+    "ast_hash": "2360fc9ed62ef55221d88c18021961b0",
+    "semantic_hash": ""
+  },
+  "scripts/eval/run-existing-session.ts": {
+    "mtime": 1786302221.6140661,
+    "ast_hash": "2c0e6422f0de36b7b11b4964c218f6d7",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/benchmarks/06-salon-booking-deterministic-baseline-2026-08-09.json": {
+    "mtime": 1786300388.515568,
+    "ast_hash": "2486cba884f4959e39304a960c2b0a25",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/benchmarks/06-salon-booking-deterministic-baseline-2026-08-09.md": {
+    "mtime": 1786300417.9297183,
+    "ast_hash": "54723f944822b13c17c007d2d435e4b6",
+    "semantic_hash": ""
+  },
+  "tests/eval/gold-match-schema.test.ts": {
+    "mtime": 1786301839.3706784,
+    "ast_hash": "23cfc0ceb922d82e7151607a0e142477",
+    "semantic_hash": ""
+  },
+  "scripts/eval/gold-local-judge-batching.ts": {
+    "mtime": 1786304011.8447905,
+    "ast_hash": "e9e5dcbfad64b7d52ffa2330cd8d9956",
+    "semantic_hash": ""
+  },
+  "scripts/eval/judge-config.ts": {
+    "mtime": 1786304004.8593059,
+    "ast_hash": "158f5ffcf50c6376790aa7979b7dbd83",
+    "semantic_hash": ""
+  },
+  "src/eval/gold-batch-schema.ts": {
+    "mtime": 1786303855.995474,
+    "ast_hash": "cbf8ed0bdc1aec97c053570102b09e14",
+    "semantic_hash": ""
+  },
+  "src/eval/gold-batching.ts": {
+    "mtime": 1786303892.8535292,
+    "ast_hash": "7f1c20a1f341d00edf765689d9914b00",
+    "semantic_hash": ""
+  },
+  "tests/eval/gold-batching.test.ts": {
+    "mtime": 1786304244.7144485,
+    "ast_hash": "3caaca5719fca085f7cb67afc2737f83",
+    "semantic_hash": ""
+  },
+  "tests/eval/gold-local-judge-batching.test.ts": {
+    "mtime": 1786304434.4937894,
+    "ast_hash": "29b94c2f9067a5568440651201d78e95",
+    "semantic_hash": ""
+  },
+  "tests/eval/gold-match-batched-dispatch.test.ts": {
+    "mtime": 1786304337.057836,
+    "ast_hash": "2b94cc7bcf57d97c83d03960d20a32f0",
     "semantic_hash": ""
   }
 }

@@ -8,6 +8,7 @@ import { RequirementDraftsSchema } from "../../src/pipeline/stage5-requirements.
 import { StoryDraftsSchema } from "../../src/pipeline/stage6-stories.js";
 import { CritiqueFindingsSchema } from "../../src/pipeline/stage7-critique.js";
 import { GoldMatchSchema } from "../../src/eval/gold-match-schema.js";
+import { CorrespondenceBatchSchema, EvidenceBatchSchema } from "../../src/eval/gold-batch-schema.js";
 
 describe("zodToGbnfSchema", () => {
   it("converts a flat object of strings", () => {
@@ -101,5 +102,13 @@ describe("zodToGbnfSchema", () => {
       properties: { matches: { items: { properties: Record<string, unknown> } } };
     };
     expect(converted.properties.matches.items.properties.meetingStateViolation).toEqual({ type: "boolean" });
+  });
+
+  it("converts CorrespondenceBatchSchema (bounded local-judge batching) without throwing", () => {
+    expect(() => zodToGbnfSchema(CorrespondenceBatchSchema)).not.toThrow();
+  });
+
+  it("converts EvidenceBatchSchema (bounded local-judge batching) without throwing", () => {
+    expect(() => zodToGbnfSchema(EvidenceBatchSchema)).not.toThrow();
   });
 });
