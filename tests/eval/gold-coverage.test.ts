@@ -8,7 +8,7 @@ const GENERATED_IDS = ["r1", "r2"];
 function baseResponse(overrides: Partial<GoldMatchResult> = {}): GoldMatchResult {
   return {
     matches: [
-      { goldId: "G1", generatedItemId: "r1", generatedBucket: "requirement", correspondence: "equivalent" },
+      { goldId: "G1", generatedItemId: "r1", generatedBucket: "requirement", correspondence: "equivalent", meetingStateViolation: false },
     ],
     unmatchedGoldIds: ["G2", "G3"],
     unmatchedGeneratedItemIds: ["r2"],
@@ -51,8 +51,8 @@ describe("checkCoverage", () => {
   it("fails when matches[] references a goldId never sent to the judge", () => {
     const response = baseResponse({
       matches: [
-        { goldId: "G1", generatedItemId: "r1", generatedBucket: "requirement", correspondence: "equivalent" },
-        { goldId: "G99-NEVER-SENT", generatedItemId: "r1", generatedBucket: "requirement", correspondence: "equivalent" },
+        { goldId: "G1", generatedItemId: "r1", generatedBucket: "requirement", correspondence: "equivalent", meetingStateViolation: false },
+        { goldId: "G99-NEVER-SENT", generatedItemId: "r1", generatedBucket: "requirement", correspondence: "equivalent", meetingStateViolation: false },
       ],
     });
     const result = checkCoverage(response, GOLD_IDS, GENERATED_IDS);

@@ -64,19 +64,19 @@ const generatedAssumptionClaims: GeneratedCandidate[] = [
 
 const matchResult: GoldMatchResult = {
   matches: [
-    { goldId: "REQ-PASS", generatedItemId: "r-pass", generatedBucket: "requirement", correspondence: "equivalent" },
-    { goldId: "REQ-CONTRADICTED", generatedItemId: "r-contradiction", generatedBucket: "requirement", correspondence: "contradicts" },
-    { goldId: "ASM-PROMOTE-SOURCE", generatedItemId: "r-promoted", generatedBucket: "requirement", correspondence: "equivalent" },
-    { goldId: "REQ-CONTRADICTED", generatedItemId: "r-partial", generatedBucket: "requirement", correspondence: "partial" },
-    { goldId: "REQ-MISPLACED", generatedItemId: "r-evidence-fail", generatedBucket: "requirement", correspondence: "equivalent" },
-    { goldId: "REQ-EXCLUSIVITY", generatedItemId: "r-exclusivity1", generatedBucket: "requirement", correspondence: "equivalent" },
-    { goldId: "RULE-PROXY", generatedItemId: "r-rule-proxy", generatedBucket: "requirement", correspondence: "equivalent" },
-    { goldId: "REQ-EXCLUSIVITY", generatedItemId: "q-exclusivity2", generatedBucket: "question", correspondence: "equivalent" },
-    { goldId: "UNR-PROXY", generatedItemId: "q-unr-proxy", generatedBucket: "question", correspondence: "equivalent" },
-    { goldId: "UNR-PARTIAL", generatedItemId: "q-unr-partial", generatedBucket: "question", correspondence: "partial" },
-    { goldId: "REQ-MISPLACED", generatedItemId: "a-misplace", generatedBucket: "assumptionClaim", correspondence: "equivalent" },
-    { goldId: "ASM-DUP", generatedItemId: "a-dup1", generatedBucket: "assumptionClaim", correspondence: "equivalent" },
-    { goldId: "ASM-DUP", generatedItemId: "a-dup2", generatedBucket: "assumptionClaim", correspondence: "equivalent" },
+    { goldId: "REQ-PASS", generatedItemId: "r-pass", generatedBucket: "requirement", correspondence: "equivalent", meetingStateViolation: false },
+    { goldId: "REQ-CONTRADICTED", generatedItemId: "r-contradiction", generatedBucket: "requirement", correspondence: "contradicts", meetingStateViolation: false },
+    { goldId: "ASM-PROMOTE-SOURCE", generatedItemId: "r-promoted", generatedBucket: "requirement", correspondence: "equivalent", meetingStateViolation: false },
+    { goldId: "REQ-CONTRADICTED", generatedItemId: "r-partial", generatedBucket: "requirement", correspondence: "partial", meetingStateViolation: false },
+    { goldId: "REQ-MISPLACED", generatedItemId: "r-evidence-fail", generatedBucket: "requirement", correspondence: "equivalent", meetingStateViolation: false },
+    { goldId: "REQ-EXCLUSIVITY", generatedItemId: "r-exclusivity1", generatedBucket: "requirement", correspondence: "equivalent", meetingStateViolation: false },
+    { goldId: "RULE-PROXY", generatedItemId: "r-rule-proxy", generatedBucket: "requirement", correspondence: "equivalent", meetingStateViolation: false },
+    { goldId: "REQ-EXCLUSIVITY", generatedItemId: "q-exclusivity2", generatedBucket: "question", correspondence: "equivalent", meetingStateViolation: false },
+    { goldId: "UNR-PROXY", generatedItemId: "q-unr-proxy", generatedBucket: "question", correspondence: "equivalent", meetingStateViolation: false },
+    { goldId: "UNR-PARTIAL", generatedItemId: "q-unr-partial", generatedBucket: "question", correspondence: "partial", meetingStateViolation: false },
+    { goldId: "REQ-MISPLACED", generatedItemId: "a-misplace", generatedBucket: "assumptionClaim", correspondence: "equivalent", meetingStateViolation: false },
+    { goldId: "ASM-DUP", generatedItemId: "a-dup1", generatedBucket: "assumptionClaim", correspondence: "equivalent", meetingStateViolation: false },
+    { goldId: "ASM-DUP", generatedItemId: "a-dup2", generatedBucket: "assumptionClaim", correspondence: "equivalent", meetingStateViolation: false },
     {
       goldId: "ASM-SENSITIVE",
       generatedItemId: "a-sensitive",
@@ -281,7 +281,7 @@ describe("computeSupplementaryDiagnostics — ungroundedEquivalent, isolated cas
 
   function metricsFor(correspondence: "equivalent" | "partial", evidenceFidelity: "pass" | "fail") {
     const matchResult: GoldMatchResult = {
-      matches: [{ goldId: "GOLD-1", generatedItemId: "gen-1", generatedBucket: "requirement", correspondence }],
+      matches: [{ goldId: "GOLD-1", generatedItemId: "gen-1", generatedBucket: "requirement", correspondence, meetingStateViolation: false }],
       unmatchedGoldIds: [],
       unmatchedGeneratedItemIds: [],
       generatedEvidence: [{ generatedItemId: "gen-1", evidenceFidelity, reason: "test" }],
@@ -332,6 +332,7 @@ describe("equivalent correspondence + failing evidence — isolated precedence r
         generatedItemId: "gen-1",
         generatedBucket: "requirement",
         correspondence: "equivalent",
+        meetingStateViolation: false,
       },
     ],
     unmatchedGoldIds: [],

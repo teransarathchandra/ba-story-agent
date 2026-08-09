@@ -7,6 +7,7 @@ import { ReconcileSchema } from "../../src/pipeline/stage4-reconcile.js";
 import { RequirementDraftsSchema } from "../../src/pipeline/stage5-requirements.js";
 import { StoryDraftsSchema } from "../../src/pipeline/stage6-stories.js";
 import { CritiqueFindingsSchema } from "../../src/pipeline/stage7-critique.js";
+import { GoldMatchSchema } from "../../src/eval/gold-match-schema.js";
 
 describe("zodToGbnfSchema", () => {
   it("converts a flat object of strings", () => {
@@ -69,6 +70,18 @@ describe("zodToGbnfSchema", () => {
     expect(() => zodToGbnfSchema(z.array(z.string()).nullable())).toThrow(/cannot make/);
   });
 
+  it("converts a boolean field to the GBNF boolean type", () => {
+    expect(zodToGbnfSchema(z.object({ b: z.boolean() }))).toEqual({
+      type: "object",
+      properties: { b: { type: "boolean" } },
+      additionalProperties: false,
+    });
+  });
+
+  it("still throws on .optional() rather than silently accepting it — GBNF has no concept of an optional object property (node-llama-cpp's own GbnfJsonObjectSchema.required is @deprecated and always includes every declared key)", () => {
+    expect(() => zodToGbnfSchema(z.object({ b: z.boolean().optional() }))).toThrow(/unsupported zod type "optional"/);
+  });
+
   const productionSchemas = {
     ExtractedClaimsSchema, ClassificationSchema, ReconcileSchema,
     RequirementDraftsSchema, StoryDraftsSchema, CritiqueFindingsSchema,
@@ -78,4 +91,15 @@ describe("zodToGbnfSchema", () => {
       expect(() => zodToGbnfSchema(schema)).not.toThrow();
     });
   }
+
+  it("converts the full GoldMatchSchema (eval judge schema) without throwing, now that meetingStateViolation is a required boolean", () => {
+    expect(() => zodToGbnfSchema(GoldMatchSchema)).not.toThrow();
+  });
+
+  it("GoldMatchSchema's matches[].meetingStateViolation compiles to a required GBNF boolean property", () => {
+    const converted = zodToGbnfSchema(GoldMatchSchema) as unknown as {
+      properties: { matches: { items: { properties: Record<string, unknown> } } };
+    };
+    expect(converted.properties.matches.items.properties.meetingStateViolation).toEqual({ type: "boolean" });
+  });
 });

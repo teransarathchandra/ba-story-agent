@@ -29,11 +29,26 @@ function isNullableImmutableType(
  * Walks a Zod schema's public `.def` shape directly (not via Zod's own
  * toJSONSchema) so the output is under full control and anything this
  * function doesn't recognize fails loudly instead of being silently
- * mis-converted. Only handles the six constructs the six production
- * schemas actually use (object, array, string, number, enum, nullable) —
- * extend deliberately if a schema changes, don't guess at broader JSON
- * Schema support node-llama-cpp's GbnfJsonSchema type doesn't have anyway
- * (no numeric bounds, no regex pattern — see Task 1 in the plan for why).
+ * mis-converted. Handles object, array, string, number, boolean, enum, and
+ * nullable — extend deliberately if a schema changes, don't guess at
+ * broader JSON Schema support node-llama-cpp's GbnfJsonSchema type doesn't
+ * have anyway (no numeric bounds, no regex pattern — see Task 1 in the
+ * plan for why).
+ *
+ * Deliberately does NOT support `.optional()` on an object property, and
+ * never will via this function: node-llama-cpp's own GbnfJsonObjectSchema
+ * type documents `required` as `@deprecated` — "always set to all keys in
+ * `properties`, and setting it has no effect... due to how the generation
+ * works" (verified directly against the installed package's type
+ * definitions, not assumed). Grammar-constrained decoding has no concept
+ * of an optional object property: every declared property is always
+ * required in the generated JSON, full stop. A schema that needs a
+ * conditionally-meaningful field for local/grammar-constrained generation
+ * must make that field REQUIRED and use its own value space to represent
+ * "not applicable" (e.g. a required boolean defaulting to `false`, with
+ * the prompt instructing the model when to set it false) — not lean on
+ * `.optional()`, which will keep failing loudly here by design, not by
+ * omission.
  */
 export function zodToGbnfSchema(schema: z.ZodType): GbnfJsonSchema {
   const def = schema.def;
@@ -53,6 +68,8 @@ export function zodToGbnfSchema(schema: z.ZodType): GbnfJsonSchema {
     }
     case "string":
       return { type: "string" };
+    case "boolean":
+      return { type: "boolean" };
     case "number": {
       // Zod v4 reports def.type as "number" for both z.number() and its
       // .int()/z.int() refinements — the public `.format` getter is how an

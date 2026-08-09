@@ -169,6 +169,7 @@ describe("collectGeneratedCandidates — real store integration, no network", ()
           generatedItemId: allIds[0]!,
           generatedBucket: "requirement",
           correspondence: "equivalent",
+          meetingStateViolation: false,
         },
       ],
       unmatchedGoldIds: [],

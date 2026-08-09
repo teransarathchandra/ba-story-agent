@@ -24,7 +24,18 @@ export const GoldMatchSchema = z.object({
       generatedItemId: z.string(),
       generatedBucket: z.enum(["requirement", "question", "assumptionClaim"]),
       correspondence: z.enum(["equivalent", "partial", "contradicts"]),
-      meetingStateViolation: z.boolean().optional(),
+      // REQUIRED, not optional: node-llama-cpp's grammar-constrained
+      // decoding has no concept of an optional object property — every
+      // declared property is always required in the generated JSON (see
+      // zodToGbnfSchema's doc comment for the verified source). The judge
+      // prompt instructs the model to return `false` for every match on a
+      // non-meeting-state-sensitive gold item, or where no violation
+      // exists — `false` IS the "not applicable" value, not an omission.
+      // Semantics unchanged from the prior optional field: `true` = the
+      // generated item reflects an outdated/provisional meeting state
+      // that the transcript's final resolution overrides; `false` = no
+      // such violation.
+      meetingStateViolation: z.boolean(),
     }),
   ),
   unmatchedGoldIds: z.array(z.string()),
