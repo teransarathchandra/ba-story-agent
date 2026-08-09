@@ -283,6 +283,11 @@ export function amendTranscript(
     const removedClaims = db
       .prepare("DELETE FROM claims WHERE session_id = ?")
       .run(input.sessionId).changes;
+    // A speaker label's confirmed role is grounded in this session's
+    // transcript segmentation — amendment re-parses segments, so a stale
+    // override could otherwise silently misapply against a different
+    // segment set (or a label that no longer exists at all).
+    db.prepare("DELETE FROM speaker_role_overrides WHERE session_id = ?").run(input.sessionId);
 
     db.prepare("UPDATE sessions SET status = 'draft' WHERE id = ?").run(input.sessionId);
     const { transcript } = createTranscript(db, input);

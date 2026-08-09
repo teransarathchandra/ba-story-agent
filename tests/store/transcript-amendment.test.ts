@@ -6,6 +6,7 @@ import { insertClaims } from "../../src/store/claims.js";
 import { insertRequirements, insertStory, listRequirements, listStories } from "../../src/store/artifacts.js";
 import { insertQuestions, insertRecommendations, listQuestions, listRecommendations } from "../../src/store/findings.js";
 import { saveCheckpoint } from "../../src/store/audit.js";
+import { setSpeakerRoleOverrides, getSpeakerRoleOverrides } from "../../src/store/speaker-overrides.js";
 import { newId } from "../../src/types/ids.js";
 
 function seed() {
@@ -116,7 +117,7 @@ function seed() {
   saveCheckpoint(db, amendedSession.id, "extract", "complete", { claims: 1 });
   setSessionStatus(db, amendedSession.id, "awaiting-review");
 
-  return { db, project, amendedSession, oldClaimId, otherClaimId };
+  return { db, project, amendedSession, otherSession, oldClaimId, otherClaimId };
 }
 
 describe("transcript amendment", () => {
@@ -159,5 +160,19 @@ describe("transcript amendment", () => {
       sessionId: amendedSession.id,
       text: "Client: Returns are allowed for thirty days.",
     })).toThrow(/identical/);
+  });
+
+  it("clears speaker role overrides for the amended session, but not for other sessions", () => {
+    const { db, amendedSession, otherSession } = seed();
+    setSpeakerRoleOverrides(db, amendedSession.id, new Map([["Client", "client" as const]]));
+    setSpeakerRoleOverrides(db, otherSession.id, new Map([["Client", "client" as const]]));
+
+    amendTranscript(db, {
+      sessionId: amendedSession.id,
+      text: "Client: Returns are allowed for fourteen days with manager approval.",
+    });
+
+    expect(getSpeakerRoleOverrides(db, amendedSession.id).size).toBe(0);
+    expect(getSpeakerRoleOverrides(db, otherSession.id).size).toBe(1);
   });
 });
