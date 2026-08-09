@@ -362,7 +362,14 @@ export function computeSupplementaryDiagnostics(
   fixture: GoldFixture,
   matches: Match[],
   evidenceByItem: Map<string, EvidenceEntry>,
-): { partialOnlyGoldCount: number; partialOnlyGoldIds: string[]; contradictedGoldCount: number; contradictedGoldIds: string[] } {
+): {
+  partialOnlyGoldCount: number;
+  partialOnlyGoldIds: string[];
+  contradictedGoldCount: number;
+  contradictedGoldIds: string[];
+  ungroundedEquivalentCount: number;
+  ungroundedEquivalentItemIds: string[];
+} {
   const supported = new Set(supportedItems(fixture).map((i) => i.id));
   const passingGoldIds = new Set(
     matches.filter((m) => isPassingMatch(m, evidenceByItem)).map((m) => m.goldId),
@@ -375,11 +382,30 @@ export function computeSupplementaryDiagnostics(
   );
 
   const partialOnlyGoldIds = [...partialGoldIds].filter((id) => !passingGoldIds.has(id));
+
+  // Diagnostic only — does not feed recall, taxonomy, precision, or
+  // evidence-fidelity, all of which already correctly treat this case as
+  // non-capture via isPassingMatch()'s requirement of BOTH `equivalent`
+  // correspondence AND passing evidence. This surfaces it as its own named
+  // signal because it represents a distinct product-relevant failure mode:
+  // the pipeline got a requirement's MEANING right, but the evidence it
+  // cited for that meaning doesn't actually establish it — a traceability
+  // failure, not a comprehension failure, and one worth counting on its
+  // own rather than only being recoverable from the raw judge-match table.
+  const equivalentGeneratedIds = new Set(
+    matches.filter((m) => m.correspondence === "equivalent").map((m) => m.generatedItemId),
+  );
+  const ungroundedEquivalentItemIds = [...equivalentGeneratedIds].filter(
+    (id) => evidenceByItem.get(id)?.evidenceFidelity === "fail",
+  );
+
   return {
     partialOnlyGoldCount: partialOnlyGoldIds.length,
     partialOnlyGoldIds,
     contradictedGoldCount: contradictedGoldIds.size,
     contradictedGoldIds: [...contradictedGoldIds],
+    ungroundedEquivalentCount: ungroundedEquivalentItemIds.length,
+    ungroundedEquivalentItemIds,
   };
 }
 

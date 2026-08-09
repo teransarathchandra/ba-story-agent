@@ -62,6 +62,11 @@ function printMetrics(m: GoldMetrics): void {
   process.stdout.write("\n  -- Supplementary --\n");
   line("partial-only gold items", String(m.supplementary.partialOnlyGoldCount));
   line("contradicted gold items", String(m.supplementary.contradictedGoldCount));
+  line(
+    "ungrounded equivalent (right meaning, evidence fails)",
+    String(m.supplementary.ungroundedEquivalentCount),
+  );
+  for (const id of m.supplementary.ungroundedEquivalentItemIds) line(`  ${id}`, "equivalent + evidence fail");
 }
 
 export function printGoldEvalReport(artifact: EvalRunArtifact, artifactPath: string): void {

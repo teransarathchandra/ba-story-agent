@@ -252,6 +252,60 @@ describe("computeSupplementaryDiagnostics", () => {
     expect(metrics.supplementary.contradictedGoldIds).toEqual(["REQ-CONTRADICTED"]);
     expect(metrics.supplementary.contradictedGoldCount).toBe(1);
   });
+
+  it("flags a generated item as ungrounded-equivalent when its match is equivalent but its own evidence fails", () => {
+    // r-evidence-fail: equivalent correspondence to REQ-MISPLACED, evidence fails.
+    // Diagnostic only — this is the same pair already proven NOT to count
+    // toward recall/taxonomy/precision (see the isolated precedence block
+    // below and the earlier "unmatched" precision-bucket test); this test
+    // covers the separate, additive diagnostic surfacing it as its own
+    // named signal.
+    expect(metrics.supplementary.ungroundedEquivalentItemIds).toContain("r-evidence-fail");
+  });
+});
+
+describe("computeSupplementaryDiagnostics — ungroundedEquivalent, isolated cases", () => {
+  // Three minimal, single-purpose fixtures — one per case the diagnostic
+  // must distinguish. Purely diagnostic: none of these change recall,
+  // precision, taxonomy, or evidence-fidelity, which already correctly
+  // treat "equivalent + evidence fail" as non-capture via isPassingMatch().
+  const baseFixture: GoldFixture = {
+    fixtureName: "ungrounded-equivalent-cases",
+    transcriptFile: "n/a",
+    frozenMarkdownContentHash: "n/a",
+    items: [{ id: "GOLD-1", category: "requirement", proposition: "some proposition", quotes: ["q"] }],
+    unsupportedDetailChecks: [],
+    answeredQuestionChecks: [],
+  };
+  const candidate: GeneratedCandidate = { id: "gen-1", bucket: "requirement", text: "t", quote: "q" };
+
+  function metricsFor(correspondence: "equivalent" | "partial", evidenceFidelity: "pass" | "fail") {
+    const matchResult: GoldMatchResult = {
+      matches: [{ goldId: "GOLD-1", generatedItemId: "gen-1", generatedBucket: "requirement", correspondence }],
+      unmatchedGoldIds: [],
+      unmatchedGeneratedItemIds: [],
+      generatedEvidence: [{ generatedItemId: "gen-1", evidenceFidelity, reason: "test" }],
+    };
+    return computeGoldMetrics(baseFixture, { requirements: [candidate], questions: [], assumptionClaims: [] }, matchResult);
+  }
+
+  it("equivalent + evidence fail -> appears in the ungrounded-equivalent diagnostic", () => {
+    const m = metricsFor("equivalent", "fail");
+    expect(m.supplementary.ungroundedEquivalentItemIds).toEqual(["gen-1"]);
+    expect(m.supplementary.ungroundedEquivalentCount).toBe(1);
+  });
+
+  it("equivalent + evidence pass -> does NOT appear (this is a real, grounded capture)", () => {
+    const m = metricsFor("equivalent", "pass");
+    expect(m.supplementary.ungroundedEquivalentItemIds).toEqual([]);
+    expect(m.supplementary.ungroundedEquivalentCount).toBe(0);
+  });
+
+  it("partial + evidence fail -> does NOT appear (this diagnostic is specifically semantic-equivalent-but-ungrounded, not any-correspondence-but-ungrounded)", () => {
+    const m = metricsFor("partial", "fail");
+    expect(m.supplementary.ungroundedEquivalentItemIds).toEqual([]);
+    expect(m.supplementary.ungroundedEquivalentCount).toBe(0);
+  });
 });
 
 describe("equivalent correspondence + failing evidence — isolated precedence regression", () => {
