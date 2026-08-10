@@ -143,6 +143,27 @@ Return exactly one evidence-fidelity verdict per candidate id: ${JSON.stringify(
 type BatchOutcome<T> = { valid: true; result: T } | { valid: false; reason: string };
 
 /**
+ * A permanent, structured record of exactly what one generate() attempt
+ * produced — including the raw, pre-parse text — for every attempt made
+ * (successful or not). Not part of the canonical GoldMatchResult/metrics
+ * shape at all; this exists purely so a failed run can be reviewed later
+ * without needing to have captured console output live. Persisted
+ * alongside the run artifact (see EvalRunArtifact.rawBatchAttempts in
+ * gold-match.ts) rather than baked into GoldMatchResult itself, since it's
+ * debugging/audit data, not evaluation input or output.
+ */
+export interface RawBatchAttempt {
+  batchKind: "correspondence" | "evidence";
+  batchLabel: string;
+  attempt: number;
+  raw: string;
+  usage?: { input_tokens: number; output_tokens: number };
+  latencyMs: number;
+  coverageValid: boolean;
+  coverageErrors: string[];
+}
+
+/**
  * One structured, greppable diagnostic line per generate() ATTEMPT (not per
  * batch — a batch that retries produces two lines), covering everything a
  * runtime finding about context accumulation/truncation/coverage failure
@@ -151,22 +172,28 @@ type BatchOutcome<T> = { valid: true; result: T } | { valid: false; reason: stri
  * tokenMeter — never estimated), wall-clock latency, and process RSS
  * sampled immediately after the call. Cache hits skip this entirely (no
  * call was made, nothing to measure) and are logged separately by
- * runBatchWithRetryAndCache.
+ * runBatchWithRetryAndCache. Also appends a RawBatchAttempt to `rawAttempts`
+ * (when provided) so the exact raw text survives even for a run whose
+ * console output wasn't captured.
  */
 function logDiagnostic(
   log: ((line: string) => void) | undefined,
+  rawAttempts: RawBatchAttempt[] | undefined,
+  batchKind: "correspondence" | "evidence",
   batchLabel: string,
   attemptNum: number,
   latencyMs: number,
+  raw: string,
   usage: { input_tokens: number; output_tokens: number } | undefined,
   coverageValid: boolean,
-  reason?: string,
+  coverageErrors: string[],
 ): void {
   const rssMB = Math.round(process.memoryUsage().rss / 1024 / 1024);
   const inputTok = usage?.input_tokens ?? "n/a";
   const outputTok = usage?.output_tokens ?? "n/a";
-  const coverage = coverageValid ? "valid" : `invalid (${reason})`;
+  const coverage = coverageValid ? "valid" : `invalid (${coverageErrors.join("; ")})`;
   log?.(`[diag] ${batchLabel} attempt=${attemptNum + 1} latencyMs=${latencyMs} inputTokens=${inputTok} outputTokens=${outputTok} rssMB=${rssMB} coverage=${coverage}`);
+  rawAttempts?.push({ batchKind, batchLabel, attempt: attemptNum + 1, raw, usage, latencyMs, coverageValid, coverageErrors });
 }
 
 /**
@@ -214,6 +241,7 @@ async function callCorrespondenceBatch(
   batchLabel: string,
   attemptNum: number,
   log?: (line: string) => void,
+  rawAttempts?: RawBatchAttempt[],
 ): Promise<BatchOutcome<BatchMatch[]>> {
   const goldIds = goldBatch.map((g) => g.id);
   const candidateIds = allCandidates.map((c) => c.id);
@@ -224,16 +252,16 @@ async function callCorrespondenceBatch(
   const latencyMs = Date.now() - t0;
 
   if (result.parsedOutput === null || result.parsedOutput === undefined) {
-    logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, false, "produced no schema-conforming output");
+    logDiagnostic(log, rawAttempts, "correspondence", batchLabel, attemptNum, latencyMs, result.raw, result.usage, false, ["produced no schema-conforming output"]);
     return { valid: false, reason: "produced no schema-conforming output" };
   }
   const parsed = CorrespondenceBatchSchema.safeParse(result.parsedOutput);
   if (!parsed.success) {
-    logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, false, `schema parse failed: ${parsed.error.message}`);
+    logDiagnostic(log, rawAttempts, "correspondence", batchLabel, attemptNum, latencyMs, result.raw, result.usage, false, [`schema parse failed: ${parsed.error.message}`]);
     return { valid: false, reason: `schema parse failed: ${parsed.error.message}` };
   }
   const coverage = checkCorrespondenceBatchCoverage(parsed.data, goldIds, candidateIds);
-  logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, coverage.valid, coverage.valid ? undefined : coverage.errors.join("; "));
+  logDiagnostic(log, rawAttempts, "correspondence", batchLabel, attemptNum, latencyMs, result.raw, result.usage, coverage.valid, coverage.errors);
   if (!coverage.valid) {
     return { valid: false, reason: coverage.errors.join("; ") };
   }
@@ -246,6 +274,7 @@ async function callEvidenceBatch(
   batchLabel: string,
   attemptNum: number,
   log?: (line: string) => void,
+  rawAttempts?: RawBatchAttempt[],
 ): Promise<BatchOutcome<BatchEvidenceEntry[]>> {
   const candidateIds = candidateBatch.map((c) => c.id);
   const { system, user } = buildEvidenceBatchPrompt(candidateBatch);
@@ -255,16 +284,16 @@ async function callEvidenceBatch(
   const latencyMs = Date.now() - t0;
 
   if (result.parsedOutput === null || result.parsedOutput === undefined) {
-    logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, false, "produced no schema-conforming output");
+    logDiagnostic(log, rawAttempts, "evidence", batchLabel, attemptNum, latencyMs, result.raw, result.usage, false, ["produced no schema-conforming output"]);
     return { valid: false, reason: "produced no schema-conforming output" };
   }
   const parsed = EvidenceBatchSchema.safeParse(result.parsedOutput);
   if (!parsed.success) {
-    logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, false, `schema parse failed: ${parsed.error.message}`);
+    logDiagnostic(log, rawAttempts, "evidence", batchLabel, attemptNum, latencyMs, result.raw, result.usage, false, [`schema parse failed: ${parsed.error.message}`]);
     return { valid: false, reason: `schema parse failed: ${parsed.error.message}` };
   }
   const coverage = checkEvidenceBatchCoverage(parsed.data, candidateIds);
-  logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, coverage.valid, coverage.valid ? undefined : coverage.errors.join("; "));
+  logDiagnostic(log, rawAttempts, "evidence", batchLabel, attemptNum, latencyMs, result.raw, result.usage, coverage.valid, coverage.errors);
   if (!coverage.valid) {
     return { valid: false, reason: coverage.errors.join("; ") };
   }
@@ -284,6 +313,7 @@ export async function runCorrespondenceBatches(
   allCandidates: readonly GeneratedCandidate[],
   judge: JudgeConfig,
   log?: (line: string) => void,
+  rawAttempts?: RawBatchAttempt[],
 ): Promise<BatchOutcome<Match[]>> {
   const batches = buildCorrespondenceBatches(goldItems);
   const allMatches: Match[] = [];
@@ -295,7 +325,7 @@ export async function runCorrespondenceBatches(
       cacheKind: "correspondence",
       cacheKey,
       cacheSchema: CorrespondenceBatchSchema.shape.matches,
-      attempt: (attemptNum) => callCorrespondenceBatch(generate, batch, allCandidates, label, attemptNum, log),
+      attempt: (attemptNum) => callCorrespondenceBatch(generate, batch, allCandidates, label, attemptNum, log, rawAttempts),
       batchLabel: label,
       log,
     });
@@ -313,6 +343,7 @@ export async function runEvidenceBatches(
   allCandidates: readonly GeneratedCandidate[],
   judge: JudgeConfig,
   log?: (line: string) => void,
+  rawAttempts?: RawBatchAttempt[],
 ): Promise<BatchOutcome<EvidenceEntry[]>> {
   const batches = buildEvidenceBatches(allCandidates);
   const allEvidence: EvidenceEntry[] = [];
@@ -324,7 +355,7 @@ export async function runEvidenceBatches(
       cacheKind: "evidence",
       cacheKey,
       cacheSchema: EvidenceBatchSchema.shape.generatedEvidence,
-      attempt: (attemptNum) => callEvidenceBatch(generate, batch, label, attemptNum, log),
+      attempt: (attemptNum) => callEvidenceBatch(generate, batch, label, attemptNum, log, rawAttempts),
       batchLabel: label,
       log,
     });
@@ -351,7 +382,7 @@ export async function runBatchedLocalJudge(
   allCandidates: readonly GeneratedCandidate[],
   judge: JudgeConfig,
   log?: (line: string) => void,
-): Promise<{ matchResult: GoldMatchResult | null; coverage: CoverageResult }> {
+): Promise<{ matchResult: GoldMatchResult | null; coverage: CoverageResult; rawAttempts: RawBatchAttempt[] }> {
   const { backend, release } = await loadLocalBackend({
     modelUri: judge.model,
     contextSize: judge.contextSize,
@@ -359,18 +390,19 @@ export async function runBatchedLocalJudge(
     maxTokens: judge.maxOutputTokens ?? DEFAULT_JUDGE_MAX_OUTPUT_TOKENS,
     log,
   });
+  const rawAttempts: RawBatchAttempt[] = [];
 
   try {
     const generate: LlmBackend["generate"] = (args) => backend.generate(args);
 
-    const correspondence = await runCorrespondenceBatches(generate, goldItems, allCandidates, judge, log);
+    const correspondence = await runCorrespondenceBatches(generate, goldItems, allCandidates, judge, log, rawAttempts);
     if (!correspondence.valid) {
-      return { matchResult: null, coverage: { valid: false, errors: [correspondence.reason] } };
+      return { matchResult: null, coverage: { valid: false, errors: [correspondence.reason] }, rawAttempts };
     }
 
-    const evidence = await runEvidenceBatches(generate, allCandidates, judge, log);
+    const evidence = await runEvidenceBatches(generate, allCandidates, judge, log, rawAttempts);
     if (!evidence.valid) {
-      return { matchResult: null, coverage: { valid: false, errors: [evidence.reason] } };
+      return { matchResult: null, coverage: { valid: false, errors: [evidence.reason] }, rawAttempts };
     }
 
     const goldIds = goldItems.map((g) => g.id);
@@ -381,7 +413,7 @@ export async function runBatchedLocalJudge(
     // judge response would have to — this re-check costs nothing (pure,
     // no LLM call) and catches a bug in aggregation itself, not the model.
     const coverage = checkCoverage(matchResult, goldIds, candidateIds);
-    return { matchResult, coverage };
+    return { matchResult, coverage, rawAttempts };
   } finally {
     await release();
   }

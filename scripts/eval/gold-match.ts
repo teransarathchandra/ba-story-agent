@@ -25,7 +25,7 @@ import {
   type DeterministicViolation,
 } from "../../src/eval/gold-deterministic-checks.js";
 import { computeGoldMetrics, type GeneratedCandidate, type GoldMetrics } from "../../src/eval/gold-metrics.js";
-import { runBatchedLocalJudge, BATCH_CORRESPONDENCE_PROMPT_VERSION, BATCH_CORRESPONDENCE_SCHEMA_VERSION } from "./gold-local-judge-batching.js";
+import { runBatchedLocalJudge, BATCH_CORRESPONDENCE_PROMPT_VERSION, BATCH_CORRESPONDENCE_SCHEMA_VERSION, type RawBatchAttempt } from "./gold-local-judge-batching.js";
 import type { JudgeConfig } from "./judge-config.js";
 
 export { DEFAULT_JUDGE_MAX_OUTPUT_TOKENS, type JudgeConfig } from "./judge-config.js";
@@ -231,6 +231,14 @@ export interface EvalRunArtifact {
   };
   judgeMatchTable: GoldMatchResult | null;
   metrics: GoldMetrics | { skipped: true; reason: string } | { invalid: true; reason: string };
+  /**
+   * Every raw batch-judge attempt (successful or not), including the
+   * pre-parse text — local-batched judging only, never populated for the
+   * Claude single-call path. Exists purely for audit/debugging a failed or
+   * suspicious run: NOT part of the canonical evaluation input/output
+   * shape, and never read by computeGoldMetrics().
+   */
+  rawBatchAttempts?: RawBatchAttempt[];
 }
 
 function cacheKeyFor(
@@ -351,6 +359,7 @@ export async function runGoldEval(opts: {
   let judgeField: EvalRunArtifact["judge"];
   let matchResult: GoldMatchResult | null = null;
   let coverage: CoverageResult | null = null;
+  let rawBatchAttempts: RawBatchAttempt[] | undefined;
 
   if (opts.skipJudge) {
     judgeField = { skipped: true, reason: "judge not requested for this run (deterministic-only invocation)" };
@@ -377,6 +386,7 @@ export async function runGoldEval(opts: {
             const batched = await runBatchedLocalJudge(supportedItems(opts.fixture), allCandidates, judgeConfig, opts.judgeLog);
             matchResult = batched.matchResult;
             coverage = batched.coverage;
+            rawBatchAttempts = batched.rawAttempts;
             judgeField = {
               backendLabel: judgeConfig.backendLabel,
               model: judgeConfig.model,
@@ -435,6 +445,7 @@ export async function runGoldEval(opts: {
     deterministicInvariantResults: { unsupportedDetailViolations, alreadyAnsweredQuestionViolations },
     judgeMatchTable: matchResult,
     metrics,
+    ...(rawBatchAttempts !== undefined ? { rawBatchAttempts } : {}),
   };
 }
 

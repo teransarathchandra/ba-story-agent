@@ -740,8 +740,8 @@
     "semantic_hash": ""
   },
   "scripts/eval/gold-match.ts": {
-    "mtime": 1786342407.5979373,
-    "ast_hash": "e7b6a0999c536b06ac24bc420beadc91",
+    "mtime": 1786342991.0507636,
+    "ast_hash": "6ebb96ee44291af1e5b12ae6e3f06129",
     "semantic_hash": ""
   },
   "scripts/eval/gold-report.ts": {
@@ -835,8 +835,8 @@
     "semantic_hash": ""
   },
   "scripts/eval/gold-local-judge-batching.ts": {
-    "mtime": 1786342523.902683,
-    "ast_hash": "5c95ca8bac9e0f2182f1a483e19eba35",
+    "mtime": 1786342950.82373,
+    "ast_hash": "4c722f85f526e2b03da34fdc63ffb1ff",
     "semantic_hash": ""
   },
   "scripts/eval/judge-config.ts": {
@@ -865,8 +865,8 @@
     "semantic_hash": ""
   },
   "tests/eval/gold-match-batched-dispatch.test.ts": {
-    "mtime": 1786342591.6796842,
-    "ast_hash": "59f3a817033248d8b2cd02466dc21139",
+    "mtime": 1786343033.0755482,
+    "ast_hash": "c39b329af5274411fd66dd660bca2b55",
     "semantic_hash": ""
   },
   "scripts/eval/create-candidate-snapshot.ts": {

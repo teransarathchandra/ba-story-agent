@@ -51,9 +51,20 @@ describe("runGoldEval — local backend dispatch", () => {
   it("routes EVAL_JUDGE_BACKEND=local through runBatchedLocalJudge exactly once, using the batch prompt/schema version", async () => {
     process.env.EVAL_JUDGE_BACKEND = "local";
     process.env.EVAL_JUDGE_MODEL = "test-local-model";
+    const fakeRawAttempt = {
+      batchKind: "correspondence" as const,
+      batchLabel: "correspondence batch 1/1 [TG-01]",
+      attempt: 1,
+      raw: '{"reviewedGoldIds":["TG-01"],"matches":[]}',
+      usage: { input_tokens: 100, output_tokens: 10 },
+      latencyMs: 500,
+      coverageValid: true,
+      coverageErrors: [],
+    };
     vi.mocked(runBatchedLocalJudge).mockResolvedValue({
       matchResult: { matches: [], unmatchedGoldIds: [], unmatchedGeneratedItemIds: [], generatedEvidence: [] },
       coverage: { valid: true, errors: [] },
+      rawAttempts: [fakeRawAttempt],
     });
 
     const { db, projectId } = seedEmptyProject();
@@ -68,6 +79,10 @@ describe("runGoldEval — local backend dispatch", () => {
     expect(artifact.judge).toMatchObject({ backendLabel: "local", model: "test-local-model", coverageValid: true, promptVersion: "v1", schemaVersion: "v1" });
     expect(artifact.metrics).not.toHaveProperty("invalid");
     expect(artifact.metrics).not.toHaveProperty("skipped");
+    // The raw batch attempt (including pre-parse text) survives onto the
+    // persisted artifact — this is what makes a failed run reviewable
+    // later without needing captured console output.
+    expect(artifact.rawBatchAttempts).toEqual([fakeRawAttempt]);
   });
 
   it("a batch that fails after its retry surfaces as INVALID metrics, never a partial/successful score", async () => {
@@ -76,6 +91,7 @@ describe("runGoldEval — local backend dispatch", () => {
     vi.mocked(runBatchedLocalJudge).mockResolvedValue({
       matchResult: null,
       coverage: { valid: false, errors: ["correspondence batch 2/8 [TG-06, TG-07, TG-08, TG-09, TG-10]: failed after retry: reviewedGoldIds is missing batch goldId(s): TG-10"] },
+      rawAttempts: [],
     });
 
     const { db, projectId } = seedEmptyProject();
@@ -108,6 +124,7 @@ describe("runGoldEval — local backend dispatch", () => {
     vi.mocked(runBatchedLocalJudge).mockResolvedValue({
       matchResult: { matches: [], unmatchedGoldIds: [], unmatchedGeneratedItemIds: [], generatedEvidence: [] },
       coverage: { valid: true, errors: [] },
+      rawAttempts: [],
     });
 
     const { db, projectId } = seedEmptyProject();
@@ -144,5 +161,15 @@ describe("runGoldEval — generatedCandidatesOverride (frozen candidate snapshot
     await expect(
       runGoldEval({ fixture: emptyFixture, generator: { backendLabel: "local", model: "some-generator" }, skipJudge: true }),
     ).rejects.toThrow(/requires either generatedCandidatesOverride/);
+  });
+
+  it("leaves rawBatchAttempts undefined (not an empty array) for a skipped-judge run — never populated outside the local-batched path", async () => {
+    const artifact = await runGoldEval({
+      fixture: emptyFixture,
+      generator: { backendLabel: "local", model: "some-generator" },
+      generatedCandidatesOverride: { requirements: [], questions: [], assumptionClaims: [] },
+      skipJudge: true,
+    });
+    expect(artifact.rawBatchAttempts).toBeUndefined();
   });
 });
