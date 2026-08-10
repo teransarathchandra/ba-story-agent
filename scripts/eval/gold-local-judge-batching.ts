@@ -143,6 +143,33 @@ Return exactly one evidence-fidelity verdict per candidate id: ${JSON.stringify(
 type BatchOutcome<T> = { valid: true; result: T } | { valid: false; reason: string };
 
 /**
+ * One structured, greppable diagnostic line per generate() ATTEMPT (not per
+ * batch — a batch that retries produces two lines), covering everything a
+ * runtime finding about context accumulation/truncation/coverage failure
+ * across a long sequence of calls sharing one loaded model would need:
+ * which attempt, real measured input/output tokens (from the backend's own
+ * tokenMeter — never estimated), wall-clock latency, and process RSS
+ * sampled immediately after the call. Cache hits skip this entirely (no
+ * call was made, nothing to measure) and are logged separately by
+ * runBatchWithRetryAndCache.
+ */
+function logDiagnostic(
+  log: ((line: string) => void) | undefined,
+  batchLabel: string,
+  attemptNum: number,
+  latencyMs: number,
+  usage: { input_tokens: number; output_tokens: number } | undefined,
+  coverageValid: boolean,
+  reason?: string,
+): void {
+  const rssMB = Math.round(process.memoryUsage().rss / 1024 / 1024);
+  const inputTok = usage?.input_tokens ?? "n/a";
+  const outputTok = usage?.output_tokens ?? "n/a";
+  const coverage = coverageValid ? "valid" : `invalid (${reason})`;
+  log?.(`[diag] ${batchLabel} attempt=${attemptNum + 1} latencyMs=${latencyMs} inputTokens=${inputTok} outputTokens=${outputTok} rssMB=${rssMB} coverage=${coverage}`);
+}
+
+/**
  * Shared retry/cache protocol for a single batch call, regardless of which
  * of the two judge tasks it is: check cache, else call once, validate,
  * retry ONCE at the exact same inputs on failure, then give up. Never
@@ -155,7 +182,7 @@ async function runBatchWithRetryAndCache<T>(opts: {
   cacheKind: "correspondence" | "evidence";
   cacheKey: string;
   cacheSchema: z.ZodType<T>;
-  attempt: () => Promise<BatchOutcome<T>>;
+  attempt: (attemptNum: number) => Promise<BatchOutcome<T>>;
   batchLabel: string;
   log?: (line: string) => void;
 }): Promise<BatchOutcome<T>> {
@@ -166,7 +193,7 @@ async function runBatchWithRetryAndCache<T>(opts: {
   }
 
   for (let attemptNum = 0; attemptNum < 2; attemptNum++) {
-    const outcome = await opts.attempt();
+    const outcome = await opts.attempt(attemptNum);
     if (outcome.valid) {
       saveCachedBatch(opts.cacheKind, opts.cacheKey, outcome.result);
       return outcome;
@@ -184,39 +211,60 @@ async function callCorrespondenceBatch(
   generate: LlmBackend["generate"],
   goldBatch: readonly GoldItem[],
   allCandidates: readonly GeneratedCandidate[],
+  batchLabel: string,
+  attemptNum: number,
+  log?: (line: string) => void,
 ): Promise<BatchOutcome<BatchMatch[]>> {
   const goldIds = goldBatch.map((g) => g.id);
   const candidateIds = allCandidates.map((c) => c.id);
   const { system, user } = buildCorrespondenceBatchPrompt(goldBatch, allCandidates);
 
+  const t0 = Date.now();
   const result = await generate({ system, user, schema: CorrespondenceBatchSchema, effort: "high" });
+  const latencyMs = Date.now() - t0;
+
   if (result.parsedOutput === null || result.parsedOutput === undefined) {
+    logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, false, "produced no schema-conforming output");
     return { valid: false, reason: "produced no schema-conforming output" };
   }
   const parsed = CorrespondenceBatchSchema.safeParse(result.parsedOutput);
   if (!parsed.success) {
+    logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, false, `schema parse failed: ${parsed.error.message}`);
     return { valid: false, reason: `schema parse failed: ${parsed.error.message}` };
   }
   const coverage = checkCorrespondenceBatchCoverage(parsed.data, goldIds, candidateIds);
+  logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, coverage.valid, coverage.valid ? undefined : coverage.errors.join("; "));
   if (!coverage.valid) {
     return { valid: false, reason: coverage.errors.join("; ") };
   }
   return { valid: true, result: parsed.data.matches };
 }
 
-async function callEvidenceBatch(generate: LlmBackend["generate"], candidateBatch: readonly GeneratedCandidate[]): Promise<BatchOutcome<BatchEvidenceEntry[]>> {
+async function callEvidenceBatch(
+  generate: LlmBackend["generate"],
+  candidateBatch: readonly GeneratedCandidate[],
+  batchLabel: string,
+  attemptNum: number,
+  log?: (line: string) => void,
+): Promise<BatchOutcome<BatchEvidenceEntry[]>> {
   const candidateIds = candidateBatch.map((c) => c.id);
   const { system, user } = buildEvidenceBatchPrompt(candidateBatch);
 
+  const t0 = Date.now();
   const result = await generate({ system, user, schema: EvidenceBatchSchema, effort: "high" });
+  const latencyMs = Date.now() - t0;
+
   if (result.parsedOutput === null || result.parsedOutput === undefined) {
+    logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, false, "produced no schema-conforming output");
     return { valid: false, reason: "produced no schema-conforming output" };
   }
   const parsed = EvidenceBatchSchema.safeParse(result.parsedOutput);
   if (!parsed.success) {
+    logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, false, `schema parse failed: ${parsed.error.message}`);
     return { valid: false, reason: `schema parse failed: ${parsed.error.message}` };
   }
   const coverage = checkEvidenceBatchCoverage(parsed.data, candidateIds);
+  logDiagnostic(log, batchLabel, attemptNum, latencyMs, result.usage, coverage.valid, coverage.valid ? undefined : coverage.errors.join("; "));
   if (!coverage.valid) {
     return { valid: false, reason: coverage.errors.join("; ") };
   }
@@ -247,7 +295,7 @@ export async function runCorrespondenceBatches(
       cacheKind: "correspondence",
       cacheKey,
       cacheSchema: CorrespondenceBatchSchema.shape.matches,
-      attempt: () => callCorrespondenceBatch(generate, batch, allCandidates),
+      attempt: (attemptNum) => callCorrespondenceBatch(generate, batch, allCandidates, label, attemptNum, log),
       batchLabel: label,
       log,
     });
@@ -276,7 +324,7 @@ export async function runEvidenceBatches(
       cacheKind: "evidence",
       cacheKey,
       cacheSchema: EvidenceBatchSchema.shape.generatedEvidence,
-      attempt: () => callEvidenceBatch(generate, batch),
+      attempt: (attemptNum) => callEvidenceBatch(generate, batch, label, attemptNum, log),
       batchLabel: label,
       log,
     });

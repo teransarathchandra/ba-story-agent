@@ -297,8 +297,10 @@ function goldFixtureContentHash(fixture: GoldFixture): string {
 export async function runGoldEval(opts: {
   fixture: GoldFixture;
   generator: GeneratorInfo;
-  db: Db;
-  projectId: string;
+  /** Required unless generatedCandidatesOverride is provided. */
+  db?: Db;
+  /** Required unless generatedCandidatesOverride is provided. */
+  projectId?: string;
   /**
    * Scopes candidate collection to exactly this session — see
    * collectGeneratedCandidates()'s doc comment for why this matters
@@ -307,7 +309,7 @@ export async function runGoldEval(opts: {
    * existing under the same project). Omit only for a fresh
    * single-session in-memory run where project-level scoping is safe by
    * construction; always pass this for evaluating a historical/persisted
-   * session.
+   * session. Ignored when generatedCandidatesOverride is provided.
    */
   sessionId?: string;
   anthropicApiKey?: string;
@@ -323,8 +325,22 @@ export async function runGoldEval(opts: {
   skipJudge?: boolean;
   /** Forwarded to a local judge's loadLocalBackend() call for download-progress logging. Ignored for the Claude judge path. */
   judgeLog?: (line: string) => void;
+  /**
+   * Bypasses collectGeneratedCandidates() and the live DB entirely — for
+   * evaluating a frozen, immutable candidate-snapshot artifact (see
+   * src/eval/candidate-snapshot.ts and scripts/eval/run-candidate-snapshot.ts)
+   * instead of whatever happens to be in a mutable DB on a given day. When
+   * provided, db/projectId/sessionId are never read for candidate
+   * collection — the live-DB path (db+projectId required, used by
+   * run-existing-session.ts and run-live-eval.ts) is completely unaffected
+   * when this is omitted.
+   */
+  generatedCandidatesOverride?: { requirements: GeneratedCandidate[]; questions: GeneratedCandidate[]; assumptionClaims: GeneratedCandidate[] };
 }): Promise<EvalRunArtifact> {
-  const generated = collectGeneratedCandidates(opts.db, opts.projectId, opts.sessionId);
+  if (!opts.generatedCandidatesOverride && !(opts.db && opts.projectId)) {
+    throw new Error("runGoldEval requires either generatedCandidatesOverride, or both db and projectId");
+  }
+  const generated = opts.generatedCandidatesOverride ?? collectGeneratedCandidates(opts.db!, opts.projectId!, opts.sessionId);
   const allCandidates = [...generated.requirements, ...generated.questions, ...generated.assumptionClaims];
 
   const unsupportedDetailViolations = checkUnsupportedDetails(opts.fixture.unsupportedDetailChecks, allCandidates);

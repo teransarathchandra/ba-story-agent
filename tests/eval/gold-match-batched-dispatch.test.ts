@@ -119,3 +119,30 @@ describe("runGoldEval — local backend dispatch", () => {
     ).resolves.toBeDefined();
   });
 });
+
+describe("runGoldEval — generatedCandidatesOverride (frozen candidate snapshot path)", () => {
+  it("uses the override candidates directly, never touching the DB for candidate collection", async () => {
+    // Deliberately pass NO db/projectId at all — if the override path ever
+    // silently fell through to collectGeneratedCandidates(), this would
+    // throw on `opts.db!`/`opts.projectId!` being undefined.
+    const artifact = await runGoldEval({
+      fixture: emptyFixture,
+      generator: { backendLabel: "local", model: "some-generator" },
+      generatedCandidatesOverride: {
+        requirements: [{ id: "req_1", bucket: "requirement", text: "must do X", quote: "do X" }],
+        questions: [],
+        assumptionClaims: [],
+      },
+      skipJudge: true,
+    });
+
+    expect(artifact.normalizedPipelineOutputs.requirements).toHaveLength(1);
+    expect(artifact.normalizedPipelineOutputs.requirements[0]!.id).toBe("req_1");
+  });
+
+  it("throws a clear error when neither generatedCandidatesOverride nor db+projectId is provided", async () => {
+    await expect(
+      runGoldEval({ fixture: emptyFixture, generator: { backendLabel: "local", model: "some-generator" }, skipJudge: true }),
+    ).rejects.toThrow(/requires either generatedCandidatesOverride/);
+  });
+});

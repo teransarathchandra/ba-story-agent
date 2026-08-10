@@ -740,8 +740,8 @@
     "semantic_hash": ""
   },
   "scripts/eval/gold-match.ts": {
-    "mtime": 1786304094.6878748,
-    "ast_hash": "c2e0f9e24e5574ede00f501096dac6b0",
+    "mtime": 1786342407.5979373,
+    "ast_hash": "e7b6a0999c536b06ac24bc420beadc91",
     "semantic_hash": ""
   },
   "scripts/eval/gold-report.ts": {
@@ -835,8 +835,8 @@
     "semantic_hash": ""
   },
   "scripts/eval/gold-local-judge-batching.ts": {
-    "mtime": 1786304011.8447905,
-    "ast_hash": "e9e5dcbfad64b7d52ffa2330cd8d9956",
+    "mtime": 1786342523.902683,
+    "ast_hash": "5c95ca8bac9e0f2182f1a483e19eba35",
     "semantic_hash": ""
   },
   "scripts/eval/judge-config.ts": {
@@ -860,13 +860,38 @@
     "semantic_hash": ""
   },
   "tests/eval/gold-local-judge-batching.test.ts": {
-    "mtime": 1786304434.4937894,
-    "ast_hash": "29b94c2f9067a5568440651201d78e95",
+    "mtime": 1786342547.795484,
+    "ast_hash": "dca72ffab50dfd846e57392a79dd1c5f",
     "semantic_hash": ""
   },
   "tests/eval/gold-match-batched-dispatch.test.ts": {
-    "mtime": 1786304337.057836,
-    "ast_hash": "2b94cc7bcf57d97c83d03960d20a32f0",
+    "mtime": 1786342591.6796842,
+    "ast_hash": "59f3a817033248d8b2cd02466dc21139",
+    "semantic_hash": ""
+  },
+  "scripts/eval/create-candidate-snapshot.ts": {
+    "mtime": 1786342390.6333861,
+    "ast_hash": "e26cc37ff6ffedbf3c58c2661ed17ad4",
+    "semantic_hash": ""
+  },
+  "scripts/eval/run-candidate-snapshot.ts": {
+    "mtime": 1786342421.9331038,
+    "ast_hash": "308d9ae8920c40cc5a24b616f5d07f0b",
+    "semantic_hash": ""
+  },
+  "src/eval/candidate-snapshot.ts": {
+    "mtime": 1786342375.9139636,
+    "ast_hash": "5b082ae31e51630ccaa6272c98ce408e",
+    "semantic_hash": ""
+  },
+  "tests/eval/candidate-snapshot.test.ts": {
+    "mtime": 1786342575.6787376,
+    "ast_hash": "5d5e537b37bdc4ede7934504956e1437",
+    "semantic_hash": ""
+  },
+  "tests/fixtures/golden/06-salon-booking.candidates-snapshot.json": {
+    "mtime": 1786342436.9116628,
+    "ast_hash": "c7ba70868152623e4bc1b823562b73d7",
     "semantic_hash": ""
   }
 }

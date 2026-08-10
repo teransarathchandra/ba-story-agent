@@ -89,6 +89,59 @@ describe("runCorrespondenceBatches — every generated candidate is visible to e
   });
 });
 
+describe("runCorrespondenceBatches / runEvidenceBatches — per-batch diagnostic logging", () => {
+  it("logs one [diag] line per attempt with real measured tokens, latency, RSS, and coverage result", async () => {
+    const goldItems = makeGoldItems(5);
+    const candidates = makeCandidates(2);
+    const judge: JudgeConfig = { backendLabel: "local", model: `test-model-diag-${Date.now()}` };
+
+    const generate: LlmBackend["generate"] = vi.fn(async (args) => {
+      const batchIds = goldItems.filter((g) => args.user.includes(`"${g.id}"`)).map((g) => g.id);
+      return { raw: "", parsedOutput: goodCorrespondenceResponse(batchIds), requestPayload: {}, usage: { input_tokens: 1234, output_tokens: 56 } };
+    });
+
+    const lines: string[] = [];
+    const outcome = await runCorrespondenceBatches(generate, goldItems, candidates, judge, (l) => lines.push(l));
+    expect(outcome.valid).toBe(true);
+
+    const diagLines = lines.filter((l) => l.startsWith("[diag]"));
+    expect(diagLines).toHaveLength(1);
+    expect(diagLines[0]).toMatch(/attempt=1/);
+    expect(diagLines[0]).toMatch(/inputTokens=1234/);
+    expect(diagLines[0]).toMatch(/outputTokens=56/);
+    expect(diagLines[0]).toMatch(/latencyMs=\d+/);
+    expect(diagLines[0]).toMatch(/rssMB=\d+/);
+    expect(diagLines[0]).toMatch(/coverage=valid/);
+  });
+
+  it("logs a distinct attempt=1 (failed) then attempt=2 (succeeded) line when a batch needs its retry", async () => {
+    const goldItems = makeGoldItems(5);
+    const candidates = makeCandidates(2);
+    const judge: JudgeConfig = { backendLabel: "local", model: `test-model-diag-retry-${Date.now()}` };
+
+    let call = 0;
+    const generate: LlmBackend["generate"] = vi.fn(async (args) => {
+      call++;
+      const batchIds = goldItems.filter((g) => args.user.includes(`"${g.id}"`)).map((g) => g.id);
+      if (call === 1) {
+        return { raw: "", parsedOutput: { reviewedGoldIds: batchIds.slice(0, -1), matches: [] }, requestPayload: {}, usage: { input_tokens: 111, output_tokens: 22 } };
+      }
+      return { raw: "", parsedOutput: goodCorrespondenceResponse(batchIds), requestPayload: {}, usage: { input_tokens: 111, output_tokens: 40 } };
+    });
+
+    const lines: string[] = [];
+    const outcome = await runCorrespondenceBatches(generate, goldItems, candidates, judge, (l) => lines.push(l));
+    expect(outcome.valid).toBe(true);
+
+    const diagLines = lines.filter((l) => l.startsWith("[diag]"));
+    expect(diagLines).toHaveLength(2);
+    expect(diagLines[0]).toMatch(/attempt=1/);
+    expect(diagLines[0]).toMatch(/coverage=invalid/);
+    expect(diagLines[1]).toMatch(/attempt=2/);
+    expect(diagLines[1]).toMatch(/coverage=valid/);
+  });
+});
+
 describe("runCorrespondenceBatches / runEvidenceBatches — one failed batch invalidates, no partial scores", () => {
   it("stops at the first batch that fails coverage even after its retry, and never attempts later batches", async () => {
     const goldItems = makeGoldItems(12); // 3 batches of 5,5,2
