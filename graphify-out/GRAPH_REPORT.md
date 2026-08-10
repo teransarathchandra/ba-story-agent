@@ -1,16 +1,16 @@
 # Graph Report - ba-story-agent  (2026-08-10)
 
 ## Corpus Check
-- 171 files · ~190,211 words
+- 173 files · ~193,001 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1129 nodes · 3083 edges · 65 communities (55 shown, 10 thin omitted)
+- 1138 nodes · 3091 edges · 63 communities (53 shown, 10 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 12 edges (avg confidence: 0.62)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1ab16d27`
+- Built from commit: `c9447406`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -36,7 +36,7 @@
 - Global Constraints
 - schema-generation-check.ts
 - devDependencies
-- stage4-reconcile.ts
+- adversarial.test.ts
 - Layout.tsx
 - api.ts
 - showErrorToast
@@ -46,36 +46,34 @@
 - @electron/rebuild
 - preload/index.ts
 - tsconfig.node.json
-- inspect-windows.ts
+- gold-local-judge-batching.test.ts
 - AnalyzeButton.tsx
 - QuestionsTab.tsx
 - Sidebar.tsx
 - electron-vite
-- stage5-requirements.ts
+- artifacts.ts
 - Global Constraints
 - tailwindcss
 - @types/react
 - vitest
 - RequirementsTab.tsx
 - domain.ts
-- local-client.ts
+- audit.ts
 - Review matrix
-- gold-sync.ts
+- gold-schema.ts
 - gold-local-judge-batching.ts
 - gold-metrics.ts
-- gold-report.ts
+- run-live-eval.ts
 - gold-match.ts
-- gold-metrics.test.ts
+- gold-coverage.ts
 - Gold-fixture eval harness — design (v4, approved — implementation follows)
 - gold-batching.ts
 - pipeline/index.ts
 - claims.ts
-- create-candidate-snapshot.ts
+- 06-salon-booking — local semantic pre-fix baseline (2026-08-10)
 - commander
 - 06-salon-booking — deterministic-only baseline (2026-08-09)
-- stage1-extract.ts
-- audit.ts
-- gold-local-judge-batching.test.ts
+- stage0-chunk.ts
 
 ## God Nodes (most connected - your core abstractions)
 1. `createProject()` - 66 edges
@@ -96,23 +94,23 @@
   tests/eval/gold-metrics.test.ts → src/eval/gold-metrics.ts
 - `ClaimDefinition` --references--> `Claim`  [EXTRACTED]
   electron/src/main/demo-data.ts → src/types/domain.ts
-- `seedDemoWorkspace()` --calls--> `setSessionStatus()`  [EXTRACTED]
-  electron/src/main/demo-data.ts → src/store/projects.ts
 - `getDb()` --calls--> `openDb()`  [EXTRACTED]
   electron/src/main/ipc.ts → src/store/db.ts
+- `setupIpc()` --calls--> `listClaims()`  [EXTRACTED]
+  electron/src/main/ipc.ts → src/store/claims.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (65 total, 10 thin omitted)
+## Communities (63 total, 10 thin omitted)
 
 ### Community 0 - "Global Constraints"
 Cohesion: 0.13
 Nodes (14): Global Constraints, Post-final-review fix round, Speaker Role Confirmation Modal Implementation Plan, Task 10: Fix stale speaker state in Sidebar (amendment reload + session-switch race), Task 11: Widen client-attribution exclusion to "other", and close the snapshot.ts gap, Task 1: Speaker role override schema and store module, Task 2: Wire session overrides into the pipeline; remove the automatic first-speaker override, Task 3: Extend the `ba`-exclusion to stage4-reconcile (+6 more)
 
 ### Community 1 - "projects.ts"
-Cohesion: 0.08
-Nodes (87): CLAIM_DEFINITIONS, seedDemoWorkspace(), handlers, mockAnalyzeSession, mockAnthropicBackend, mockAnthropicInstance, mockCreateClient, mockLoadLocalBackend (+79 more)
+Cohesion: 0.07
+Nodes (98): CLAIM_DEFINITIONS, seedDemoWorkspace(), handlers, mockAnalyzeSession, mockAnthropicBackend, mockAnthropicInstance, mockCreateClient, mockLoadLocalBackend (+90 more)
 
 ### Community 2 - "File Structure"
 Cohesion: 0.06
@@ -123,8 +121,8 @@ Cohesion: 0.12
 Nodes (22): denormalizeRange(), FOLD, normalize(), Normalized, bestWindow(), DISFLUENCIES, DISFLUENCY_PHRASES, levenshteinRatio() (+14 more)
 
 ### Community 4 - "ipc.ts"
-Cohesion: 0.06
-Nodes (77): DEMO_MARKER_KEY, getDb(), Log, selectBackend(), setupIpc(), main(), TRANSCRIPT_TEXT, check() (+69 more)
+Cohesion: 0.09
+Nodes (58): DEMO_MARKER_KEY, getDb(), Log, selectBackend(), setupIpc(), main(), TRANSCRIPT_TEXT, main() (+50 more)
 
 ### Community 5 - "compilerOptions"
 Cohesion: 0.07
@@ -175,16 +173,16 @@ Cohesion: 0.25
 Nodes (7): After this plan, Electron Integration Implementation Plan, Global Constraints, Task 1: Merge `feat/electron-ui` into `feat/electron-integration`, Task 2: Backend-selection wiring in `electron/src/main/ipc.ts`, Task 3: Typed IPC contract + UI backend picker, Task 4: Real functional verification against the local backend
 
 ### Community 20 - "schema-generation-check.ts"
-Cohesion: 0.13
-Nodes (23): __dirname, main(), now, project, sampleClaims, sampleRequirements, sampleStories, segment (+15 more)
+Cohesion: 0.14
+Nodes (19): __dirname, main(), now, project, sampleClaims, sampleRequirements, sampleStories, segment (+11 more)
 
 ### Community 21 - "devDependencies"
 Cohesion: 0.10
 Nodes (21): autoprefixer, electron, devDependencies, autoprefixer, electron, @electron-toolkit/tsconfig, postcss, @types/better-sqlite3 (+13 more)
 
-### Community 22 - "stage4-reconcile.ts"
-Cohesion: 0.12
-Nodes (22): main(), schemas, ArrayDef, EnumDef, IMMUTABLE_TYPES, isNullableImmutableType(), NullableDef, ObjectDef (+14 more)
+### Community 22 - "adversarial.test.ts"
+Cohesion: 0.16
+Nodes (17): main(), schemas, ArrayDef, EnumDef, IMMUTABLE_TYPES, isNullableImmutableType(), NullableDef, ObjectDef (+9 more)
 
 ### Community 23 - "Layout.tsx"
 Cohesion: 0.19
@@ -210,9 +208,9 @@ Nodes (38): dependencies, @anthropic-ai/sdk, better-sqlite3, commander, node-lla
 Cohesion: 0.18
 Nodes (10): compilerOptions, composite, types, extends, include, @electron-toolkit/tsconfig/tsconfig.node.json, electron.vite.config.*, node (+2 more)
 
-### Community 32 - "inspect-windows.ts"
-Cohesion: 0.40
-Nodes (4): db, segRows, transcript, windows
+### Community 32 - "gold-local-judge-batching.test.ts"
+Cohesion: 0.22
+Nodes (5): DEFAULT_JUDGE_MAX_OUTPUT_TOKENS, JudgeConfig, CACHE_DIR, cleanupNewCacheFiles(), listCacheFiles()
 
 ### Community 33 - "AnalyzeButton.tsx"
 Cohesion: 0.33
@@ -226,9 +224,9 @@ Nodes (5): OpenQuestion, Props, QuestionsTab(), STATUS_META, STATUS_ORDER
 Cohesion: 0.31
 Nodes (7): ConfirmDialog(), Props, Theme, Props, SetDomainDialog(), Props, Project
 
-### Community 40 - "stage5-requirements.ts"
-Cohesion: 0.31
-Nodes (5): callTyped(), StageFailure, stage5Requirements, buildRequirementsUser(), REQUIREMENTS_SYSTEM
+### Community 40 - "artifacts.ts"
+Cohesion: 0.20
+Nodes (12): buildRequirementsUser(), REQUIREMENTS_SYSTEM, AcRow, insertStory(), KEYED_TABLES, KeyedTable, nextKey(), RequirementRow (+4 more)
 
 ### Community 41 - "Global Constraints"
 Cohesion: 0.13
@@ -239,40 +237,40 @@ Cohesion: 0.33
 Nodes (4): Props, RejectModalProps, Requirement, RequirementsTab()
 
 ### Community 46 - "domain.ts"
-Cohesion: 0.14
-Nodes (13): AcSource, ClaimKind, ClaimStatus, CritiqueCategory, Iso, LinkKind, MatchMode, QuestionStatus (+5 more)
+Cohesion: 0.12
+Nodes (17): toRequirement(), AcSource, ClaimKind, ClaimSchema, ClaimStatus, CritiqueCategory, Iso, LinkKind (+9 more)
 
-### Community 47 - "local-client.ts"
-Cohesion: 0.10
-Nodes (20): Effort, LlmBackend, isDegenerateEmpty(), loadNodeLlamaCpp(), LOCAL_MAX_TOKENS, LocalBackend, Log, MAX_CONCURRENT_SEQUENCES (+12 more)
+### Community 47 - "audit.ts"
+Cohesion: 0.06
+Nodes (39): Effort, LlmBackend, AnthropicBackend, canonical(), hashRequest(), logEgress(), MAX_TOKENS, MODEL (+31 more)
 
 ### Community 48 - "Review matrix"
 Cohesion: 0.12
 Nodes (15): Assumptions / Tentative Statements, Business Objectives / Success Criteria, Business Rules / Constraints, Confirmed Requirements, Current State / Problem, Dangling-reference check, Final counts, Final list of annotation rules (+7 more)
 
-### Community 49 - "gold-sync.ts"
-Cohesion: 0.23
-Nodes (11): GoldCategory, checkGoldSync(), hashFileContent(), ParsedMarkdownItem, parseMarkdownGoldItems(), SECTION_TO_CATEGORY, SyncCheckResult, goldenDir (+3 more)
+### Community 49 - "gold-schema.ts"
+Cohesion: 0.08
+Nodes (28): DeterministicCheck, DeterministicCheckSchema, EXPECTED_BUCKET, GoldCategory, GoldCategorySchema, GoldFixture, GoldItemSchema, SUPPORTED_CATEGORIES (+20 more)
 
 ### Community 50 - "gold-local-judge-batching.ts"
 Cohesion: 0.17
-Nodes (23): BATCH_EVIDENCE_PROMPT_VERSION, BATCH_EVIDENCE_SCHEMA_VERSION, batchCacheDir(), BatchOutcome, buildCorrespondenceBatchPrompt(), buildEvidenceBatchPrompt(), callCorrespondenceBatch(), callEvidenceBatch() (+15 more)
+Nodes (22): BATCH_EVIDENCE_PROMPT_VERSION, BATCH_EVIDENCE_SCHEMA_VERSION, batchCacheDir(), BatchOutcome, buildCorrespondenceBatchPrompt(), buildEvidenceBatchPrompt(), callCorrespondenceBatch(), callEvidenceBatch() (+14 more)
 
 ### Community 51 - "gold-metrics.ts"
-Cohesion: 0.11
-Nodes (33): buildJudgePrompt(), assignPrecisionBucket(), computeCrossCategoryExclusivity(), computeDuplicateRate(), computeEvidenceFidelity(), computeGoldMetrics(), computeGroundedVsNovelQuestions(), computeMeetingStateResolution() (+25 more)
+Cohesion: 0.16
+Nodes (25): assignPrecisionBucket(), computeCrossCategoryExclusivity(), computeDuplicateRate(), computeEvidenceFidelity(), computeGoldMetrics(), computeGroundedVsNovelQuestions(), computeMeetingStateResolution(), computeRecall() (+17 more)
 
-### Community 52 - "gold-report.ts"
-Cohesion: 0.32
-Nodes (11): persistArtifact(), line(), pct(), printGoldEvalReport(), printMetrics(), arg(), main(), arg() (+3 more)
+### Community 52 - "run-live-eval.ts"
+Cohesion: 0.11
+Nodes (29): arg(), main(), collectGeneratedCandidates(), persistArtifact(), line(), pct(), printGoldEvalReport(), printMetrics() (+21 more)
 
 ### Community 53 - "gold-match.ts"
-Cohesion: 0.11
-Nodes (29): BATCH_CORRESPONDENCE_PROMPT_VERSION, BATCH_CORRESPONDENCE_SCHEMA_VERSION, RawBatchAttempt, cacheDir(), cacheKeyFor(), callClaudeJudge(), checkJudgeIndependence(), DEFAULT_JUDGE_MODEL (+21 more)
+Cohesion: 0.12
+Nodes (28): BATCH_CORRESPONDENCE_PROMPT_VERSION, BATCH_CORRESPONDENCE_SCHEMA_VERSION, RawBatchAttempt, buildJudgePrompt(), cacheDir(), cacheKeyFor(), callClaudeJudge(), checkJudgeIndependence() (+20 more)
 
-### Community 54 - "gold-metrics.test.ts"
-Cohesion: 0.13
-Nodes (15): checkCoverage(), CoverageResult, duplicates(), intersection(), setsEqual(), GoldMatchResult, GENERATED_IDS, GOLD_IDS (+7 more)
+### Community 54 - "gold-coverage.ts"
+Cohesion: 0.27
+Nodes (8): checkCoverage(), CoverageResult, duplicates(), intersection(), setsEqual(), GoldMatchResult, GENERATED_IDS, GOLD_IDS
 
 ### Community 55 - "Gold-fixture eval harness — design (v4, approved — implementation follows)"
 Cohesion: 0.15
@@ -280,38 +278,30 @@ Nodes (12): 10. Integration point (unchanged from v1/v2), 1. Gold file — updat
 
 ### Community 56 - "gold-batching.ts"
 Cohesion: 0.16
-Nodes (16): BatchEvidenceEntry, BatchMatch, CorrespondenceBatchResult, EvidenceBatchResult, aggregateBatchedMatch(), checkCorrespondenceBatchCoverage(), checkEvidenceBatchCoverage(), CORRESPONDENCE_GOLD_BATCH_SIZE (+8 more)
+Nodes (17): CorrespondenceBatchResult, EvidenceBatchResult, aggregateBatchedMatch(), buildCorrespondenceBatches(), buildEvidenceBatches(), checkCorrespondenceBatchCoverage(), checkEvidenceBatchCoverage(), chunk() (+9 more)
 
 ### Community 57 - "pipeline/index.ts"
-Cohesion: 0.20
-Nodes (15): ALL_STAGES, runPipeline(), Stage, StageContext, stage2Validate, stage6Stories, stage8Assemble, PipelineState (+7 more)
+Cohesion: 0.14
+Nodes (17): ALL_STAGES, Stage, stage2Validate, stage3Classify, stage4Reconcile, stage5Requirements, stage6Stories, Category (+9 more)
 
 ### Community 58 - "claims.ts"
 Cohesion: 0.16
-Nodes (16): ClaimDefinition, RequoteSchema, stage2bRequote, stage3Classify, buildRequoteUser(), REQUOTE_SYSTEM, applyFilters(), ClaimRow (+8 more)
+Nodes (17): ClaimDefinition, RequoteSchema, stage2bRequote, buildClassifyUser(), CLASSIFY_SYSTEM, buildRequoteUser(), REQUOTE_SYSTEM, applyFilters() (+9 more)
 
-### Community 59 - "create-candidate-snapshot.ts"
-Cohesion: 0.29
-Nodes (10): arg(), main(), collectGeneratedCandidates(), CandidateSnapshot, CandidateSnapshotSchema, computeCandidateContentHash(), loadCandidateSnapshot(), SnapshotCandidateSchema (+2 more)
+### Community 59 - "06-salon-booking — local semantic pre-fix baseline (2026-08-10)"
+Cohesion: 0.22
+Nodes (8): 06-salon-booking — local semantic pre-fix baseline (2026-08-10), Deterministic checks (unaffected by the above — judge-independent), Input provenance, Per-batch diagnostics (real measured, not estimated), Raw responses preserved, Relationship to the existing deterministic-only baseline, Runtime finding, not a context-size problem, What ran
 
 ### Community 62 - "06-salon-booking — deterministic-only baseline (2026-08-09)"
 Cohesion: 0.33
 Nodes (5): 06-salon-booking — deterministic-only baseline (2026-08-09), How to compare against this later, What ran, and what didn't, What this is, What this snapshot already shows
 
-### Community 63 - "stage1-extract.ts"
-Cohesion: 0.23
-Nodes (11): Window, applySpeakerRoleFloor(), ExtractedClaimsSchema, stage0Chunk, stage1Extract, hydrateWindow(), WindowRef, buildExtractUser() (+3 more)
-
-### Community 64 - "audit.ts"
-Cohesion: 0.15
-Nodes (16): canonical(), hashRequest(), logEgress(), MAX_TOKENS, MODEL, NOTE: the TypeScript SDK takes milliseconds, unlike the Python SDK., CheckpointStatus, egressSummary() (+8 more)
-
-### Community 66 - "gold-local-judge-batching.test.ts"
-Cohesion: 0.20
-Nodes (6): DEFAULT_JUDGE_MAX_OUTPUT_TOKENS, JudgeConfig, GoldItem, CACHE_DIR, cleanupNewCacheFiles(), listCacheFiles()
+### Community 63 - "stage0-chunk.ts"
+Cohesion: 0.21
+Nodes (7): db, segRows, transcript, windows, MIN_WORDS, Window, Segment
 
 ## Knowledge Gaps
-- **442 isolated node(s):** `name`, `version`, `description`, `main`, `dev` (+437 more)
+- **449 isolated node(s):** `name`, `version`, `description`, `main`, `dev` (+444 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **10 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -319,16 +309,16 @@ Nodes (6): DEFAULT_JUDGE_MAX_OUTPUT_TOKENS, JudgeConfig, GoldItem, CACHE_DIR, cl
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `claim()` connect `projects.ts` to `ReviewWorkspace.tsx`?**
-  _High betweenness centrality (0.113) - this node is a cross-community bridge._
+  _High betweenness centrality (0.111) - this node is a cross-community bridge._
 - **Why does `AssumptionsTab()` connect `ReviewWorkspace.tsx` to `showErrorToast`, `projects.ts`?**
-  _High betweenness centrality (0.112) - this node is a cross-community bridge._
-- **Why does `newId()` connect `projects.ts` to `audit.ts`, `ipc.ts`, `stage5-requirements.ts`, `schema-generation-check.ts`, `stage4-reconcile.ts`, `stage1-extract.ts`?**
-  _High betweenness centrality (0.077) - this node is a cross-community bridge._
+  _High betweenness centrality (0.110) - this node is a cross-community bridge._
+- **Why does `newId()` connect `projects.ts` to `ipc.ts`, `artifacts.ts`, `audit.ts`, `schema-generation-check.ts`, `pipeline/index.ts`?**
+  _High betweenness centrality (0.076) - this node is a cross-community bridge._
 - **What connects `name`, `version`, `description` to the rest of the system?**
-  _442 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _449 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Global Constraints` be split into smaller, more focused modules?**
   _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._
 - **Should `projects.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.07574417919245506 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0723429242513212 - nodes in this community are weakly interconnected._
 - **Should `File Structure` be split into smaller, more focused modules?**
   _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._

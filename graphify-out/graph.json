@@ -3120,8 +3120,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_eval_create_candidate_snapshot",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "create-candidate-snapshot.ts"
     },
     {
@@ -3132,8 +3132,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_create_candidate_snapshot_arg",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "arg()"
     },
     {
@@ -3144,8 +3144,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_create_candidate_snapshot_main",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "main()"
     },
     {
@@ -3498,8 +3498,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_gold_match_collectgeneratedcandidates",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "collectgeneratedcandidates()"
     },
     {
@@ -3510,8 +3510,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_gold_match_buildjudgeprompt",
-      "community": 51,
-      "community_name": "gold-metrics.ts",
+      "community": 53,
+      "community_name": "gold-match.ts",
       "norm_label": "buildjudgeprompt()"
     },
     {
@@ -3620,7 +3620,7 @@
       "_origin": "ast",
       "id": "scripts_eval_gold_match_persistartifact",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "persistartifact()"
     },
     {
@@ -3631,7 +3631,7 @@
       "_origin": "ast",
       "id": "scripts_eval_gold_report",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "gold-report.ts"
     },
     {
@@ -3643,7 +3643,7 @@
       "_origin": "ast",
       "id": "scripts_eval_gold_report_pct",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "pct()"
     },
     {
@@ -3655,7 +3655,7 @@
       "_origin": "ast",
       "id": "scripts_eval_gold_report_line",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "line()"
     },
     {
@@ -3667,7 +3667,7 @@
       "_origin": "ast",
       "id": "scripts_eval_gold_report_printmetrics",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "printmetrics()"
     },
     {
@@ -3679,7 +3679,7 @@
       "_origin": "ast",
       "id": "scripts_eval_gold_report_printgoldevalreport",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "printgoldevalreport()"
     },
     {
@@ -3689,7 +3689,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_eval_judge_config",
-      "community": 66,
+      "community": 32,
       "community_name": "gold-local-judge-batching.test.ts",
       "norm_label": "judge-config.ts"
     },
@@ -3702,7 +3702,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "scripts_eval_judge_config_judgeconfig",
-      "community": 66,
+      "community": 32,
       "community_name": "gold-local-judge-batching.test.ts",
       "norm_label": "judgeconfig"
     },
@@ -3713,7 +3713,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "scripts_eval_judge_config_default_judge_max_output_tokens",
-      "community": 66,
+      "community": 32,
       "community_name": "gold-local-judge-batching.test.ts",
       "norm_label": "default_judge_max_output_tokens"
     },
@@ -3725,7 +3725,7 @@
       "_origin": "ast",
       "id": "scripts_eval_run_candidate_snapshot",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "run-candidate-snapshot.ts"
     },
     {
@@ -3737,7 +3737,7 @@
       "_origin": "ast",
       "id": "scripts_eval_run_candidate_snapshot_arg",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "arg()"
     },
     {
@@ -3749,7 +3749,7 @@
       "_origin": "ast",
       "id": "scripts_eval_run_candidate_snapshot_main",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "main()"
     },
     {
@@ -3760,7 +3760,7 @@
       "_origin": "ast",
       "id": "scripts_eval_run_existing_session",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "run-existing-session.ts"
     },
     {
@@ -3772,7 +3772,7 @@
       "_origin": "ast",
       "id": "scripts_eval_run_existing_session_arg",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "arg()"
     },
     {
@@ -3784,7 +3784,7 @@
       "_origin": "ast",
       "id": "scripts_eval_run_existing_session_main",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "main()"
     },
     {
@@ -3794,8 +3794,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_inspect_windows",
-      "community": 32,
-      "community_name": "inspect-windows.ts",
+      "community": 63,
+      "community_name": "stage0-chunk.ts",
       "norm_label": "inspect-windows.ts"
     },
     {
@@ -3805,8 +3805,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "scripts_inspect_windows_db",
-      "community": 32,
-      "community_name": "inspect-windows.ts",
+      "community": 63,
+      "community_name": "stage0-chunk.ts",
       "norm_label": "db"
     },
     {
@@ -3816,8 +3816,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "scripts_inspect_windows_transcript",
-      "community": 32,
-      "community_name": "inspect-windows.ts",
+      "community": 63,
+      "community_name": "stage0-chunk.ts",
       "norm_label": "transcript"
     },
     {
@@ -3827,8 +3827,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "scripts_inspect_windows_segrows",
-      "community": 32,
-      "community_name": "inspect-windows.ts",
+      "community": 63,
+      "community_name": "stage0-chunk.ts",
       "norm_label": "segrows"
     },
     {
@@ -3838,8 +3838,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "scripts_inspect_windows_windows",
-      "community": 32,
-      "community_name": "inspect-windows.ts",
+      "community": 63,
+      "community_name": "stage0-chunk.ts",
       "norm_label": "windows"
     },
     {
@@ -3906,8 +3906,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_run_live_eval",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "run-live-eval.ts"
     },
     {
@@ -3919,8 +3919,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "scripts_run_live_eval_expectation",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "expectation"
     },
     {
@@ -3930,8 +3930,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "scripts_run_live_eval_here",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "here"
     },
     {
@@ -3941,8 +3941,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "scripts_run_live_eval_fixturesdir",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "fixturesdir"
     },
     {
@@ -3952,8 +3952,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "scripts_run_live_eval_expectations",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "expectations"
     },
     {
@@ -3963,8 +3963,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "scripts_run_live_eval_requestedbackends",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "requestedbackends"
     },
     {
@@ -3976,8 +3976,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "scripts_run_live_eval_fixtureresult",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "fixtureresult"
     },
     {
@@ -3987,8 +3987,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "scripts_run_live_eval_results",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "results"
     },
     {
@@ -3999,8 +3999,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_run_live_eval_check",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "check()"
     },
     {
@@ -4157,7 +4157,7 @@
       "_origin": "ast",
       "id": "scripts_spike_schema_grammar_check",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "schema-grammar-check.ts"
     },
     {
@@ -4168,7 +4168,7 @@
       "_origin": "ast",
       "id": "scripts_spike_schema_grammar_check_schemas",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "schemas"
     },
     {
@@ -4180,7 +4180,7 @@
       "_origin": "ast",
       "id": "scripts_spike_schema_grammar_check_main",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "main()"
     },
     {
@@ -4284,8 +4284,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "candidate-snapshot.ts"
     },
     {
@@ -4295,8 +4295,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot_snapshotcandidateschema",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "snapshotcandidateschema"
     },
     {
@@ -4306,8 +4306,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot_candidatesnapshotschema",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "candidatesnapshotschema"
     },
     {
@@ -4319,8 +4319,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot_candidatesnapshot",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "candidatesnapshot"
     },
     {
@@ -4331,8 +4331,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot_computecandidatecontenthash",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "computecandidatecontenthash()"
     },
     {
@@ -4343,8 +4343,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot_loadcandidatesnapshot",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "loadcandidatesnapshot()"
     },
     {
@@ -4354,8 +4354,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_eval_gold_batch_schema",
-      "community": 56,
-      "community_name": "gold-batching.ts",
+      "community": 50,
+      "community_name": "gold-local-judge-batching.ts",
       "norm_label": "gold-batch-schema.ts"
     },
     {
@@ -4391,8 +4391,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_eval_gold_batch_schema_batchmatch",
-      "community": 56,
-      "community_name": "gold-batching.ts",
+      "community": 50,
+      "community_name": "gold-local-judge-batching.ts",
       "norm_label": "batchmatch"
     },
     {
@@ -4428,8 +4428,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_eval_gold_batch_schema_batchevidenceentry",
-      "community": 56,
-      "community_name": "gold-batching.ts",
+      "community": 50,
+      "community_name": "gold-local-judge-batching.ts",
       "norm_label": "batchevidenceentry"
     },
     {
@@ -4473,8 +4473,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_gold_batching_chunk",
-      "community": 50,
-      "community_name": "gold-local-judge-batching.ts",
+      "community": 56,
+      "community_name": "gold-batching.ts",
       "norm_label": "chunk()"
     },
     {
@@ -4485,8 +4485,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_gold_batching_buildcorrespondencebatches",
-      "community": 50,
-      "community_name": "gold-local-judge-batching.ts",
+      "community": 56,
+      "community_name": "gold-batching.ts",
       "norm_label": "buildcorrespondencebatches()"
     },
     {
@@ -4497,8 +4497,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_gold_batching_buildevidencebatches",
-      "community": 50,
-      "community_name": "gold-local-judge-batching.ts",
+      "community": 56,
+      "community_name": "gold-batching.ts",
       "norm_label": "buildevidencebatches()"
     },
     {
@@ -4593,7 +4593,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_coverage",
       "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community_name": "gold-coverage.ts",
       "norm_label": "gold-coverage.ts"
     },
     {
@@ -4606,7 +4606,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_coverage_coverageresult",
       "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community_name": "gold-coverage.ts",
       "norm_label": "coverageresult"
     },
     {
@@ -4618,7 +4618,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_coverage_setsequal",
       "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community_name": "gold-coverage.ts",
       "norm_label": "setsequal()"
     },
     {
@@ -4630,7 +4630,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_coverage_intersection",
       "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community_name": "gold-coverage.ts",
       "norm_label": "intersection()"
     },
     {
@@ -4642,7 +4642,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_coverage_duplicates",
       "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community_name": "gold-coverage.ts",
       "norm_label": "duplicates()"
     },
     {
@@ -4654,7 +4654,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_coverage_checkcoverage",
       "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community_name": "gold-coverage.ts",
       "norm_label": "checkcoverage()"
     },
     {
@@ -4746,8 +4746,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_eval_gold_match_schema_goldmatchschema",
-      "community": 56,
-      "community_name": "gold-batching.ts",
+      "community": 53,
+      "community_name": "gold-match.ts",
       "norm_label": "goldmatchschema"
     },
     {
@@ -4760,7 +4760,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_match_schema_goldmatchresult",
       "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community_name": "gold-coverage.ts",
       "norm_label": "goldmatchresult"
     },
     {
@@ -5092,8 +5092,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_eval_gold_schema",
-      "community": 51,
-      "community_name": "gold-metrics.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "gold-schema.ts"
     },
     {
@@ -5103,8 +5103,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_eval_gold_schema_deterministiccheckschema",
-      "community": 51,
-      "community_name": "gold-metrics.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "deterministiccheckschema"
     },
     {
@@ -5116,8 +5116,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_eval_gold_schema_deterministiccheck",
-      "community": 51,
-      "community_name": "gold-metrics.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "deterministiccheck"
     },
     {
@@ -5127,8 +5127,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_eval_gold_schema_goldcategoryschema",
-      "community": 51,
-      "community_name": "gold-metrics.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "goldcategoryschema"
     },
     {
@@ -5141,7 +5141,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_schema_goldcategory",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "goldcategory"
     },
     {
@@ -5151,8 +5151,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_eval_gold_schema_golditemschema",
-      "community": 51,
-      "community_name": "gold-metrics.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "golditemschema"
     },
     {
@@ -5164,8 +5164,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_eval_gold_schema_golditem",
-      "community": 66,
-      "community_name": "gold-local-judge-batching.test.ts",
+      "community": 56,
+      "community_name": "gold-batching.ts",
       "norm_label": "golditem"
     },
     {
@@ -5176,7 +5176,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_schema_goldfixtureschema",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "goldfixtureschema"
     },
     {
@@ -5188,8 +5188,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_eval_gold_schema_goldfixture",
-      "community": 53,
-      "community_name": "gold-match.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "goldfixture"
     },
     {
@@ -5214,8 +5214,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_eval_gold_schema_supportedcategory",
-      "community": 51,
-      "community_name": "gold-metrics.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "supportedcategory"
     },
     {
@@ -5225,8 +5225,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "src_eval_gold_schema_supported_categories",
-      "community": 51,
-      "community_name": "gold-metrics.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "supported_categories"
     },
     {
@@ -5271,8 +5271,8 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "src_eval_gold_schema_expected_bucket",
-      "community": 51,
-      "community_name": "gold-metrics.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "expected_bucket"
     },
     {
@@ -5284,7 +5284,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_schema_loadgoldfixture",
       "community": 52,
-      "community_name": "gold-report.ts",
+      "community_name": "run-live-eval.ts",
       "norm_label": "loadgoldfixture()"
     },
     {
@@ -5295,7 +5295,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_sync",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "gold-sync.ts"
     },
     {
@@ -5306,7 +5306,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_sync_section_to_category",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "section_to_category"
     },
     {
@@ -5319,7 +5319,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_sync_parsedmarkdownitem",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "parsedmarkdownitem"
     },
     {
@@ -5331,7 +5331,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_sync_parsemarkdowngolditems",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "parsemarkdowngolditems()"
     },
     {
@@ -5343,7 +5343,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_sync_hashfilecontent",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "hashfilecontent()"
     },
     {
@@ -5356,7 +5356,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_sync_synccheckresult",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "synccheckresult"
     },
     {
@@ -5368,7 +5368,7 @@
       "_origin": "ast",
       "id": "src_eval_gold_sync_checkgoldsync",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "checkgoldsync()"
     },
     {
@@ -5851,7 +5851,7 @@
       "_origin": "ast",
       "id": "src_llm_backend",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "backend.ts"
     },
     {
@@ -5864,7 +5864,7 @@
       "_origin": "ast",
       "id": "src_llm_backend_effort",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "effort"
     },
     {
@@ -5877,7 +5877,7 @@
       "_origin": "ast",
       "id": "src_llm_backend_llmbackend",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "llmbackend"
     },
     {
@@ -5889,7 +5889,7 @@
       "_origin": "ast",
       "id": "src_llm_backend_llmbackend_generate",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": ".generate()"
     },
     {
@@ -5899,7 +5899,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_llm_client",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "client.ts"
     },
@@ -5910,7 +5910,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_llm_client_model",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "model"
     },
@@ -5921,7 +5921,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_llm_client_max_tokens",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "max_tokens"
     },
@@ -5945,7 +5945,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_client_canonical",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "canonical()"
     },
@@ -5957,7 +5957,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_client_hashrequest",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "hashrequest()"
     },
@@ -5969,7 +5969,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_client_logegress",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "logegress()"
     },
@@ -5981,7 +5981,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_client_estimateinputtokens",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "estimateinputtokens()"
     },
@@ -5994,8 +5994,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_llm_client_anthropicbackend",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 47,
+      "community_name": "audit.ts",
       "norm_label": "anthropicbackend"
     },
     {
@@ -6006,8 +6006,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_client_anthropicbackend_constructor",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 47,
+      "community_name": "audit.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -6019,7 +6019,7 @@
       "_origin": "ast",
       "id": "src_llm_client_anthropicbackend_generate",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": ".generate()"
     },
     {
@@ -6029,7 +6029,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_llm_client_rationale_24",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "note: the typescript sdk takes milliseconds, unlike the python sdk."
     },
@@ -6041,7 +6041,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "local-client.ts"
     },
     {
@@ -6054,7 +6054,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_log",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "log"
     },
     {
@@ -6067,7 +6067,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_nodellamacpp",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "nodellamacpp"
     },
     {
@@ -6079,7 +6079,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_loadnodellamacpp",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "loadnodellamacpp()"
     },
     {
@@ -6090,7 +6090,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_local_max_tokens",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "local_max_tokens"
     },
     {
@@ -6101,7 +6101,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_max_concurrent_sequences",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "max_concurrent_sequences"
     },
     {
@@ -6113,7 +6113,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_isdegenerateempty",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "isdegenerateempty()"
     },
     {
@@ -6126,7 +6126,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_localbackend",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "localbackend"
     },
     {
@@ -6138,7 +6138,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_localbackend_constructor",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -6150,7 +6150,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_localbackend_generate",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": ".generate()"
     },
     {
@@ -6172,8 +6172,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_llm_parse",
-      "community": 40,
-      "community_name": "stage5-requirements.ts",
+      "community": 47,
+      "community_name": "audit.ts",
       "norm_label": "parse.ts"
     },
     {
@@ -6185,8 +6185,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_llm_parse_stagefailure",
-      "community": 40,
-      "community_name": "stage5-requirements.ts",
+      "community": 47,
+      "community_name": "audit.ts",
       "norm_label": "stagefailure"
     },
     {
@@ -6197,8 +6197,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_parse_stagefailure_constructor",
-      "community": 40,
-      "community_name": "stage5-requirements.ts",
+      "community": 47,
+      "community_name": "audit.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -6209,8 +6209,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_parse_calltyped",
-      "community": 40,
-      "community_name": "stage5-requirements.ts",
+      "community": 47,
+      "community_name": "audit.ts",
       "norm_label": "calltyped()"
     },
     {
@@ -6221,7 +6221,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "zod-to-gbnf.ts"
     },
     {
@@ -6234,7 +6234,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_objectdef",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "objectdef"
     },
     {
@@ -6247,7 +6247,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_arraydef",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "arraydef"
     },
     {
@@ -6260,7 +6260,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_enumdef",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "enumdef"
     },
     {
@@ -6273,7 +6273,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_nullabledef",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "nullabledef"
     },
     {
@@ -6284,7 +6284,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_immutable_types",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "immutable_types"
     },
     {
@@ -6296,7 +6296,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_isnullableimmutabletype",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "isnullableimmutabletype()"
     },
     {
@@ -6308,7 +6308,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_zodtogbnfschema",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "zodtogbnfschema()"
     },
     {
@@ -6352,8 +6352,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_runner",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "runner.ts"
     },
     {
@@ -6365,8 +6365,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_pipeline_runner_stagecontext",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "stagecontext"
     },
     {
@@ -6402,8 +6402,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_pipeline_runner_runpipeline",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "runpipeline()"
     },
     {
@@ -6414,7 +6414,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage0_chunk",
       "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community_name": "stage0-chunk.ts",
       "norm_label": "stage0-chunk.ts"
     },
     {
@@ -6424,8 +6424,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_pipeline_stage0_chunk_min_words",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 63,
+      "community_name": "stage0-chunk.ts",
       "norm_label": "min_words"
     },
     {
@@ -6438,7 +6438,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage0_chunk_window",
       "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community_name": "stage0-chunk.ts",
       "norm_label": "window"
     },
     {
@@ -6472,8 +6472,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_stage1_extract",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "stage1-extract.ts"
     },
     {
@@ -6483,8 +6483,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_pipeline_stage1_extract_extractedclaimsschema",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 22,
+      "community_name": "adversarial.test.ts",
       "norm_label": "extractedclaimsschema"
     },
     {
@@ -6495,8 +6495,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_pipeline_stage1_extract_applyspeakerrolefloor",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "applyspeakerrolefloor()"
     },
     {
@@ -6506,8 +6506,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "src_pipeline_stage1_extract_stage0chunk",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "stage0chunk"
     },
     {
@@ -6517,8 +6517,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "src_pipeline_stage1_extract_stage1extract",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "stage1extract"
     },
     {
@@ -6607,7 +6607,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage3_classify_classificationschema",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "classificationschema"
     },
     {
@@ -6617,8 +6617,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_pipeline_stage3_classify_stage3classify",
-      "community": 58,
-      "community_name": "claims.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "stage3classify"
     },
     {
@@ -6628,8 +6628,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_stage4_reconcile",
-      "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "stage4-reconcile.ts"
     },
     {
@@ -6640,7 +6640,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage4_reconcile_reconcileschema",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "reconcileschema"
     },
     {
@@ -6650,8 +6650,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_pipeline_stage4_reconcile_stage4reconcile",
-      "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "stage4reconcile"
     },
     {
@@ -6662,7 +6662,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage5_requirements",
       "community": 40,
-      "community_name": "stage5-requirements.ts",
+      "community_name": "artifacts.ts",
       "norm_label": "stage5-requirements.ts"
     },
     {
@@ -6673,7 +6673,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage5_requirements_requirementdraftsschema",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "requirementdraftsschema"
     },
     {
@@ -6683,8 +6683,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_pipeline_stage5_requirements_stage5requirements",
-      "community": 40,
-      "community_name": "stage5-requirements.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "stage5requirements"
     },
     {
@@ -6705,8 +6705,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_pipeline_stage6_stories_storydraftsschema",
-      "community": 20,
-      "community_name": "schema-generation-check.ts",
+      "community": 22,
+      "community_name": "adversarial.test.ts",
       "norm_label": "storydraftsschema"
     },
     {
@@ -6727,8 +6727,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_stage7_critique",
-      "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "stage7-critique.ts"
     },
     {
@@ -6738,8 +6738,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_pipeline_stage7_critique_category",
-      "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "category"
     },
     {
@@ -6750,7 +6750,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage7_critique_critiquefindingsschema",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "critiquefindingsschema"
     },
     {
@@ -6760,8 +6760,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_pipeline_stage7_critique_stage7critique",
-      "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "stage7critique"
     },
     {
@@ -6793,8 +6793,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_state",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "state.ts"
     },
     {
@@ -6806,8 +6806,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_pipeline_state_windowref",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "windowref"
     },
     {
@@ -6855,8 +6855,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_pipeline_state_hydratewindow",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "hydratewindow()"
     },
     {
@@ -6867,7 +6867,7 @@
       "_origin": "ast",
       "id": "src_pipeline_suggest_domain",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "pipeline/suggest-domain.ts"
     },
     {
@@ -6878,7 +6878,7 @@
       "_origin": "ast",
       "id": "src_pipeline_suggest_domain_suggesteddomainschema",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "suggesteddomainschema"
     },
     {
@@ -6900,8 +6900,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_prompts_classify",
-      "community": 20,
-      "community_name": "schema-generation-check.ts",
+      "community": 58,
+      "community_name": "claims.ts",
       "norm_label": "classify.ts"
     },
     {
@@ -6911,8 +6911,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_prompts_classify_classify_system",
-      "community": 20,
-      "community_name": "schema-generation-check.ts",
+      "community": 58,
+      "community_name": "claims.ts",
       "norm_label": "classify_system"
     },
     {
@@ -6923,8 +6923,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_prompts_classify_buildclassifyuser",
-      "community": 20,
-      "community_name": "schema-generation-check.ts",
+      "community": 58,
+      "community_name": "claims.ts",
       "norm_label": "buildclassifyuser()"
     },
     {
@@ -6983,8 +6983,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_prompts_critique_reviewers",
-      "community": 20,
-      "community_name": "schema-generation-check.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "reviewers"
     },
     {
@@ -7006,8 +7006,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_prompts_extract",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "extract.ts"
     },
     {
@@ -7017,8 +7017,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_prompts_extract_extract_system",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "extract_system"
     },
     {
@@ -7029,8 +7029,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_prompts_extract_buildextractuser",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "buildextractuser()"
     },
     {
@@ -7040,8 +7040,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_prompts_reconcile",
-      "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "reconcile.ts"
     },
     {
@@ -7051,8 +7051,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_prompts_reconcile_reconcile_system",
-      "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "reconcile_system"
     },
     {
@@ -7063,8 +7063,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_prompts_reconcile_buildreconcileuser",
-      "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "buildreconcileuser()"
     },
     {
@@ -7075,7 +7075,7 @@
       "_origin": "ast",
       "id": "src_prompts_requirements",
       "community": 40,
-      "community_name": "stage5-requirements.ts",
+      "community_name": "artifacts.ts",
       "norm_label": "requirements.ts"
     },
     {
@@ -7086,7 +7086,7 @@
       "_origin": "ast",
       "id": "src_prompts_requirements_requirements_system",
       "community": 40,
-      "community_name": "stage5-requirements.ts",
+      "community_name": "artifacts.ts",
       "norm_label": "requirements_system"
     },
     {
@@ -7098,7 +7098,7 @@
       "_origin": "ast",
       "id": "src_prompts_requirements_buildrequirementsuser",
       "community": 40,
-      "community_name": "stage5-requirements.ts",
+      "community_name": "artifacts.ts",
       "norm_label": "buildrequirementsuser()"
     },
     {
@@ -7177,7 +7177,7 @@
       "_origin": "ast",
       "id": "src_prompts_suggest_domain",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "prompts/suggest-domain.ts"
     },
     {
@@ -7188,7 +7188,7 @@
       "_origin": "ast",
       "id": "src_prompts_suggest_domain_suggest_domain_system",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "suggest_domain_system"
     },
     {
@@ -7200,7 +7200,7 @@
       "_origin": "ast",
       "id": "src_prompts_suggest_domain_buildsuggestdomainuser",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "buildsuggestdomainuser()"
     },
     {
@@ -7210,8 +7210,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_store_artifacts",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 40,
+      "community_name": "artifacts.ts",
       "norm_label": "artifacts.ts"
     },
     {
@@ -7221,8 +7221,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_store_artifacts_keyed_tables",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 40,
+      "community_name": "artifacts.ts",
       "norm_label": "keyed_tables"
     },
     {
@@ -7234,8 +7234,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_artifacts_keyedtable",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 40,
+      "community_name": "artifacts.ts",
       "norm_label": "keyedtable"
     },
     {
@@ -7246,8 +7246,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_artifacts_nextkey",
-      "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community": 40,
+      "community_name": "artifacts.ts",
       "norm_label": "nextkey()"
     },
     {
@@ -7259,8 +7259,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_artifacts_requirementrow",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 40,
+      "community_name": "artifacts.ts",
       "norm_label": "requirementrow"
     },
     {
@@ -7271,8 +7271,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_artifacts_torequirement",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 46,
+      "community_name": "domain.ts",
       "norm_label": "torequirement()"
     },
     {
@@ -7320,8 +7320,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_artifacts_storyrow",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 40,
+      "community_name": "artifacts.ts",
       "norm_label": "storyrow"
     },
     {
@@ -7333,8 +7333,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_artifacts_acrow",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 40,
+      "community_name": "artifacts.ts",
       "norm_label": "acrow"
     },
     {
@@ -7345,8 +7345,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_artifacts_insertstory",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 40,
+      "community_name": "artifacts.ts",
       "norm_label": "insertstory()"
     },
     {
@@ -7368,7 +7368,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_store_audit",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "audit.ts"
     },
@@ -7381,7 +7381,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_audit_checkpointstatus",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "checkpointstatus"
     },
@@ -7405,7 +7405,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_audit_listapprovals",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "listapprovals()"
     },
@@ -7417,7 +7417,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_audit_recordegress",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "recordegress()"
     },
@@ -7429,7 +7429,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_audit_egresssummary",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "egresssummary()"
     },
@@ -7441,8 +7441,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_audit_savecheckpoint",
-      "community": 64,
-      "community_name": "audit.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "savecheckpoint()"
     },
     {
@@ -7453,8 +7453,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_audit_loadcheckpoint",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 47,
+      "community_name": "audit.ts",
       "norm_label": "loadcheckpoint()"
     },
     {
@@ -7537,8 +7537,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_claims_listprojectclaims",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 58,
+      "community_name": "claims.ts",
       "norm_label": "listprojectclaims()"
     },
     {
@@ -7621,8 +7621,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_db_db",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "db"
     },
     {
@@ -7957,8 +7957,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_projects_setsessionstatus",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "setsessionstatus()"
     },
     {
@@ -8679,8 +8679,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "src_types_domain_claimschema",
-      "community": 58,
-      "community_name": "claims.ts",
+      "community": 46,
+      "community_name": "domain.ts",
       "norm_label": "claimschema"
     },
     {
@@ -8690,8 +8690,8 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "src_types_domain_requirementschema",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 46,
+      "community_name": "domain.ts",
       "norm_label": "requirementschema"
     },
     {
@@ -8701,8 +8701,8 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "src_types_domain_acceptancecriterionschema",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 40,
+      "community_name": "artifacts.ts",
       "norm_label": "acceptancecriterionschema"
     },
     {
@@ -8712,8 +8712,8 @@
       "source_location": "L132",
       "_origin": "ast",
       "id": "src_types_domain_storyschema",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 40,
+      "community_name": "artifacts.ts",
       "norm_label": "storyschema"
     },
     {
@@ -8734,8 +8734,8 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "src_types_domain_recommendationschema",
-      "community": 64,
-      "community_name": "audit.ts",
+      "community": 46,
+      "community_name": "domain.ts",
       "norm_label": "recommendationschema"
     },
     {
@@ -8745,7 +8745,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "src_types_domain_approvaleventschema",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "approvaleventschema"
     },
@@ -8756,7 +8756,7 @@
       "source_location": "L179",
       "_origin": "ast",
       "id": "src_types_domain_egresslogschema",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "egresslogschema"
     },
@@ -8809,7 +8809,7 @@
       "_origin": "ast",
       "id": "src_types_domain_segment",
       "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community_name": "stage0-chunk.ts",
       "norm_label": "segment"
     },
     {
@@ -8834,8 +8834,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_requirement",
-      "community": 20,
-      "community_name": "schema-generation-check.ts",
+      "community": 40,
+      "community_name": "artifacts.ts",
       "norm_label": "requirement"
     },
     {
@@ -8860,8 +8860,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_acceptancecriterion",
-      "community": 20,
-      "community_name": "schema-generation-check.ts",
+      "community": 4,
+      "community_name": "ipc.ts",
       "norm_label": "acceptancecriterion"
     },
     {
@@ -8873,8 +8873,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_openquestion",
-      "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "openquestion"
     },
     {
@@ -8886,8 +8886,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_recommendation",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 57,
+      "community_name": "pipeline/index.ts",
       "norm_label": "recommendation"
     },
     {
@@ -8899,7 +8899,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_approvalevent",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "approvalevent"
     },
@@ -8912,7 +8912,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_egresslog",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "egresslog"
     },
@@ -9060,7 +9060,7 @@
       "_origin": "ast",
       "id": "tests_eval_adversarial_test",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "adversarial.test.ts"
     },
     {
@@ -9071,7 +9071,7 @@
       "_origin": "ast",
       "id": "tests_eval_adversarial_test_here",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "here"
     },
     {
@@ -9082,7 +9082,7 @@
       "_origin": "ast",
       "id": "tests_eval_adversarial_test_fixturesdir",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "fixturesdir"
     },
     {
@@ -9094,7 +9094,7 @@
       "_origin": "ast",
       "id": "tests_eval_adversarial_test_loadfixture",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "loadfixture()"
     },
     {
@@ -9104,8 +9104,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_eval_candidate_snapshot_test",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "candidate-snapshot.test.ts"
     },
     {
@@ -9116,8 +9116,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_eval_candidate_snapshot_test_baseoutputs",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "baseoutputs()"
     },
     {
@@ -9128,8 +9128,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_eval_candidate_snapshot_test_buildsnapshot",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "buildsnapshot()"
     },
     {
@@ -9140,8 +9140,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_eval_candidate_snapshot_test_withtempfile",
-      "community": 59,
-      "community_name": "create-candidate-snapshot.ts",
+      "community": 52,
+      "community_name": "run-live-eval.ts",
       "norm_label": "withtempfile()"
     },
     {
@@ -9199,7 +9199,7 @@
       "_origin": "ast",
       "id": "tests_eval_gold_coverage_test",
       "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community_name": "gold-coverage.ts",
       "norm_label": "gold-coverage.test.ts"
     },
     {
@@ -9210,7 +9210,7 @@
       "_origin": "ast",
       "id": "tests_eval_gold_coverage_test_gold_ids",
       "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community_name": "gold-coverage.ts",
       "norm_label": "gold_ids"
     },
     {
@@ -9221,7 +9221,7 @@
       "_origin": "ast",
       "id": "tests_eval_gold_coverage_test_generated_ids",
       "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community_name": "gold-coverage.ts",
       "norm_label": "generated_ids"
     },
     {
@@ -9233,7 +9233,7 @@
       "_origin": "ast",
       "id": "tests_eval_gold_coverage_test_baseresponse",
       "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community_name": "gold-coverage.ts",
       "norm_label": "baseresponse()"
     },
     {
@@ -9276,7 +9276,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_eval_gold_local_judge_batching_test",
-      "community": 66,
+      "community": 32,
       "community_name": "gold-local-judge-batching.test.ts",
       "norm_label": "gold-local-judge-batching.test.ts"
     },
@@ -9287,7 +9287,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "tests_eval_gold_local_judge_batching_test_cache_dir",
-      "community": 66,
+      "community": 32,
       "community_name": "gold-local-judge-batching.test.ts",
       "norm_label": "cache_dir"
     },
@@ -9299,7 +9299,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_eval_gold_local_judge_batching_test_listcachefiles",
-      "community": 66,
+      "community": 32,
       "community_name": "gold-local-judge-batching.test.ts",
       "norm_label": "listcachefiles()"
     },
@@ -9311,7 +9311,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_eval_gold_local_judge_batching_test_cleanupnewcachefiles",
-      "community": 66,
+      "community": 32,
       "community_name": "gold-local-judge-batching.test.ts",
       "norm_label": "cleanupnewcachefiles()"
     },
@@ -9323,7 +9323,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_eval_gold_local_judge_batching_test_makegolditems",
-      "community": 66,
+      "community": 32,
       "community_name": "gold-local-judge-batching.test.ts",
       "norm_label": "makegolditems()"
     },
@@ -9335,7 +9335,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_eval_gold_local_judge_batching_test_makecandidates",
-      "community": 66,
+      "community": 32,
       "community_name": "gold-local-judge-batching.test.ts",
       "norm_label": "makecandidates()"
     },
@@ -9347,7 +9347,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_eval_gold_local_judge_batching_test_goodcorrespondenceresponse",
-      "community": 66,
+      "community": 32,
       "community_name": "gold-local-judge-batching.test.ts",
       "norm_label": "goodcorrespondenceresponse()"
     },
@@ -9359,7 +9359,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_eval_gold_local_judge_batching_test_goodevidenceresponse",
-      "community": 66,
+      "community": 32,
       "community_name": "gold-local-judge-batching.test.ts",
       "norm_label": "goodevidenceresponse()"
     },
@@ -9370,8 +9370,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_eval_gold_match_batched_dispatch_test",
-      "community": 53,
-      "community_name": "gold-match.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "gold-match-batched-dispatch.test.ts"
     },
     {
@@ -9381,8 +9381,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "tests_eval_gold_match_batched_dispatch_test_env_keys",
-      "community": 53,
-      "community_name": "gold-match.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "env_keys"
     },
     {
@@ -9392,8 +9392,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "tests_eval_gold_match_batched_dispatch_test_emptyfixture",
-      "community": 53,
-      "community_name": "gold-match.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "emptyfixture"
     },
     {
@@ -9473,8 +9473,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_eval_gold_metrics_test",
-      "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "gold-metrics.test.ts"
     },
     {
@@ -9484,8 +9484,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "tests_eval_gold_metrics_test_fixture",
-      "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "fixture"
     },
     {
@@ -9495,8 +9495,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "tests_eval_gold_metrics_test_generatedrequirements",
-      "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "generatedrequirements"
     },
     {
@@ -9506,8 +9506,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "tests_eval_gold_metrics_test_generatedquestions",
-      "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "generatedquestions"
     },
     {
@@ -9517,8 +9517,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "tests_eval_gold_metrics_test_generatedassumptionclaims",
-      "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "generatedassumptionclaims"
     },
     {
@@ -9528,8 +9528,8 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "tests_eval_gold_metrics_test_matchresult",
-      "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "matchresult"
     },
     {
@@ -9539,8 +9539,8 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "tests_eval_gold_metrics_test_metrics",
-      "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "metrics"
     },
     {
@@ -9551,8 +9551,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_eval_gold_metrics_test_metricsfor",
-      "community": 54,
-      "community_name": "gold-metrics.test.ts",
+      "community": 49,
+      "community_name": "gold-schema.ts",
       "norm_label": "metricsfor()"
     },
     {
@@ -9563,7 +9563,7 @@
       "_origin": "ast",
       "id": "tests_eval_gold_sync_test",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "gold-sync.test.ts"
     },
     {
@@ -9574,7 +9574,7 @@
       "_origin": "ast",
       "id": "tests_eval_gold_sync_test_here",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "here"
     },
     {
@@ -9585,7 +9585,7 @@
       "_origin": "ast",
       "id": "tests_eval_gold_sync_test_goldendir",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "goldendir"
     },
     {
@@ -9596,7 +9596,7 @@
       "_origin": "ast",
       "id": "tests_eval_gold_sync_test_markdownpath",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "markdownpath"
     },
     {
@@ -9607,7 +9607,7 @@
       "_origin": "ast",
       "id": "tests_eval_gold_sync_test_jsonpath",
       "community": 49,
-      "community_name": "gold-sync.ts",
+      "community_name": "gold-schema.ts",
       "norm_label": "jsonpath"
     },
     {
@@ -9740,7 +9740,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_llm_client_test",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "client.test.ts"
     },
@@ -9752,7 +9752,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_llm_client_test_fakeanthropicclient",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "fakeanthropicclient()"
     },
@@ -9764,7 +9764,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "local-client.test.ts"
     },
     {
@@ -9775,7 +9775,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_mockgrammar",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "mockgrammar"
     },
     {
@@ -9786,7 +9786,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_mocksession",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "mocksession"
     },
     {
@@ -9797,7 +9797,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_mockllama",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "mockllama"
     },
     {
@@ -9808,7 +9808,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_mockmodel",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "mockmodel"
     },
     {
@@ -9820,7 +9820,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_makemocktokenmeter",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "makemocktokenmeter()"
     },
     {
@@ -9832,7 +9832,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_makemocksequence",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "makemocksequence()"
     },
     {
@@ -9843,7 +9843,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_mockcontext",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "mockcontext"
     },
     {
@@ -9853,8 +9853,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_llm_parse_test",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 47,
+      "community_name": "audit.ts",
       "norm_label": "parse.test.ts"
     },
     {
@@ -9864,8 +9864,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "tests_llm_parse_test_shape",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 47,
+      "community_name": "audit.ts",
       "norm_label": "shape"
     },
     {
@@ -9888,8 +9888,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_llm_parse_test_fakebackend",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 47,
+      "community_name": "audit.ts",
       "norm_label": "fakebackend()"
     },
     {
@@ -9900,8 +9900,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_llm_parse_test_generate",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 47,
+      "community_name": "audit.ts",
       "norm_label": "generate()"
     },
     {
@@ -9912,7 +9912,7 @@
       "_origin": "ast",
       "id": "tests_llm_zod_to_gbnf_test",
       "community": 22,
-      "community_name": "stage4-reconcile.ts",
+      "community_name": "adversarial.test.ts",
       "norm_label": "zod-to-gbnf.test.ts"
     },
     {
@@ -9922,8 +9922,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_pipeline_runner_test",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "runner.test.ts"
     },
     {
@@ -9945,8 +9945,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "tests_pipeline_runner_test_double",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "double"
     },
     {
@@ -9956,8 +9956,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tests_pipeline_runner_test_addten",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "addten"
     },
     {
@@ -9968,7 +9968,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_stage0_chunk_test",
       "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community_name": "stage0-chunk.ts",
       "norm_label": "stage0-chunk.test.ts"
     },
     {
@@ -9980,7 +9980,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_stage0_chunk_test_makesegments",
       "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community_name": "stage0-chunk.ts",
       "norm_label": "makesegments()"
     },
     {
@@ -9992,7 +9992,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_stage0_chunk_test_filler",
       "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community_name": "stage0-chunk.ts",
       "norm_label": "filler()"
     },
     {
@@ -10002,8 +10002,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_pipeline_stage1_extract_test",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "stage1-extract.test.ts"
     },
     {
@@ -10013,8 +10013,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "tests_pipeline_stage1_extract_test_long",
-      "community": 63,
-      "community_name": "stage1-extract.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "long"
     },
     {
@@ -10221,8 +10221,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_pipeline_stage8_assemble_test",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "stage8-assemble.test.ts"
     },
     {
@@ -10232,8 +10232,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "tests_pipeline_stage8_assemble_test_long",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "long"
     },
     {
@@ -10244,7 +10244,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_suggest_domain_test",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "suggest-domain.test.ts"
     },
     {
@@ -10255,7 +10255,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_suggest_domain_test_long",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "long"
     },
     {
@@ -10267,7 +10267,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_suggest_domain_test_mockbackend",
       "community": 47,
-      "community_name": "local-client.ts",
+      "community_name": "audit.ts",
       "norm_label": "mockbackend()"
     },
     {
@@ -10300,7 +10300,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_store_audit_test",
-      "community": 64,
+      "community": 47,
       "community_name": "audit.ts",
       "norm_label": "audit.test.ts"
     },
@@ -10472,8 +10472,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_types_domain_test",
-      "community": 64,
-      "community_name": "audit.ts",
+      "community": 46,
+      "community_name": "domain.ts",
       "norm_label": "domain.test.ts"
     },
     {
@@ -10849,6 +10849,105 @@
       "community": 62,
       "community_name": "06-salon-booking \u2014 deterministic-only baseline (2026-08-09)",
       "norm_label": "how to compare against this later"
+    },
+    {
+      "label": "06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "file_type": "document",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
+      "community": 59,
+      "community_name": "06-salon-booking \u2014 local semantic pre-fix baseline (2026-08-10)",
+      "norm_label": "06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md"
+    },
+    {
+      "label": "06-salon-booking \u2014 local semantic pre-fix baseline (2026-08-10)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
+      "community": 59,
+      "community_name": "06-salon-booking \u2014 local semantic pre-fix baseline (2026-08-10)",
+      "norm_label": "06-salon-booking \u2014 local semantic pre-fix baseline (2026-08-10)"
+    },
+    {
+      "label": "Input provenance",
+      "file_type": "document",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_input_provenance",
+      "community": 59,
+      "community_name": "06-salon-booking \u2014 local semantic pre-fix baseline (2026-08-10)",
+      "norm_label": "input provenance"
+    },
+    {
+      "label": "What ran",
+      "file_type": "document",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_what_ran",
+      "community": 59,
+      "community_name": "06-salon-booking \u2014 local semantic pre-fix baseline (2026-08-10)",
+      "norm_label": "what ran"
+    },
+    {
+      "label": "Per-batch diagnostics (real measured, not estimated)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L59",
+      "_origin": "ast",
+      "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_per_batch_diagnostics_real_measured_not_estimated",
+      "community": 59,
+      "community_name": "06-salon-booking \u2014 local semantic pre-fix baseline (2026-08-10)",
+      "norm_label": "per-batch diagnostics (real measured, not estimated)"
+    },
+    {
+      "label": "Runtime finding, not a context-size problem",
+      "file_type": "document",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L93",
+      "_origin": "ast",
+      "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_runtime_finding_not_a_context_size_problem",
+      "community": 59,
+      "community_name": "06-salon-booking \u2014 local semantic pre-fix baseline (2026-08-10)",
+      "norm_label": "runtime finding, not a context-size problem"
+    },
+    {
+      "label": "Deterministic checks (unaffected by the above \u2014 judge-independent)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L115",
+      "_origin": "ast",
+      "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_deterministic_checks_unaffected_by_the_above_judge_independent",
+      "community": 59,
+      "community_name": "06-salon-booking \u2014 local semantic pre-fix baseline (2026-08-10)",
+      "norm_label": "deterministic checks (unaffected by the above \u2014 judge-independent)"
+    },
+    {
+      "label": "Raw responses preserved",
+      "file_type": "document",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L125",
+      "_origin": "ast",
+      "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_raw_responses_preserved",
+      "community": 59,
+      "community_name": "06-salon-booking \u2014 local semantic pre-fix baseline (2026-08-10)",
+      "norm_label": "raw responses preserved"
+    },
+    {
+      "label": "Relationship to the existing deterministic-only baseline",
+      "file_type": "document",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L133",
+      "_origin": "ast",
+      "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_relationship_to_the_existing_deterministic_only_baseline",
+      "community": 59,
+      "community_name": "06-salon-booking \u2014 local semantic pre-fix baseline (2026-08-10)",
+      "norm_label": "relationship to the existing deterministic-only baseline"
     },
     {
       "label": "2026-08-05-ba-story-agent-core-engine.md",
@@ -47047,6 +47146,94 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
+      "target": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L115",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
+      "target": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_deterministic_checks_unaffected_by_the_above_judge_independent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
+      "target": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_input_provenance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
+      "target": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_per_batch_diagnostics_real_measured_not_estimated",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L125",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
+      "target": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_raw_responses_preserved",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L133",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
+      "target": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_relationship_to_the_existing_deterministic_only_baseline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L93",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
+      "target": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_runtime_finding_not_a_context_size_problem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
+      "target": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_what_ran",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/plans/2026-08-05-ba-story-agent-core-engine.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -49048,5 +49235,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1ab16d277bc65ddc28f6ad0092d1e602f8e43e2d"
+  "built_at_commit": "c9447406b0ebc51201d79ba09fe57d0fd7b8500d"
 }

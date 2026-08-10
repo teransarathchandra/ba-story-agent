@@ -893,5 +893,15 @@
     "mtime": 1786342436.9116628,
     "ast_hash": "c7ba70868152623e4bc1b823562b73d7",
     "semantic_hash": ""
+  },
+  "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.json": {
+    "mtime": 1786343168.4939458,
+    "ast_hash": "3e295a7c0db8b63e1a4b5455f96378c4",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md": {
+    "mtime": 1786343211.6278238,
+    "ast_hash": "fdeba8dbf6e9a3b4607c8aff216f15fb",
+    "semantic_hash": ""
   }
 }
