@@ -900,8 +900,33 @@
     "semantic_hash": ""
   },
   "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md": {
-    "mtime": 1786343211.6278238,
-    "ast_hash": "fdeba8dbf6e9a3b4607c8aff216f15fb",
+    "mtime": 1786447154.055737,
+    "ast_hash": "d418dbb0d4c7f6d6a769a27c622b8c51",
+    "semantic_hash": ""
+  },
+  "tests/fixtures/calibration/pairwise-semantic-calibration-v1.json": {
+    "mtime": 1786441867.3818698,
+    "ast_hash": "5250777efb086db8a686e39eea4a0e03",
+    "semantic_hash": ""
+  },
+  "tests/fixtures/calibration/pairwise-semantic-calibration-v1.md": {
+    "mtime": 1786441886.5378046,
+    "ast_hash": "6590c94e7daf44230b2c25fb86eff7b9",
+    "semantic_hash": ""
+  },
+  "scripts/eval/generate-human-review-template.mts": {
+    "mtime": 1786447280.5227416,
+    "ast_hash": "5c8b4b8b1773dc14de9aafea249698fb",
+    "semantic_hash": ""
+  },
+  "tests/fixtures/human-review/06-salon-booking.review-template-v1.json": {
+    "mtime": 1786447289.6821985,
+    "ast_hash": "5792caefec4929578ce518e53ebdddd1",
+    "semantic_hash": ""
+  },
+  "tests/fixtures/human-review/06-salon-booking.review-template-v1.md": {
+    "mtime": 1786447289.6825082,
+    "ast_hash": "78f0ade420d92512463ef85011111d3f",
     "semantic_hash": ""
   }
 }

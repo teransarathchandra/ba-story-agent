@@ -1,5 +1,18 @@
 # 06-salon-booking — local semantic pre-fix baseline (2026-08-10)
 
+> **EXPERIMENTAL / DIAGNOSTIC — NOT AUTHORITATIVE.** Following a
+> multi-model capability study (Llama 3.2 3B, Llama 3.1 8B, Gemma 3 4B —
+> see the pairwise calibration/probe artifacts in `.eval-runs/probes/`),
+> no local judge model qualified as a reliable authoritative semantic
+> judge under the project's 16GB hardware constraint. The authoritative
+> semantic benchmark for this fixture is now the human-reviewed match map
+> (see `tests/fixtures/human-review/`), not any LLM judge output,
+> including this one. This document is retained as a capability-study
+> artifact — evidence of what was tried and why it wasn't promoted, not a
+> pipeline quality score. Local judges may still be used for
+> diagnostic/advisory purposes (e.g. surfacing candidate pairs for a human
+> reviewer to look at) but must never silently produce a headline score.
+
 **Status: promoted snapshot — INVALID coverage, and that invalidity IS the
 finding.** A manually-promoted copy of an `.eval-runs/` artifact
 (gitignored by design). Zero cloud/API calls, zero DB access (evaluated

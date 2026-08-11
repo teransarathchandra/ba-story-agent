@@ -176,8 +176,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "electron_package_dependencies_anthropic_ai_sdk",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 72,
+      "community_name": "@anthropic-ai/sdk",
       "norm_label": "@anthropic-ai/sdk"
     },
     {
@@ -187,8 +187,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "electron_package_json_anthropic_ai_sdk",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 72,
+      "community_name": "@anthropic-ai/sdk",
       "norm_label": "@anthropic-ai/sdk"
     },
     {
@@ -286,8 +286,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "electron_package_dependencies_commander",
-      "community": 61,
-      "community_name": "commander",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "commander"
     },
     {
@@ -297,8 +297,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "electron_package_json_commander",
-      "community": 61,
-      "community_name": "commander",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "commander"
     },
     {
@@ -932,8 +932,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "electron_src_main_ipc_selectbackend",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 65,
+      "community_name": "run-live-eval.ts",
       "norm_label": "selectbackend()"
     },
     {
@@ -3121,7 +3121,7 @@
       "_origin": "ast",
       "id": "scripts_eval_create_candidate_snapshot",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "create-candidate-snapshot.ts"
     },
     {
@@ -3133,7 +3133,7 @@
       "_origin": "ast",
       "id": "scripts_eval_create_candidate_snapshot_arg",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "arg()"
     },
     {
@@ -3145,8 +3145,108 @@
       "_origin": "ast",
       "id": "scripts_eval_create_candidate_snapshot_main",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "main()"
+    },
+    {
+      "label": "generate-human-review-template.mts",
+      "file_type": "code",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_eval_generate_human_review_template",
+      "community": 52,
+      "community_name": "generate-human-review-template.mts",
+      "norm_label": "generate-human-review-template.mts"
+    },
+    {
+      "label": "arg()",
+      "file_type": "code",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L12",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "scripts_eval_generate_human_review_template_arg",
+      "community": 52,
+      "community_name": "generate-human-review-template.mts",
+      "norm_label": "arg()"
+    },
+    {
+      "label": "FIXTURE_NAME",
+      "file_type": "code",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "scripts_eval_generate_human_review_template_fixture_name",
+      "community": 52,
+      "community_name": "generate-human-review-template.mts",
+      "norm_label": "fixture_name"
+    },
+    {
+      "label": "fixture",
+      "file_type": "code",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "scripts_eval_generate_human_review_template_fixture",
+      "community": 52,
+      "community_name": "generate-human-review-template.mts",
+      "norm_label": "fixture"
+    },
+    {
+      "label": "snapshot",
+      "file_type": "code",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "scripts_eval_generate_human_review_template_snapshot",
+      "community": 52,
+      "community_name": "generate-human-review-template.mts",
+      "norm_label": "snapshot"
+    },
+    {
+      "label": "goldItems",
+      "file_type": "code",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "scripts_eval_generate_human_review_template_golditems",
+      "community": 52,
+      "community_name": "generate-human-review-template.mts",
+      "norm_label": "golditems"
+    },
+    {
+      "label": "allCandidates",
+      "file_type": "code",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "scripts_eval_generate_human_review_template_allcandidates",
+      "community": 52,
+      "community_name": "generate-human-review-template.mts",
+      "norm_label": "allcandidates"
+    },
+    {
+      "label": "template",
+      "file_type": "code",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "scripts_eval_generate_human_review_template_template",
+      "community": 52,
+      "community_name": "generate-human-review-template.mts",
+      "norm_label": "template"
+    },
+    {
+      "label": "categoryLabel",
+      "file_type": "code",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "scripts_eval_generate_human_review_template_categorylabel",
+      "community": 52,
+      "community_name": "generate-human-review-template.mts",
+      "norm_label": "categorylabel"
     },
     {
       "label": "gold-local-judge-batching.ts",
@@ -3499,7 +3599,7 @@
       "_origin": "ast",
       "id": "scripts_eval_gold_match_collectgeneratedcandidates",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "collectgeneratedcandidates()"
     },
     {
@@ -3510,8 +3610,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_gold_match_buildjudgeprompt",
-      "community": 53,
-      "community_name": "gold-match.ts",
+      "community": 51,
+      "community_name": "gold-metrics.ts",
       "norm_label": "buildjudgeprompt()"
     },
     {
@@ -3619,8 +3719,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_gold_match_persistartifact",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "persistartifact()"
     },
     {
@@ -3630,8 +3730,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_eval_gold_report",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "gold-report.ts"
     },
     {
@@ -3642,8 +3742,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_gold_report_pct",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "pct()"
     },
     {
@@ -3654,8 +3754,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_gold_report_line",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "line()"
     },
     {
@@ -3666,8 +3766,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_gold_report_printmetrics",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "printmetrics()"
     },
     {
@@ -3678,8 +3778,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_gold_report_printgoldevalreport",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "printgoldevalreport()"
     },
     {
@@ -3724,8 +3824,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_eval_run_candidate_snapshot",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "run-candidate-snapshot.ts"
     },
     {
@@ -3736,8 +3836,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_run_candidate_snapshot_arg",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "arg()"
     },
     {
@@ -3748,8 +3848,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_run_candidate_snapshot_main",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "main()"
     },
     {
@@ -3759,8 +3859,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_eval_run_existing_session",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "run-existing-session.ts"
     },
     {
@@ -3771,8 +3871,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_run_existing_session_arg",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "arg()"
     },
     {
@@ -3783,8 +3883,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_eval_run_existing_session_main",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "main()"
     },
     {
@@ -3794,8 +3894,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_inspect_windows",
-      "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community": 68,
+      "community_name": "inspect-windows.ts",
       "norm_label": "inspect-windows.ts"
     },
     {
@@ -3805,8 +3905,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "scripts_inspect_windows_db",
-      "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community": 68,
+      "community_name": "inspect-windows.ts",
       "norm_label": "db"
     },
     {
@@ -3816,8 +3916,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "scripts_inspect_windows_transcript",
-      "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community": 68,
+      "community_name": "inspect-windows.ts",
       "norm_label": "transcript"
     },
     {
@@ -3827,8 +3927,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "scripts_inspect_windows_segrows",
-      "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community": 68,
+      "community_name": "inspect-windows.ts",
       "norm_label": "segrows"
     },
     {
@@ -3838,8 +3938,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "scripts_inspect_windows_windows",
-      "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community": 68,
+      "community_name": "inspect-windows.ts",
       "norm_label": "windows"
     },
     {
@@ -3849,8 +3949,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_repro_full",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "repro-full.ts"
     },
     {
@@ -3860,8 +3960,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "scripts_repro_full_transcript_text",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "transcript_text"
     },
     {
@@ -3872,8 +3972,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_repro_full_main",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "main()"
     },
     {
@@ -3906,7 +4006,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_run_live_eval",
-      "community": 52,
+      "community": 65,
       "community_name": "run-live-eval.ts",
       "norm_label": "run-live-eval.ts"
     },
@@ -3919,7 +4019,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "scripts_run_live_eval_expectation",
-      "community": 52,
+      "community": 65,
       "community_name": "run-live-eval.ts",
       "norm_label": "expectation"
     },
@@ -3930,7 +4030,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "scripts_run_live_eval_here",
-      "community": 52,
+      "community": 65,
       "community_name": "run-live-eval.ts",
       "norm_label": "here"
     },
@@ -3941,7 +4041,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "scripts_run_live_eval_fixturesdir",
-      "community": 52,
+      "community": 65,
       "community_name": "run-live-eval.ts",
       "norm_label": "fixturesdir"
     },
@@ -3952,7 +4052,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "scripts_run_live_eval_expectations",
-      "community": 52,
+      "community": 65,
       "community_name": "run-live-eval.ts",
       "norm_label": "expectations"
     },
@@ -3963,7 +4063,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "scripts_run_live_eval_requestedbackends",
-      "community": 52,
+      "community": 65,
       "community_name": "run-live-eval.ts",
       "norm_label": "requestedbackends"
     },
@@ -3976,7 +4076,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "scripts_run_live_eval_fixtureresult",
-      "community": 52,
+      "community": 65,
       "community_name": "run-live-eval.ts",
       "norm_label": "fixtureresult"
     },
@@ -3987,7 +4087,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "scripts_run_live_eval_results",
-      "community": 52,
+      "community": 65,
       "community_name": "run-live-eval.ts",
       "norm_label": "results"
     },
@@ -3999,7 +4099,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_run_live_eval_check",
-      "community": 52,
+      "community": 65,
       "community_name": "run-live-eval.ts",
       "norm_label": "check()"
     },
@@ -4011,8 +4111,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_run_live_eval_runagainstbackend",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "runagainstbackend()"
     },
     {
@@ -4023,8 +4123,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "scripts_run_live_eval_main",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 65,
+      "community_name": "run-live-eval.ts",
       "norm_label": "main()"
     },
     {
@@ -4157,7 +4257,7 @@
       "_origin": "ast",
       "id": "scripts_spike_schema_grammar_check",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "schema-grammar-check.ts"
     },
     {
@@ -4168,7 +4268,7 @@
       "_origin": "ast",
       "id": "scripts_spike_schema_grammar_check_schemas",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "schemas"
     },
     {
@@ -4180,7 +4280,7 @@
       "_origin": "ast",
       "id": "scripts_spike_schema_grammar_check_main",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "main()"
     },
     {
@@ -4224,8 +4324,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_cli_index",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "cli/index.ts"
     },
     {
@@ -4237,8 +4337,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_cli_index_log",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "log"
     },
     {
@@ -4249,8 +4349,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_cli_index_selectbackend",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 65,
+      "community_name": "run-live-eval.ts",
       "norm_label": "selectbackend()"
     },
     {
@@ -4261,8 +4361,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_cli_index_buildprogram",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "buildprogram()"
     },
     {
@@ -4273,8 +4373,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_cli_index_classifyclierror",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "classifyclierror()"
     },
     {
@@ -4285,7 +4385,7 @@
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "candidate-snapshot.ts"
     },
     {
@@ -4296,7 +4396,7 @@
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot_snapshotcandidateschema",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "snapshotcandidateschema"
     },
     {
@@ -4307,7 +4407,7 @@
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot_candidatesnapshotschema",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "candidatesnapshotschema"
     },
     {
@@ -4320,7 +4420,7 @@
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot_candidatesnapshot",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "candidatesnapshot"
     },
     {
@@ -4332,7 +4432,7 @@
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot_computecandidatecontenthash",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "computecandidatecontenthash()"
     },
     {
@@ -4344,7 +4444,7 @@
       "_origin": "ast",
       "id": "src_eval_candidate_snapshot_loadcandidatesnapshot",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "loadcandidatesnapshot()"
     },
     {
@@ -4354,8 +4454,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_eval_gold_batch_schema",
-      "community": 50,
-      "community_name": "gold-local-judge-batching.ts",
+      "community": 56,
+      "community_name": "gold-batching.ts",
       "norm_label": "gold-batch-schema.ts"
     },
     {
@@ -4391,8 +4491,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_eval_gold_batch_schema_batchmatch",
-      "community": 50,
-      "community_name": "gold-local-judge-batching.ts",
+      "community": 56,
+      "community_name": "gold-batching.ts",
       "norm_label": "batchmatch"
     },
     {
@@ -4509,8 +4609,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_gold_batching_duplicates",
-      "community": 56,
-      "community_name": "gold-batching.ts",
+      "community": 50,
+      "community_name": "gold-local-judge-batching.ts",
       "norm_label": "duplicates()"
     },
     {
@@ -4533,8 +4633,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_gold_batching_checkcorrespondencebatchcoverage",
-      "community": 56,
-      "community_name": "gold-batching.ts",
+      "community": 50,
+      "community_name": "gold-local-judge-batching.ts",
       "norm_label": "checkcorrespondencebatchcoverage()"
     },
     {
@@ -4545,8 +4645,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_gold_batching_checkevidencebatchcoverage",
-      "community": 56,
-      "community_name": "gold-batching.ts",
+      "community": 50,
+      "community_name": "gold-local-judge-batching.ts",
       "norm_label": "checkevidencebatchcoverage()"
     },
     {
@@ -5140,8 +5240,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_eval_gold_schema_goldcategory",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "goldcategory"
     },
     {
@@ -5175,8 +5275,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_eval_gold_schema_goldfixtureschema",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "goldfixtureschema"
     },
     {
@@ -5225,8 +5325,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "src_eval_gold_schema_supported_categories",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 51,
+      "community_name": "gold-metrics.ts",
       "norm_label": "supported_categories"
     },
     {
@@ -5283,8 +5383,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_gold_schema_loadgoldfixture",
-      "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community": 70,
+      "community_name": "gold-report.ts",
       "norm_label": "loadgoldfixture()"
     },
     {
@@ -5294,8 +5394,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_eval_gold_sync",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "gold-sync.ts"
     },
     {
@@ -5305,8 +5405,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_eval_gold_sync_section_to_category",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "section_to_category"
     },
     {
@@ -5318,8 +5418,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_eval_gold_sync_parsedmarkdownitem",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "parsedmarkdownitem"
     },
     {
@@ -5330,8 +5430,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_gold_sync_parsemarkdowngolditems",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "parsemarkdowngolditems()"
     },
     {
@@ -5342,8 +5442,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_gold_sync_hashfilecontent",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "hashfilecontent()"
     },
     {
@@ -5355,8 +5455,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_eval_gold_sync_synccheckresult",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "synccheckresult"
     },
     {
@@ -5367,8 +5467,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_eval_gold_sync_checkgoldsync",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "checkgoldsync()"
     },
     {
@@ -5378,8 +5478,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_export_json",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "json.ts"
     },
     {
@@ -5391,8 +5491,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_export_json_publisher",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "publisher"
     },
     {
@@ -5403,8 +5503,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_json_publisher_publish",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": ".publish()"
     },
     {
@@ -5414,8 +5514,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_export_json_jsonpublisher",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "jsonpublisher"
     },
     {
@@ -5425,8 +5525,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_export_markdown",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "markdown.ts"
     },
     {
@@ -5437,8 +5537,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_markdown_formattimestamp",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "formattimestamp()"
     },
     {
@@ -5449,8 +5549,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_markdown_shortdate",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "shortdate()"
     },
     {
@@ -5460,8 +5560,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_export_markdown_markdownpublisher",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "markdownpublisher"
     },
     {
@@ -5471,8 +5571,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_export_snapshot",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "snapshot.ts"
     },
     {
@@ -5482,8 +5582,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_export_snapshot_snapshot_schema_version",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "snapshot_schema_version"
     },
     {
@@ -5495,8 +5595,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_export_snapshot_evidence",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "evidence"
     },
     {
@@ -5508,8 +5608,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_export_snapshot_exportsnapshot",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "exportsnapshot"
     },
     {
@@ -5520,8 +5620,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_snapshot_buildsnapshot",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "buildsnapshot()"
     },
     {
@@ -5851,7 +5951,7 @@
       "_origin": "ast",
       "id": "src_llm_backend",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "backend.ts"
     },
     {
@@ -5864,7 +5964,7 @@
       "_origin": "ast",
       "id": "src_llm_backend_effort",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "effort"
     },
     {
@@ -5877,7 +5977,7 @@
       "_origin": "ast",
       "id": "src_llm_backend_llmbackend",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "llmbackend"
     },
     {
@@ -5889,7 +5989,7 @@
       "_origin": "ast",
       "id": "src_llm_backend_llmbackend_generate",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": ".generate()"
     },
     {
@@ -5899,7 +5999,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_llm_client",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "client.ts"
     },
@@ -5910,7 +6010,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_llm_client_model",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "model"
     },
@@ -5921,7 +6021,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_llm_client_max_tokens",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "max_tokens"
     },
@@ -5933,8 +6033,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_client_createclient",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 65,
+      "community_name": "run-live-eval.ts",
       "norm_label": "createclient()"
     },
     {
@@ -5945,7 +6045,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_client_canonical",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "canonical()"
     },
@@ -5957,7 +6057,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_client_hashrequest",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "hashrequest()"
     },
@@ -5969,7 +6069,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_client_logegress",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "logegress()"
     },
@@ -5981,7 +6081,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_client_estimateinputtokens",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "estimateinputtokens()"
     },
@@ -5994,7 +6094,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_llm_client_anthropicbackend",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "anthropicbackend"
     },
@@ -6006,7 +6106,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_client_anthropicbackend_constructor",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": ".constructor()"
     },
@@ -6019,7 +6119,7 @@
       "_origin": "ast",
       "id": "src_llm_client_anthropicbackend_generate",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": ".generate()"
     },
     {
@@ -6029,7 +6129,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_llm_client_rationale_24",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "note: the typescript sdk takes milliseconds, unlike the python sdk."
     },
@@ -6041,7 +6141,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "local-client.ts"
     },
     {
@@ -6054,7 +6154,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_log",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "log"
     },
     {
@@ -6067,7 +6167,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_nodellamacpp",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "nodellamacpp"
     },
     {
@@ -6079,7 +6179,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_loadnodellamacpp",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "loadnodellamacpp()"
     },
     {
@@ -6090,7 +6190,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_local_max_tokens",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "local_max_tokens"
     },
     {
@@ -6101,7 +6201,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_max_concurrent_sequences",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "max_concurrent_sequences"
     },
     {
@@ -6113,7 +6213,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_isdegenerateempty",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "isdegenerateempty()"
     },
     {
@@ -6126,7 +6226,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_localbackend",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "localbackend"
     },
     {
@@ -6138,7 +6238,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_localbackend_constructor",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -6150,7 +6250,7 @@
       "_origin": "ast",
       "id": "src_llm_local_client_localbackend_generate",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": ".generate()"
     },
     {
@@ -6161,8 +6261,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_local_client_loadlocalbackend",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 65,
+      "community_name": "run-live-eval.ts",
       "norm_label": "loadlocalbackend()"
     },
     {
@@ -6172,8 +6272,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_llm_parse",
-      "community": 47,
-      "community_name": "audit.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": "parse.ts"
     },
     {
@@ -6185,8 +6285,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_llm_parse_stagefailure",
-      "community": 47,
-      "community_name": "audit.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": "stagefailure"
     },
     {
@@ -6197,8 +6297,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_parse_stagefailure_constructor",
-      "community": 47,
-      "community_name": "audit.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -6209,8 +6309,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_llm_parse_calltyped",
-      "community": 47,
-      "community_name": "audit.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": "calltyped()"
     },
     {
@@ -6221,7 +6321,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "zod-to-gbnf.ts"
     },
     {
@@ -6234,7 +6334,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_objectdef",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "objectdef"
     },
     {
@@ -6247,7 +6347,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_arraydef",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "arraydef"
     },
     {
@@ -6260,7 +6360,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_enumdef",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "enumdef"
     },
     {
@@ -6273,7 +6373,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_nullabledef",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "nullabledef"
     },
     {
@@ -6284,7 +6384,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_immutable_types",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "immutable_types"
     },
     {
@@ -6296,7 +6396,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_isnullableimmutabletype",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "isnullableimmutabletype()"
     },
     {
@@ -6308,7 +6408,7 @@
       "_origin": "ast",
       "id": "src_llm_zod_to_gbnf_zodtogbnfschema",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "zodtogbnfschema()"
     },
     {
@@ -6318,7 +6418,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_index",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "pipeline/index.ts"
     },
@@ -6329,7 +6429,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_pipeline_index_all_stages",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "all_stages"
     },
@@ -6341,8 +6441,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_pipeline_index_analyzesession",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "analyzesession()"
     },
     {
@@ -6352,8 +6452,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_runner",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": "runner.ts"
     },
     {
@@ -6378,7 +6478,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_pipeline_runner_stage",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "stage"
     },
@@ -6390,7 +6490,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_pipeline_runner_stage_run",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": ".run()"
     },
@@ -6402,8 +6502,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_pipeline_runner_runpipeline",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": "runpipeline()"
     },
     {
@@ -6414,7 +6514,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage0_chunk",
       "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community_name": "state.ts",
       "norm_label": "stage0-chunk.ts"
     },
     {
@@ -6425,7 +6525,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage0_chunk_min_words",
       "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community_name": "state.ts",
       "norm_label": "min_words"
     },
     {
@@ -6438,7 +6538,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage0_chunk_window",
       "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community_name": "state.ts",
       "norm_label": "window"
     },
     {
@@ -6472,8 +6572,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_stage1_extract",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": "stage1-extract.ts"
     },
     {
@@ -6484,7 +6584,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage1_extract_extractedclaimsschema",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "extractedclaimsschema"
     },
     {
@@ -6495,8 +6595,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_pipeline_stage1_extract_applyspeakerrolefloor",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": "applyspeakerrolefloor()"
     },
     {
@@ -6506,8 +6606,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "src_pipeline_stage1_extract_stage0chunk",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 63,
+      "community_name": "state.ts",
       "norm_label": "stage0chunk"
     },
     {
@@ -6517,8 +6617,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "src_pipeline_stage1_extract_stage1extract",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 63,
+      "community_name": "state.ts",
       "norm_label": "stage1extract"
     },
     {
@@ -6528,7 +6628,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_stage2_validate",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "stage2-validate.ts"
     },
@@ -6539,7 +6639,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_pipeline_stage2_validate_stage2validate",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "stage2validate"
     },
@@ -6551,8 +6651,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_pipeline_stage2_validate_quarantinerate",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "quarantinerate()"
     },
     {
@@ -6595,8 +6695,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_stage3_classify",
-      "community": 58,
-      "community_name": "claims.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": "stage3-classify.ts"
     },
     {
@@ -6607,7 +6707,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage3_classify_classificationschema",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "classificationschema"
     },
     {
@@ -6617,7 +6717,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_pipeline_stage3_classify_stage3classify",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "stage3classify"
     },
@@ -6628,8 +6728,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_stage4_reconcile",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 22,
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "stage4-reconcile.ts"
     },
     {
@@ -6640,7 +6740,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage4_reconcile_reconcileschema",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "reconcileschema"
     },
     {
@@ -6650,7 +6750,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_pipeline_stage4_reconcile_stage4reconcile",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "stage4reconcile"
     },
@@ -6661,8 +6761,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_stage5_requirements",
-      "community": 40,
-      "community_name": "artifacts.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "stage5-requirements.ts"
     },
     {
@@ -6672,8 +6772,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_pipeline_stage5_requirements_requirementdraftsschema",
-      "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "requirementdraftsschema"
     },
     {
@@ -6683,7 +6783,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_pipeline_stage5_requirements_stage5requirements",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "stage5requirements"
     },
@@ -6706,7 +6806,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage6_stories_storydraftsschema",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "storydraftsschema"
     },
     {
@@ -6716,8 +6816,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_pipeline_stage6_stories_stage6stories",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "stage6stories"
     },
     {
@@ -6727,8 +6827,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_stage7_critique",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 22,
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "stage7-critique.ts"
     },
     {
@@ -6738,8 +6838,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_pipeline_stage7_critique_category",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 22,
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "category"
     },
     {
@@ -6750,7 +6850,7 @@
       "_origin": "ast",
       "id": "src_pipeline_stage7_critique_critiquefindingsschema",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "critiquefindingsschema"
     },
     {
@@ -6760,8 +6860,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_pipeline_stage7_critique_stage7critique",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 22,
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "stage7critique"
     },
     {
@@ -6771,7 +6871,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_stage8_assemble",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "stage8-assemble.ts"
     },
@@ -6782,7 +6882,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_pipeline_stage8_assemble_stage8assemble",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "stage8assemble"
     },
@@ -6793,8 +6893,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pipeline_state",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 63,
+      "community_name": "state.ts",
       "norm_label": "state.ts"
     },
     {
@@ -6806,8 +6906,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_pipeline_state_windowref",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 63,
+      "community_name": "state.ts",
       "norm_label": "windowref"
     },
     {
@@ -6819,7 +6919,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_pipeline_state_pipelinestate",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "pipelinestate"
     },
@@ -6855,8 +6955,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_pipeline_state_hydratewindow",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": "hydratewindow()"
     },
     {
@@ -6867,7 +6967,7 @@
       "_origin": "ast",
       "id": "src_pipeline_suggest_domain",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "pipeline/suggest-domain.ts"
     },
     {
@@ -6878,7 +6978,7 @@
       "_origin": "ast",
       "id": "src_pipeline_suggest_domain_suggesteddomainschema",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "suggesteddomainschema"
     },
     {
@@ -6900,8 +7000,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_prompts_classify",
-      "community": 58,
-      "community_name": "claims.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "classify.ts"
     },
     {
@@ -6911,8 +7011,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_prompts_classify_classify_system",
-      "community": 58,
-      "community_name": "claims.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "classify_system"
     },
     {
@@ -6923,8 +7023,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_prompts_classify_buildclassifyuser",
-      "community": 58,
-      "community_name": "claims.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "buildclassifyuser()"
     },
     {
@@ -6983,8 +7083,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_prompts_critique_reviewers",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "reviewers"
     },
     {
@@ -7006,8 +7106,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_prompts_extract",
-      "community": 20,
-      "community_name": "schema-generation-check.ts",
+      "community": 63,
+      "community_name": "state.ts",
       "norm_label": "extract.ts"
     },
     {
@@ -7017,8 +7117,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_prompts_extract_extract_system",
-      "community": 20,
-      "community_name": "schema-generation-check.ts",
+      "community": 63,
+      "community_name": "state.ts",
       "norm_label": "extract_system"
     },
     {
@@ -7029,8 +7129,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_prompts_extract_buildextractuser",
-      "community": 20,
-      "community_name": "schema-generation-check.ts",
+      "community": 63,
+      "community_name": "state.ts",
       "norm_label": "buildextractuser()"
     },
     {
@@ -7040,8 +7140,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_prompts_reconcile",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 22,
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "reconcile.ts"
     },
     {
@@ -7051,8 +7151,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_prompts_reconcile_reconcile_system",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 22,
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "reconcile_system"
     },
     {
@@ -7063,8 +7163,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_prompts_reconcile_buildreconcileuser",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 22,
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "buildreconcileuser()"
     },
     {
@@ -7074,8 +7174,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_prompts_requirements",
-      "community": 40,
-      "community_name": "artifacts.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "requirements.ts"
     },
     {
@@ -7085,8 +7185,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_prompts_requirements_requirements_system",
-      "community": 40,
-      "community_name": "artifacts.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "requirements_system"
     },
     {
@@ -7097,8 +7197,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_prompts_requirements_buildrequirementsuser",
-      "community": 40,
-      "community_name": "artifacts.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "buildrequirementsuser()"
     },
     {
@@ -7177,7 +7277,7 @@
       "_origin": "ast",
       "id": "src_prompts_suggest_domain",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "prompts/suggest-domain.ts"
     },
     {
@@ -7188,7 +7288,7 @@
       "_origin": "ast",
       "id": "src_prompts_suggest_domain_suggest_domain_system",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "suggest_domain_system"
     },
     {
@@ -7200,7 +7300,7 @@
       "_origin": "ast",
       "id": "src_prompts_suggest_domain_buildsuggestdomainuser",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "buildsuggestdomainuser()"
     },
     {
@@ -7210,7 +7310,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_store_artifacts",
-      "community": 40,
+      "community": 71,
       "community_name": "artifacts.ts",
       "norm_label": "artifacts.ts"
     },
@@ -7221,7 +7321,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_store_artifacts_keyed_tables",
-      "community": 40,
+      "community": 71,
       "community_name": "artifacts.ts",
       "norm_label": "keyed_tables"
     },
@@ -7234,7 +7334,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_artifacts_keyedtable",
-      "community": 40,
+      "community": 71,
       "community_name": "artifacts.ts",
       "norm_label": "keyedtable"
     },
@@ -7246,8 +7346,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_artifacts_nextkey",
-      "community": 40,
-      "community_name": "artifacts.ts",
+      "community": 22,
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "nextkey()"
     },
     {
@@ -7259,7 +7359,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_artifacts_requirementrow",
-      "community": 40,
+      "community": 71,
       "community_name": "artifacts.ts",
       "norm_label": "requirementrow"
     },
@@ -7271,8 +7371,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_artifacts_torequirement",
-      "community": 46,
-      "community_name": "domain.ts",
+      "community": 71,
+      "community_name": "artifacts.ts",
       "norm_label": "torequirement()"
     },
     {
@@ -7295,8 +7395,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_artifacts_listrequirements",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "listrequirements()"
     },
     {
@@ -7320,7 +7420,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_artifacts_storyrow",
-      "community": 40,
+      "community": 71,
       "community_name": "artifacts.ts",
       "norm_label": "storyrow"
     },
@@ -7333,7 +7433,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_artifacts_acrow",
-      "community": 40,
+      "community": 71,
       "community_name": "artifacts.ts",
       "norm_label": "acrow"
     },
@@ -7345,8 +7445,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_artifacts_insertstory",
-      "community": 40,
-      "community_name": "artifacts.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "insertstory()"
     },
     {
@@ -7357,8 +7457,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_artifacts_liststories",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 71,
+      "community_name": "artifacts.ts",
       "norm_label": "liststories()"
     },
     {
@@ -7368,7 +7468,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_store_audit",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "audit.ts"
     },
@@ -7381,7 +7481,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_audit_checkpointstatus",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "checkpointstatus"
     },
@@ -7393,8 +7493,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_audit_recordapproval",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 64,
+      "community_name": "audit.ts",
       "norm_label": "recordapproval()"
     },
     {
@@ -7405,7 +7505,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_audit_listapprovals",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "listapprovals()"
     },
@@ -7417,7 +7517,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_audit_recordegress",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "recordegress()"
     },
@@ -7429,7 +7529,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_audit_egresssummary",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "egresssummary()"
     },
@@ -7453,8 +7553,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_audit_loadcheckpoint",
-      "community": 47,
-      "community_name": "audit.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": "loadcheckpoint()"
     },
     {
@@ -7537,8 +7637,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_claims_listprojectclaims",
-      "community": 58,
-      "community_name": "claims.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "listprojectclaims()"
     },
     {
@@ -7549,7 +7649,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_claims_updateclaimvalidation",
-      "community": 57,
+      "community": 40,
       "community_name": "pipeline/index.ts",
       "norm_label": "updateclaimvalidation()"
     },
@@ -7621,8 +7721,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_store_db_db",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 58,
+      "community_name": "claims.ts",
       "norm_label": "db"
     },
     {
@@ -7752,8 +7852,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_findings_listquestions",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "listquestions()"
     },
     {
@@ -7776,8 +7876,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_findings_listrecommendations",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "listrecommendations()"
     },
     {
@@ -7957,8 +8057,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_projects_setsessionstatus",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 40,
+      "community_name": "pipeline/index.ts",
       "norm_label": "setsessionstatus()"
     },
     {
@@ -8203,8 +8303,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_store_speaker_overrides",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "speaker-overrides.ts"
     },
     {
@@ -8215,8 +8315,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_speaker_overrides_setspeakerroleoverrides",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "setspeakerroleoverrides()"
     },
     {
@@ -8227,8 +8327,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_speaker_overrides_getspeakerroleoverrides",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "getspeakerroleoverrides()"
     },
     {
@@ -8252,8 +8352,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_store_speaker_overrides_listdetectedspeakers",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "listdetectedspeakers()"
     },
     {
@@ -8502,8 +8602,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_types_domain_speakerrole",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "speakerrole"
     },
     {
@@ -8602,8 +8702,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_types_domain_llmbackendsetting",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "llmbackendsetting"
     },
     {
@@ -8679,8 +8779,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "src_types_domain_claimschema",
-      "community": 46,
-      "community_name": "domain.ts",
+      "community": 58,
+      "community_name": "claims.ts",
       "norm_label": "claimschema"
     },
     {
@@ -8690,8 +8790,8 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "src_types_domain_requirementschema",
-      "community": 46,
-      "community_name": "domain.ts",
+      "community": 71,
+      "community_name": "artifacts.ts",
       "norm_label": "requirementschema"
     },
     {
@@ -8701,7 +8801,7 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "src_types_domain_acceptancecriterionschema",
-      "community": 40,
+      "community": 71,
       "community_name": "artifacts.ts",
       "norm_label": "acceptancecriterionschema"
     },
@@ -8712,7 +8812,7 @@
       "source_location": "L132",
       "_origin": "ast",
       "id": "src_types_domain_storyschema",
-      "community": 40,
+      "community": 71,
       "community_name": "artifacts.ts",
       "norm_label": "storyschema"
     },
@@ -8734,8 +8834,8 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "src_types_domain_recommendationschema",
-      "community": 46,
-      "community_name": "domain.ts",
+      "community": 71,
+      "community_name": "artifacts.ts",
       "norm_label": "recommendationschema"
     },
     {
@@ -8745,7 +8845,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "src_types_domain_approvaleventschema",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "approvaleventschema"
     },
@@ -8756,7 +8856,7 @@
       "source_location": "L179",
       "_origin": "ast",
       "id": "src_types_domain_egresslogschema",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "egresslogschema"
     },
@@ -8809,7 +8909,7 @@
       "_origin": "ast",
       "id": "src_types_domain_segment",
       "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community_name": "state.ts",
       "norm_label": "segment"
     },
     {
@@ -8834,8 +8934,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_requirement",
-      "community": 40,
-      "community_name": "artifacts.ts",
+      "community": 20,
+      "community_name": "schema-generation-check.ts",
       "norm_label": "requirement"
     },
     {
@@ -8860,8 +8960,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_acceptancecriterion",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "acceptancecriterion"
     },
     {
@@ -8873,8 +8973,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_openquestion",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 22,
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "openquestion"
     },
     {
@@ -8886,8 +8986,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_recommendation",
-      "community": 57,
-      "community_name": "pipeline/index.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "recommendation"
     },
     {
@@ -8899,7 +8999,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_approvalevent",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "approvalevent"
     },
@@ -8912,7 +9012,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_types_domain_egresslog",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "egresslog"
     },
@@ -8981,8 +9081,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_version",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "version.ts"
     },
     {
@@ -8992,8 +9092,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_version_engine_version",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "engine_version"
     },
     {
@@ -9003,8 +9103,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_cli_index_test",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "index.test.ts"
     },
     {
@@ -9014,8 +9114,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "tests_cli_index_test_long",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "long"
     },
     {
@@ -9025,8 +9125,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "tests_cli_index_test_labeled",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "labeled"
     },
     {
@@ -9037,8 +9137,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_cli_index_test_run",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 57,
+      "community_name": "cli/index.ts",
       "norm_label": "run()"
     },
     {
@@ -9060,7 +9160,7 @@
       "_origin": "ast",
       "id": "tests_eval_adversarial_test",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "adversarial.test.ts"
     },
     {
@@ -9071,7 +9171,7 @@
       "_origin": "ast",
       "id": "tests_eval_adversarial_test_here",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "here"
     },
     {
@@ -9082,7 +9182,7 @@
       "_origin": "ast",
       "id": "tests_eval_adversarial_test_fixturesdir",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "fixturesdir"
     },
     {
@@ -9094,7 +9194,7 @@
       "_origin": "ast",
       "id": "tests_eval_adversarial_test_loadfixture",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "loadfixture()"
     },
     {
@@ -9105,7 +9205,7 @@
       "_origin": "ast",
       "id": "tests_eval_candidate_snapshot_test",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "candidate-snapshot.test.ts"
     },
     {
@@ -9117,7 +9217,7 @@
       "_origin": "ast",
       "id": "tests_eval_candidate_snapshot_test_baseoutputs",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "baseoutputs()"
     },
     {
@@ -9129,7 +9229,7 @@
       "_origin": "ast",
       "id": "tests_eval_candidate_snapshot_test_buildsnapshot",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "buildsnapshot()"
     },
     {
@@ -9141,7 +9241,7 @@
       "_origin": "ast",
       "id": "tests_eval_candidate_snapshot_test_withtempfile",
       "community": 52,
-      "community_name": "run-live-eval.ts",
+      "community_name": "generate-human-review-template.mts",
       "norm_label": "withtempfile()"
     },
     {
@@ -9450,8 +9550,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_eval_gold_match_schema_test",
-      "community": 56,
-      "community_name": "gold-batching.ts",
+      "community": 53,
+      "community_name": "gold-match.ts",
       "norm_label": "gold-match-schema.test.ts"
     },
     {
@@ -9462,8 +9562,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_eval_gold_match_schema_test_baseresponse",
-      "community": 56,
-      "community_name": "gold-batching.ts",
+      "community": 53,
+      "community_name": "gold-match.ts",
       "norm_label": "baseresponse()"
     },
     {
@@ -9562,8 +9662,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_eval_gold_sync_test",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "gold-sync.test.ts"
     },
     {
@@ -9573,8 +9673,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_eval_gold_sync_test_here",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "here"
     },
     {
@@ -9584,8 +9684,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "tests_eval_gold_sync_test_goldendir",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "goldendir"
     },
     {
@@ -9595,8 +9695,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "tests_eval_gold_sync_test_markdownpath",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "markdownpath"
     },
     {
@@ -9606,8 +9706,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "tests_eval_gold_sync_test_jsonpath",
-      "community": 49,
-      "community_name": "gold-schema.ts",
+      "community": 66,
+      "community_name": "gold-sync.ts",
       "norm_label": "jsonpath"
     },
     {
@@ -9617,8 +9717,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_export_json_test",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "json.test.ts"
     },
     {
@@ -9628,8 +9728,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "tests_export_json_test_snapshot",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "snapshot"
     },
     {
@@ -9639,8 +9739,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_export_markdown_test",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "markdown.test.ts"
     },
     {
@@ -9650,8 +9750,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "tests_export_markdown_test_snapshot",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "snapshot"
     },
     {
@@ -9740,7 +9840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_llm_client_test",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "client.test.ts"
     },
@@ -9752,7 +9852,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "tests_llm_client_test_fakeanthropicclient",
-      "community": 47,
+      "community": 64,
       "community_name": "audit.ts",
       "norm_label": "fakeanthropicclient()"
     },
@@ -9764,7 +9864,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "local-client.test.ts"
     },
     {
@@ -9775,7 +9875,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_mockgrammar",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "mockgrammar"
     },
     {
@@ -9786,7 +9886,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_mocksession",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "mocksession"
     },
     {
@@ -9797,7 +9897,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_mockllama",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "mockllama"
     },
     {
@@ -9808,7 +9908,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_mockmodel",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "mockmodel"
     },
     {
@@ -9820,7 +9920,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_makemocktokenmeter",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "makemocktokenmeter()"
     },
     {
@@ -9832,7 +9932,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_makemocksequence",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "makemocksequence()"
     },
     {
@@ -9843,7 +9943,7 @@
       "_origin": "ast",
       "id": "tests_llm_local_client_test_mockcontext",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "mockcontext"
     },
     {
@@ -9854,7 +9954,7 @@
       "_origin": "ast",
       "id": "tests_llm_parse_test",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "parse.test.ts"
     },
     {
@@ -9865,7 +9965,7 @@
       "_origin": "ast",
       "id": "tests_llm_parse_test_shape",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "shape"
     },
     {
@@ -9889,7 +9989,7 @@
       "_origin": "ast",
       "id": "tests_llm_parse_test_fakebackend",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "fakebackend()"
     },
     {
@@ -9901,7 +10001,7 @@
       "_origin": "ast",
       "id": "tests_llm_parse_test_generate",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "generate()"
     },
     {
@@ -9912,7 +10012,7 @@
       "_origin": "ast",
       "id": "tests_llm_zod_to_gbnf_test",
       "community": 22,
-      "community_name": "adversarial.test.ts",
+      "community_name": "stage4-reconcile.ts",
       "norm_label": "zod-to-gbnf.test.ts"
     },
     {
@@ -9968,7 +10068,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_stage0_chunk_test",
       "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community_name": "state.ts",
       "norm_label": "stage0-chunk.test.ts"
     },
     {
@@ -9980,7 +10080,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_stage0_chunk_test_makesegments",
       "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community_name": "state.ts",
       "norm_label": "makesegments()"
     },
     {
@@ -9992,7 +10092,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_stage0_chunk_test_filler",
       "community": 63,
-      "community_name": "stage0-chunk.ts",
+      "community_name": "state.ts",
       "norm_label": "filler()"
     },
     {
@@ -10002,8 +10102,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_pipeline_stage1_extract_test",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 63,
+      "community_name": "state.ts",
       "norm_label": "stage1-extract.test.ts"
     },
     {
@@ -10013,8 +10113,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "tests_pipeline_stage1_extract_test_long",
-      "community": 1,
-      "community_name": "projects.ts",
+      "community": 63,
+      "community_name": "state.ts",
       "norm_label": "long"
     },
     {
@@ -10244,7 +10344,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_suggest_domain_test",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "suggest-domain.test.ts"
     },
     {
@@ -10255,7 +10355,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_suggest_domain_test_long",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "long"
     },
     {
@@ -10267,7 +10367,7 @@
       "_origin": "ast",
       "id": "tests_pipeline_suggest_domain_test_mockbackend",
       "community": 47,
-      "community_name": "audit.ts",
+      "community_name": "local-client.ts",
       "norm_label": "mockbackend()"
     },
     {
@@ -10300,8 +10400,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_store_audit_test",
-      "community": 47,
-      "community_name": "audit.ts",
+      "community": 1,
+      "community_name": "projects.ts",
       "norm_label": "audit.test.ts"
     },
     {
@@ -10472,8 +10572,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_types_domain_test",
-      "community": 46,
-      "community_name": "domain.ts",
+      "community": 71,
+      "community_name": "artifacts.ts",
       "norm_label": "domain.test.ts"
     },
     {
@@ -10494,8 +10594,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_version_test",
-      "community": 4,
-      "community_name": "ipc.ts",
+      "community": 60,
+      "community_name": "snapshot.ts",
       "norm_label": "version.test.ts"
     },
     {
@@ -10876,7 +10976,7 @@
       "label": "Input provenance",
       "file_type": "document",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L18",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_input_provenance",
       "community": 59,
@@ -10887,7 +10987,7 @@
       "label": "What ran",
       "file_type": "document",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L44",
+      "source_location": "L57",
       "_origin": "ast",
       "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_what_ran",
       "community": 59,
@@ -10898,7 +10998,7 @@
       "label": "Per-batch diagnostics (real measured, not estimated)",
       "file_type": "document",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L59",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_per_batch_diagnostics_real_measured_not_estimated",
       "community": 59,
@@ -10909,7 +11009,7 @@
       "label": "Runtime finding, not a context-size problem",
       "file_type": "document",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L93",
+      "source_location": "L106",
       "_origin": "ast",
       "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_runtime_finding_not_a_context_size_problem",
       "community": 59,
@@ -10920,7 +11020,7 @@
       "label": "Deterministic checks (unaffected by the above \u2014 judge-independent)",
       "file_type": "document",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L115",
+      "source_location": "L128",
       "_origin": "ast",
       "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_deterministic_checks_unaffected_by_the_above_judge_independent",
       "community": 59,
@@ -10931,7 +11031,7 @@
       "label": "Raw responses preserved",
       "file_type": "document",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L125",
+      "source_location": "L138",
       "_origin": "ast",
       "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_raw_responses_preserved",
       "community": 59,
@@ -10942,7 +11042,7 @@
       "label": "Relationship to the existing deterministic-only baseline",
       "file_type": "document",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L133",
+      "source_location": "L146",
       "_origin": "ast",
       "id": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_relationship_to_the_existing_deterministic_only_baseline",
       "community": 59,
@@ -12897,6 +12997,61 @@
       "norm_label": "status: implemented"
     },
     {
+      "label": "pairwise-semantic-calibration-v1.md",
+      "file_type": "document",
+      "source_file": "tests/fixtures/calibration/pairwise-semantic-calibration-v1.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_fixtures_calibration_pairwise_semantic_calibration_v1",
+      "community": 69,
+      "community_name": "Pairwise semantic calibration set v1",
+      "norm_label": "pairwise-semantic-calibration-v1.md"
+    },
+    {
+      "label": "Pairwise semantic calibration set v1",
+      "file_type": "document",
+      "source_file": "tests/fixtures/calibration/pairwise-semantic-calibration-v1.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_fixtures_calibration_pairwise_semantic_calibration_v1_pairwise_semantic_calibration_set_v1",
+      "community": 69,
+      "community_name": "Pairwise semantic calibration set v1",
+      "norm_label": "pairwise semantic calibration set v1"
+    },
+    {
+      "label": "Why these 24",
+      "file_type": "document",
+      "source_file": "tests/fixtures/calibration/pairwise-semantic-calibration-v1.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "tests_fixtures_calibration_pairwise_semantic_calibration_v1_why_these_24",
+      "community": 69,
+      "community_name": "Pairwise semantic calibration set v1",
+      "norm_label": "why these 24"
+    },
+    {
+      "label": "Acceptance criteria (for whichever judge model/prompt is being calibrated)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/calibration/pairwise-semantic-calibration-v1.md",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "tests_fixtures_calibration_pairwise_semantic_calibration_v1_acceptance_criteria_for_whichever_judge_model_prompt_is_being_calibrated",
+      "community": 69,
+      "community_name": "Pairwise semantic calibration set v1",
+      "norm_label": "acceptance criteria (for whichever judge model/prompt is being calibrated)"
+    },
+    {
+      "label": "Relationship to the salon benchmark",
+      "file_type": "document",
+      "source_file": "tests/fixtures/calibration/pairwise-semantic-calibration-v1.md",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "tests_fixtures_calibration_pairwise_semantic_calibration_v1_relationship_to_the_salon_benchmark",
+      "community": 69,
+      "community_name": "Pairwise semantic calibration set v1",
+      "norm_label": "relationship to the salon benchmark"
+    },
+    {
       "label": "06-salon-booking.goldlabels.md",
       "file_type": "document",
       "source_file": "tests/fixtures/golden/06-salon-booking.goldlabels.md",
@@ -13071,6 +13226,809 @@
       "community": 48,
       "community_name": "Review matrix",
       "norm_label": "dangling-reference check"
+    },
+    {
+      "label": "06-salon-booking.review-template-v1.md",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1",
+      "community": 73,
+      "community_name": "06-salon-booking \u2014 human semantic review template (v1)",
+      "norm_label": "06-salon-booking.review-template-v1.md"
+    },
+    {
+      "label": "06-salon-booking \u2014 human semantic review template (v1)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_06_salon_booking_human_semantic_review_template_v1",
+      "community": 73,
+      "community_name": "06-salon-booking \u2014 human semantic review template (v1)",
+      "norm_label": "06-salon-booking \u2014 human semantic review template (v1)"
+    },
+    {
+      "label": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "part 1 \u2014 gold items (38): for each, which candidate(s) below correspond to it, if any?"
+    },
+    {
+      "label": "REQ-01 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-01 \u2014 requirement"
+    },
+    {
+      "label": "REQ-02 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_02_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-02 \u2014 requirement"
+    },
+    {
+      "label": "REQ-03 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_03_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-03 \u2014 requirement"
+    },
+    {
+      "label": "REQ-04 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L59",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_04_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-04 \u2014 requirement"
+    },
+    {
+      "label": "REQ-05 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L76",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_05_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-05 \u2014 requirement"
+    },
+    {
+      "label": "REQ-06 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L93",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_06_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-06 \u2014 requirement"
+    },
+    {
+      "label": "REQ-07 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L109",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_07_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-07 \u2014 requirement"
+    },
+    {
+      "label": "REQ-08 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L125",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_08_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-08 \u2014 requirement"
+    },
+    {
+      "label": "REQ-09 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L142",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_09_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-09 \u2014 requirement"
+    },
+    {
+      "label": "REQ-10 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L157",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_10_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-10 \u2014 requirement"
+    },
+    {
+      "label": "REQ-11 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L173",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_11_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-11 \u2014 requirement"
+    },
+    {
+      "label": "REQ-12 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L190",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_12_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-12 \u2014 requirement"
+    },
+    {
+      "label": "REQ-13 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L205",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_13_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-13 \u2014 requirement"
+    },
+    {
+      "label": "REQ-14 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L221",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_14_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-14 \u2014 requirement"
+    },
+    {
+      "label": "REQ-15 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L236",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_15_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-15 \u2014 requirement"
+    },
+    {
+      "label": "REQ-16 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L251",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_16_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-16 \u2014 requirement"
+    },
+    {
+      "label": "REQ-17 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L267",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_17_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-17 \u2014 requirement"
+    },
+    {
+      "label": "REQ-18 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L283",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_18_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-18 \u2014 requirement"
+    },
+    {
+      "label": "REQ-19 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L300",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_19_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-19 \u2014 requirement"
+    },
+    {
+      "label": "REQ-20 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L317",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_20_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-20 \u2014 requirement"
+    },
+    {
+      "label": "REQ-21 \u2014 Requirement",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L332",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_21_requirement",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "req-21 \u2014 requirement"
+    },
+    {
+      "label": "UNR-01 \u2014 Unresolved Decision",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L347",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_01_unresolved_decision",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "unr-01 \u2014 unresolved decision"
+    },
+    {
+      "label": "UNR-02 \u2014 Unresolved Decision",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L365",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_02_unresolved_decision",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "unr-02 \u2014 unresolved decision"
+    },
+    {
+      "label": "UNR-03 \u2014 Unresolved Decision",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L380",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_03_unresolved_decision",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "unr-03 \u2014 unresolved decision"
+    },
+    {
+      "label": "UNR-04 \u2014 Unresolved Decision",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L400",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_04_unresolved_decision",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "unr-04 \u2014 unresolved decision"
+    },
+    {
+      "label": "UNR-05 \u2014 Unresolved Decision",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L416",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_05_unresolved_decision",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "unr-05 \u2014 unresolved decision"
+    },
+    {
+      "label": "UNR-06 \u2014 Unresolved Decision",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L431",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_06_unresolved_decision",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "unr-06 \u2014 unresolved decision"
+    },
+    {
+      "label": "UNR-07 \u2014 Unresolved Decision",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L445",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_07_unresolved_decision",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "unr-07 \u2014 unresolved decision"
+    },
+    {
+      "label": "UNR-08 \u2014 Unresolved Decision",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L460",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_08_unresolved_decision",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "unr-08 \u2014 unresolved decision"
+    },
+    {
+      "label": "UNR-09 \u2014 Unresolved Decision",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L476",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_09_unresolved_decision",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "unr-09 \u2014 unresolved decision"
+    },
+    {
+      "label": "UNR-10 \u2014 Unresolved Decision",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L491",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_10_unresolved_decision",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "unr-10 \u2014 unresolved decision"
+    },
+    {
+      "label": "ASM-01 \u2014 Assumption",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L506",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_asm_01_assumption",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "asm-01 \u2014 assumption"
+    },
+    {
+      "label": "ASM-02 \u2014 Assumption",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L520",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_asm_02_assumption",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "asm-02 \u2014 assumption"
+    },
+    {
+      "label": "ASM-03 \u2014 Assumption",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L534",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_asm_03_assumption",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "asm-03 \u2014 assumption"
+    },
+    {
+      "label": "RULE-01 \u2014 Business Rule",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L549",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_rule_01_business_rule",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "rule-01 \u2014 business rule"
+    },
+    {
+      "label": "RULE-02 \u2014 Business Rule",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L567",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_rule_02_business_rule",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "rule-02 \u2014 business rule"
+    },
+    {
+      "label": "RULE-03 \u2014 Business Rule",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L581",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_rule_03_business_rule",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "rule-03 \u2014 business rule"
+    },
+    {
+      "label": "RULE-04 \u2014 Business Rule",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L595",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_rule_04_business_rule",
+      "community": 61,
+      "community_name": "Part 1 \u2014 Gold items (38): for each, which candidate(s) below correspond to it, if any?",
+      "norm_label": "rule-04 \u2014 business rule"
+    },
+    {
+      "label": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L613",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "part 2 \u2014 generated candidates (31): evidence fidelity"
+    },
+    {
+      "label": "req_01KZK7RMDPSMCK42F3S5G6TE2H (requirement)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L617",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01kzk7rmdpsmck42f3s5g6te2h_requirement",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "req_01kzk7rmdpsmck42f3s5g6te2h (requirement)"
+    },
+    {
+      "label": "req_01KZK7RMDSAEJHSKMG2Y3QX6R8 (requirement)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L628",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01kzk7rmdsaejhskmg2y3qx6r8_requirement",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "req_01kzk7rmdsaejhskmg2y3qx6r8 (requirement)"
+    },
+    {
+      "label": "req_01KZK7RMDTFKD9B5RFAN6ETY8Z (requirement)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L639",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01kzk7rmdtfkd9b5rfan6ety8z_requirement",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "req_01kzk7rmdtfkd9b5rfan6ety8z (requirement)"
+    },
+    {
+      "label": "req_01KZK7RMDTFKD9B5RFAN6ETY90 (requirement)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L650",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01kzk7rmdtfkd9b5rfan6ety90_requirement",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "req_01kzk7rmdtfkd9b5rfan6ety90 (requirement)"
+    },
+    {
+      "label": "req_01KZK7RMDTFKD9B5RFAN6ETY91 (requirement)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L661",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01kzk7rmdtfkd9b5rfan6ety91_requirement",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "req_01kzk7rmdtfkd9b5rfan6ety91 (requirement)"
+    },
+    {
+      "label": "oqn_01KZK7T6DJJZ798TPHJX4YPH93 (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L672",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7t6djjz798tphjx4yph93_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7t6djjz798tphjx4yph93 (question)"
+    },
+    {
+      "label": "oqn_01KZK7T6DMD1QP1ES9RCQCKYDR (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L683",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7t6dmd1qp1es9rcqckydr_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7t6dmd1qp1es9rcqckydr (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT432KP7DGZW5J94JMJF (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L694",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt432kp7dgzw5j94jmjf_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt432kp7dgzw5j94jmjf (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT45S4A7KYQVD1BWVGTW (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L705",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgtw_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt45s4a7kyqvd1bwvgtw (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT45S4A7KYQVD1BWVGTX (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L716",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgtx_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt45s4a7kyqvd1bwvgtx (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT45S4A7KYQVD1BWVGTY (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L727",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgty_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt45s4a7kyqvd1bwvgty (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT45S4A7KYQVD1BWVGTZ (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L738",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgtz_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt45s4a7kyqvd1bwvgtz (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT45S4A7KYQVD1BWVGV0 (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L749",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgv0_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt45s4a7kyqvd1bwvgv0 (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT45S4A7KYQVD1BWVGV1 (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L760",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgv1_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt45s4a7kyqvd1bwvgv1 (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4611KZREY11M0ZKK0P (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L771",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4611kzrey11m0zkk0p_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4611kzrey11m0zkk0p (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4611KZREY11M0ZKK0Q (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L782",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4611kzrey11m0zkk0q_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4611kzrey11m0zkk0q (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4611KZREY11M0ZKK0R (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L793",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4611kzrey11m0zkk0r_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4611kzrey11m0zkk0r (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4ADD6BTW067KK425CG (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L804",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425cg_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4add6btw067kk425cg (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4ADD6BTW067KK425CH (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L815",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425ch_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4add6btw067kk425ch (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4ADD6BTW067KK425CJ (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L826",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425cj_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4add6btw067kk425cj (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4ADD6BTW067KK425CK (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L837",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425ck_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4add6btw067kk425ck (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4ADD6BTW067KK425CM (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L848",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425cm_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4add6btw067kk425cm (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4ADD6BTW067KK425CN (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L859",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425cn_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4add6btw067kk425cn (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4ADD6BTW067KK425CP (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L870",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425cp_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4add6btw067kk425cp (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4BETSY1P5B94M0N9W7 (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L881",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4betsy1p5b94m0n9w7_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4betsy1p5b94m0n9w7 (question)"
+    },
+    {
+      "label": "oqn_01KZK7XT4BETSY1P5B94M0N9W8 (question)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L892",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4betsy1p5b94m0n9w8_question",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "oqn_01kzk7xt4betsy1p5b94m0n9w8 (question)"
+    },
+    {
+      "label": "clm_01KZK7N2AA0G84SY55420PB60H (assumptionClaim)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L903",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_clm_01kzk7n2aa0g84sy55420pb60h_assumptionclaim",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "clm_01kzk7n2aa0g84sy55420pb60h (assumptionclaim)"
+    },
+    {
+      "label": "clm_01KZK7N2AA0G84SY55420PB60J (assumptionClaim)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L914",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_clm_01kzk7n2aa0g84sy55420pb60j_assumptionclaim",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "clm_01kzk7n2aa0g84sy55420pb60j (assumptionclaim)"
+    },
+    {
+      "label": "clm_01KZK7N2AA0G84SY55420PB60K (assumptionClaim)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L925",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_clm_01kzk7n2aa0g84sy55420pb60k_assumptionclaim",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "clm_01kzk7n2aa0g84sy55420pb60k (assumptionclaim)"
+    },
+    {
+      "label": "clm_01KZK7N2AA0G84SY55420PB60M (assumptionClaim)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L936",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_clm_01kzk7n2aa0g84sy55420pb60m_assumptionclaim",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "clm_01kzk7n2aa0g84sy55420pb60m (assumptionclaim)"
+    },
+    {
+      "label": "clm_01KZK7P5FQ0QMPTPP8MJASJNAM (assumptionClaim)",
+      "file_type": "document",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L947",
+      "_origin": "ast",
+      "id": "tests_fixtures_human_review_06_salon_booking_review_template_v1_clm_01kzk7p5fq0qmptpp8mjasjnam_assumptionclaim",
+      "community": 67,
+      "community_name": "Part 2 \u2014 Generated candidates (31): evidence fidelity",
+      "norm_label": "clm_01kzk7p5fq0qmptpp8mjasjnam (assumptionclaim)"
     }
   ],
   "links": [
@@ -19218,6 +20176,154 @@
       "_origin": "ast",
       "source": "scripts_eval_create_candidate_snapshot_main",
       "target": "src_eval_candidate_snapshot_computecandidatecontenthash",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "scripts_eval_generate_human_review_template_allcandidates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "scripts_eval_generate_human_review_template_arg",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L72",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "scripts_eval_generate_human_review_template_categorylabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "scripts_eval_generate_human_review_template_fixture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "scripts_eval_generate_human_review_template_fixture_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "scripts_eval_generate_human_review_template_golditems",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "scripts_eval_generate_human_review_template_snapshot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "scripts_eval_generate_human_review_template_template",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "src_eval_candidate_snapshot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "src_eval_candidate_snapshot_loadcandidatesnapshot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "src_eval_gold_schema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "src_eval_gold_schema_loadgoldfixture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval/generate-human-review-template.mts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_eval_generate_human_review_template",
+      "target": "src_eval_gold_schema_supporteditems",
       "confidence_score": 1.0
     },
     {
@@ -47158,7 +48264,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L115",
+      "source_location": "L128",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
@@ -47169,7 +48275,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L18",
+      "source_location": "L31",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
@@ -47180,7 +48286,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L59",
+      "source_location": "L72",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
@@ -47191,7 +48297,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L125",
+      "source_location": "L138",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
@@ -47202,7 +48308,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L133",
+      "source_location": "L146",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
@@ -47213,7 +48319,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L93",
+      "source_location": "L106",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
@@ -47224,7 +48330,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/benchmarks/06-salon-booking-local-semantic-pre-fix-baseline-2026-08-10.md",
-      "source_location": "L44",
+      "source_location": "L57",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_superpowers_benchmarks_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10_06_salon_booking_local_semantic_pre_fix_baseline_2026_08_10",
@@ -49071,6 +50177,50 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/calibration/pairwise-semantic-calibration-v1.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_calibration_pairwise_semantic_calibration_v1",
+      "target": "tests_fixtures_calibration_pairwise_semantic_calibration_v1_pairwise_semantic_calibration_set_v1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/calibration/pairwise-semantic-calibration-v1.md",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_calibration_pairwise_semantic_calibration_v1_pairwise_semantic_calibration_set_v1",
+      "target": "tests_fixtures_calibration_pairwise_semantic_calibration_v1_acceptance_criteria_for_whichever_judge_model_prompt_is_being_calibrated",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/calibration/pairwise-semantic-calibration-v1.md",
+      "source_location": "L58",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_calibration_pairwise_semantic_calibration_v1_pairwise_semantic_calibration_set_v1",
+      "target": "tests_fixtures_calibration_pairwise_semantic_calibration_v1_relationship_to_the_salon_benchmark",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/calibration/pairwise-semantic-calibration-v1.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_calibration_pairwise_semantic_calibration_v1_pairwise_semantic_calibration_set_v1",
+      "target": "tests_fixtures_calibration_pairwise_semantic_calibration_v1_why_these_24",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "tests/fixtures/golden/06-salon-booking.goldlabels.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -49232,8 +50382,800 @@
       "source": "tests_fixtures_golden_06_salon_booking_goldlabels_supporting_eval_invariants_not_gold_taxonomy_facts",
       "target": "tests_fixtures_golden_06_salon_booking_goldlabels_positive_facts_a_question_generation_stage_must_treat_as_already_answered",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_06_salon_booking_human_semantic_review_template_v1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_06_salon_booking_human_semantic_review_template_v1",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L613",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_06_salon_booking_human_semantic_review_template_v1",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L506",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_asm_01_assumption",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L520",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_asm_02_assumption",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L534",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_asm_03_assumption",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_02_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_03_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_04_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L76",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_05_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L93",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_06_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L109",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_07_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L125",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_08_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L142",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_09_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L157",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_10_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L173",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_11_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L190",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_12_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L205",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_13_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L221",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_14_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L236",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_15_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L251",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_16_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L267",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_17_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L283",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_18_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L300",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_19_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L317",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_20_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L332",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_21_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L549",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_rule_01_business_rule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L567",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_rule_02_business_rule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L581",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_rule_03_business_rule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L595",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_rule_04_business_rule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L347",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_01_unresolved_decision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L365",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_02_unresolved_decision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L380",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_03_unresolved_decision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L400",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_04_unresolved_decision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L416",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_05_unresolved_decision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L431",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_06_unresolved_decision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L445",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_07_unresolved_decision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L460",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_08_unresolved_decision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L476",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_09_unresolved_decision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L491",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_1_gold_items_38_for_each_which_candidate_s_below_correspond_to_it_if_any",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_unr_10_unresolved_decision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L903",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_clm_01kzk7n2aa0g84sy55420pb60h_assumptionclaim",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L914",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_clm_01kzk7n2aa0g84sy55420pb60j_assumptionclaim",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L925",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_clm_01kzk7n2aa0g84sy55420pb60k_assumptionclaim",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L936",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_clm_01kzk7n2aa0g84sy55420pb60m_assumptionclaim",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L947",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_clm_01kzk7p5fq0qmptpp8mjasjnam_assumptionclaim",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L672",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7t6djjz798tphjx4yph93_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L683",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7t6dmd1qp1es9rcqckydr_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L694",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt432kp7dgzw5j94jmjf_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L705",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgtw_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L716",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgtx_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L727",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgty_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L738",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgtz_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L749",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgv0_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L760",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt45s4a7kyqvd1bwvgv1_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L771",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4611kzrey11m0zkk0p_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L782",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4611kzrey11m0zkk0q_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L793",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4611kzrey11m0zkk0r_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L804",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425cg_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L815",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425ch_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L826",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425cj_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L837",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425ck_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L848",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425cm_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L859",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425cn_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L870",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4add6btw067kk425cp_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L881",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4betsy1p5b94m0n9w7_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L892",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_oqn_01kzk7xt4betsy1p5b94m0n9w8_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L617",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01kzk7rmdpsmck42f3s5g6te2h_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L628",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01kzk7rmdsaejhskmg2y3qx6r8_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L639",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01kzk7rmdtfkd9b5rfan6ety8z_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L650",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01kzk7rmdtfkd9b5rfan6ety90_requirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/fixtures/human-review/06-salon-booking.review-template-v1.md",
+      "source_location": "L661",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_fixtures_human_review_06_salon_booking_review_template_v1_part_2_generated_candidates_31_evidence_fidelity",
+      "target": "tests_fixtures_human_review_06_salon_booking_review_template_v1_req_01kzk7rmdtfkd9b5rfan6ety91_requirement",
+      "confidence_score": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "c9447406b0ebc51201d79ba09fe57d0fd7b8500d"
+  "built_at_commit": "c3243d6ade971eeeab351cc4b0480143fabd590b"
 }

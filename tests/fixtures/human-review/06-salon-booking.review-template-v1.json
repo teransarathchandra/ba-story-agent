@@ -1,0 +1,785 @@
+{
+  "reviewTemplateVersion": "v1",
+  "fixtureName": "06-salon-booking",
+  "createdAt": "2026-08-11T11:21:29.681Z",
+  "provenance": {
+    "frozenMarkdownContentHash": "7575ea59011272d257fe6c9788aee72a5433a3245a9ffa9cff60737bcd4e0537",
+    "goldFixtureContentHash": "88e39d0628f8dde49df8ce7276bb5dadcf1e35149f260d7c96fccab1b6d03f96",
+    "candidateSnapshotId": "9158e54c-dac5-4226-9efc-e59a92fabd4c",
+    "candidateContentSha256": "be453afebbf74c8281d00b10ed5d046cefcdfe06ab60181acf0c63607945e8d2",
+    "sourceProjectId": "prj_01KZK7G0RMBQZD0W6QEWCB80WB",
+    "sourceSessionId": "ses_01KZK7GDZNQ9FQ5ERAXN6M4MJT"
+  },
+  "instructions": "For each gold item below, determine whether one or more generated candidates express an equivalent, partial, or contradicting relationship to it. Add an entry to that gold item's matches[] for each real relationship found (correspondence: equivalent | partial | contradicts; meetingStateViolation: true only if this gold item is meetingStateSensitive AND the candidate reflects the earlier/superseded state). Leave matches[] empty and set reviewed:true if nothing genuinely relates. Separately, for every generated candidate, set evidenceFidelity to pass or fail based on whether its own quote actually supports its own text, and set reviewed:true. Do not use any AI-generated suggestions to fill these in - this is the authoritative human review. unmatchedGoldIds/unmatchedGeneratedItemIds are derived automatically afterward from what you do and don't record here - never author them directly.",
+  "goldItems": [
+    {
+      "goldId": "REQ-01",
+      "category": "requirement",
+      "proposition": "Customers view slots + book online without contacting reception",
+      "quotes": [
+        "So customers should be able to see available slots and book without contacting reception?",
+        "Yes."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-02",
+      "category": "requirement",
+      "proposition": "Staff can also create/book appointments",
+      "quotes": [
+        "Right. So both customers and staff need to be able to create appointments.",
+        "Correct."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-03",
+      "category": "requirement",
+      "proposition": "Booking selects: service, staff, branch, date, time",
+      "quotes": [
+        "Service, staff member, date, time... that's probably it.",
+        "Branch as well.",
+        "Oh yes, branch."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-04",
+      "category": "requirement",
+      "proposition": "Staff availability tied to branch schedule",
+      "quotes": [
+        "So staff availability needs to depend on their branch schedule?",
+        "Exactly.",
+        "But not usually on the same day.",
+        "Usually, yes. But sometimes they move if someone's absent."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-05",
+      "category": "requirement",
+      "proposition": "Only qualified staff selectable per service; confirmed for launch, not deferred",
+      "quotes": [
+        "So when someone chooses a service, should the system only show staff members qualified to provide that service?",
+        "Yes, that would be good.",
+        "Just to clarify, is that mandatory for launch, or something we could add later?",
+        "No, it should be there from the beginning. Otherwise customers might book the wrong person."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-06",
+      "category": "requirement",
+      "proposition": "Customer picks a specific stylist OR \"any available stylist\"",
+      "quotes": [
+        "Should customers choose a specific employee or just choose anyone available?",
+        "Both.",
+        "They can select a stylist if they have a preference. Otherwise choose something like \"any available stylist.\""
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-07",
+      "category": "requirement",
+      "proposition": "Staff can override duration when booking; customers cannot",
+      "quotes": [
+        "Would staff need to manually adjust the duration when creating a booking?",
+        "That would help.",
+        "Yes, for staff. Customers shouldn't change it themselves."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-08",
+      "category": "requirement",
+      "proposition": "Collect name + phone; email optional",
+      "quotes": [
+        "Name, phone number.",
+        "Email.",
+        "Most customers don't give email.",
+        "Okay, email can be optional."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-09",
+      "category": "requirement",
+      "proposition": "Birthday optional",
+      "quotes": [
+        "Is birthday required for booking?",
+        "No, optional."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-10",
+      "category": "requirement",
+      "proposition": "Appointment reminders required",
+      "quotes": [
+        "Do you need reminders?",
+        "Yes.",
+        "Definitely."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-11",
+      "category": "requirement",
+      "proposition": "Reception calendar by staff (columns per stylist); daily view is the priority",
+      "quotes": [
+        "Calendar by staff member would be useful.",
+        "Yeah. Like columns for each stylist.",
+        "Daily view only?",
+        "Daily is most important, but weekly would be useful too."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-12",
+      "category": "requirement",
+      "proposition": "Drag-and-drop reschedule with confirm-before-save",
+      "quotes": [
+        "So drag-and-drop might be useful, but we'd need some kind of confirmation before saving the change?",
+        "Exactly."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-13",
+      "category": "requirement",
+      "proposition": "Customer appointment history required",
+      "quotes": [
+        "Do you want customer history?",
+        "Yes.",
+        "Appointment history would help."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-14",
+      "category": "requirement",
+      "proposition": "Customer notes required (formula, allergies, preferences)",
+      "quotes": [
+        "And notes.",
+        "Things like colour formula, allergies, preferences."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-15",
+      "category": "requirement",
+      "proposition": "Managers configure staff working hours + unavailable periods",
+      "quotes": [
+        "So managers need to configure working hours and unavailable periods?",
+        "Yes."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-16",
+      "category": "requirement",
+      "proposition": "Staff breaks automatically block booking",
+      "quotes": [
+        "Should the system automatically prevent bookings during breaks?",
+        "Yes.",
+        "Definitely."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-17",
+      "category": "requirement",
+      "proposition": "System may suggest alternatives; never auto-apply",
+      "quotes": [
+        "Could the system show alternative staff and time slots?",
+        "That would be useful.",
+        "Yes, suggestions are fine. Just don't automatically change customer appointments."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-18",
+      "category": "requirement",
+      "proposition": "Individual staff accounts; no shared admin login",
+      "quotes": [
+        "Are all staff using the same admin account?",
+        "Currently, basically yes.",
+        "We shouldn't do that in the new system.",
+        "Agreed."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-19",
+      "category": "requirement",
+      "proposition": "4 roles (Admin/Manager/Receptionist/Stylist), distinct permissions",
+      "quotes": [
+        "What roles do you expect?",
+        "Admin, manager, receptionist and stylist.",
+        "Different permissions for each?",
+        "Yes."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-20",
+      "category": "requirement",
+      "proposition": "Revenue reporting is required",
+      "quotes": [
+        "Any reporting requirements?",
+        "Definitely revenue reports."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "REQ-21",
+      "category": "requirement",
+      "proposition": "Staff can mark an appointment as a no-show",
+      "quotes": [
+        "So staff should be able to mark an appointment as no-show?",
+        "Yes."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "UNR-01",
+      "category": "unresolved",
+      "proposition": "Online payment/deposits required for V1? (incl. deposit-for-expensive-services detail)",
+      "quotes": [
+        "Are we saying online payment is required for the first release?",
+        "I'm not sure yet.",
+        "We should probably check the payment provider fees first.",
+        "I'll leave online deposits as an unresolved item rather than treating it as a confirmed requirement.",
+        "Yes."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "UNR-02",
+      "category": "unresolved",
+      "proposition": "Mobile number + OTP vs. password — pending SMS cost check",
+      "quotes": [
+        "So technically preferred, but SMS cost needs checking?",
+        "Correct."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "UNR-03",
+      "category": "unresolved",
+      "proposition": "Cancellation AND rescheduling policy — final rule not locked",
+      "quotes": [
+        "So before 24 hours, customers can cancel themselves. Within 24 hours, they need to contact the salon?",
+        "Yes.",
+        "That works.",
+        "So cancellation and rescheduling policy still needs confirmation?",
+        "Yes. Don't lock that one yet."
+      ],
+      "meetingStateSensitive": {
+        "mustNotReflect": "The earlier provisional 24h/contact-salon framing ('That works') treated as a final, confirmed cancellation/rescheduling policy",
+        "mustReflect": "Cancellation and rescheduling policy is explicitly still open — Maya's later framing and Sarah's 'Don't lock that one yet' override the earlier provisional agreement"
+      },
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "UNR-04",
+      "category": "unresolved",
+      "proposition": "Reminder channel + frequency — SMS-first is the current leaning, cost check pending",
+      "quotes": [
+        "So reminder channel and frequency need a cost check.",
+        "Yes.",
+        "Then maybe SMS first."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "UNR-05",
+      "category": "unresolved",
+      "proposition": "Which notes reception can see (vs. stylists/managers)",
+      "quotes": [
+        "Sounds like we need to define note categories or permissions later.",
+        "Yes."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "UNR-06",
+      "category": "unresolved",
+      "proposition": "Exact scope of audit logging (which actions require it)",
+      "quotes": [
+        "Audit requirements need to be defined in more detail."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "UNR-07",
+      "category": "unresolved",
+      "proposition": "Can a stylist see other stylists' schedules vs. customer details?",
+      "quotes": [
+        "That needs a permission decision.",
+        "Yes."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "UNR-08",
+      "category": "unresolved",
+      "proposition": "Definition of \"customer retention\" / whether a retention report is in scope",
+      "quotes": [
+        "Do you have a definition for retention?",
+        "Not really.",
+        "Okay, let's not invent one. We can define that later."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "UNR-09",
+      "category": "unresolved",
+      "proposition": "Automated no-show penalty policy (e.g. deposit after repeats)",
+      "quotes": [
+        "I'll record the ability to mark no-show as confirmed, but automated penalties as unresolved.",
+        "Correct."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "UNR-10",
+      "category": "unresolved",
+      "proposition": "Data migration scope/feasibility — pending inspection of existing data",
+      "quotes": [
+        "So data migration is not confirmed until we assess the existing data.",
+        "Correct."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "ASM-01",
+      "category": "assumption",
+      "proposition": "A standard/default duration should be configurable per service",
+      "quotes": [
+        "I think we should configure a standard duration for each service."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "ASM-02",
+      "category": "assumption",
+      "proposition": "Variable-price services should show \"starting from\" instead of a fixed price",
+      "quotes": [
+        "For those, it should probably say \"starting from.\""
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "ASM-03",
+      "category": "assumption",
+      "proposition": "An appointment-activity report set (bookings, cancellations, no-shows, busiest services/staff) was proposed as possible V1 scope",
+      "quotes": [
+        "For the first version, maybe appointment reports: number of bookings, cancellations, no-shows, busiest services.",
+        "And busiest staff."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "RULE-01",
+      "category": "rule",
+      "proposition": "Never auto-cancel/move an appointment without staff confirmation",
+      "quotes": [
+        "Don't automatically cancel or move appointments without staff confirmation.",
+        "Should the system automatically move their appointments to another stylist?",
+        "No.",
+        "Definitely not automatically.",
+        "Reception should decide."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "RULE-02",
+      "category": "rule",
+      "proposition": "Never let a customer book a stylist who isn't working",
+      "quotes": [
+        "And don't let customers book a stylist who's not working."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "RULE-03",
+      "category": "rule",
+      "proposition": "Customer information access must be restricted according to user roles/permissions",
+      "quotes": [
+        "Customer information shouldn't be visible to everyone."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    },
+    {
+      "goldId": "RULE-04",
+      "category": "rule",
+      "proposition": "Notifications only on confirmed changes, never accidental edits",
+      "quotes": [
+        "So when an appointment change is saved, send the customer a notification.",
+        "Correct.",
+        "I really don't want the system sending customers random messages because somebody accidentally edited something.",
+        "So notifications should only be triggered by confirmed appointment changes.",
+        "Yes."
+      ],
+      "reviewed": false,
+      "matches": [],
+      "reviewerNote": ""
+    }
+  ],
+  "generatedCandidates": [
+    {
+      "generatedItemId": "req_01KZK7RMDPSMCK42F3S5G6TE2H",
+      "bucket": "requirement",
+      "text": "Managers must be able to configure working hours and unavailable periods for each salon branch.",
+      "quote": "Sarah: Yes.",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "req_01KZK7RMDSAEJHSKMG2Y3QX6R8",
+      "bucket": "requirement",
+      "text": "An auditing mechanism must be implemented to record no-shows within the appointment booking system.",
+      "quote": "Sarah: We should.",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "req_01KZK7RMDTFKD9B5RFAN6ETY8Z",
+      "bucket": "requirement",
+      "text": "Appointments must not be automatically canceled or altered without staff confirmation.",
+      "quote": "\"Don't automatically cancel or move appointments without staff confirmation.\"",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "req_01KZK7RMDTFKD9B5RFAN6ETY90",
+      "bucket": "requirement",
+      "text": "Custom customers booking must be blocked when trying to book a stylist who is unavailable.",
+      "quote": "\"And don't let customers book a stylist who's not working.\"",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "req_01KZK7RMDTFKD9B5RFAN6ETY91",
+      "bucket": "requirement",
+      "text": "Customer data must only be accessible to appropriately authenticated users.",
+      "quote": "\"Customer information shouldn't be visible to everyone.\"\"",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7T6DJJZ798TPHJX4YPH93",
+      "bucket": "question",
+      "text": "What are the standard business hours for each day, and should these be customizable per branch?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7T6DMD1QP1ES9RCQCKYDR",
+      "bucket": "question",
+      "text": "Are there instances of specific dates or periods when the branches are not available to provide services, and should these be defined independently for each branch?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT432KP7DGZW5J94JMJF",
+      "bucket": "question",
+      "text": "What are the operational hours and unavailable periods that will be set for each branch?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT45S4A7KYQVD1BWVGTW",
+      "bucket": "question",
+      "text": "How many branches are there, and are there specific examples or names for each one?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT45S4A7KYQVD1BWVGTX",
+      "bucket": "question",
+      "text": "Could you clarify the exact definition of a 'no-show' in your context? Are there any gray areas or specific cases (e.g., early cancellations) that should be handled differently?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT45S4A7KYQVD1BWVGTY",
+      "bucket": "question",
+      "text": "What are the implications of not showing up within 30 minutes of the scheduled time? Are there any procedures or notifications involved?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT45S4A7KYQVD1BWVGTZ",
+      "bucket": "question",
+      "text": "Is there a specific process or system in place to handle cancellations that are marked as no-shows?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT45S4A7KYQVD1BWVGV0",
+      "bucket": "question",
+      "text": "How are the alerts for unconfirmed cancellations or changes handled (e.g., who receives them and what actions does it trigger)?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT45S4A7KYQVD1BWVGV1",
+      "bucket": "question",
+      "text": "Are there specific scenarios or edge cases related to appointment changes that need to be addressed (e.g., last-minute rescheduling)?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4611KZREY11M0ZKK0P",
+      "bucket": "question",
+      "text": "How do you define 'appropriately authenticated users' in the context of customer data access? Are there different roles or levels of access?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4611KZREY11M0ZKK0Q",
+      "bucket": "question",
+      "text": "Are there any regulatory requirements or internal policies concerning the handling of no-shows, appointment cancellations, or customer data?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4611KZREY11M0ZKK0R",
+      "bucket": "question",
+      "text": "Are there any downstream systems or integrations that this appointment booking system needs to interact with (e.g., payment systems, marketing automation)?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4ADD6BTW067KK425CG",
+      "bucket": "question",
+      "text": "How will you establish the authentication and authorization of staff members, managers, and admins to ensure they have the appropriate permissions to access and modify customer data and system configurations?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4ADD6BTW067KK425CH",
+      "bucket": "question",
+      "text": "What are the data retention policies for customer records, and how will expired or unused records be automatically deleted or archived?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4ADD6BTW067KK425CJ",
+      "bucket": "question",
+      "text": "How will you ensure the privacy and security of customer data in transit and at rest, especially since reservation details and customer preferences might be considered sensitive?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4ADD6BTW067KK425CK",
+      "bucket": "question",
+      "text": "How will the system handle data residency, particularly if the hair salon operates in multiple regions or countries? Are there any specific data storage and processing requirements we should be aware of?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4ADD6BTW067KK425CM",
+      "bucket": "question",
+      "text": "How will the audit mechanism for no-shows be designed to ensure it is tamper-proof and can support retrospective analysis and audits of booking patterns?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4ADD6BTW067KK425CN",
+      "bucket": "question",
+      "text": "Can you specify how long appointments and related data will be retained in the system, and what criteria will trigger their deletion?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4ADD6BTW067KK425CP",
+      "bucket": "question",
+      "text": "How will you manage customer data when a branch undergoes a change in ownership or management, especially in terms of transferring or deleting data under the new management’s control?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4BETSY1P5B94M0N9W7",
+      "bucket": "question",
+      "text": "How should the system handle data for each customer, including any personally identifiable information (PII), to ensure compliance with data protection best practices and legal requirements?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "oqn_01KZK7XT4BETSY1P5B94M0N9W8",
+      "bucket": "question",
+      "text": "What are the criteria for 'appropriately authenticated users' as defined in Requirement REQ-005, and are any specific roles or permissions associated with different levels of access?",
+      "quote": "",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "clm_01KZK7N2AA0G84SY55420PB60H",
+      "bucket": "assumptionClaim",
+      "text": "The amount of existing customer data is unknown.",
+      "quote": "Maya: Do we know how much data?",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "clm_01KZK7N2AA0G84SY55420PB60J",
+      "bucket": "assumptionClaim",
+      "text": "The amount of existing customer data is unknown.",
+      "quote": "Sarah: No.",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "clm_01KZK7N2AA0G84SY55420PB60K",
+      "bucket": "assumptionClaim",
+      "text": "Customers should be able to select a specific staff member or any available stylist.",
+      "quote": "They can select a stylist if they have a preference. Otherwise choose something like ",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "clm_01KZK7N2AA0G84SY55420PB60M",
+      "bucket": "assumptionClaim",
+      "text": "A drop-down to selecting a known stylist or choosing any available stylist should be available during booking for some services.",
+      "quote": "Sarah: Yes, that would be good.",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    },
+    {
+      "generatedItemId": "clm_01KZK7P5FQ0QMPTPP8MJASJNAM",
+      "bucket": "assumptionClaim",
+      "text": "We need to ensure we are no longer double-Booking customer appointments.",
+      "quote": "If customers can book online and we're no longer double-booking people",
+      "reviewed": false,
+      "evidenceFidelity": null,
+      "reviewerNote": ""
+    }
+  ]
+}
