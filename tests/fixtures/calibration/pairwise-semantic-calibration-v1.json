@@ -1,0 +1,52 @@
+{
+  "calibrationSetId": "pairwise-semantic-calibration-v1",
+  "purpose": "Independent, unrelated-domain calibration for a pairwise semantic judge contract (relation: equivalent | partial | contradicts | none). Deliberately NOT derived from the 06-salon-booking benchmark, its transcript wording, its gold labels, or its candidate snapshot, so the judge prompt is never tuned directly against benchmark answers.",
+  "domains": ["e-commerce", "hr", "banking", "logistics", "project-management"],
+  "policyNotes": [
+    "partial does NOT mean the two statements are merely about the same topic or business area.",
+    "partial means both statements express materially overlapping parts of the SAME underlying proposition, but one is narrower, broader, or missing/altering a load-bearing qualifier.",
+    "If two statements share a topic/domain but assert different capabilities or rules, the correct relation is none, not partial.",
+    "equivalent requires actor + action + object + modality + constraint + outcome to be materially the same; a single missing or changed load-bearing qualifier rules out equivalent."
+  ],
+  "criticalQualifierDimensions": [
+    "same-broad-topic-different-proposition",
+    "authenticated-vs-authorized",
+    "can-vs-must",
+    "customer-vs-staff",
+    "optional-vs-required",
+    "manual-vs-automatic",
+    "one-branch-vs-all-branches",
+    "view-vs-edit",
+    "suggestion-vs-automatic-action",
+    "capability-vs-policy"
+  ],
+  "pairs": [
+    { "id": "CAL-01", "domain": "e-commerce", "propositionA": "Customers must verify their email address before placing an order.", "propositionB": "An order cannot be placed until the customer's email has been verified.", "expectedRelation": "equivalent", "critical": false, "tag": "paraphrase" },
+    { "id": "CAL-02", "domain": "hr", "propositionA": "Employees must submit expense reports within 30 days of the purchase.", "propositionB": "Expense reports must be filed by employees no later than 30 days after the purchase date.", "expectedRelation": "equivalent", "critical": false, "tag": "paraphrase" },
+    { "id": "CAL-03", "domain": "banking", "propositionA": "A wire transfer over $10,000 requires manager approval.", "propositionB": "Any wire transfer exceeding $10,000 must be approved by a manager.", "expectedRelation": "equivalent", "critical": false, "tag": "paraphrase" },
+    { "id": "CAL-04", "domain": "logistics", "propositionA": "Drivers must inspect the vehicle before every shift.", "propositionB": "Before each shift begins, the driver is required to complete a vehicle inspection.", "expectedRelation": "equivalent", "critical": false, "tag": "paraphrase" },
+    { "id": "CAL-05", "domain": "project-management", "propositionA": "Sprint retrospectives must be held at the end of every sprint.", "propositionB": "At the conclusion of each sprint, a retrospective meeting is required.", "expectedRelation": "equivalent", "critical": false, "tag": "paraphrase" },
+    { "id": "CAL-06", "domain": "e-commerce", "propositionA": "Refunds are issued within 5 business days of return receipt.", "propositionB": "Once a returned item is received, the customer gets their refund within five business days.", "expectedRelation": "equivalent", "critical": false, "tag": "paraphrase" },
+
+    { "id": "CAL-07", "domain": "e-commerce", "propositionA": "Customers can save items to a wishlist.", "propositionB": "Customers can leave product reviews after purchase.", "expectedRelation": "none", "critical": false, "tag": "same-broad-topic-different-proposition" },
+    { "id": "CAL-08", "domain": "hr", "propositionA": "Managers can approve time-off requests.", "propositionB": "Managers can conduct annual performance reviews.", "expectedRelation": "none", "critical": false, "tag": "same-broad-topic-different-proposition" },
+    { "id": "CAL-09", "domain": "banking", "propositionA": "Only authenticated users may access the online banking portal.", "propositionB": "Only branch managers may approve loan write-offs.", "expectedRelation": "none", "critical": true, "tag": "same-broad-topic-different-proposition" },
+    { "id": "CAL-10", "domain": "logistics", "propositionA": "Packages over 50lbs require two-person lifting.", "propositionB": "Packages must be scanned at every checkpoint.", "expectedRelation": "none", "critical": false, "tag": "same-broad-topic-different-proposition" },
+    { "id": "CAL-11", "domain": "project-management", "propositionA": "Tasks can be reassigned by the project lead.", "propositionB": "Tasks must include an estimated completion date.", "expectedRelation": "none", "critical": false, "tag": "same-broad-topic-different-proposition" },
+
+    { "id": "CAL-12", "domain": "banking", "propositionA": "Customer records are accessible only to authorized roles.", "propositionB": "Customer records are accessible only to authenticated users.", "expectedRelation": "partial", "critical": true, "tag": "authenticated-vs-authorized" },
+    { "id": "CAL-13", "domain": "hr", "propositionA": "Employees must complete compliance training annually.", "propositionB": "Employees can complete compliance training annually.", "expectedRelation": "partial", "critical": true, "tag": "can-vs-must" },
+    { "id": "CAL-14", "domain": "e-commerce", "propositionA": "Staff can override a discount code at checkout.", "propositionB": "Customers can override a discount code at checkout.", "expectedRelation": "partial", "critical": true, "tag": "customer-vs-staff" },
+    { "id": "CAL-15", "domain": "project-management", "propositionA": "A project charter is required before work begins.", "propositionB": "A project charter is recommended before work begins.", "expectedRelation": "partial", "critical": true, "tag": "optional-vs-required" },
+    { "id": "CAL-16", "domain": "logistics", "propositionA": "Inventory counts are reconciled automatically overnight.", "propositionB": "Inventory counts are reconciled manually by warehouse staff.", "expectedRelation": "partial", "critical": true, "tag": "manual-vs-automatic" },
+    { "id": "CAL-17", "domain": "banking", "propositionA": "Interest rate changes apply to all branches simultaneously.", "propositionB": "Interest rate changes apply to the downtown branch.", "expectedRelation": "partial", "critical": true, "tag": "one-branch-vs-all-branches" },
+    { "id": "CAL-18", "domain": "hr", "propositionA": "HR staff can edit employee salary records.", "propositionB": "HR staff can view employee salary records.", "expectedRelation": "partial", "critical": true, "tag": "view-vs-edit" },
+    { "id": "CAL-19", "domain": "e-commerce", "propositionA": "The system automatically applies the best available discount.", "propositionB": "The system suggests the best available discount to the customer.", "expectedRelation": "partial", "critical": true, "tag": "suggestion-vs-automatic-action" },
+    { "id": "CAL-20", "domain": "project-management", "propositionA": "Team leads are required to approve all budget changes over $5,000.", "propositionB": "Team leads are able to approve budget changes.", "expectedRelation": "partial", "critical": true, "tag": "capability-vs-policy" },
+
+    { "id": "CAL-21", "domain": "banking", "propositionA": "Overdraft fees are never charged on savings accounts.", "propositionB": "Overdraft fees are always charged on savings accounts.", "expectedRelation": "contradicts", "critical": false, "tag": "direct-negation" },
+    { "id": "CAL-22", "domain": "logistics", "propositionA": "Drivers must not exceed 10 hours of driving per day.", "propositionB": "Drivers are permitted to drive more than 10 hours per day.", "expectedRelation": "contradicts", "critical": false, "tag": "direct-negation" },
+    { "id": "CAL-23", "domain": "hr", "propositionA": "New hires do not require a background check.", "propositionB": "All new hires must undergo a background check.", "expectedRelation": "contradicts", "critical": false, "tag": "direct-negation" },
+    { "id": "CAL-24", "domain": "project-management", "propositionA": "Scope changes must be approved before implementation.", "propositionB": "Scope changes may be implemented without approval.", "expectedRelation": "contradicts", "critical": false, "tag": "direct-negation" }
+  ]
+}
